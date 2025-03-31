@@ -18,11 +18,11 @@ export abstract class AbstractWebService<E extends AirEntity> extends AbstractEn
     })
   }
 
-  protected showError(errorMessage: string) {
-    message.error(errorMessage)
-  }
-
   protected showSuccess(successMessage: string) {
     message.success(successMessage)
+  }
+
+  protected showError(errorMessage: string) {
+    message.error(errorMessage)
   }
 }
