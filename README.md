@@ -6,7 +6,7 @@
   <img src="https://svg.hamm.cn?key=Lang&value=TypeScript&bg=green"/>
   <img src="https://svg.hamm.cn?key=Build&value=Vite"/>
   <img src="https://svg.hamm.cn?key=Base&value=Vue3"/>
-  <img src="https://svg.hamm.cn?key=UI&value=Ant-Design-Vue"/>
+  <img src="https://svg.hamm.cn?key=UI&value=Element Plus"/>
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
 
 ## 🎉 项目介绍
 
-**AirPower-Web**, 一个基于 **Vue3** **Ant-Design-Vue** **TypeScript** 的快速开发脚手架。
+**AirPower-Web**, 一个基于 **Vue3** **Element Plus** **TypeScript** 的快速开发脚手架。
 
 此项目是基于 **[@airpower-core]()** 的 **Web** 端实现，我们还提供了很多的工具包，例如：
 

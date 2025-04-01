@@ -1,7 +1,7 @@
 {
   "name": "@airpower/web",
   "type": "module",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "AirPower-Web",
   "author": {
     "name": "Hamm",
@@ -36,15 +36,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@airpower/core": "^0.1.0",
-    "vue": "^3.5.13",
+    "@airpower/core": "^0.1.2",
     "axios": "^1.8.4",
-    "ant-design-vue": "4.x"
+    "element-plus": "^2.9.7",
+    "vue": "^3.5.13"
   },
   "peerDependencies": {
-    "vue": "^3.5.13",
     "axios": "^1.8.4",
-    "ant-design-vue": "4.x"
+    "element-plus": "^2.9.7",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.11.0",

@@ -1,4 +1,7 @@
+export * from './components'
 export * from './config'
+export * from './decorator'
 export * from './http'
 export * from './service'
 export * from './shared'
+export * from './type'

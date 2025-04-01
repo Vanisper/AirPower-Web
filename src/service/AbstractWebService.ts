@@ -1,6 +1,6 @@
 import type { AbstractHttp, AirEntity } from '@airpower/core'
 import { AbstractEntityService } from '@airpower/core'
-import { message } from 'ant-design-vue'
+import { ElMessage } from 'element-plus'
 import { WebHttp } from '../http'
 
 /**
@@ -13,15 +13,15 @@ import { WebHttp } from '../http'
 export abstract class AbstractWebService<E extends AirEntity> extends AbstractEntityService<E> {
   createHttp(url: string): AbstractHttp {
     return WebHttp.create(url, (error) => {
-      message.error(error.message)
+      ElMessage.error(error.message)
     })
   }
 
   protected showSuccess(successMessage: string) {
-    message.success(successMessage)
+    ElMessage.success(successMessage)
   }
 
   protected showError(errorMessage: string) {
-    message.error(errorMessage)
+    ElMessage.error(errorMessage)
   }
 }
