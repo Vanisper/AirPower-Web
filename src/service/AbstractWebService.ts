@@ -1,8 +1,9 @@
 import type { AbstractHttp } from '@airpower/core'
-import type { AirEntity } from 'airpower'
 import { AbstractEntityService } from '@airpower/core'
 import { message } from 'ant-design-vue'
 import { WebHttp } from '../http'
+
+type AirEntity = InstanceType<InstanceType<typeof AbstractEntityService>['entityClass']>
 
 /**
  * # 实体 `API` 服务超类
