@@ -17,7 +17,7 @@
 
 **AirPower-Web**, 一个基于 **Vue3** **Element Plus** **TypeScript** 的快速开发脚手架。
 
-此项目是基于 **[@airpower-core]()** 的 **Web** 端实现，我们还提供了很多的工具包，例如：
+此项目是基于 **[@airpower-core](https://github.com/AirPowerTeam/AirPower-Core)** 的 **Web** 端实现，我们还提供了很多的工具包，例如：
 
 - **Vue3+TypeScript+ElementPlus+Vite** 的 **Web开发工具包**，
   请查看 [AirPower4T](https://github.com/AirPowerTeam/AirPower4T)
