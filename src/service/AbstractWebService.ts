@@ -1,5 +1,4 @@
-import type { AbstractHttp } from '@airpower/core'
-import type { AirEntity } from 'airpower'
+import type { AbstractHttp, AirEntity } from '@airpower/core'
 import { AbstractEntityService } from '@airpower/core'
 import { message } from 'ant-design-vue'
 import { WebHttp } from '../http'

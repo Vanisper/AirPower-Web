@@ -8,8 +8,9 @@ export default defineConfig({
     minify: false,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'airpower',
-      fileName: format => `airpower.${format}.js`,
+      name: 'airpower-web',
+      formats: ['es'],
+      fileName: () => `airpower.web.js`,
     },
     rollupOptions: {
       external: [],
