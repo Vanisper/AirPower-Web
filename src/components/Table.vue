@@ -18,11 +18,7 @@ const props = defineProps({
     type: Function as unknown as PropType<ClassConstructor<E>>,
     required: true,
   },
-  // 可选：定义需要覆盖的默认属性
-  // pagination: { type: Boolean, default: true },
 })
-console.warn(props)
-// 合并默认列配置与父组件传入的配置
 const tableColumns = computed(() => {
   if (props.columns && props.columns.length > 0) {
     return props.columns
