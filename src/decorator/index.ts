@@ -1,3 +1,2 @@
-export * from './interface'
+export * from './config'
 export * from './Table'
-export * from './type'

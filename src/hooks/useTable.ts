@@ -3,7 +3,7 @@ import type { AbstractWebService } from '../service'
 import type { IUseTableOption, IUseTableResult } from './interface'
 import { ElMessageBox } from 'element-plus'
 import { WebI18n } from '../config'
-import { useBaseTable } from './useBaseTable.ts'
+import { useBaseTable } from './useBaseTable'
 
 /**
  * # 引入表格使用的`Hook`

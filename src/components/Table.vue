@@ -48,8 +48,7 @@ const tableColumns = computed(() => {
       </template>
       <ElTableColumn
         v-else
-        :label="item.label"
-        :prop="item.key"
+        v-bind="item"
       />
     </template>
   </ElTable>

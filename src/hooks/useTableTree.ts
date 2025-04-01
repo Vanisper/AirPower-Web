@@ -2,7 +2,7 @@ import type { ClassConstructor, ITree } from '@airpower/core'
 import type { AbstractWebService } from '../service'
 import type { IUseTableTreeOption, IUseTableTreeResult } from './interface'
 import { AirClassTransformer } from '@airpower/core'
-import { useTable } from './useTable.ts'
+import { useTable } from './useTable'
 
 /**
  * # 引入表格树使用的`Hook`

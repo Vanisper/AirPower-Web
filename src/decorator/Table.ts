@@ -1,5 +1,5 @@
 import type { AirDecoratorTarget } from '@airpower/core'
-import type { ITableFieldConfig } from './interface'
+import type { ITableFieldConfig } from './config'
 import { AirDecorator, getFieldConfig } from '@airpower/core'
 
 /**

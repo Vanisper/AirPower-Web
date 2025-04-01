@@ -1,11 +1,11 @@
 import type { AirDictionaryArray, AirEnum, ClassConstructor, IField } from '@airpower/core'
-import type { TableAlign, TableFixed, TableSortable } from '../type'
+import type { IElementTableColumn } from './IElementTableColumn'
 
 /**
  * # 表格的字段配置接口
  * @author Hamm.cn
  */
-export interface ITableFieldConfig extends IField {
+export interface ITableFieldConfig extends IField, IElementTableColumn {
   /**
    * ### 字典
    */
@@ -18,10 +18,4 @@ export interface ITableFieldConfig extends IField {
    * 越大越靠前
    */
   orderNumber?: number
-
-  fixed?: TableFixed
-
-  align?: TableAlign
-
-  sortable?: TableSortable
 }
