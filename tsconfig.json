@@ -13,6 +13,10 @@
     "module": "ESNext",
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "types": [
+      "vite/client",
+      "vue"
+    ],
     "allowImportingTsExtensions": true,
     /* Linting */
     "strict": true,
@@ -25,11 +29,7 @@
     "outDir": "dist",
     "isolatedModules": true,
     "skipLibCheck": true,
-    "noUncheckedSideEffectImports": true,
-    "types": [
-      "vite/client",
-      "vue"
-    ]
+    "noUncheckedSideEffectImports": true
   },
   "include": [
     "src/**/*.ts",
