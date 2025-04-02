@@ -1,5 +1,6 @@
+import type { IJson } from '@airpower/core'
 import type { AxiosRequestConfig } from 'axios'
-import { AbstractHttp, CoreConfig, HttpResponse } from '@airpower/core'
+import { AbstractHttp, HttpResponse, HttpStatus } from '@airpower/core'
 import axios from 'axios'
 import { ref } from 'vue'
 import { WebAccessToken } from '../helper'
@@ -17,14 +18,14 @@ export class WebHttp extends AbstractHttp {
   protected async request(body?: unknown): Promise<HttpResponse> {
     const axiosConfig: AxiosRequestConfig = {}
     axiosConfig.url = this.getUrl()
-    axiosConfig.headers = this.getHttpHeaders()
+    axiosConfig.headers = this.getHttpHeaders() as IJson
     axiosConfig.timeout = this.getTimeout()
     axiosConfig.method = this.getMethod()
     axiosConfig.data = body
     const response = new HttpResponse()
     try {
       const res = await axios.request(axiosConfig)
-      if (res.status !== CoreConfig.successCode) {
+      if (res.status !== HttpStatus.OK) {
         response.code = res.status
         response.message = res.statusText
         response.data = res
@@ -36,7 +37,7 @@ export class WebHttp extends AbstractHttp {
       return response
     }
     catch (e) {
-      response.code = CoreConfig.defaultErrorCode
+      response.code = HttpStatus.INTERNAL_SERVER_ERROR
       response.message = (e as Error).message
       response.data = e
       return response

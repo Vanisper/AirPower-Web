@@ -1,1 +1,1 @@
-export * from './WebType';
+export * from './WebType'

@@ -1,4 +1,4 @@
-import type { ClassConstructor, ITree } from '@airpower/core'
+import type { AirEntity, ClassConstructor, ITree } from '@airpower/core'
 import type { AbstractWebService } from '../service'
 import type { IUseTableTreeOption, IUseTableTreeResult } from './interface'
 import { AirClassTransformer } from '@airpower/core'
@@ -11,7 +11,7 @@ import { useTable } from './useTable'
  * @param option `可选` 更多配置
  * @author Hamm.cn
  */
-export function useTableTree<E extends ITree, S extends AbstractWebService<E>>(
+export function useTableTree<E extends ITree & AirEntity, S extends AbstractWebService<E>>(
   entityClass: ClassConstructor<E>,
   serviceClass: ClassConstructor<S>,
   option: IUseTableTreeOption<E> = {},
