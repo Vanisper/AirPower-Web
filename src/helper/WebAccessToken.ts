@@ -1,10 +1,10 @@
 import { CoreConfig } from '@airpower/core'
 
 /**
- * # 全局配置
+ * # 身份令牌工具类
  * @author Hamm.cn
  */
-export class WebConfig {
+export class WebAccessToken {
   /**
    * ### 获取AccessToken
    */

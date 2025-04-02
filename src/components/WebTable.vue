@@ -8,27 +8,39 @@ import { computed } from 'vue'
 import { getTableConfigList } from '../decorator'
 
 const props = defineProps({
+  /**
+   * ### 表格列配置
+   */
   columns: {
     type: Array<ITableFieldConfig>,
   },
+
+  /**
+   * ### 表格数据
+   */
   data: {
     type: Array<E>,
     required: true,
   },
+
+  /**
+   * ### 表格实体类
+   */
   clazz: {
     type: Function as unknown as PropType<ClassConstructor<E>>,
     required: true,
   },
 })
+
+/**
+ * ### 表格列
+ */
 const tableColumns = computed(() => {
   if (props.columns && props.columns.length > 0) {
     return props.columns
   }
   const instance = AirClassTransformer.newInstance(props.clazz)
-  console.warn('[table]: instance', instance)
-  const list: ITableFieldConfig[] = getTableConfigList(instance, [])
-  console.warn('[table]: list:', list)
-  return list
+  return getTableConfigList(instance, [])
 })
 </script>
 
@@ -39,17 +51,11 @@ const tableColumns = computed(() => {
     v-bind="$attrs"
     v-on="$attrs"
   >
-    <template
+    <ElTableColumn
       v-for="item in tableColumns"
       :key="item.key"
-    >
-      <template v-if="!item.key">
-        这不可能
-      </template>
-      <ElTableColumn
-        v-else
-        v-bind="item"
-      />
-    </template>
+      :prop="item.key"
+      v-bind="item"
+    />
   </ElTable>
 </template>

@@ -1,6 +1,9 @@
 import type { AbstractHttp, AirEntity } from '@airpower/core'
+import type { ClassConstructor } from 'airpower'
+import type { Ref } from 'vue'
 import { AbstractEntityService } from '@airpower/core'
 import { ElMessage } from 'element-plus'
+import { ref } from 'vue'
 import { WebHttp } from '../http'
 
 /**
@@ -11,10 +14,27 @@ import { WebHttp } from '../http'
  * @author Hamm.cn
  */
 export abstract class AbstractWebService<E extends AirEntity> extends AbstractEntityService<E> {
-  createHttp(url: string): AbstractHttp {
-    return WebHttp.create(url, (error) => {
+  /**
+   * ### 是否正在加载中
+   */
+  protected loading = ref(false)
+
+  /**
+   * ### 创建一个 `Service` 对象
+   * @param loading 加载状态
+   */
+  static createWithLoading<S extends AbstractWebService<E>, E extends AirEntity>(this: ClassConstructor<S>, loading: Ref<boolean>): S {
+    const service = super.create<S>()
+    service.loading = loading
+    return service
+  }
+
+  protected createHttp(url: string): AbstractHttp {
+    const http = WebHttp.create(url, (error) => {
       ElMessage.error(error.message)
     })
+    http.loading = this.loading
+    return http
   }
 
   protected showSuccess(successMessage: string) {

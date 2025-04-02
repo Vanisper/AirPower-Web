@@ -1,18 +1,20 @@
 import type { AxiosRequestConfig } from 'axios'
 import { AbstractHttp, CoreConfig, HttpResponse } from '@airpower/core'
 import axios from 'axios'
-import { WebConfig } from '../config'
+import { ref } from 'vue'
+import { WebAccessToken } from '../helper'
 
 /**
  * # 网络请求类
  * @author Hamm.cn
  */
 export class WebHttp extends AbstractHttp {
-  getAccessToken(): string {
-    return WebConfig.getAccessToken()
-  }
+  /**
+   * ### 加载状态
+   */
+  loading = ref(false)
 
-  async request(body?: unknown): Promise<HttpResponse> {
+  protected async request(body?: unknown): Promise<HttpResponse> {
     const axiosConfig: AxiosRequestConfig = {}
     axiosConfig.url = this.getUrl()
     axiosConfig.headers = this.getHttpHeaders()
@@ -39,5 +41,20 @@ export class WebHttp extends AbstractHttp {
       response.data = e
       return response
     }
+  }
+
+  /**
+   * # 获取AccessToken
+   */
+  protected getAccessToken(): string {
+    return WebAccessToken.getAccessToken()
+  }
+
+  protected startLoading() {
+    this.loading.value = true
+  }
+
+  protected stopLoading() {
+    this.loading.value = false
   }
 }

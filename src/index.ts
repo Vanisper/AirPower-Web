@@ -1,6 +1,6 @@
 export * from './components'
-export * from './config'
 export * from './decorator'
+export * from './helper'
 export * from './hooks'
 export * from './http'
 export * from './service'

@@ -2,7 +2,7 @@ import type { AirEntity, ClassConstructor } from '@airpower/core'
 import type { AbstractWebService } from '../service'
 import type { IUseTableOption, IUseTableResult } from './interface'
 import { ElMessageBox } from 'element-plus'
-import { WebI18n } from '../config'
+import { WebI18n } from '../helper'
 import { useBaseTable } from './useBaseTable'
 
 /**

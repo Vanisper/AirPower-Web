@@ -1,4 +1,4 @@
-import WebTable from './Table.vue'
+import WebTable from './WebTable.vue'
 
 export {
   WebTable,
