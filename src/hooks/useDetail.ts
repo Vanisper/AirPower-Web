@@ -4,7 +4,7 @@ import type { AbstractWebService } from '../service'
 import type { IUseDetailOption, IUseDetailResult } from './interface'
 import { AirClassTransformer } from '@airpower/core'
 import { ref } from 'vue'
-import { WebI18n } from '../config'
+import { WebI18n } from '../helper'
 
 /**
  * # 引入详情的`Hook`

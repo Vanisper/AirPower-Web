@@ -3,7 +3,7 @@ import type { AbstractWebService } from '../service'
 import type { IUseEditorOption, IUseEditorResult } from './interface'
 import { AirClassTransformer } from '@airpower/core'
 import { computed } from 'vue'
-import { WebI18n } from '../config'
+import { WebI18n } from '../helper'
 import { useDetail } from './useDetail'
 
 /**

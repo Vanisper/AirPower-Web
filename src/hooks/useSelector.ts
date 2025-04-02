@@ -2,7 +2,7 @@ import type { AirEntity, ClassConstructor, IJson } from '@airpower/core'
 import type { AbstractWebService } from '../service'
 import type { IUseSelectorOption, IUseSelectorResult } from './interface'
 import { computed, ref } from 'vue'
-import { WebI18n } from '../config'
+import { WebI18n } from '../helper'
 import { useBaseTable } from './useBaseTable'
 
 /**

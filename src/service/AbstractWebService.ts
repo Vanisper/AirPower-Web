@@ -17,7 +17,7 @@ export abstract class AbstractWebService<E extends AirEntity> extends AbstractEn
   /**
    * ### 是否正在加载中
    */
-  protected loading = ref(false)
+  loading = ref(false)
 
   /**
    * ### 创建一个 `Service` 对象
