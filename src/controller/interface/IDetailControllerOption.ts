@@ -2,6 +2,7 @@ import type { AirEntity } from '@airpower/core'
 
 /**
  * # 详情控制器配置项
+ *
  * @author Hamm.cn
  */
 export interface IDetailControllerOption<E extends AirEntity> {

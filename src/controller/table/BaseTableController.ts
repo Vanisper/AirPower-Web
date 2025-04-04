@@ -7,6 +7,7 @@ import { ref } from 'vue'
 
 /**
  * # 表格控制器基类
+ *
  * @author Hamm.cn
  */
 export class BaseTableController<E extends AirEntity, S extends AbstractWebService<E>, O extends ITableControllerOption<E> = ITableControllerOption<E>> {
@@ -18,6 +19,10 @@ export class BaseTableController<E extends AirEntity, S extends AbstractWebServi
   protected service!: S
   protected option: O = {} as O
 
+  /**
+   * ### 创建表格控制器
+   * @param ServiceClass 服务类
+   */
   constructor(ServiceClass: new () => S & { entityClass: new () => E }) {
     this.service = AirClassTransformer.newInstance(ServiceClass)
     this.request = ref(new QueryPageRequest<E>(this.service.entityClass)) as Ref<QueryPageRequest<E>>
@@ -142,6 +147,9 @@ export class BaseTableController<E extends AirEntity, S extends AbstractWebServi
     this.getList()
   }
 
+  /**
+   * ### 初始化
+   */
   private init() {
     this.service.setLoading(this.isLoading)
     this.getList()

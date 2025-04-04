@@ -7,6 +7,7 @@ import { BaseTableController } from './BaseTableController'
 
 /**
  * # 表格控制器
+ *
  * @author Hamm.cn
  */
 export class TableController<
@@ -37,7 +38,7 @@ export class TableController<
    * @param row 行数据
    */
   async delete(row: E): Promise<void> {
-    await this.service.delete(row.id, WebI18n.get().DeleteSuccess || '删除成功')
+    await this.service.delete(row.id, WebI18n.get().DeleteSuccess)
     this.getList()
   }
 
@@ -55,7 +56,7 @@ export class TableController<
         type: 'warning',
       },
     )
-    await this.service.disable(row.id, WebI18n.get().DisableSuccess || '禁用成功')
+    await this.service.disable(row.id, WebI18n.get().DisableSuccess)
     this.getList()
   }
 
@@ -73,7 +74,7 @@ export class TableController<
         type: 'warning',
       },
     )
-    await this.service.enable(row.id, WebI18n.get().EnableSuccess || '启用成功')
+    await this.service.enable(row.id, WebI18n.get().EnableSuccess)
     this.getList()
   }
 }

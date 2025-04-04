@@ -2,6 +2,7 @@ import type { TableAlign, TableFixed, TableSortable } from './TableType'
 
 /**
  * # ElementPlus支持的列配置项
+ *
  * @autho Hamm.cn
  */
 export interface IElementTableColumn {

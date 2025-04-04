@@ -3,6 +3,7 @@ import type { IElementTableColumn } from './IElementTableColumn'
 
 /**
  * # 表格的字段配置接口
+ *
  * @author Hamm.cn
  */
 export interface ITableFieldConfig extends IField, IElementTableColumn {

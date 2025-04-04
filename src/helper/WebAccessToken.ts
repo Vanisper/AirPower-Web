@@ -2,6 +2,7 @@ import { HttpConfig } from '@airpower/core'
 
 /**
  * # 身份令牌工具类
+ *
  * @author Hamm.cn
  */
 export class WebAccessToken {

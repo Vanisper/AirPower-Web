@@ -6,9 +6,7 @@ import { TableController } from './TableController'
 
 /**
  * # 表格控制器
- * @param entityClass 实体类
- * @param serviceClass 表格使用的`Service`类
- * @param option `可选` 更多配置
+ *
  * @author Hamm.cn
  */
 export class TableTreeController<E extends ITree & AirEntity, S extends AbstractWebService<E>> extends TableController<E, S, ITableTreeControllerOption<E>> {

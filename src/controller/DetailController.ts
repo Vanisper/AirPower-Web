@@ -8,19 +8,23 @@ import { WebI18n } from '../helper'
 
 /**
  * # 详情控制器
- * @param props `defineProps` 的返回值
- * @param entityClass 详情使用的实体类
- * @param serviceClass 详情使用的 `Service`
- * @param option `可选` 更多的配置
+ *
  * @author Hamm.cn
  */
 export class DetailController<E extends AirEntity, S extends AbstractWebService<E>, O extends IDetailControllerOption<E> = IDetailControllerOption<E>> {
   isLoading = ref(false)
   formData!: Ref<E>
-  title = ref(WebI18n.get().Detail || '详情')
+  title = ref(WebI18n.get().Detail)
   protected service!: S
   protected option: O = {} as O
 
+  /**
+   * ### 创建详情控制器
+   * @param props `defineProps` 的返回值
+   * @param entityClass 详情使用的实体类
+   * @param serviceClass 详情使用的 `Service`
+   * @param option `可选` 更多的配置
+   */
   static create<T extends DetailController<E, S>, E extends AirEntity, S extends AbstractWebService<E>>(
     this: ClassConstructor<T>,
     props: IJson,

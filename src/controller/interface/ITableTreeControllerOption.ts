@@ -3,6 +3,7 @@ import type { ITableControllerOption } from './ITableControllerOption'
 
 /**
  * # 表格树控制器配置项
+ *
  * @author Hamm.cn
  */
 export interface ITableTreeControllerOption<T extends ITree & AirEntity> extends ITableControllerOption<T> {

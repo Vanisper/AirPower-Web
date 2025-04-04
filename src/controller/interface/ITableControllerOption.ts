@@ -3,6 +3,7 @@ import type { Component } from 'vue'
 
 /**
  * # 表格控制器配置项
+ *
  * @author Hamm.cn
  */
 export interface ITableControllerOption<E extends AirEntity> {

@@ -2,7 +2,8 @@ import type { AirEntity } from '@airpower/core'
 import type { IDetailControllerOption } from './IDetailControllerOption'
 
 /**
- * # `Editor` 的 `Hook` 可选配置
+ * # 编辑控制器的可选配置
+ *
  * @author Hamm.cn
  */
 export interface IUseEditorOption<E extends AirEntity> extends IDetailControllerOption<E> {
