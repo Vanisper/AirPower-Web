@@ -1,4 +1,5 @@
 export * from './components'
+export * from './controller'
 export * from './decorator'
 export * from './helper'
 export * from './hooks'
