@@ -26,7 +26,8 @@ export class BaseTableController<E extends AirEntity, S extends AbstractWebServi
   constructor(ServiceClass: new () => S & { entityClass: new () => E }) {
     this.service = AirClassTransformer.newInstance(ServiceClass)
     this.request = ref(new QueryPageRequest<E>(this.service.entityClass)) as Ref<QueryPageRequest<E>>
-    this.init()
+    this.service.setLoading(this.isLoading)
+    this.getList()
   }
 
   /**
@@ -144,14 +145,6 @@ export class BaseTableController<E extends AirEntity, S extends AbstractWebServi
    */
   async pageChanged(page: Page) {
     this.request.value.page = page
-    this.getList()
-  }
-
-  /**
-   * ### 初始化
-   */
-  private init() {
-    this.service.setLoading(this.isLoading)
     this.getList()
   }
 }

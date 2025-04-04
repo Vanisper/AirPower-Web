@@ -2,7 +2,7 @@ import type { AirEntity } from '@airpower/core'
 import type { AbstractWebService } from '../../service'
 import type { ITableControllerOption } from '../interface'
 import { ElMessageBox } from 'element-plus'
-import { WebI18n } from '../../helper'
+import { WebI18n } from '../../i18n'
 import { BaseTableController } from './BaseTableController'
 
 /**
@@ -38,6 +38,7 @@ export class TableController<
    * @param row 行数据
    */
   async delete(row: E): Promise<void> {
+    await this.confirmPlease(WebI18n.get().ConfirmToDelete)
     await this.service.delete(row.id, WebI18n.get().DeleteSuccess)
     this.getList()
   }
@@ -47,15 +48,7 @@ export class TableController<
    * @param row 行数据
    */
   async disable(row: E): Promise<void> {
-    await ElMessageBox.confirm(
-      '是否确认禁用当前选择的数据?',
-      '禁用提醒',
-      {
-        confirmButtonText: '确认禁用',
-        cancelButtonText: '取消',
-        type: 'warning',
-      },
-    )
+    await this.confirmPlease(WebI18n.get().ConfirmToDisable)
     await this.service.disable(row.id, WebI18n.get().DisableSuccess)
     this.getList()
   }
@@ -65,16 +58,24 @@ export class TableController<
    * @param row 行数据
    */
   async enable(row: E): Promise<void> {
+    await this.confirmPlease(WebI18n.get().ConfirmToEnable)
+    await this.service.enable(row.id, WebI18n.get().EnableSuccess)
+    this.getList()
+  }
+
+  /**
+   * ### 确认提示
+   * @param message 提示信息
+   */
+  private async confirmPlease(message: string): Promise<void> {
     await ElMessageBox.confirm(
-      '是否确认启用当前选择的数据?',
-      '启用提醒',
+      message,
+      WebI18n.get().ConfirmPlease,
       {
-        confirmButtonText: '确认启用',
-        cancelButtonText: '取消',
+        confirmButtonText: WebI18n.get().Confirm,
+        cancelButtonText: WebI18n.get().Cancel,
         type: 'warning',
       },
     )
-    await this.service.enable(row.id, WebI18n.get().EnableSuccess)
-    this.getList()
   }
 }

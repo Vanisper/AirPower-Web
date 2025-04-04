@@ -1,10 +1,10 @@
-import type { AirEntity, ClassConstructor, IJson } from '@airpower/core'
+import type { AirEntity, IJson } from '@airpower/core'
 import type { Ref } from 'vue'
 import type { AbstractWebService } from '../service'
 import type { IDetailControllerOption } from './interface'
 import { AirClassTransformer } from '@airpower/core'
 import { ref } from 'vue'
-import { WebI18n } from '../helper'
+import { WebI18n } from '../i18n'
 
 /**
  * # 详情控制器
@@ -19,26 +19,21 @@ export class DetailController<E extends AirEntity, S extends AbstractWebService<
   protected option: O = {} as O
 
   /**
-   * ### 创建详情控制器
+   * ### 创建表格控制器
+   * @param ServiceClass 服务类
    * @param props `defineProps` 的返回值
-   * @param entityClass 详情使用的实体类
-   * @param serviceClass 详情使用的 `Service`
    * @param option `可选` 更多的配置
    */
-  static create<T extends DetailController<E, S>, E extends AirEntity, S extends AbstractWebService<E>>(
-    this: ClassConstructor<T>,
+  constructor(
+    ServiceClass: new () => S & { entityClass: new () => E },
     props: IJson,
-    entityClass: ClassConstructor<E>,
-    serviceClass: ClassConstructor<S>,
-    option: IDetailControllerOption<E> = {},
-  ): T {
-    const instance = new this()
-    instance.service = AirClassTransformer.newInstance(serviceClass)
-    instance.option = option
-    instance.service.setLoading(instance.isLoading)
-    instance.formData = ref(props.param ? props.param.copy() : AirClassTransformer.newInstance(entityClass))
-    instance.getDetail()
-    return instance
+    option: O = {} as O,
+  ) {
+    this.service = AirClassTransformer.newInstance(ServiceClass)
+    this.service.setLoading(this.isLoading)
+    this.option = option
+    this.formData = ref(props.param ? props.param.copy() : AirClassTransformer.newInstance(this.service.entityClass))
+    this.getDetail()
   }
 
   /**
@@ -50,7 +45,7 @@ export class DetailController<E extends AirEntity, S extends AbstractWebService<
 
       if (this.option.afterGetDetail) {
         const result = this.option.afterGetDetail(this.formData.value)
-        if (result !== undefined) {
+        if (result) {
           this.formData.value = result
         }
       }

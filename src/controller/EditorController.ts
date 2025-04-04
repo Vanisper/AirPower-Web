@@ -1,6 +1,6 @@
 import type { AirEntity } from '@airpower/core'
 import type { AbstractWebService } from '../service'
-import { WebI18n } from '../helper'
+import { WebI18n } from '../i18n'
 import { DetailController } from './DetailController'
 
 /**
