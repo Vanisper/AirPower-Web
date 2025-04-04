@@ -1,6 +1,5 @@
 import type { AirEntity, ClassConstructor, IJson } from '@airpower/core'
 import type { Ref } from 'vue'
-import type { IUseDetailOption } from '../hooks'
 import type { AbstractWebService } from '../service'
 import type { IDetailControllerOption } from './interface'
 import { AirClassTransformer } from '@airpower/core'
@@ -15,19 +14,19 @@ import { WebI18n } from '../helper'
  * @param option `可选` 更多的配置
  * @author Hamm.cn
  */
-export class DetailController<E extends AirEntity, S extends AbstractWebService<E>> {
+export class DetailController<E extends AirEntity, S extends AbstractWebService<E>, O extends IDetailControllerOption<E> = IDetailControllerOption<E>> {
   isLoading = ref(false)
   formData!: Ref<E>
   title = ref(WebI18n.get().Detail || '详情')
   protected service!: S
-  protected option: IDetailControllerOption<E> = {}
+  protected option: O = {} as O
 
   static create<T extends DetailController<E, S>, E extends AirEntity, S extends AbstractWebService<E>>(
     this: ClassConstructor<T>,
     props: IJson,
     entityClass: ClassConstructor<E>,
     serviceClass: ClassConstructor<S>,
-    option: IUseDetailOption<E> = {},
+    option: IDetailControllerOption<E> = {},
   ): T {
     const instance = new this()
     instance.service = AirClassTransformer.newInstance(serviceClass)

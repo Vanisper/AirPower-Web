@@ -1,7 +1,5 @@
 import type { AirEntity } from '@airpower/core'
 import type { AbstractWebService } from '../service'
-import type { IDetailControllerOption } from './interface'
-import { ref } from 'vue'
 import { WebI18n } from '../helper'
 import { DetailController } from './DetailController'
 
@@ -14,9 +12,6 @@ import { DetailController } from './DetailController'
  * @author Hamm.cn
  */
 export class EditorController<E extends AirEntity, S extends AbstractWebService<E>> extends DetailController<E, S> {
-  title = ref(WebI18n.get().Detail || '详情')
-  protected option: IDetailControllerOption<E> = {}
-
   async getDetail(): Promise<void> {
     this.title.value = this.formData.value.id ? WebI18n.get().Edit || '编辑' : WebI18n.get().Add || '添加'
     return super.getDetail()

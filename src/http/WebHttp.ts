@@ -1,3 +1,4 @@
+// noinspection Annotator
 import type { IJson } from '@airpower/core'
 import type { AxiosRequestConfig } from 'axios'
 import { AbstractHttp, HttpResponse, HttpStatus } from '@airpower/core'
