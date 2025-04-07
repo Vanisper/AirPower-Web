@@ -30,6 +30,15 @@ const props = defineProps({
     type: Function as unknown as PropType<ClassConstructor<E>>,
     required: true,
   },
+
+  /**
+   * ### 表格ID
+   * 如传入，选择表格列后会自动缓存
+   */
+  tableId: {
+    type: String,
+    default: '',
+  },
 })
 
 /**

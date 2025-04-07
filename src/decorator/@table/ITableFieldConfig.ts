@@ -19,4 +19,9 @@ export interface ITableFieldConfig extends IField, IElementTableColumn {
    * 越大越靠前
    */
   orderNumber?: number
+
+  /**
+   * ### 是否隐藏
+   */
+  hide?: boolean
 }
