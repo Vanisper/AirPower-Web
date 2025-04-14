@@ -1,11 +1,11 @@
-import { AirI18n } from '@airpower/core'
+import { I18n } from '@airpower/core'
 
 /**
  * # Web端默认语言包
  *
  * @author Hamm.cn
  */
-export class WebI18n extends AirI18n {
+export class WebI18n extends I18n {
   Detail = '详情'
   Edit = '编辑'
   Add = '添加'

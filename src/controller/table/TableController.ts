@@ -1,4 +1,4 @@
-import type { AirEntity } from '@airpower/core'
+import type { Entity } from '@airpower/core'
 import type { AbstractWebService } from '../../service'
 import type { ITableControllerOption } from '../interface'
 import { ElMessageBox } from 'element-plus'
@@ -11,7 +11,7 @@ import { BaseTableController } from './BaseTableController'
  * @author Hamm.cn
  */
 export class TableController<
-  E extends AirEntity,
+  E extends Entity,
   S extends AbstractWebService<E>,
   O extends ITableControllerOption<E> = ITableControllerOption<E>,
 > extends BaseTableController<E, S, O> {

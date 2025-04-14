@@ -1,7 +1,7 @@
-import type { AirEntity, ITree } from '@airpower/core'
+import type { Entity, ITree } from '@airpower/core'
 import type { AbstractWebService } from '../../service'
 import type { ITableTreeControllerOption } from '../interface'
-import { AirClassTransformer } from '@airpower/core'
+import { ClassTransformer } from '@airpower/core'
 import { TableController } from './TableController'
 
 /**
@@ -9,7 +9,7 @@ import { TableController } from './TableController'
  *
  * @author Hamm.cn
  */
-export class TableTreeController<E extends ITree & AirEntity, S extends AbstractWebService<E>> extends TableController<E, S, ITableTreeControllerOption<E>> {
+export class TableTreeController<E extends ITree & Entity, S extends AbstractWebService<E>> extends TableController<E, S, ITableTreeControllerOption<E>> {
   /**
    * ### 树表格添加子项事件
    * @param row 行数据
@@ -20,7 +20,7 @@ export class TableTreeController<E extends ITree & AirEntity, S extends Abstract
       return
     }
     try {
-      let param = AirClassTransformer.newInstance(this.service.entityClass)
+      let param = ClassTransformer.newInstance(this.service.entityClass)
       param.parentId = row.id
       if (this.option.beforeAddRow) {
         const result = this.option.beforeAddRow(param, row)

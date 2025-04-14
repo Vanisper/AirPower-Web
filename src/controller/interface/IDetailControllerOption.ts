@@ -1,11 +1,11 @@
-import type { AirEntity } from '@airpower/core'
+import type { Entity } from '@airpower/core'
 
 /**
  * # 详情控制器配置项
  *
  * @author Hamm.cn
  */
-export interface IDetailControllerOption<E extends AirEntity> {
+export interface IDetailControllerOption<E extends Entity> {
   /**
    * ### 查到详情后的事件
    * 参数为响应的数据,请处理后返回

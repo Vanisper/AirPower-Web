@@ -1,6 +1,6 @@
-import type { AirDecoratorTarget } from '@airpower/core'
+import type { DecoratorTarget } from '@airpower/core'
 import type { ITableFieldConfig } from './ITableFieldConfig'
-import { AirDecorator, getFieldConfig } from '@airpower/core'
+import { DecoratorUtil, getFieldConfig } from '@airpower/core'
 
 /**
  * ### 表格字段 `key`
@@ -17,10 +17,9 @@ const FIELD_LIST_KEY = 'TableList'
  * @param config 表格列的配置
  */
 export function Table(config: ITableFieldConfig = {}) {
-  config.dictionary = AirDecorator.getDictionary(config.dictionary)
-  return (target: AirDecoratorTarget, key: string) => {
+  return (target: DecoratorTarget, key: string) => {
     config.key = key
-    return AirDecorator.setFieldConfig(target, key, FIELD_CONFIG_KEY, config, FIELD_LIST_KEY)
+    return DecoratorUtil.setFieldConfig(target, key, FIELD_CONFIG_KEY, config, FIELD_LIST_KEY)
   }
 }
 
@@ -29,11 +28,16 @@ export function Table(config: ITableFieldConfig = {}) {
  * @param target 目标对象
  * @param key 属性名
  */
-export function getTableConfig(target: AirDecoratorTarget, key: string): ITableFieldConfig | null {
-  const formConfig = AirDecorator.getFieldConfig(target, key, FIELD_CONFIG_KEY, true)
-  if (!formConfig.dictionary) {
+export function getTableConfig(target: DecoratorTarget, key: string): ITableFieldConfig | null {
+  const formConfig: ITableFieldConfig | null = DecoratorUtil.getFieldConfig(target, key, FIELD_CONFIG_KEY, true)
+  if (!formConfig) {
+    return null
+  }
+  if (!formConfig.enums) {
     const props = getFieldConfig(target, key)
-    formConfig.dictionary = AirDecorator.getDictionary(props.dictionary)
+    if (props && props.enums) {
+      formConfig.enums = props.enums
+    }
   }
   return formConfig
 }
@@ -42,8 +46,8 @@ export function getTableConfig(target: AirDecoratorTarget, key: string): ITableF
  * ### 获取标记了表格配置的字段列表
  * @param target 目标对象
  */
-export function getTableFieldList(target: AirDecoratorTarget): string[] {
-  return AirDecorator.getFieldList(target, FIELD_LIST_KEY)
+export function getTableFieldList(target: DecoratorTarget): string[] {
+  return DecoratorUtil.getFieldList(target, FIELD_LIST_KEY)
 }
 
 /**
@@ -51,14 +55,17 @@ export function getTableFieldList(target: AirDecoratorTarget): string[] {
  * @param target 目标实体类
  * @param keyList 字段列表
  */
-export function getTableConfigList(target: AirDecoratorTarget, keyList: string[]): ITableFieldConfig[] {
-  return AirDecorator.getFieldConfigList<ITableFieldConfig>(target, FIELD_LIST_KEY, FIELD_CONFIG_KEY, keyList)
+export function getTableConfigList(target: DecoratorTarget, keyList: string[]): ITableFieldConfig[] {
+  return DecoratorUtil.getFieldConfigList<ITableFieldConfig>(target, FIELD_LIST_KEY, FIELD_CONFIG_KEY, keyList)
     .sort((a, b) => (b.orderNumber || 0) - (a.orderNumber || 0))
     .map((item) => {
       const props = getFieldConfig(target, item.key!)
       item.label = item.label || props.label || item.key
-      if (!item.dictionary) {
-        item.dictionary = AirDecorator.getDictionary(props.dictionary)
+      if (!item.enums) {
+        const fieldConfig = getFieldConfig(target, item.key!)
+        if (fieldConfig && fieldConfig.enums) {
+          item.enums = fieldConfig.enums
+        }
       }
       return item
     })

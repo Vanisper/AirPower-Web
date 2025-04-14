@@ -1,4 +1,4 @@
-import type { AirDictionaryArray, AirEnum, ClassConstructor, IField } from '@airpower/core'
+import type { EnumConstructor, IField } from '@airpower/core'
 import type { IElementTableColumn } from './IElementTableColumn'
 
 /**
@@ -10,7 +10,7 @@ export interface ITableFieldConfig extends IField, IElementTableColumn {
   /**
    * ### 字典
    */
-  dictionary?: ClassConstructor<AirEnum> | AirDictionaryArray
+  enums?: EnumConstructor
 
   key?: string
 

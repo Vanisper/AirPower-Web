@@ -1,4 +1,4 @@
-import type { AbstractHttp, AirEntity } from '@airpower/core'
+import type { AbstractHttp, Entity } from '@airpower/core'
 import type { Ref } from 'vue'
 import { AbstractEntityService } from '@airpower/core'
 import { ElMessage } from 'element-plus'
@@ -12,7 +12,7 @@ import { WebHttp } from '../http'
  * @param E 泛型实体类
  * @author Hamm.cn
  */
-export abstract class AbstractWebService<E extends AirEntity> extends AbstractEntityService<E> {
+export abstract class AbstractWebService<E extends Entity> extends AbstractEntityService<E> {
   /**
    * ### 是否正在加载中
    */

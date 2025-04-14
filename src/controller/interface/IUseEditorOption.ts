@@ -1,4 +1,4 @@
-import type { AirEntity } from '@airpower/core'
+import type { Entity } from '@airpower/core'
 import type { IDetailControllerOption } from './IDetailControllerOption'
 
 /**
@@ -6,7 +6,7 @@ import type { IDetailControllerOption } from './IDetailControllerOption'
  *
  * @author Hamm.cn
  */
-export interface IUseEditorOption<E extends AirEntity> extends IDetailControllerOption<E> {
+export interface IUseEditorOption<E extends Entity> extends IDetailControllerOption<E> {
   /**
    * ### 编辑成功的提示消息
    */

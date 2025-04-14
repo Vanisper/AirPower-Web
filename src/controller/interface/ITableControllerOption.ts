@@ -1,4 +1,4 @@
-import type { AirEntity, QueryPageRequest } from '@airpower/core'
+import type { Entity, QueryPageRequest } from '@airpower/core'
 import type { Component } from 'vue'
 
 /**
@@ -6,7 +6,7 @@ import type { Component } from 'vue'
  *
  * @author Hamm.cn
  */
-export interface ITableControllerOption<E extends AirEntity> {
+export interface ITableControllerOption<E extends Entity> {
   /**
    * ### 不分页
    * 默认请求分页接口 如配置了 `treeList` 则此项自动失效

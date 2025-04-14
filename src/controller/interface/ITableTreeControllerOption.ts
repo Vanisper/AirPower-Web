@@ -1,4 +1,4 @@
-import type { AirEntity, ITree } from '@airpower/core'
+import type { Entity, ITree } from '@airpower/core'
 import type { ITableControllerOption } from './ITableControllerOption'
 
 /**
@@ -6,7 +6,7 @@ import type { ITableControllerOption } from './ITableControllerOption'
  *
  * @author Hamm.cn
  */
-export interface ITableTreeControllerOption<T extends ITree & AirEntity> extends ITableControllerOption<T> {
+export interface ITableTreeControllerOption<T extends ITree & Entity> extends ITableControllerOption<T> {
   /**
    * ### 添加行的子项的前置拦截方法
    * 参数为发起请求的数据,请处理后返回 `param`

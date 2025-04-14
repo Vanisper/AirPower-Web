@@ -5,7 +5,7 @@ import { HttpConfig } from '@airpower/core'
  *
  * @author Hamm.cn
  */
-export class WebAccessToken {
+export class WebAccessTokenUtil {
   /**
    * ### 获取AccessToken
    */

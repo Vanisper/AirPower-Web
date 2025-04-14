@@ -1,8 +1,8 @@
-import type { AirEntity, QuerySort } from '@airpower/core'
+import type { Entity, QuerySort } from '@airpower/core'
 import type { Ref } from 'vue'
 import type { AbstractWebService } from '../../service'
 import type { ITableControllerOption } from '../interface'
-import { AirClassTransformer, Page, QueryPageRequest, QueryPageResponse } from '@airpower/core'
+import { ClassTransformer, Page, QueryPageRequest, QueryPageResponse } from '@airpower/core'
 import { ref } from 'vue'
 
 /**
@@ -10,7 +10,7 @@ import { ref } from 'vue'
  *
  * @author Hamm.cn
  */
-export class BaseTableController<E extends AirEntity, S extends AbstractWebService<E>, O extends ITableControllerOption<E> = ITableControllerOption<E>> {
+export class BaseTableController<E extends Entity, S extends AbstractWebService<E>, O extends ITableControllerOption<E> = ITableControllerOption<E>> {
   request!: Ref<QueryPageRequest<E>>
   response: Ref<QueryPageResponse<E>> = ref(new QueryPageResponse<E>()) as Ref<QueryPageResponse<E>>
   list = ref<E[]>([]) as Ref<E[]>
@@ -24,7 +24,7 @@ export class BaseTableController<E extends AirEntity, S extends AbstractWebServi
    * @param ServiceClass 服务类
    */
   constructor(ServiceClass: new () => S & { entityClass: new () => E }) {
-    this.service = AirClassTransformer.newInstance(ServiceClass)
+    this.service = ClassTransformer.newInstance(ServiceClass)
     this.request = ref(new QueryPageRequest<E>(this.service.entityClass)) as Ref<QueryPageRequest<E>>
     this.service.setLoading(this.isLoading)
     this.getList()

@@ -1,8 +1,8 @@
-import type { AirEntity, IJson } from '@airpower/core'
+import type { Entity, IJson } from '@airpower/core'
 import type { Ref } from 'vue'
 import type { AbstractWebService } from '../service'
 import type { IDetailControllerOption } from './interface'
-import { AirClassTransformer } from '@airpower/core'
+import { ClassTransformer } from '@airpower/core'
 import { ref } from 'vue'
 import { WebI18n } from '../i18n'
 
@@ -11,7 +11,7 @@ import { WebI18n } from '../i18n'
  *
  * @author Hamm.cn
  */
-export class DetailController<E extends AirEntity, S extends AbstractWebService<E>, O extends IDetailControllerOption<E> = IDetailControllerOption<E>> {
+export class DetailController<E extends Entity, S extends AbstractWebService<E>, O extends IDetailControllerOption<E> = IDetailControllerOption<E>> {
   isLoading = ref(false)
   formData!: Ref<E>
   title = ref(WebI18n.get().Detail)
@@ -29,10 +29,10 @@ export class DetailController<E extends AirEntity, S extends AbstractWebService<
     props: IJson,
     option: O = {} as O,
   ) {
-    this.service = AirClassTransformer.newInstance(ServiceClass)
+    this.service = ClassTransformer.newInstance(ServiceClass)
     this.service.setLoading(this.isLoading)
     this.option = option
-    this.formData = ref(props.param ? props.param.copy() : AirClassTransformer.newInstance(this.service.entityClass))
+    this.formData = ref(props.param ? props.param.copy() : ClassTransformer.newInstance(this.service.entityClass))
     this.getDetail()
   }
 

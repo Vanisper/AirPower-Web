@@ -4,7 +4,7 @@ import type { AxiosRequestConfig } from 'axios'
 import { AbstractHttp, HttpResponse, HttpStatus } from '@airpower/core'
 import axios from 'axios'
 import { ref } from 'vue'
-import { WebAccessToken } from '../helper'
+import { WebAccessTokenUtil } from '../util'
 
 /**
  * # 网络请求类
@@ -49,7 +49,7 @@ export class WebHttp extends AbstractHttp {
    * # 获取AccessToken
    */
   protected getAccessToken(): string {
-    return WebAccessToken.getAccessToken()
+    return WebAccessTokenUtil.getAccessToken()
   }
 
   protected startLoading() {
