@@ -1,7 +1,7 @@
 {
   "name": "@airpower/web",
   "type": "module",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "AirPower-Web",
   "author": {
     "name": "Hamm",
@@ -44,7 +44,7 @@
     "vue": "^3.5.13"
   },
   "dependencies": {
-    "@airpower/core": "^1.0.1",
+    "@airpower/core": "^1.0.2",
     "axios": "^1.8.4",
     "element-plus": "^2.9.7",
     "vue": "^3.5.13"
