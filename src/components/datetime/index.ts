@@ -1,1 +1,5 @@
-export * from './WebDateTime.vue'
+import WebDateTime from './WebDateTime.vue'
+
+export {
+  WebDateTime,
+}

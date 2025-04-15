@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import { ElEmpty } from 'element-plus'
 import image from '../../assets/img/empty.svg'
 </script>
 
 <template>
-  <el-empty
+  <ElEmpty
     :image="image"
   >
     <slot name="footer" />
@@ -12,7 +13,7 @@ import image from '../../assets/img/empty.svg'
         <slot />
       </p>
     </template>
-  </el-empty>
+  </ElEmpty>
 </template>
 
 <style lang="scss" scoped>

@@ -1,14 +1,8 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
-import { Entity } from '@airpower/core'
 import { ref } from 'vue'
-import { Table, WebTable } from '../src'
-import { WebButton, WebCopy } from '../src/components'
-
-class User extends Entity {
-  @Table()
-  name!: string
-}
+import { WebDateTime, WebTable } from '../src'
+import { User } from './User'
 
 const list: Ref<User[]> = ref([])
 
@@ -23,10 +17,7 @@ init()
 </script>
 
 <template>
-  <WebButton>我是按钮</WebButton>
-  <WebCopy content="我是复制的内容">
-    我是按钮
-  </WebCopy>
+  <WebDateTime :milli-second="new Date().valueOf() - 96123821000000000" is-friendly />
   <WebTable :clazz="User" :data="list" />
 </template>
 

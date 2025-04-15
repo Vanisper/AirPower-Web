@@ -1,14 +1,24 @@
 <script lang="ts" setup>
 import { DateTimeFormatter, DateTimeUtil } from '@airpower/core'
+import { Clock } from '@element-plus/icons-vue'
 import { computed } from 'vue'
+import { WebButton } from '../button'
 
 const props = defineProps({
   /**
    * # 毫秒时间戳
    */
-  time: {
+  milliSecond: {
     type: Number,
-    default: 0,
+    default: undefined,
+  },
+
+  /**
+   * # 时间日期对象
+   */
+  date: {
+    type: Date,
+    default: new Date(),
   },
 
   /**
@@ -33,38 +43,32 @@ const props = defineProps({
  * # 读取友好时间
  */
 const getDateTimeString = computed(() => {
-  if (!props.time) {
+  if (!props.milliSecond && !props.date) {
     return '-'
   }
   if (props.isFriendly) {
-    return DateTimeUtil.getFriendlyDateTime(props.time)
+    if (props.milliSecond) {
+      return DateTimeUtil.getFriendlyDateTime(props.milliSecond)
+    }
+    if (props.date) {
+      return DateTimeUtil.getFriendlyDateTime(props.date)
+    }
+    return '未知时间'
   }
-  return props.formatter.formatMilliSecond(props.time)
-})
-
-/**
- * # 提示信息
- */
-const toolTips = computed(() => {
-  if (!props.time) {
-    return '-'
+  if (props.milliSecond) {
+    return props.formatter.formatMilliSecond(props.milliSecond)
   }
-  if (!props.isFriendly) {
-    return DateTimeUtil.getFriendlyDateTime(props.time)
+  if (props.date) {
+    return props.formatter.formatDate(props.date)
   }
-  return props.formatter.formatMilliSecond(props.time)
+  return '-'
 })
 </script>
 
 <template>
-  <el-tooltip :content="toolTips">
-    <el-link
-      :underline="false"
-      class="web-friend-datetime"
-    >
-      {{ getDateTimeString }}
-    </el-link>
-  </el-tooltip>
+  <WebButton :icon="Clock" link>
+    {{ getDateTimeString }}
+  </WebButton>
 </template>
 
 <style lang="scss" scoped>

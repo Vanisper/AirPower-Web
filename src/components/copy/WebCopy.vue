@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { ElLink, ElMessage, ElTooltip } from 'element-plus'
+import { DocumentCopy } from '@element-plus/icons-vue'
 import useClipboard from 'vue-clipboard3'
 import { WebI18n } from '../../i18n'
+import { MessageUtil } from '../../util/feedback/MessageUtil'
+import { WebButton } from '../button'
 
 const props = defineProps({
   /**
@@ -22,27 +24,31 @@ async function copy() {
     return
   }
   await toClipboard(props.content.toString())
-  console.log(WebI18n.get())
-  ElMessage.success(WebI18n.get().CopySuccess)
+  MessageUtil.success(WebI18n.get().CopySuccess)
 }
 </script>
 
 <template>
-  <ElTooltip :content="WebI18n.get().ClickToCopy">
-    <ElLink
-      :underline="false"
-      class="web-copy"
-      @click="copy"
-    >
-      <slot>{{ content || '-' }}</slot>
-    </ElLink>
-  </ElTooltip>
+  <WebButton
+    :icon="DocumentCopy"
+    class="web-copy"
+    link
+    v-bind="$attrs"
+    @click="copy"
+    v-on="$attrs"
+  >
+    <slot>{{ content || '-' }}</slot>
+  </WebButton>
 </template>
 
 <style lang="scss" scoped>
 .web-copy {
   ::v-deep(.el-link__inner) {
     flex: 1;
+  }
+
+  .icon {
+    margin-right: 3px;
   }
 }
 </style>
