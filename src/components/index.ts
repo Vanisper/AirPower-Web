@@ -1,5 +1,7 @@
-import WebTable from './WebTable.vue'
+export * from './button'
+export * from './copy'
+export * from './desensitize'
+export * from './empty'
+export * from './table'
 
-export {
-  WebTable,
-}
+// and more components here...
