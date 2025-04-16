@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { FeedbackUtil, WebDateTime, WebDesensitize, WebMoney, WebPanel } from '../src'
-import { DialogUtil } from '../src/components/dialog/DialogUtil'
-import UserEdit from './UserEdit.vue'
+import { WebDateTime, WebDesensitize, WebMoney, WebPanel, WebPermissionUtil } from '../src'
+import { WebConfig } from '../src/config'
+import { User } from './User'
+
+WebConfig.autoPermissionPrefix = true
 
 async function init() {
-  await FeedbackUtil.alertInfo('弹窗确认工具类好用吗')
-
-  DialogUtil.show(UserEdit)
+  console.log(WebPermissionUtil.get(User, 'add'))
 }
 
 init()

@@ -40,36 +40,24 @@ export class WebPermissionUtil {
   static get<E extends WebEntity>(EntityClass: ClassConstructor<E>, action: WebPermissionAction | string): string {
     let permission: string | undefined
     const modelConfig = getWebModelConfig(new EntityClass())
-    switch (action) {
-      case WebPermissionAction.ADD:
-        permission = modelConfig?.addPermission
-        break
-      case WebPermissionAction.DELETE:
-        permission = modelConfig?.deletePermission
-        break
-      case WebPermissionAction.EDIT:
-        permission = modelConfig?.editPermission
-        break
-      case WebPermissionAction.DETAIL:
-        permission = modelConfig?.detailPermission
-        break
-      case WebPermissionAction.ADD_CHILD:
-        permission = modelConfig?.addChildPermission
-        break
-      case WebPermissionAction.EXPORT:
-        permission = modelConfig?.exportPermission
-        break
-      case WebPermissionAction.IMPORT:
-        permission = modelConfig?.importPermission
-        break
-      case WebPermissionAction.DISABLE:
-        permission = modelConfig?.disablePermission
-        break
-      case WebPermissionAction.ENABLE:
-        permission = modelConfig?.enablePermission
-        break
-      default:
-        permission = action
+    const actionRecord: Record<WebPermissionAction, string | undefined> = {
+      [WebPermissionAction.ADD]: modelConfig?.addPermission,
+      [WebPermissionAction.DELETE]: modelConfig?.deletePermission,
+      [WebPermissionAction.EDIT]: modelConfig?.editPermission,
+      [WebPermissionAction.DETAIL]: modelConfig?.detailPermission,
+      [WebPermissionAction.ADD_CHILD]: modelConfig?.addChildPermission,
+      [WebPermissionAction.EXPORT]: modelConfig?.exportPermission,
+      [WebPermissionAction.IMPORT]: modelConfig?.importPermission,
+      [WebPermissionAction.DISABLE]: modelConfig?.disablePermission,
+      [WebPermissionAction.ENABLE]: modelConfig?.enablePermission,
+    }
+
+    const keys = Object.keys(actionRecord)
+    if (keys.includes(action)) {
+      permission = actionRecord[action as WebPermissionAction]
+    }
+    else {
+      permission = action
     }
     if (permission === '') {
       return ''

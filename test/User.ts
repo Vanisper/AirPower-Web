@@ -1,7 +1,10 @@
-import { Entity } from '@airpower/core'
-import { Table } from '../src'
+import { Table, WebEntity, WebModel } from '../src'
 
-export class User extends Entity {
+@WebModel({
+  permissionPrefix: 'sssss',
+  // addPermission: 'adds',
+})
+export class User extends WebEntity {
   @Table()
   name!: string
 }
