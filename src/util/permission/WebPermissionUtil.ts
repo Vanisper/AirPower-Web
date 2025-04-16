@@ -1,4 +1,5 @@
-import type { ClassConstructor, Entity } from '@airpower/core'
+import type { ClassConstructor } from '@airpower/core'
+import type { WebEntity } from '../../base'
 import { WebConfig } from '../../config'
 import { getWebModelConfig } from '../../decorator'
 import { WebPermissionAction } from './WebPermissionAction'
@@ -19,50 +20,75 @@ export class WebPermissionUtil {
   private static readonly permissionKey = '_permissions'
 
   /**
-   * ### 获取指定实体类在某个场景的权限标识字符串
+   * ### 获取权限标识
+   * - 如 `action` 对应装饰的 `xxxPermission` 是空字符串，则表示无需权限，否则：
+   * - 使用 `action` 来生成权限，除非手动配置了 `action` 对应装饰的 `xxxPermission`
+   * - 如 `permissionPrefix` 装饰了空字符串，则表示无需添加前缀，否则：
+   *
+   * #### `WebConfig.autoPermissionPrefix=true`
+   *
+   * - 使用实体类名作为权限前缀，除非 `permissionPrefix` 装饰了非空字符串
+   *
+   * #### `WebConfig.autoPermissionPrefix=false`
+   *
+   * - 不自动添加前缀，除非 `permissionPrefix` 装饰了非空字符串
+   *
    * @param EntityClass 实体类
    * @param action 权限场景
+   * @returns 权限标识
    */
-  static get(EntityClass: ClassConstructor<Entity> | null | undefined, action: WebPermissionAction): string {
-    if (!EntityClass) {
-      return ''
-    }
+  static get<E extends WebEntity>(EntityClass: ClassConstructor<E>, action: WebPermissionAction | string): string {
+    let permission: string | undefined
     const modelConfig = getWebModelConfig(new EntityClass())
-    if (!modelConfig) {
-      return ''
-    }
-    if (WebConfig.autoPermission) {
-      // 自动处理权限
-      if (!modelConfig.permissionPrefix) {
-        // 没有配置前缀 从类中获取权限前缀
-        const entityName = EntityClass.name.replace('Entity', '').toString()
-        modelConfig.permissionPrefix = entityName.slice(0, 1) + entityName.slice(1)
-      }
-    }
-    else {
-      // 如不自动配置权限, 则将权限前缀清空
-      modelConfig.permissionPrefix = ''
-    }
-    const permissionPrefix = `${modelConfig.permissionPrefix}_`
-
     switch (action) {
       case WebPermissionAction.ADD:
-        return permissionPrefix + this.getAutoPermissionFlag(modelConfig.addPermission, action)
+        permission = modelConfig?.addPermission
+        break
       case WebPermissionAction.DELETE:
-        return permissionPrefix + this.getAutoPermissionFlag(modelConfig.deletePermission, action)
+        permission = modelConfig?.deletePermission
+        break
       case WebPermissionAction.EDIT:
-        return permissionPrefix + this.getAutoPermissionFlag(modelConfig.editPermission, action)
+        permission = modelConfig?.editPermission
+        break
       case WebPermissionAction.DETAIL:
-        return permissionPrefix + this.getAutoPermissionFlag(modelConfig.detailPermission, action)
+        permission = modelConfig?.detailPermission
+        break
       case WebPermissionAction.ADD_CHILD:
-        return permissionPrefix + this.getAutoPermissionFlag(modelConfig.addChildPermission, action)
+        permission = modelConfig?.addChildPermission
+        break
       case WebPermissionAction.EXPORT:
-        return permissionPrefix + this.getAutoPermissionFlag(modelConfig.exportPermission, action)
+        permission = modelConfig?.exportPermission
+        break
       case WebPermissionAction.IMPORT:
-        return permissionPrefix + this.getAutoPermissionFlag(modelConfig.importPermission, action)
+        permission = modelConfig?.importPermission
+        break
+      case WebPermissionAction.DISABLE:
+        permission = modelConfig?.disablePermission
+        break
+      case WebPermissionAction.ENABLE:
+        permission = modelConfig?.enablePermission
+        break
       default:
+        permission = action
     }
-    return ''
+    if (permission === '') {
+      return ''
+    }
+    if (permission === undefined) {
+      permission = action
+    }
+    let prefix: string | undefined = modelConfig?.permissionPrefix
+    if (prefix === '') {
+      return permission
+    }
+    if (prefix === undefined) {
+      if (!WebConfig.autoPermissionPrefix) {
+        return permission
+      }
+      const entityName = EntityClass.name.replace('Entity', '')
+      prefix = entityName.slice(0, 1) + entityName.slice(1)
+    }
+    return `${prefix}_${permission}`
   }
 
   /**
@@ -94,18 +120,5 @@ export class WebPermissionUtil {
    */
   static has(permission: string): boolean {
     return this.permissionList.includes(permission.toLowerCase())
-  }
-
-  /**
-   * ### 根据配置获取权限后缀
-   *
-   * - `WebConfig.autoPermission=false` 只取 `EntityConfig` 配置的权限, 取不到则认为不校验权限
-   * - `WebConfig.autoPermission=true`  取 `EntityConfig` 配置的权限, 取不到则按 `action` 自动取
-   */
-  private static getAutoPermissionFlag(permission: string | undefined, action: WebPermissionAction) {
-    if (WebConfig.autoPermission) {
-      return permission || action
-    }
-    return permission || ''
   }
 }

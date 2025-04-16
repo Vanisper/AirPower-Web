@@ -2,7 +2,11 @@ import type { WebMoneyDirection } from '../components'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 export class WebConfig {
-  static autoPermission = true
+  /**
+   * ### 是否自动处理权限前缀
+   */
+  static autoPermissionPrefix = true
+
   static appKey = 'airpower'
 
   static uploadUrl = '/upload'
