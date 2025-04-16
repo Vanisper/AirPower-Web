@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import useClipboard from 'vue-clipboard3'
 import { WebI18n } from '../../i18n'
-import { MessageUtil } from '../../util/feedback/MessageUtil'
+import { FeedbackUtil } from '../../util/feedback'
 import { WebButton } from '../button'
 
 const props = defineProps({
@@ -28,7 +28,7 @@ async function copy() {
     return
   }
   await toClipboard(props.content.toString())
-  MessageUtil.success(WebI18n.get().CopySuccess)
+  FeedbackUtil.toastSuccess(WebI18n.get().CopySuccess)
 }
 </script>
 

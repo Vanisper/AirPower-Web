@@ -1,16 +1,13 @@
-<script generic="F extends IFile" lang="ts" setup>
+<script generic="F extends IFile & Entity" lang="ts" setup>
+import type { ClassConstructor, Entity, IJson } from '@airpower/core'
 import type { PropType } from 'vue'
-import type { IFile } from '../interface/IFile'
-import type { IJson } from '../interface/IJson'
-import type { ClassConstructor } from '../type/AirType'
-import { AirFileEntity } from '@airpower/model/entity/AirFileEntity'
-import { computed, ref } from 'vue'
-import { ADialog } from '.'
-import { AirConfig } from '../config/AirConfig'
-import { AirNotification } from '../feedback/AirNotification'
-import { AirClassTransformer } from '../helper/AirClassTransformer'
-import { AirFile } from '../helper/AirFile'
-import { AirI18n } from '../helper/AirI18n'
+import type { IFile } from '../../util'
+import { ClassTransformer, FileUtil, HttpConfig } from '@airpower/core'
+import { ref } from 'vue'
+import { WebConfig } from '../../config'
+import { WebI18n } from '../../i18n'
+import { FeedbackUtil, WebAccessTokenUtil } from '../../util'
+import { WebDialog } from '../dialog'
 
 const props = defineProps({
   /**
@@ -75,7 +72,7 @@ const props = defineProps({
    */
   uploadName: {
     type: String,
-    default: AirConfig.uploadFileName,
+    default: WebConfig.uploadFileName,
   },
 
   /**
@@ -83,7 +80,7 @@ const props = defineProps({
    */
   uploadSuccess: {
     type: String,
-    default: AirI18n.get().UploadSuccess || '上传成功',
+    default: WebI18n.get().UploadSuccess,
   },
 
   /**
@@ -91,7 +88,7 @@ const props = defineProps({
    */
   uploadUrl: {
     type: String,
-    default: '',
+    default: WebConfig.uploadUrl,
   },
 
   /**
@@ -104,11 +101,10 @@ const props = defineProps({
 
   /**
    * # 接收文件的实体类
-   * 可通过 `AirConfig.fileEntityClass` 配置, 默认为 `AirFileEntity`
    */
   entity: {
     type: Function as unknown as PropType<ClassConstructor<F>>,
-    default: AirFileEntity,
+    required: true,
   },
 
   /**
@@ -142,15 +138,10 @@ const props = defineProps({
 const loading = ref(false)
 
 /**
- * # 上传的URL
- */
-const url = computed(() => props.uploadUrl || AirConfig.uploadUrl)
-
-/**
  * # 上传的header
  */
 const uploadHeader = ref({
-  Authorization: AirConfig.getAccessToken(),
+  Authorization: WebAccessTokenUtil.getAccessToken(),
 } as IJson)
 
 if (props.header) {
@@ -167,20 +158,14 @@ function uploadReady(file: { name: string, size: number }): boolean {
     const fileExt = arr && arr.length > 1 ? arr[arr.length - 1] : ''
     const isFileTypeAllowed = props.extensions.includes(fileExt.toLowerCase())
     if (!isFileTypeAllowed) {
-      AirNotification.error(
-        `${AirI18n.get().FileExtNotSupported || '文件格式不支持 '}${fileExt}`,
-        AirI18n.get().UploadError || '上传失败',
-      )
+      FeedbackUtil.alertError(WebI18n.get().FileTypeNotSupported, WebI18n.get().UploadError)
       return false
     }
   }
   const isFileSizeAllowed = file.size <= props.maxSize
   // 文件大小验证
   if (!isFileSizeAllowed) {
-    AirNotification.error(
-      `${AirI18n.get().FileSizeNotSupported || '文件大小不支持 '}${AirFile.getFileSizeFriendly(file.size)}`,
-      AirI18n.get().UploadError || '上传失败',
-    )
+    FeedbackUtil.alertError(WebI18n.get().FileSizeLimited, WebI18n.get().UploadError)
     return false
   }
 
@@ -193,10 +178,7 @@ function uploadReady(file: { name: string, size: number }): boolean {
  */
 function onUploadError() {
   loading.value = false
-  AirNotification.error(
-    AirI18n.get().FileUploadErrorAndRetryPlease || '上传文件失败, 请稍后再试',
-    AirI18n.get().UploadError || '上传失败',
-  )
+  FeedbackUtil.alertError(WebI18n.get().FileUploadErrorAndRetryPlease, WebI18n.get().UploadError)
   props.onCancel()
 }
 
@@ -214,16 +196,16 @@ function onUploadSuccess(result: IJson) {
     onUploadError()
     return
   }
-  if (result.code === AirConfig.successCode) {
-    AirNotification.success(props.uploadSuccess, AirI18n.get().UploadSuccess || '上传成功')
+  if (result.code === HttpConfig.successCode) {
+    FeedbackUtil.toastSuccess(props.uploadSuccess)
 
-    const entity = AirClassTransformer.parse(result.data as IJson, props.entity)
+    const entity = ClassTransformer.parse(result.data as IJson, props.entity)
     props.onConfirm(entity)
   }
   else {
-    AirNotification.error(
+    FeedbackUtil.alertError(
       (result.message as string) || '好家伙,后端的拉垮哥们连Message都没返回???',
-      AirI18n.get().UploadError || '上传失败',
+      WebI18n.get().UploadError,
     )
     props.onCancel()
   }
@@ -231,7 +213,7 @@ function onUploadSuccess(result: IJson) {
 </script>
 
 <template>
-  <ADialog
+  <WebDialog
     :allow-fullscreen="false"
     :confirm-text="confirmText"
     :hide-footer="!confirmText"
@@ -248,7 +230,7 @@ function onUploadSuccess(result: IJson) {
     >
       <el-upload
         v-if="entity"
-        :action="url"
+        :action="uploadUrl"
         :before-upload="uploadReady"
         :data="data"
         :headers="uploadHeader"
@@ -260,11 +242,11 @@ function onUploadSuccess(result: IJson) {
         drag
       >
         <div class="el-upload__text">
-          <b>{{ AirI18n.get().ClickHereToUpload || '点击或拖到此处上传' }}</b>
+          <b>{{ WebI18n.get().ClickHereToUpload }}</b>
           <span>
-            {{ AirI18n.get().FileSize || '文件大小: ' }}
-            <b>{{ AirFile.getFileSizeFriendly(props.maxSize) }}</b>
-            {{ AirI18n.get().FileExt || '文件格式: ' }}
+            {{ WebI18n.get().FileSize }}
+            <b>{{ FileUtil.getFileSizeFriendly(props.maxSize) }}</b>
+            {{ WebI18n.get().FileExtension }}
             <template v-if="!extensions.includes('*')">
               <b>{{ extensions.join('/') }}</b>
             </template>
@@ -278,7 +260,7 @@ function onUploadSuccess(result: IJson) {
         </div>
       </el-upload>
     </div>
-  </ADialog>
+  </WebDialog>
 </template>
 
 <style lang="scss">

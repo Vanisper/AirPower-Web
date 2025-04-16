@@ -1,15 +1,13 @@
 <script lang="ts" setup>
+import type { IJson } from '@airpower/core'
+import type { FormInstance } from 'element-plus'
 import type { PropType } from 'vue'
-import type { AirValidator } from '../helper/AirValidator'
-import type { IJson } from '../interface/IJson'
-import type { AirFormInstance } from '../type/AirType'
+import type { WebValidator } from '../../util/validator'
+import { Close, FullScreen } from '@element-plus/icons-vue'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { AButton } from '.'
-import { AirConfig } from '../config/AirConfig'
-import { AirNotification } from '../feedback/AirNotification'
-import { AirDialog } from '../helper/AirDialog'
-import { AirI18n } from '../helper/AirI18n'
-import { WebStore } from '../store/WebStore'
+import { WebI18n } from '../../i18n'
+import { FeedbackUtil } from '../../util'
+import { WebButton } from '../button'
 
 const props = defineProps({
   /**
@@ -25,7 +23,7 @@ const props = defineProps({
    */
   confirmText: {
     type: String,
-    default: AirI18n.get().Confirm || '确定',
+    default: WebI18n.get().Confirm,
   },
 
   /**
@@ -33,7 +31,7 @@ const props = defineProps({
    */
   cancelText: {
     type: String,
-    default: AirI18n.get().Cancel || '取消',
+    default: WebI18n.get().Cancel,
   },
 
   /**
@@ -105,13 +103,11 @@ const props = defineProps({
   },
 
   /**
-   * # 隐藏取消按钮
-   * -
-   * 默认为 `AirConfig.dialogHideCancel`
+   * # 显示取消按钮
    */
-  hideCancel: {
+  showCancel: {
     type: Boolean,
-    default: AirConfig.dialogHideCancel,
+    default: false,
   },
 
   /**
@@ -131,11 +127,11 @@ const props = defineProps({
   },
 
   /**
-   * # 允许显示全屏按钮
+   * # 隐藏全屏按钮
    */
-  allowFullscreen: {
+  hideFullscreen: {
     type: Boolean,
-    default: AirConfig.dialogAllowFullscreen,
+    default: false,
   },
 
   /**
@@ -159,7 +155,7 @@ const props = defineProps({
    * 如传入此参数,则自动校验,否则请自行校验
    */
   formRef: {
-    type: Object as PropType<AirFormInstance>,
+    type: Object as PropType<FormInstance>,
     default: undefined,
   },
 
@@ -173,18 +169,17 @@ const props = defineProps({
 
   /**
    * # 是否支持点击遮罩层关闭
-   * 默认值 `AirConfig.dialogCloseByCover = false`
    */
   hoverClose: {
     type: Boolean,
-    default: AirConfig.dialogCloseByCover,
+    default: false,
   },
 })
 
 const emits = defineEmits<{
-  onCancel: []
-  onFull: [isFullScreen: boolean]
-  onConfirm: []
+  cancel: []
+  fullscreenChange: [isFullScreen: boolean]
+  confirm: []
 }>()
 
 /**
@@ -215,7 +210,7 @@ const cursorRef = ref(CURSOR_CAN_MOVE)
 /**
  * # 随机ID
  */
-const domId = ref(AirDialog.currentDialogId)
+const domId = ref(`dialog_${Math.random()}`)
 
 /**
  * # 窗体偏移的x
@@ -255,7 +250,7 @@ let trueHeight = 0
 /**
  * # 是否全屏
  */
-const isFullScreen = ref(props.allowFullscreen && props.fullScreen)
+const isFullScreen = ref(!props.hideFullscreen && props.fullScreen)
 
 /**
  * # 强制焦点丢失
@@ -268,24 +263,8 @@ onMounted(() => {
  * # 抛出全屏切换的事件
  */
 watch(isFullScreen, () => {
-  emits('onFull', isFullScreen.value)
+  emits('fullscreenChange', isFullScreen.value)
 })
-
-watch(
-  () => WebStore().escKeyDown,
-  () => {
-    if (
-      WebStore().escKeyDown
-      && AirConfig.dialogCloseByEsc
-      && AirDialog.dialogIdList.length > 0
-      && AirDialog.dialogIdList[0] === domId.value
-    ) {
-      if (props.hoverClose || !props.hideClose) {
-        emits('onCancel')
-      }
-    }
-  },
-)
 
 /**
  * # 鼠标按下的事件
@@ -299,7 +278,7 @@ function dialogMouseDownEvent(event: MouseEvent) {
   startX = event.clientX - x.value
   startY = event.clientY - y.value
   isMoving.value = true
-  const dom: HTMLDivElement = document.querySelector(`#${dialogIdPrefix}${domId.value}`)!
+  const dom: HTMLElement = document.getElementById(`${dialogIdPrefix}${domId.value}`)!
   trueWidth = window.innerWidth - dom.offsetWidth
   trueHeight = window.innerHeight - dom.offsetHeight
 }
@@ -308,7 +287,7 @@ function dialogMouseDownEvent(event: MouseEvent) {
  * # 双击标题事件
  */
 function headerDoubleClicked() {
-  if (!props.allowFullscreen) {
+  if (props.hideFullscreen) {
     return
   }
   isFullScreen.value = !isFullScreen.value
@@ -376,7 +355,7 @@ const getDialogClass = computed(() => {
  */
 function dialogBgClicked() {
   if (props.hoverClose) {
-    emits('onCancel')
+    emits('cancel')
     return
   }
   if (isShaking.value) {
@@ -394,7 +373,7 @@ function dialogBgClicked() {
 async function confirmEvent() {
   if (!props.formRef) {
     // 无需校验
-    emits('onConfirm')
+    emits('confirm')
     return
   }
   try {
@@ -408,15 +387,15 @@ async function confirmEvent() {
     // 校验抛出了一异常
     const keys = Object.keys(e as Error)
     if (keys.length > 0) {
-      const list: AirValidator[] = (e as IJson)[keys[0]]
+      const list: WebValidator[] = (e as IJson)[keys[0]]
       if (list.length > 0) {
-        AirNotification.warning(list[0].message, AirI18n.get().ValidError || '验证失败').then()
+        FeedbackUtil.toastWarning(list[0].message)
       }
     }
     dialogBgClicked()
     return
   }
-  emits('onConfirm')
+  emits('confirm')
 }
 </script>
 
@@ -425,7 +404,7 @@ async function confirmEvent() {
     <div
       v-if="true"
       :class="getDialogClass"
-      class="dialog air-dialog"
+      class="web-dialog"
       @mousemove="dialogMouseMoveEvent"
       @mouseup="dialogMouseUpEvent"
       @click.self="dialogBgClicked"
@@ -436,7 +415,7 @@ async function confirmEvent() {
       />
       <div
         :id="dialogIdPrefix + domId"
-        :class="isFullScreen && allowFullscreen ? 'fullscreen' : ''"
+        :class="(isFullScreen && !hideFullscreen) ? 'fullscreen' : ''"
         :style="{
           width,
           height,
@@ -458,17 +437,20 @@ async function confirmEvent() {
           <div class="title">
             {{ title }}
           </div>
-          <i
-            v-if="allowFullscreen"
-            :class="isFullScreen ? 'icon-commonicon_suoxiao' : 'icon-commonicon_quanping'"
-            class="airpower"
+          <ElIcon
+            v-if="!hideFullscreen"
+            class="right-button button-full"
             @click="headerDoubleClicked"
-          />
-          <i
+          >
+            <FullScreen />
+          </ElIcon>
+          <ElIcon
             v-if="!hideClose"
-            class="airpower icon-commonicon_guanbi close"
-            @click="emits('onCancel')"
-          />
+            class="right-button "
+            @click="emits('cancel')"
+          >
+            <Close />
+          </ElIcon>
         </div>
         <div
           v-loading="loading"
@@ -488,21 +470,21 @@ async function confirmEvent() {
             class="control"
           >
             <slot name="leftCtrl" />
-            <AButton
+            <WebButton
               v-if="!hideConfirm"
               :disabled="disableConfirm || loading"
               primary
               @click="confirmEvent"
             >
               {{ confirmText }}
-            </AButton>
+            </WebButton>
             <slot name="middleButton" />
-            <AButton
-              v-if="!hideCancel"
-              @click="emits('onCancel')"
+            <WebButton
+              v-if="showCancel"
+              @click="emits('cancel')"
             >
               {{ cancelText }}
-            </AButton>
+            </WebButton>
           </div>
         </div>
       </div>
@@ -511,7 +493,7 @@ async function confirmEvent() {
 </template>
 
 <style lang="scss" scoped>
-.dialog {
+.web-dialog {
   z-index: 99;
   position: fixed;
   left: 0;
@@ -560,16 +542,20 @@ async function confirmEvent() {
         flex: 1;
       }
 
-      .airpower {
+      .right-button {
         color: #333;
         cursor: pointer;
         transition: all 0.5s;
         margin-left: 12px;
-        font-size: 16px;
+        font-size: 24px;
         font-weight: bold;
       }
 
-      .airpower:hover {
+      .button-full {
+        font-size: 20px;
+      }
+
+      .right-button:hover {
         color: red;
       }
     }
@@ -616,7 +602,7 @@ async function confirmEvent() {
 </style>
 
 <style lang="scss">
-.dialog {
+.web-dialog {
   .main {
     .body {
       * {

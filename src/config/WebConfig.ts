@@ -1,8 +1,11 @@
 import type { WebMoneyDirection } from '../components'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 export class WebConfig {
   static autoPermission = true
   static appKey = 'airpower'
+
+  static uploadUrl = '/upload'
 
   /**
    * ### 是否禁用权限
@@ -21,5 +24,15 @@ export class WebConfig {
    */
   static moneyPrecision = 2
 
+  /**
+   * ### 每页显示条数可选项
+   */
   static pageSizes = [10, 20, 50, 100]
+
+  /**
+   * ### 默认的上传文件名称
+   */
+  static uploadFileName = 'file'
+
+  static elementPlusLocale = zhCn
 }
