@@ -1,31 +1,30 @@
-<script generic="E extends AirEntity" lang="ts" setup="props">
-import type { AirEntity } from '../base/AirEntity'
-import { ElRadioButton, ElRadioGroup } from 'element-plus'
+<script generic="E extends Entity" lang="ts" setup="props">
+import type { Entity } from '@airpower/core'
+import { Page, QueryPageResponse } from '@airpower/core'
+import { ElButton, ElInput, ElPagination, ElPopover, ElRadioButton, ElRadioGroup } from 'element-plus'
 import { computed, ref } from 'vue'
-import { AirConfig } from '../config/AirConfig'
-import { AirI18n } from '../helper/AirI18n'
-import { AirPage } from '../model/AirPage'
-import { AirResponsePage } from '../model/AirResponsePage'
+import { WebConfig } from '../../config'
+import { WebI18n } from '../../i18n'
 
 const props = defineProps({
   /**
    * # 响应对象
    */
   response: {
-    type: AirResponsePage<E>,
+    type: QueryPageResponse<E>,
     required: true,
   },
 })
 
 const emits = defineEmits<{
-  onChange: [page: AirPage]
-  change: [page: AirPage]
+  onChange: [page: Page]
+  change: [page: Page]
 }>()
 
 /**
  * # 页码对象
  */
-const page = ref(new AirPage())
+const page = ref(new Page())
 
 /**
  * # 当前页码
@@ -38,7 +37,6 @@ const currentPage = ref(page.value.pageNum)
 function emitChange() {
   currentPage.value = page.value.pageNum
   emits('change', page.value)
-  emits('onChange', page.value)
 }
 
 /**
@@ -144,43 +142,43 @@ const pageBoxWidth = [230, 230, 230, 230, 280, 340, 370, 400, 430]
 </script>
 
 <template>
-  <div class="air-page">
-    <el-pagination
+  <div class="web-page">
+    <ElPagination
       v-model:current-page="page.pageNum"
       v-model:page-size="page.pageSize"
-      :page-sizes="AirConfig.pageSizes"
+      :page-sizes="WebConfig.pageSizes"
       :total="response.total"
       background
-      class="air-page-bar"
+      class="web-page-bar"
       layout=" prev, next"
       size="small"
       @current-change="pageChanged($event)"
     />
-    <el-popover
+    <ElPopover
       v-if="page.pageNum && response.pageCount"
       :width="pageBoxWidth[pageCountList[pageCountList.length - 1].length]"
       trigger="click"
       @hide="pageChanged(page.pageNum)"
     >
       <template #reference>
-        <div class="air-page-count">
+        <div class="web-page-count">
           <span>{{ page.pageNum }} / {{ response.pageCount }}</span>
         </div>
       </template>
       <template #default>
-        <div class="air-page-panel-box">
-          <div class="air-page-header">
-            <div class="air-page-title">
-              {{ AirI18n.get().PageSize || '每页' }}
+        <div class="web-page-panel-box">
+          <div class="web-page-header">
+            <div class="web-page-title">
+              {{ WebI18n.get().PageSize }}
             </div>
 
             <ElRadioGroup
               v-model="page.pageSize"
-              class="air-page-radio"
+              class="web-page-radio"
               size="small"
             >
               <ElRadioButton
-                v-for="item in AirConfig.pageSizes"
+                v-for="item in WebConfig.pageSizes"
                 :key="item"
                 :value="item"
                 @click="sizeChanged(item)"
@@ -189,8 +187,8 @@ const pageBoxWidth = [230, 230, 230, 230, 280, 340, 370, 400, 430]
               </ElRadioButton>
             </ElRadioGroup>
           </div>
-          <div class="air-page-goto">
-            <el-button
+          <div class="web-page-goto">
+            <ElButton
               v-for="item in pageCountList"
               :key="item"
               :disabled="item === disablePageLabel"
@@ -200,48 +198,48 @@ const pageBoxWidth = [230, 230, 230, 230, 280, 340, 370, 400, 430]
               @click="pageChanged(item)"
             >
               {{ item }}
-            </el-button>
+            </ElButton>
           </div>
-          <div class="air-page-jumper">
-            <el-input
+          <div class="web-page-jumper">
+            <ElInput
               v-model="currentPage"
               :max="response.pageCount"
-              :placeholder="AirI18n.get().InputPageNumber || '输入页码跳转'"
+              :placeholder="WebI18n.get().InputPageNumber "
               min="1"
               type="number"
               @change="currentPageChanged"
             >
               <template #append>
-                <el-button
+                <ElButton
                   size="small"
                   @click="pageChanged(page.pageNum)"
                 >
-                  {{ AirI18n.get().Jump || '跳转' }}
-                </el-button>
+                  {{ WebI18n.get().Jump }}
+                </ElButton>
               </template>
-            </el-input>
+            </ElInput>
           </div>
         </div>
       </template>
-    </el-popover>
+    </ElPopover>
     <div
       v-if="response.total"
-      class="air-page-total"
+      class="web-page-total"
     >
-      {{ AirI18n.get().TotalRow || '总条数' }}: <span>{{ response.total }}</span>
+      {{ WebI18n.get().TotalRow }}: <span>{{ response.total }}</span>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-.air-page {
+.web-page {
   user-select: none;
   display: flex;
   flex-direction: row;
   align-items: center;
   font-size: 13px;
 
-  .air-page-bar {
+  .web-page-bar {
     margin-right: 10px;
     color: #aaa;
 
@@ -258,7 +256,7 @@ const pageBoxWidth = [230, 230, 230, 230, 280, 340, 370, 400, 430]
     }
   }
 
-  .air-page-count:hover {
+  .web-page-count:hover {
     display: inline-block;
     background-color: var(--el-color-primary-light-9);
     color: var(--el-color-primary);
@@ -268,12 +266,12 @@ const pageBoxWidth = [230, 230, 230, 230, 280, 340, 370, 400, 430]
     }
   }
 
-  .air-page-count {
+  .web-page-count {
     border-radius: 3px;
   }
 
-  .air-page-count,
-  .air-page-total {
+  .web-page-count,
+  .web-page-total {
     color: #aaa;
 
     padding: 3px 8px;
@@ -287,23 +285,23 @@ const pageBoxWidth = [230, 230, 230, 230, 280, 340, 370, 400, 430]
   }
 }
 
-.air-page-panel-box {
+.web-page-panel-box {
   display: flex;
   flex-direction: column;
 
-  .air-page-header {
+  .web-page-header {
     color: #333;
     display: flex;
     flex-direction: row;
     align-items: center;
 
-    .air-page-title {
+    .web-page-title {
       font-size: 15px;
       flex: 1;
     }
   }
 
-  .air-page-goto {
+  .web-page-goto {
     display: flex;
     border-top: 1px solid #f8f8f8;
     margin-top: 20px;
@@ -325,7 +323,7 @@ const pageBoxWidth = [230, 230, 230, 230, 280, 340, 370, 400, 430]
     }
   }
 
-  .air-page-jumper {
+  .web-page-jumper {
     display: flex;
     flex-direction: row;
   }

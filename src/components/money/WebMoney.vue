@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import type { AirMoneyDirection } from '../type/AirType'
+import type { WebMoneyDirection } from './type'
 import { computed } from 'vue'
-import { ACopy } from '.'
-import { AirConfig } from '../config/AirConfig'
+import { WebConfig } from '../../config'
+import { WebCopy } from '../copy'
 
 const props = defineProps({
   /**
@@ -16,20 +16,28 @@ const props = defineProps({
 
   /**
    * # 💰金额的小数精度
-   * 默认为 `AirConfig.moneyPrecision`
+   * 默认为 `WebConfig.moneyPrecision`
    */
   precision: {
     type: Number,
-    default: AirConfig.moneyPrecision,
+    default: WebConfig.moneyPrecision,
+  },
+
+  /**
+   * # 💰金额的前缀
+   */
+  prefix: {
+    type: String,
+    default: '¥',
   },
 
   /**
    * # 💰金额的小数舍弃方式
-   * 默认为 `AirConfig.moneyDirection`
+   * 默认为 `WebConfig.moneyDirection`
    */
   direction: {
-    type: String as PropType<AirMoneyDirection>,
-    default: AirConfig.moneyDirection,
+    type: String as PropType<WebMoneyDirection>,
+    default: WebConfig.moneyDirection,
   },
 })
 
@@ -51,24 +59,23 @@ const showMoney = computed(() => {
 </script>
 
 <template>
-  <ACopy
-    :content="showMoney"
-    class="air-money"
+  <div
+    class="web-money"
   >
     <div class="prefix">
-      ¥
+      {{ props.prefix }}
     </div>
-    <div class="money">
+    <WebCopy :content="showMoney" hide-icon>
       {{ showMoney }}
-    </div>
-  </ACopy>
+    </WebCopy>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.air-money {
+.web-money {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
   width: auto;
   flex: none;
@@ -85,7 +92,7 @@ const showMoney = computed(() => {
   }
 
   .prefix {
-    margin-right: 3px;
+    color: #999;
     font-size: 12px;
   }
 }

@@ -21,7 +21,9 @@ export class WebI18n extends I18n {
   ConfirmToDisable = '是否确认禁用当前选择的数据?'
   ConfirmToEnable = '是否确认启用当前选择的数据?'
   ConfirmToDelete = '是否确认删除当前选择的数据?'
-  NoPermissionToOperate = '无权操作'
   CopySuccess = '成功复制到剪切板!'
-  ClickToCopy = '点击复制'
+  PageSize = '每页'
+  InputPageNumber = '请输入页码'
+  Jump = '跳转'
+  TotalRow = '总条数'
 }

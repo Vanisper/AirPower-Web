@@ -7,14 +7,12 @@ import type { ITree } from '../interface/ITree'
 import type { ITreeProps } from '../interface/props/ITreeProps'
 import type { AirAny, AirTableInstance, ClassConstructor } from '../type/AirType'
 import { Setting } from '@element-plus/icons-vue'
-
 import { ElCheckTag, ElDropdown } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 import { AButton, ACopy, ADateTime, ADesensitize, AMoney, APhone } from '.'
 import { AirEntity } from '../base/AirEntity'
 import { AirConfig } from '../config/AirConfig'
 import { getModelConfig } from '../decorator/Model'
-import { AirColor } from '../enum/AirColor'
 import { AirPermissionAction } from '../enum/AirPermissionAction'
 import { AirSortType } from '../enum/AirSortType'
 import { AirConfirm } from '../feedback/AirConfirm'
@@ -1575,7 +1573,7 @@ init()
     width: 100%;
   }
 
-  .air-button {
+  .web-button {
     width: 100%;
     padding: 8px 0;
     color: var(--primary-color);
@@ -1583,7 +1581,7 @@ init()
     background-color: transparent;
   }
 
-  .air-button + .air-button {
+  .web-button + .web-button {
     margin: 0 !important;
   }
 }

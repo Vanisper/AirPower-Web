@@ -1,1 +1,5 @@
-export * from './WebDesensitize.vue'
+import WebDesensitize from './WebDesensitize.vue'
+
+export {
+  WebDesensitize,
+}

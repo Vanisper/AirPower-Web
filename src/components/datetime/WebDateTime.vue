@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { DateTimeFormatter, DateTimeUtil } from '@airpower/core'
-import { Clock } from '@element-plus/icons-vue'
 import { computed } from 'vue'
 import { WebButton } from '../button'
 
@@ -66,7 +65,7 @@ const getDateTimeString = computed(() => {
 </script>
 
 <template>
-  <WebButton :icon="Clock" link>
+  <WebButton icon="CLOCK" link>
     {{ getDateTimeString }}
   </WebButton>
 </template>

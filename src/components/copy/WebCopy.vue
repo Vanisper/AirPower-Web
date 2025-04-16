@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { DocumentCopy } from '@element-plus/icons-vue'
 import useClipboard from 'vue-clipboard3'
 import { WebI18n } from '../../i18n'
 import { MessageUtil } from '../../util/feedback/MessageUtil'
@@ -12,6 +11,11 @@ const props = defineProps({
   content: {
     type: String,
     required: true,
+  },
+
+  hideIcon: {
+    type: Boolean,
+    default: false,
   },
 })
 const { toClipboard } = useClipboard()
@@ -29,26 +33,35 @@ async function copy() {
 </script>
 
 <template>
-  <WebButton
-    :icon="DocumentCopy"
-    class="web-copy"
-    link
-    v-bind="$attrs"
-    @click="copy"
-    v-on="$attrs"
-  >
-    <slot>{{ content || '-' }}</slot>
-  </WebButton>
+  <div class="web-copy">
+    <WebButton
+      :icon="hideIcon ? '' : 'COPY'"
+      link
+      v-bind="$attrs"
+      @click="copy"
+      v-on="$attrs"
+    >
+      <slot>{{ content || '-' }}</slot>
+    </WebButton>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .web-copy {
+  font-size: inherit;
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   ::v-deep(.el-link__inner) {
     flex: 1;
   }
 
-  .icon {
-    margin-right: 3px;
+  .el-button.is-link {
+    font-size: inherit;
+    padding: 0;
+    font-weight: bold;
   }
 }
 </style>

@@ -1,1 +1,5 @@
-export * from './WebEmpty.vue'
+import WebEmpty from './WebEmpty.vue'
+
+export {
+  WebEmpty,
+}

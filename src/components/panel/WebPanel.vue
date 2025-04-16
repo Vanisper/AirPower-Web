@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { FullScreen } from '@element-plus/icons-vue'
+import { ElIcon } from 'element-plus'
 import { ref } from 'vue'
-import { AirRouter } from '../helper/AirRouter'
 
 defineProps({
   /**
@@ -10,7 +10,7 @@ defineProps({
    */
   title: {
     type: String,
-    default: () => (AirRouter.router.currentRoute.value.meta.name as string) || '',
+    required: true,
   },
 
   /**
@@ -63,7 +63,7 @@ const isFullScreen = ref(false)
 <template>
   <div
     :class="isFullScreen ? 'fullscreen' : ''"
-    class="air-panel"
+    class="web-panel"
   >
     <div
       v-if="showTitle"
@@ -90,9 +90,9 @@ const isFullScreen = ref(false)
           class="panel-full"
           @click="isFullScreen = !isFullScreen"
         >
-          <el-icon>
+          <ElIcon>
             <FullScreen />
-          </el-icon>
+          </ElIcon>
         </div>
       </div>
     </div>
@@ -114,14 +114,14 @@ const isFullScreen = ref(false)
 </template>
 
 <style lang="scss" scoped>
-.air-panel {
+.web-panel {
   display: flex;
   flex: 1;
-  height: 0;
   flex-direction: column;
   background: white;
   border-radius: 4px;
-  overflow: hidden;
+  //overflow: hidden;
+  //height: 0;
 
   .panel-header {
     display: flex;

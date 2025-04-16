@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import type { PropType } from 'vue'
+import type { WebButtonIcon } from './type'
+import { Clock, Delete, DocumentCopy, Edit, Plus } from '@element-plus/icons-vue'
 import { ElButton } from 'element-plus'
 import { computed } from 'vue'
 import { WebConfig } from '../../config'
@@ -45,6 +48,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+
+  icon: {
+    type: String as PropType<WebButtonIcon>,
+    default: '',
+  },
 })
 
 /**
@@ -59,17 +67,33 @@ const isDisabled = computed(() => {
   }
   return false
 })
+
+const icon = computed(() => {
+  switch (props.icon) {
+    case 'ADD':
+      return Plus
+    case 'CLOCK':
+      return Clock
+    case 'EDIT':
+      return Edit
+    case 'DELETE':
+      return Delete
+    case 'COPY':
+      return DocumentCopy
+    default:
+      return ''
+  }
+})
 </script>
 
 <template>
   <ElButton
     :disabled="isDisabled"
+    :icon="icon"
     :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : 'default'"
-    class="air-button"
     v-bind="$attrs"
     v-on="$attrs"
   >
-    <slot name="icon" />
     <slot />
   </ElButton>
 </template>

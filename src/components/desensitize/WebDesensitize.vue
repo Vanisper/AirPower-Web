@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { DesensitizeType, DesensitizeUtil } from '@airpower/core'
 import { Hide, View } from '@element-plus/icons-vue'
+import { ElIcon } from 'element-plus'
 import { computed, ref } from 'vue'
 
 const props = defineProps({
@@ -15,16 +16,16 @@ const props = defineProps({
   /**
    * # 是否脱敏
    */
-  desensitize: {
+  type: {
     type: DesensitizeType,
-    default: undefined,
+    default: DesensitizeType.CUSTOM,
   },
 
   /**
    * # 脱敏开始保留
    * 默认使用传入的参数
    */
-  desensitizeHead: {
+  head: {
     type: Number,
     default: 0,
   },
@@ -33,7 +34,7 @@ const props = defineProps({
    * # 脱敏末尾保留
    * 默认使用传入的参数
    */
-  desensitizeTail: {
+  tail: {
     type: Number,
     default: 0,
   },
@@ -41,7 +42,7 @@ const props = defineProps({
   /**
    * # 脱敏符号
    */
-  desensitizeSymbol: {
+  symbol: {
     type: String,
     default: DesensitizeUtil.DEFAULT_MASK,
   },
@@ -53,29 +54,29 @@ const isDesensitize = ref(true)
  * # 脱敏
  */
 const desensitized = computed(() => {
-  if (!isDesensitize.value || !props.desensitize) {
+  if (!isDesensitize.value || !props.type) {
     return props.content
   }
   return DesensitizeUtil.desensitize(
     props.content,
-    props.desensitize,
-    props.desensitizeHead,
-    props.desensitizeTail,
-    props.desensitizeSymbol,
+    props.type,
+    props.head,
+    props.tail,
+    props.symbol,
   )
 })
 </script>
 
 <template>
   <div class="web-desensitize">
-    <el-icon
+    <ElIcon
       :class="!isDesensitize ? 'desensitize' : ''"
       class="icon"
       @click.stop="isDesensitize = !isDesensitize"
     >
       <View v-if="isDesensitize" />
       <Hide v-else />
-    </el-icon>
+    </ElIcon>
     {{ desensitized || '-' }}
   </div>
 </template>
@@ -89,6 +90,7 @@ const desensitized = computed(() => {
   .icon {
     margin-right: 3px;
     font-weight: bold;
+    cursor: pointer;
   }
 
   .desensitize {
