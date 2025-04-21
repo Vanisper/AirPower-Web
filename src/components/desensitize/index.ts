@@ -1,5 +1,5 @@
-import WebDesensitize from './WebDesensitize.vue'
+import ADesensitize from './WebDesensitize.vue'
 
 export {
-  WebDesensitize,
+  ADesensitize,
 }

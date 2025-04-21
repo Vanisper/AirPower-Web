@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import useClipboard from 'vue-clipboard3'
 import { WebI18n } from '../../i18n'
-import { FeedbackUtil } from '../../util/feedback'
-import { Button } from '../button'
+import { FeedbackUtil } from '../../util'
+import { AButton } from '../button'
 
 const props = defineProps({
   /**
@@ -34,7 +34,7 @@ async function copy() {
 
 <template>
   <div class="a-copy">
-    <Button
+    <AButton
       :icon="hideIcon ? '' : 'COPY'"
       link
       v-bind="$attrs"
@@ -42,7 +42,7 @@ async function copy() {
       v-on="$attrs"
     >
       <slot>{{ content || '-' }}</slot>
-    </Button>
+    </AButton>
   </div>
 </template>
 

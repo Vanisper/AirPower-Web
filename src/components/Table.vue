@@ -22,7 +22,7 @@ import { AirDecorator } from '../helper/AirDecorator'
 import { AirFile } from '../helper/AirFile'
 import { AirI18n } from '../helper/AirI18n'
 import { AirPermission } from '../helper/AirPermission'
-import { QuerySort } from '../model/QuerySort'
+import { QuerySort } from '../model/query/QuerySort'
 import { WebStore } from '../store/WebStore'
 
 const props = defineProps({

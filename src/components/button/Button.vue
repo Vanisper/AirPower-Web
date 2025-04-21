@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import type { WebButtonIcon } from './type'
+import type { ButtonIcon } from './type'
 import { Clock, Delete, DocumentCopy, Edit, Plus } from '@element-plus/icons-vue'
 import { ElButton } from 'element-plus'
 import { computed } from 'vue'
@@ -50,7 +50,7 @@ const props = defineProps({
   },
 
   icon: {
-    type: String as PropType<WebButtonIcon>,
+    type: String as PropType<ButtonIcon>,
     default: '',
   },
 })

@@ -1,2 +1,3 @@
-export * from './Entity'
-export * from './Model'
+export * from './AbstractService'
+export * from './RootEntity'
+export * from './RootModel'

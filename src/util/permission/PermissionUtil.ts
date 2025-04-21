@@ -1,5 +1,7 @@
-import type { Entity } from '../../base'
+import type { ITransformerConstructor } from '@airpower/transformer'
+import type { RootEntity } from '../../base'
 import { WebConfig } from '../../config'
+import { getModelConfig } from '../../decorator'
 import { PermissionAction } from './PermissionAction'
 
 /**
@@ -8,14 +10,14 @@ import { PermissionAction } from './PermissionAction'
  */
 export class PermissionUtil {
   /**
+   * ### 权限缓存 `Key`
+   */
+  static permissionKey = 'permissions'
+
+  /**
    * ### 权限列表
    */
   private static permissionList: string[] = []
-
-  /**
-   * ### 权限缓存 `Key`
-   */
-  private static readonly permissionKey = '_permissions'
 
   /**
    * ### 获取权限标识
@@ -35,9 +37,9 @@ export class PermissionUtil {
    * @param action 权限场景
    * @returns 权限标识
    */
-  static get<E extends Entity>(EntityClass: ClassConstructor<E>, action: PermissionAction | string): string {
+  static get<E extends RootEntity>(EntityClass: ITransformerConstructor<E>, action: PermissionAction | string): string {
     let permission: string | undefined
-    const modelConfig = getWebModelConfig(new EntityClass())
+    const modelConfig = getModelConfig(new EntityClass())
     const actionRecord: Record<PermissionAction, string | undefined> = {
       [PermissionAction.ADD]: modelConfig?.addPermission,
       [PermissionAction.DELETE]: modelConfig?.deletePermission,
@@ -83,14 +85,14 @@ export class PermissionUtil {
    */
   static saveList(permissions: string[]) {
     this.permissionList = permissions.map(permission => permission.toLocaleLowerCase())
-    localStorage.setItem(WebConfig.appKey + this.permissionKey, JSON.stringify(this.permissionList))
+    localStorage.setItem(this.permissionKey, JSON.stringify(this.permissionList))
   }
 
   /**
    * ### 获取缓存的权限列表
    */
   static getList(): string[] {
-    const str = localStorage.getItem(WebConfig.appKey + this.permissionKey) || '[]'
+    const str = localStorage.getItem(this.permissionKey) || '[]'
     try {
       return JSON.parse(str)
     }

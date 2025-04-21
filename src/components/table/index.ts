@@ -1,5 +1,5 @@
-import WebTable from './WebTable.vue'
+import ATable from './Table.vue'
 
 export {
-  WebTable,
+  ATable,
 }

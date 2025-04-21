@@ -39,7 +39,7 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "@airpower/enum": "^0.0.5",
+    "@airpower/enum": "^0.0.6",
     "@airpower/i18n": "^0.0.4",
     "@airpower/transformer": "^0.1.0",
     "@airpower/util": "^0.0.3",

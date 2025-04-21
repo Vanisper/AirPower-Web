@@ -1,4 +1,3 @@
-export * from './DetailController'
-export * from './EditorController'
-export * from './interface'
+export * from './detail'
+export * from './editor'
 export * from './table'

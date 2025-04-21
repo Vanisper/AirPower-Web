@@ -1,10 +1,10 @@
-import { Entity, Table, WebModel } from '../src'
+import { RootEntity, Table, WebModel } from '../src'
 
 @WebModel({
   permissionPrefix: 'sssss',
   // addPermission: 'adds',
 })
-export class User extends Entity {
+export class User extends RootEntity {
   @Table()
   name!: string
 }

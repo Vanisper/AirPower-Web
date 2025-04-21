@@ -1,5 +1,7 @@
-import type { AbstractEntityService, ClassConstructor, IJson, RegExpEnum } from '@airpower/core'
-import type { Entity } from '../../base'
+import type { IJson } from '@airpower/transformer'
+import type { RootEntity } from '../../base'
+import type { AbstractCurdService } from '../../curd'
+import type { ClassConstructor } from '../../type'
 import type {
   WebValidateRule,
   WebValidatorCallback,
@@ -7,7 +9,9 @@ import type {
   WebValidatorTrigger,
   WebValidatorType,
 } from './type'
-import { ClassTransformer, ValidateUtil } from '@airpower/core'
+import { Transformer } from '@airpower/transformer'
+import { ValidateUtil } from '@airpower/util'
+import { getFormConfig, getFormFieldList } from '../../decorator'
 import { WebI18n } from '../../i18n'
 
 /**
@@ -51,26 +55,6 @@ export class WebValidator {
   }
 
   /**
-   * ### 是否满足如下的规则
-   * @param str 被验证字符串
-   * @param list 验证器
-   */
-  static validate(str: string, ...list: RegExpEnum[]) {
-    let regString = ''
-    for (let i = 0; i < list.length; i += 1) {
-      regString += list[i]
-    }
-    try {
-      return new RegExp(String.raw`^[${regString}]+$`).test(str)
-    }
-    catch (e) {
-      console.error(e)
-      // 抛出错误的正则表达式
-      throw new Error('What the fuck your regexp is?')
-    }
-  }
-
-  /**
    * ### 创建一个验证器
    * @param rule 验证规则
    */
@@ -83,14 +67,14 @@ export class WebValidator {
    * @param service 接口服务对象
    * @param rules `可选` 表单验证规则
    */
-  static createRules<T extends Entity, S extends AbstractEntityService<T>, V extends WebValidator>(
+  static createRules<E extends RootEntity, S extends AbstractCurdService<E>, V extends WebValidator>(
     this: ClassConstructor<V> & typeof WebValidator,
     service: S,
-        rules: WebValidateRule<T> = {},
+    rules: WebValidateRule<E> = {},
   ) {
     const formRules: IJson = rules
-    const entity = ClassTransformer.newInstance(service.entityClass)
-    const formFieldList = entity.getFormFieldConfigList()
+    const entity = Transformer.newInstance(service.entityClass)
+    const formFieldList = getFormFieldList(entity).map(key => getFormConfig(entity, key))
     for (let i = 0; i < formFieldList.length; i += 1) {
       const config = formFieldList[i]
       const fieldKey = config.key!
@@ -136,7 +120,7 @@ export class WebValidator {
         formRules[fieldKey].push(WebValidator.show('').ifNotTest(config.regExp))
       }
     }
-    return formRules as WebValidateRule<T>
+    return formRules as WebValidateRule<E>
   }
 
   /**
@@ -600,22 +584,6 @@ export class WebValidator {
       }
       else {
         callback(this.message || WebI18n.get().IfNotChinese)
-      }
-    }
-    return this
-  }
-
-  /**
-   * ### 如果输入内容不在以下范围内报错
-   * @param list 范围 枚举或字符
-   */
-  ifNot(...list: RegExpEnum[] | string[]): this {
-    this.validator = (_: WebValidatorTarget, value: string, callback: WebValidatorCallback) => {
-      if (!value || WebValidator.validate(value, list as unknown as RegExpEnum)) {
-        callback()
-      }
-      else {
-        callback(this.message || WebI18n.get().ContainLetterNotAllowed)
       }
     }
     return this

@@ -1,13 +1,16 @@
-<script generic="F extends IFile & Entity" lang="ts" setup>
-import type { ClassConstructor, Entity, IJson } from '@airpower/core'
+<script generic="F extends IFile & RootEntity" lang="ts" setup>
+import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType } from 'vue'
+import type { RootEntity } from '../../base'
 import type { IFile } from '../../util'
-import { ClassTransformer, FileUtil, HttpConfig } from '@airpower/core'
+import { Transformer } from '@airpower/transformer'
+import { FileUtil } from '@airpower/util'
+import { ElUpload } from 'element-plus'
 import { ref } from 'vue'
 import { WebConfig } from '../../config'
 import { WebI18n } from '../../i18n'
-import { AccessTokenUtil, FeedbackUtil } from '../../util'
-import { Dialog } from '../dialog'
+import { FeedbackUtil, HttpConfig } from '../../util'
+import { ADialog } from '../dialog'
 
 const props = defineProps({
   /**
@@ -103,7 +106,7 @@ const props = defineProps({
    * # 接收文件的实体类
    */
   entity: {
-    type: Function as unknown as PropType<ClassConstructor<F>>,
+    type: Function as unknown as PropType<ITransformerConstructor<F>>,
     required: true,
   },
 
@@ -141,7 +144,7 @@ const loading = ref(false)
  * # 上传的header
  */
 const uploadHeader = ref({
-  Authorization: AccessTokenUtil.getAccessToken(),
+  Authorization: localStorage.getItem(HttpConfig.authorizationHeaderKey),
 } as IJson)
 
 if (props.header) {
@@ -199,7 +202,7 @@ function onUploadSuccess(result: IJson) {
   if (result.code === HttpConfig.successCode) {
     FeedbackUtil.toastSuccess(props.uploadSuccess)
 
-    const entity = ClassTransformer.parse(result.data as IJson, props.entity)
+    const entity = Transformer.parse(result.data as IJson, props.entity)
     props.onConfirm(entity)
   }
   else {
@@ -213,7 +216,7 @@ function onUploadSuccess(result: IJson) {
 </script>
 
 <template>
-  <Dialog
+  <ADialog
     :allow-fullscreen="false"
     :confirm-text="confirmText"
     :hide-footer="!confirmText"
@@ -228,7 +231,7 @@ function onUploadSuccess(result: IJson) {
       v-loading="loading"
       class="file-upload-pack"
     >
-      <el-upload
+      <ElUpload
         v-if="entity"
         :action="uploadUrl"
         :before-upload="uploadReady"
@@ -258,9 +261,9 @@ function onUploadSuccess(result: IJson) {
             {{ tips }}
           </div>
         </div>
-      </el-upload>
+      </ElUpload>
     </div>
-  </Dialog>
+  </ADialog>
 </template>
 
 <style lang="scss">

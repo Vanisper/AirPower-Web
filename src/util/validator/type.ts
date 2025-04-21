@@ -1,4 +1,4 @@
-import type { Entity } from '../../base'
+import type { RootEntity } from '../../base'
 import type { WebValidator } from './WebValidator'
 
 /**
@@ -24,7 +24,7 @@ export type WebValidatorCallback = (error?: string) => void
 /**
  * ### 表单验证规则
  */
-export type WebValidateRule<E extends Entity = Entity> = {
+export type WebValidateRule<E extends RootEntity = RootEntity> = {
   /**
    * ### 字段名:[验证器]
    */

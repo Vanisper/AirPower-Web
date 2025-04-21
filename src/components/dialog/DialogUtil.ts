@@ -1,5 +1,6 @@
 import type { IJson } from '@airpower/transformer'
 import type { App, Component } from 'vue'
+import type { RootEntity } from '../../base'
 import type { IFile } from '../../util'
 import type { IUploadProps } from '../upload'
 import ElementPlus from 'element-plus'
@@ -80,7 +81,7 @@ export class DialogUtil {
    * @param config `可选` 上传自定义配置
    * @param customConfirm `可选` 自定义确认按钮回调方法
    */
-  static async showUpload<F extends IFile & Entity>(config?: IUploadProps<F>, customConfirm?: () => void): Promise<F> {
+  static async showUpload<F extends IFile & RootEntity>(config?: IUploadProps<F>, customConfirm?: () => void): Promise<F> {
     return this.build<F>(WebUpload, {
       onCustomConfirm: () => {
         if (customConfirm) {
@@ -96,7 +97,7 @@ export class DialogUtil {
    * @param view 使用的视图组件 传入一个 `import` 的 `vue`
    * @param param `可选` 普通参数 将传入到目标对象的 `props.param` 参数上
    */
-  static async select<E extends Entity>(view: Component, param: E | undefined = undefined): Promise<E> {
+  static async select<E extends RootEntity>(view: Component, param: E | undefined = undefined): Promise<E> {
     return this.build(view, {
       param,
     })
@@ -108,10 +109,10 @@ export class DialogUtil {
    * @param selectList `可选` 已选列表 将传入到目标对象的 `props.selectList` 参数上
    * @param param `可选` 普通参数 将传入到目标对象的 `props.param` 参数上
    */
-  static async selectList<E extends Entity>(
+  static async selectList<E extends RootEntity>(
     view: Component,
-        selectList: E[] = [],
-        param: E | undefined = undefined,
+    selectList: E[] = [],
+    param: E | undefined = undefined,
   ): Promise<E[]> {
     return this.build(view, {
       selectList,

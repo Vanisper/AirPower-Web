@@ -1,5 +1,4 @@
-import type { IBaseField } from '../common'
-import type { IEnumField } from '../common/IEnumField'
+import type { IBaseField, IEnumField } from '../common'
 
 /**
  * # 字段配置

@@ -1,12 +1,7 @@
 <script lang="ts" setup>
-import type { IJson } from '../../interface/IJson'
 import { ref } from 'vue'
 import { ADialog } from '..'
-import { airPropsParam } from '../../config/AirProps'
-import { AirFile } from '../../helper/AirFile'
-import { AirHttp } from '../../helper/AirHttp'
-import { AirI18n } from '../../helper/AirI18n'
-import { ExportModel } from '../../model/ExportModel'
+import { ExportModel } from '../../model'
 
 const props = defineProps(airPropsParam(new ExportModel()))
 

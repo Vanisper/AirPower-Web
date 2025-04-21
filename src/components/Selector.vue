@@ -1,19 +1,8 @@
 <script generic="E extends AirEntity, S extends AirAbstractEntityService<E>" lang="ts" setup>
 import type { Component } from 'vue'
-import type { AirAbstractEntityService } from '../base/AirAbstractEntityService'
-import type { AirEntity } from '../base/AirEntity'
-import type { AirSearchFieldConfig } from '../config/AirSearchFieldConfig'
-import type { AirTableFieldConfig } from '../config/AirTableFieldConfig'
-import type { IUseSelectorOption } from '../interface/hooks/IUseSelectorOption'
-import type { IJson } from '../interface/IJson'
-import type { QueryRequestPage } from '../model/QueryRequestPage'
-import type { AirAny, ClassConstructor } from '../type/AirType'
+import type { QueryRequestPage } from '../model'
 import { computed, useSlots } from 'vue'
-import { AButton, ADialog, APage, ATable, AToolBar } from '.'
-import { AirNotification } from '../feedback/AirNotification'
-import { AirClassTransformer } from '../helper/AirClassTransformer'
-import { AirDialog } from '../helper/AirDialog'
-import { useAirSelector } from '../hook/useAirSelector'
+import { AButton, ADialog, APage, ATable } from '.'
 
 const props = defineProps<{
   /**

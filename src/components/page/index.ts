@@ -1,5 +1,5 @@
-import WebPage from './WebPage.vue'
+import APage from './Page.vue'
 
 export {
-  WebPage,
+  APage,
 }

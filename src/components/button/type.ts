@@ -1,4 +1,4 @@
-export type WebButtonIcon =
+export type ButtonIcon =
   'ADD'
   | 'EDIT'
   | 'SEARCH'

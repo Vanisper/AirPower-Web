@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import type { MoneyDirection } from './type'
 import { computed } from 'vue'
 import { WebConfig } from '../../config'
-import { Copy } from '../copy'
+import { ACopy } from '../copy'
 
 const props = defineProps({
   /**
@@ -65,9 +65,9 @@ const showMoney = computed(() => {
     <div class="prefix">
       {{ props.prefix }}
     </div>
-    <Copy :content="showMoney" hide-icon>
+    <ACopy :content="showMoney" hide-icon>
       {{ showMoney }}
-    </Copy>
+    </ACopy>
   </div>
 </template>
 

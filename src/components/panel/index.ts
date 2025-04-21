@@ -1,5 +1,5 @@
-import WebPanel from './WebPanel.vue'
+import APanel from './Panel.vue'
 
 export {
-  WebPanel,
+  APanel,
 }
