@@ -4,7 +4,7 @@ import type { AirAbstractEntityService } from '../base/AirAbstractEntityService'
 import type { AirSearchFieldConfig } from '../config/AirSearchFieldConfig'
 import type { IFile } from '../interface/IFile'
 import type { IJson } from '../interface/IJson'
-import type { AirRequest } from '../model/AirRequest'
+import type { QueryRequest } from '../model/QueryRequest'
 import type { ClassConstructor } from '../type/AirType'
 import { AirFileEntity } from '@airpower/model/entity/AirFileEntity'
 import { ElOption } from 'element-plus'
@@ -22,8 +22,8 @@ import { AirDecorator } from '../helper/AirDecorator'
 import { AirDialog } from '../helper/AirDialog'
 import { AirI18n } from '../helper/AirI18n'
 import { AirPermission } from '../helper/AirPermission'
-import { AirExportModel } from '../model/AirExportModel'
-import { AirRequestPage } from '../model/AirRequestPage'
+import { ExportModel } from '../model/ExportModel'
+import { QueryRequestPage } from '../model/QueryRequestPage'
 
 const props = defineProps({
   /**
@@ -108,7 +108,7 @@ const props = defineProps({
    * # 导出的请求参数
    */
   exportParam: {
-    type: Object as PropType<AirRequest>,
+    type: Object as PropType<QueryRequest>,
     default: undefined,
   },
 
@@ -193,7 +193,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits<{
-  onSearch: [request: AirRequestPage<E>]
+  onSearch: [request: QueryRequestPage<E>]
   onAdd: []
   onReset: []
 }>()
@@ -244,7 +244,7 @@ const modelConfig = computed(() => getModelConfig(entityInstance.value))
 /**
  * # 查询对象
  */
-const request = ref(new AirRequestPage(props.entity)) as Ref<AirRequestPage<E>>
+const request = ref(new QueryRequestPage(props.entity)) as Ref<QueryRequestPage<E>>
 
 /**
  * # 添加按钮的标题
@@ -282,7 +282,7 @@ function onExport() {
   }
 
   const service = AirClassTransformer.newInstance(props.service)
-  const exportModel = new AirExportModel()
+  const exportModel = new ExportModel()
   exportModel.param = request.value
   exportModel.createExportTaskUrl = `${service.baseUrl}/export`
   exportModel.queryExportUrl = `${service.baseUrl}/queryExport`
@@ -336,7 +336,7 @@ const filter = ref<IJson>({})
  * # 查询事件
  */
 function onSearch() {
-  request.value = new AirRequestPage(props.entity)
+  request.value = new QueryRequestPage(props.entity)
   const keys = Object.keys(data.value)
   keys.forEach((key) => {
     if (data.value[key] === '') {
@@ -355,7 +355,7 @@ function onSearch() {
  */
 function onResetSearch() {
   filter.value = {}
-  request.value = new AirRequestPage(props.entity)
+  request.value = new QueryRequestPage(props.entity)
   request.value.exclude('filter')
   emits('onReset')
   emits('onSearch', request.value)

@@ -1,4 +1,4 @@
-import { I18n } from '@airpower/core'
+import { I18n } from '@airpower/i18n'
 
 /**
  * # Web端默认语言包
@@ -7,9 +7,9 @@ import { I18n } from '@airpower/core'
  */
 export class WebI18n extends I18n {
   Detail = '详情'
-  Edit = '编辑'
+  Update = '修改'
   Add = '添加'
-  EditSuccess = '编辑成功'
+  UpdateSuccess = '修改成功'
   AddSuccess = '添加成功'
   DeleteSuccess = '删除成功'
   SelectPlease = '请选择'

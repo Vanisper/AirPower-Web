@@ -1,4 +1,4 @@
-import type { EnumConstructor, IField } from '@airpower/core'
+import type { IFieldConfig } from '../@Field'
 import type { IElementTableColumn } from './IElementTableColumn'
 
 /**
@@ -6,22 +6,20 @@ import type { IElementTableColumn } from './IElementTableColumn'
  *
  * @author Hamm.cn
  */
-export interface ITableFieldConfig extends IField, IElementTableColumn {
-  /**
-   * ### 字典
-   */
-  enums?: EnumConstructor
-
-  key?: string
-
+export interface ITableColumn extends IFieldConfig, IElementTableColumn {
   /**
    * ### 列排序
    * 越大越靠前
    */
-  orderNumber?: number
+  order?: number
 
   /**
    * ### 是否隐藏
    */
   hide?: boolean
+
+  /**
+   * ### 是否强制显示
+   */
+  force?: boolean
 }

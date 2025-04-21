@@ -1,4 +1,4 @@
 export * from './IElementTableColumn'
-export * from './ITableFieldConfig'
+export * from './ITableColumn'
 export * from './Table'
 export * from './TableType'

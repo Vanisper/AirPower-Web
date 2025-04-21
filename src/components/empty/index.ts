@@ -1,5 +1,5 @@
-import WebEmpty from './WebEmpty.vue'
+import AEmpty from './Empty.vue'
 
 export {
-  WebEmpty,
+  AEmpty,
 }

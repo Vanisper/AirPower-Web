@@ -1,7 +1,7 @@
 <script generic="E extends AirEntity" lang="ts" setup>
 import type { ComputedRef, PropType } from 'vue'
 import type { AirTableFieldConfig } from '../config/AirTableFieldConfig'
-import type { ITableFieldConfig } from '../interface/decorators/ITableFieldConfig'
+import type { ITableFieldConfig } from '../interface/decorators/ITableField'
 import type { IJson } from '../interface/IJson'
 import type { ITree } from '../interface/ITree'
 import type { ITreeProps } from '../interface/props/ITreeProps'
@@ -22,7 +22,7 @@ import { AirDecorator } from '../helper/AirDecorator'
 import { AirFile } from '../helper/AirFile'
 import { AirI18n } from '../helper/AirI18n'
 import { AirPermission } from '../helper/AirPermission'
-import { AirSort } from '../model/AirSort'
+import { QuerySort } from '../model/QuerySort'
 import { WebStore } from '../store/WebStore'
 
 const props = defineProps({
@@ -406,7 +406,7 @@ const emits = defineEmits<{
   onEdit: [row: E]
   onSelect: [list: E[]]
   onAdd: [row: E]
-  onSort: [sort?: AirSort]
+  onSort: [sort?: QuerySort]
   onDisable: [row: E]
   onEnable: [row: E]
 }>()
@@ -791,7 +791,7 @@ function handleSelectChanged(list: E[]) {
  */
 function handleSortChanged(data: { prop: string, order: string }) {
   if (data.prop && data.order) {
-    const sort = new AirSort()
+    const sort = new QuerySort()
     sort.field = data.prop
     sort.direction = data.order === 'descending' ? AirSortType.DESC : AirSortType.ASC
     emits('onSort', sort)
@@ -1316,8 +1316,8 @@ init()
               v-for="item in allFieldList"
               :key="item.key"
               :checked="!!selectedFieldList.find((i: any) => i === item.key)"
-              :class="item.forceShow ? 'disabled' : ''"
-              :disabled="item.forceShow"
+              :class="item.force ? 'disabled' : ''"
+              :disabled="item.force"
               @change="fieldSelectChanged($event, item)"
             >
               {{ item.label }}

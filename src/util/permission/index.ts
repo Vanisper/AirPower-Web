@@ -1,2 +1,2 @@
-export * from './WebPermissionAction'
-export * from './WebPermissionUtil'
+export * from './PermissionAction'
+export * from './PermissionUtil'

@@ -1,25 +1,26 @@
-import type { DecoratorTarget } from '@airpower/core'
-import type { ITableFieldConfig } from './ITableFieldConfig'
-import { DecoratorUtil, getFieldConfig } from '@airpower/core'
+import type { DecoratorTarget } from '@airpower/transformer'
+import type { ITableColumn } from './ITableColumn'
+import { DecoratorUtil } from '@airpower/transformer'
+import { getFieldConfig } from '../@Field'
 
 /**
- * ### 表格字段 `key`
+ * ### KEY
  */
-const FIELD_CONFIG_KEY = 'Table'
+const KEY = `${DecoratorUtil.DecoratorKeyPrefix}[Table]`
 
 /**
- * ### 表格字段列表key
+ * ### LIST KEY
  */
-const FIELD_LIST_KEY = 'TableList'
+const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[TableList]`
 
 /**
  * ### 为属性标记是表格字段
  * @param config 表格列的配置
  */
-export function Table(config: ITableFieldConfig = {}) {
+export function Table(config: ITableColumn = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
-    return DecoratorUtil.setFieldConfig(target, key, FIELD_CONFIG_KEY, config, FIELD_LIST_KEY)
+    return DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
   }
 }
 
@@ -28,15 +29,15 @@ export function Table(config: ITableFieldConfig = {}) {
  * @param target 目标对象
  * @param key 属性名
  */
-export function getTableConfig(target: DecoratorTarget, key: string): ITableFieldConfig | null {
-  const tableConfig: ITableFieldConfig | null = DecoratorUtil.getFieldConfig(target, key, FIELD_CONFIG_KEY, true)
+export function getTableConfig(target: DecoratorTarget, key: string): ITableColumn {
+  const tableConfig: ITableColumn | null = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!tableConfig) {
-    return null
+    return {}
   }
-  if (!tableConfig.enums) {
+  if (!tableConfig.dictionary) {
     const props = getFieldConfig(target, key)
-    if (props && props.enums) {
-      tableConfig.enums = props.enums
+    if (props && props.dictionary) {
+      tableConfig.dictionary = props.dictionary
     }
   }
   return tableConfig
@@ -47,7 +48,7 @@ export function getTableConfig(target: DecoratorTarget, key: string): ITableFiel
  * @param target 目标对象
  */
 export function getTableFieldList(target: DecoratorTarget): string[] {
-  return DecoratorUtil.getFieldList(target, FIELD_LIST_KEY)
+  return DecoratorUtil.getFieldList(target, LIST_KEY)
 }
 
 /**
@@ -55,18 +56,15 @@ export function getTableFieldList(target: DecoratorTarget): string[] {
  * @param target 目标实体类
  * @param keyList 字段列表
  */
-export function getTableConfigList(target: DecoratorTarget, keyList: string[]): ITableFieldConfig[] {
-  return DecoratorUtil.getFieldConfigList<ITableFieldConfig>(target, FIELD_LIST_KEY, FIELD_CONFIG_KEY, keyList)
-    .sort((a, b) => (b.orderNumber || 0) - (a.orderNumber || 0))
+export function getTableConfigList(target: DecoratorTarget, keyList: string[]): ITableColumn[] {
+  if (keyList.length === 0) {
+    keyList = getTableFieldList(target)
+  }
+  const list = keyList.map(key => getTableConfig(target, key))
+  return list.sort((a, b) => (b.order || 0) - (a.order || 0))
     .map((item) => {
       const props = getFieldConfig(target, item.key!)
       item.label = item.label || props.label || item.key
-      if (!item.enums) {
-        const fieldConfig = getFieldConfig(target, item.key!)
-        if (fieldConfig && fieldConfig.enums) {
-          item.enums = fieldConfig.enums
-        }
-      }
       return item
     })
 }

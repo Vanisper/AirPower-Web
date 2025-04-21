@@ -1,12 +1,12 @@
 <script generic="M extends AirModel" lang="ts" setup>
 import type { PropType, Ref } from 'vue'
 import type { AirModel } from '../base/AirModel'
-
 import type { AirFormFieldConfig } from '../config/AirFormFieldConfig'
 import type { IDictionary } from '../interface/IDictionary'
 import type { IJson } from '../interface/IJson'
 import type { ITree } from '../interface/ITree'
 import type { ClassConstructor } from '../type/AirType'
+
 import { CircleClose } from '@element-plus/icons-vue'
 import { computed, ref, useSlots, watch } from 'vue'
 import { AirEntity } from '../base/AirEntity'

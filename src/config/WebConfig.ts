@@ -1,4 +1,4 @@
-import type { WebMoneyDirection } from '../components'
+import type { MoneyDirection } from '../components'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 export class WebConfig {
@@ -21,7 +21,7 @@ export class WebConfig {
   /**
    * ### 金额方向 (向上取、向下取、四舍五入)
    */
-  static moneyDirection: WebMoneyDirection = 'down'
+  static moneyDirection: MoneyDirection = 'down'
 
   /**
    * ### 金额精度

@@ -6,7 +6,7 @@ import type { AirSearchFieldConfig } from '../config/AirSearchFieldConfig'
 import type { AirTableFieldConfig } from '../config/AirTableFieldConfig'
 import type { IUseSelectorOption } from '../interface/hooks/IUseSelectorOption'
 import type { IJson } from '../interface/IJson'
-import type { AirRequestPage } from '../model/AirRequestPage'
+import type { QueryRequestPage } from '../model/QueryRequestPage'
 import type { AirAny, ClassConstructor } from '../type/AirType'
 import { computed, useSlots } from 'vue'
 import { AButton, ADialog, APage, ATable, AToolBar } from '.'
@@ -81,7 +81,7 @@ const props = defineProps<{
    * @param requestData 请求对象
    */
 
-  beforeSearch?: (requestData: AirRequestPage<E>) => AirRequestPage<E> | void
+  beforeSearch?: (requestData: QueryRequestPage<E>) => QueryRequestPage<E> | void
 
   /**
    * # Props参数

@@ -6,8 +6,8 @@ import { ClassTransformer, FileUtil, HttpConfig } from '@airpower/core'
 import { ref } from 'vue'
 import { WebConfig } from '../../config'
 import { WebI18n } from '../../i18n'
-import { FeedbackUtil, WebAccessTokenUtil } from '../../util'
-import { WebDialog } from '../dialog'
+import { AccessTokenUtil, FeedbackUtil } from '../../util'
+import { Dialog } from '../dialog'
 
 const props = defineProps({
   /**
@@ -141,7 +141,7 @@ const loading = ref(false)
  * # 上传的header
  */
 const uploadHeader = ref({
-  Authorization: WebAccessTokenUtil.getAccessToken(),
+  Authorization: AccessTokenUtil.getAccessToken(),
 } as IJson)
 
 if (props.header) {
@@ -213,7 +213,7 @@ function onUploadSuccess(result: IJson) {
 </script>
 
 <template>
-  <WebDialog
+  <Dialog
     :allow-fullscreen="false"
     :confirm-text="confirmText"
     :hide-footer="!confirmText"
@@ -260,7 +260,7 @@ function onUploadSuccess(result: IJson) {
         </div>
       </el-upload>
     </div>
-  </WebDialog>
+  </Dialog>
 </template>
 
 <style lang="scss">

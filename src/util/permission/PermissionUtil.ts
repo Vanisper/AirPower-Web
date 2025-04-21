@@ -1,14 +1,12 @@
-import type { ClassConstructor } from '@airpower/core'
-import type { WebEntity } from '../../base'
+import type { Entity } from '../../base'
 import { WebConfig } from '../../config'
-import { getWebModelConfig } from '../../decorator'
-import { WebPermissionAction } from './WebPermissionAction'
+import { PermissionAction } from './PermissionAction'
 
 /**
  * # 权限标识处理类
  * @author Hamm.cn
  */
-export class WebPermissionUtil {
+export class PermissionUtil {
   /**
    * ### 权限列表
    */
@@ -37,24 +35,24 @@ export class WebPermissionUtil {
    * @param action 权限场景
    * @returns 权限标识
    */
-  static get<E extends WebEntity>(EntityClass: ClassConstructor<E>, action: WebPermissionAction | string): string {
+  static get<E extends Entity>(EntityClass: ClassConstructor<E>, action: PermissionAction | string): string {
     let permission: string | undefined
     const modelConfig = getWebModelConfig(new EntityClass())
-    const actionRecord: Record<WebPermissionAction, string | undefined> = {
-      [WebPermissionAction.ADD]: modelConfig?.addPermission,
-      [WebPermissionAction.DELETE]: modelConfig?.deletePermission,
-      [WebPermissionAction.EDIT]: modelConfig?.editPermission,
-      [WebPermissionAction.DETAIL]: modelConfig?.detailPermission,
-      [WebPermissionAction.ADD_CHILD]: modelConfig?.addChildPermission,
-      [WebPermissionAction.EXPORT]: modelConfig?.exportPermission,
-      [WebPermissionAction.IMPORT]: modelConfig?.importPermission,
-      [WebPermissionAction.DISABLE]: modelConfig?.disablePermission,
-      [WebPermissionAction.ENABLE]: modelConfig?.enablePermission,
+    const actionRecord: Record<PermissionAction, string | undefined> = {
+      [PermissionAction.ADD]: modelConfig?.addPermission,
+      [PermissionAction.DELETE]: modelConfig?.deletePermission,
+      [PermissionAction.EDIT]: modelConfig?.editPermission,
+      [PermissionAction.DETAIL]: modelConfig?.detailPermission,
+      [PermissionAction.ADD_CHILD]: modelConfig?.addChildPermission,
+      [PermissionAction.EXPORT]: modelConfig?.exportPermission,
+      [PermissionAction.IMPORT]: modelConfig?.importPermission,
+      [PermissionAction.DISABLE]: modelConfig?.disablePermission,
+      [PermissionAction.ENABLE]: modelConfig?.enablePermission,
     }
 
     const keys = Object.keys(actionRecord)
     if (keys.includes(action)) {
-      permission = actionRecord[action as WebPermissionAction]
+      permission = actionRecord[action as PermissionAction]
     }
     else {
       permission = action

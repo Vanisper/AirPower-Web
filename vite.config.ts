@@ -8,12 +8,12 @@ export default defineConfig({
     minify: false,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'airpower-web',
+      name: 'main',
       formats: ['es'],
-      fileName: () => `airpower.web.js`,
+      fileName: () => `main.js`,
     },
     rollupOptions: {
-      external: ['@airpower/core', 'vue', 'axios', 'element-plus'],
+      external: ['@airpower/transformer', '@airpower/enum', '@airpower/util', 'vue', 'axios', 'element-plus'],
     },
   },
   plugins: [dts(), vue()],

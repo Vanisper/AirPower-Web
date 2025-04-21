@@ -28,7 +28,7 @@ export interface IElementTableColumn {
   /**
    * ### 列宽度
    */
-  width?: string
+  width?: string | number
 
   /**
    * ### 最小宽度

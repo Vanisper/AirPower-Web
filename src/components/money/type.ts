@@ -1,1 +1,1 @@
-export type WebMoneyDirection = 'up' | 'down' | 'round'
+export type MoneyDirection = 'up' | 'down' | 'round'

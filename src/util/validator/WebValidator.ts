@@ -1,5 +1,5 @@
 import type { AbstractEntityService, ClassConstructor, IJson, RegExpEnum } from '@airpower/core'
-import type { WebEntity } from '../../base'
+import type { Entity } from '../../base'
 import type {
   WebValidateRule,
   WebValidatorCallback,
@@ -83,10 +83,10 @@ export class WebValidator {
    * @param service 接口服务对象
    * @param rules `可选` 表单验证规则
    */
-  static createRules<T extends WebEntity, S extends AbstractEntityService<T>, V extends WebValidator>(
+  static createRules<T extends Entity, S extends AbstractEntityService<T>, V extends WebValidator>(
     this: ClassConstructor<V> & typeof WebValidator,
     service: S,
-    rules: WebValidateRule<T> = {},
+        rules: WebValidateRule<T> = {},
   ) {
     const formRules: IJson = rules
     const entity = ClassTransformer.newInstance(service.entityClass)

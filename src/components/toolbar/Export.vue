@@ -6,9 +6,9 @@ import { airPropsParam } from '../../config/AirProps'
 import { AirFile } from '../../helper/AirFile'
 import { AirHttp } from '../../helper/AirHttp'
 import { AirI18n } from '../../helper/AirI18n'
-import { AirExportModel } from '../../model/AirExportModel'
+import { ExportModel } from '../../model/ExportModel'
 
-const props = defineProps(airPropsParam(new AirExportModel()))
+const props = defineProps(airPropsParam(new ExportModel()))
 
 /**
  * 加载状态
@@ -40,7 +40,7 @@ const exportFilePath = ref('')
 async function startLoop(fileCode: string) {
   clearTimeout(loopTimer)
   try {
-    const exportModel = new AirExportModel()
+    const exportModel = new ExportModel()
     exportModel.fileCode = fileCode
     const downloadPath = (await AirHttp.create(props.param.queryExportUrl)
       .callbackError()

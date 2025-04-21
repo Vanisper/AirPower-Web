@@ -1,1 +1,2 @@
-export * from './WebEntity'
+export * from './Entity'
+export * from './Model'

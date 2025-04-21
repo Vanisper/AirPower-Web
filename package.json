@@ -19,15 +19,14 @@
   },
   "keywords": [
     "AirPower",
-    "AirPower-Core",
     "AirPower-Web",
     "class-transformer",
     "typescript",
     "oop",
     "class"
   ],
-  "main": "dist/airpower.web.js",
-  "module": "dist/airpower.web.js",
+  "main": "dist/main.js",
+  "module": "dist/main.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
@@ -38,13 +37,12 @@
     "lint": "eslint src --ext .ts",
     "preview": "vite preview"
   },
-  "peerDependencies": {
-    "axios": "^1.8.4",
-    "element-plus": "^2.9.7",
-    "vue": "^3.5.13"
-  },
+  "peerDependencies": {},
   "dependencies": {
-    "@airpower/core": "^1.0.3",
+    "@airpower/enum": "^0.0.5",
+    "@airpower/i18n": "^0.0.4",
+    "@airpower/transformer": "^0.1.0",
+    "@airpower/util": "^0.0.3",
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.8.4",
     "element-plus": "^2.9.7",

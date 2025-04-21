@@ -1,6 +1,6 @@
-import WebButton from './WebButton.vue'
+import AButton from './Button.vue'
 
 export * from './type'
 export {
-  WebButton,
+  AButton,
 }

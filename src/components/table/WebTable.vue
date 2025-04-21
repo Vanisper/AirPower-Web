@@ -1,8 +1,9 @@
 <script generic="E extends Entity" lang="ts" setup>
-import type { ClassConstructor, Entity } from '@airpower/core'
-import type { PropType } from 'vue'
-import type { ITableFieldConfig } from '../../decorator'
-import { ClassTransformer } from '@airpower/core'
+import type { ITransformerConstructor } from '@airpower/transformer'
+import type { PropType, Ref } from 'vue'
+import type { Entity } from '../../base'
+import type { ITableColumn } from '../../decorator'
+import { Transformer } from '@airpower/transformer'
 import { ElTable, ElTableColumn } from 'element-plus'
 import { computed } from 'vue'
 import { getTableConfigList } from '../../decorator'
@@ -12,7 +13,7 @@ const props = defineProps({
    * ### 表格列配置
    */
   columns: {
-    type: Array<ITableFieldConfig>,
+    type: Array<ITableColumn>,
   },
 
   /**
@@ -27,7 +28,7 @@ const props = defineProps({
    * ### 表格实体类
    */
   clazz: {
-    type: Function as unknown as PropType<ClassConstructor<E>>,
+    type: Function as unknown as PropType<ITransformerConstructor<E>>,
     required: true,
   },
 
@@ -44,11 +45,11 @@ const props = defineProps({
 /**
  * ### 表格列
  */
-const tableColumns = computed(() => {
+const tableColumns: Ref<Array<ITableColumn>> = computed(() => {
   if (props.columns && props.columns.length > 0) {
     return props.columns
   }
-  const instance = ClassTransformer.newInstance(props.clazz)
+  const instance = Transformer.newInstance(props.clazz)
   return getTableConfigList(instance, [])
 })
 </script>

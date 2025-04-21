@@ -1,4 +1,4 @@
-import type { Entity, IJson } from '@airpower/core'
+import type { IJson } from '@airpower/transformer'
 import type { App, Component } from 'vue'
 import type { IFile } from '../../util'
 import type { IUploadProps } from '../upload'
@@ -110,8 +110,8 @@ export class DialogUtil {
    */
   static async selectList<E extends Entity>(
     view: Component,
-    selectList: E[] = [],
-    param: E | undefined = undefined,
+        selectList: E[] = [],
+        param: E | undefined = undefined,
   ): Promise<E[]> {
     return this.build(view, {
       selectList,

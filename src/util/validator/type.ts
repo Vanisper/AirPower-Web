@@ -1,4 +1,4 @@
-import type { Entity } from '@airpower/core'
+import type { Entity } from '../../base'
 import type { WebValidator } from './WebValidator'
 
 /**

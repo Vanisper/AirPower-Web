@@ -1,7 +1,7 @@
-import WebMoney from './WebMoney.vue'
+import AMoney from './Money.vue'
 
 export * from './type'
 
 export {
-  WebMoney,
+  AMoney,
 }

@@ -6,6 +6,7 @@ import image from '../../assets/img/empty.svg'
 <template>
   <ElEmpty
     :image="image"
+    class="a-empty"
   >
     <slot name="footer" />
     <template #description>
@@ -17,7 +18,7 @@ import image from '../../assets/img/empty.svg'
 </template>
 
 <style lang="scss" scoped>
-.el-empty {
+.a-empty {
   position: absolute;
   left: 0;
   right: 0;

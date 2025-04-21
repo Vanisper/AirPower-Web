@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { WebDialog } from '../src'
+import { Dialog } from '../src'
 </script>
 
 <template>
-  <WebDialog title="用户编辑">
+  <Dialog title="用户编辑">
     123
-  </WebDialog>
+  </Dialog>
 </template>
 
 <style lang="scss" scoped>

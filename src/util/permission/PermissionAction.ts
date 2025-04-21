@@ -2,7 +2,7 @@
  * # 常用权限标识枚举
  * @author Hamm.cn
  */
-export enum WebPermissionAction {
+export enum PermissionAction {
   /**
    * ### 添加
    */

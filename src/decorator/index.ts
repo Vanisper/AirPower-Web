@@ -1,3 +1,3 @@
-export * from './@form'
-export * from './@model'
+export * from './@Form'
+export * from './@Model'
 export * from './@table'

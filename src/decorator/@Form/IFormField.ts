@@ -1,11 +1,11 @@
-import type { EnumConstructor, IField } from '@airpower/core'
+import type { IBaseField } from '../common'
+import type { IEnumField } from '../common/IEnumField'
 
 /**
  * # 表单的字段配置接口
  * @author Hamm.cn
  */
-export interface IFormFieldConfig extends IField {
-
+export interface IFormField extends IBaseField, IEnumField {
   /**
    * ### 最大数字
    * 默认配置 `AirConfig.maxNumber` 仅在 `number` 时有效
@@ -23,19 +23,14 @@ export interface IFormFieldConfig extends IField {
   minLength?: number
 
   /**
-   * ### 排序 越大越靠前
+   * ### 排序 越大越靠上
    */
-  orderNumber?: number
+  order?: number
 
   /**
    * ### 数字输入
    */
   number?: boolean
-
-  /**
-   * ### 字典
-   */
-  enums?: EnumConstructor
 
   /**
    * ### 是否是纯中文

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { DateTimeFormatter, DateTimeUtil } from '@airpower/core'
 import { computed } from 'vue'
-import { WebButton } from '../button'
+import { Button } from '../button'
 
 const props = defineProps({
   /**
@@ -65,14 +65,14 @@ const getDateTimeString = computed(() => {
 </script>
 
 <template>
-  <WebButton icon="CLOCK" link>
+  <Button icon="CLOCK" link>
     {{ getDateTimeString }}
-  </WebButton>
+  </Button>
 </template>
 
 <style lang="scss" scoped>
-.web-friend-datetime,
-.web-friend-datetime * {
+.a-friend-datetime,
+.a-friend-datetime * {
   user-select: none !important;
 }
 </style>

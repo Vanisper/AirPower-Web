@@ -7,7 +7,7 @@ import { Close, FullScreen } from '@element-plus/icons-vue'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { WebI18n } from '../../i18n'
 import { FeedbackUtil } from '../../util'
-import { WebButton } from '../button'
+import { Button } from '../button'
 
 const props = defineProps({
   /**
@@ -470,21 +470,21 @@ async function confirmEvent() {
             class="control"
           >
             <slot name="leftCtrl" />
-            <WebButton
+            <Button
               v-if="!hideConfirm"
               :disabled="disableConfirm || loading"
               primary
               @click="confirmEvent"
             >
               {{ confirmText }}
-            </WebButton>
+            </Button>
             <slot name="middleButton" />
-            <WebButton
+            <Button
               v-if="showCancel"
               @click="emits('cancel')"
             >
               {{ cancelText }}
-            </WebButton>
+            </Button>
           </div>
         </div>
       </div>

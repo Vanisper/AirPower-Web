@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DesensitizeType, DesensitizeUtil } from '@airpower/core'
+import { DesensitizeType } from '@airpower/util'
 import { Hide, View } from '@element-plus/icons-vue'
 import { ElIcon } from 'element-plus'
 import { computed, ref } from 'vue'
@@ -68,7 +68,7 @@ const desensitized = computed(() => {
 </script>
 
 <template>
-  <div class="web-desensitize">
+  <div class="a-desensitize">
     <ElIcon
       :class="!isDesensitize ? 'desensitize' : ''"
       class="icon"
@@ -82,7 +82,7 @@ const desensitized = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-.web-desensitize {
+.a-desensitize {
   display: flex !important;
   flex-direction: row;
   align-items: center;

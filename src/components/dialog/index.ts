@@ -1,5 +1,7 @@
-import WebDialog from './WebDialog.vue'
+import ADialog from './Dialog.vue'
 
 export {
-  WebDialog,
+  ADialog,
 }
+
+export * from './DialogUtil'

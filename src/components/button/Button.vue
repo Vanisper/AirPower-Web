@@ -5,7 +5,7 @@ import { Clock, Delete, DocumentCopy, Edit, Plus } from '@element-plus/icons-vue
 import { ElButton } from 'element-plus'
 import { computed } from 'vue'
 import { WebConfig } from '../../config'
-import { WebPermissionUtil } from '../../util'
+import { PermissionUtil } from '../../util'
 
 const props = defineProps({
   /**
@@ -63,7 +63,7 @@ const isDisabled = computed(() => {
     return true
   }
   if (props.permission) {
-    return !WebPermissionUtil.has(props.permission) && !WebConfig.disablePermission
+    return !PermissionUtil.has(props.permission) && !WebConfig.disablePermission
   }
   return false
 })

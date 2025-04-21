@@ -1,5 +1,5 @@
-import WebDateTime from './WebDateTime.vue'
+import ADateTime from './DateTime.vue'
 
 export {
-  WebDateTime,
+  ADateTime,
 }

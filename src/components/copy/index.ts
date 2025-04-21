@@ -1,5 +1,5 @@
-import WebCopy from './WebCopy.vue'
+import ACopy from './Copy.vue'
 
 export {
-  WebCopy,
+  ACopy,
 }

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import type { WebMoneyDirection } from './type'
+import type { MoneyDirection } from './type'
 import { computed } from 'vue'
 import { WebConfig } from '../../config'
-import { WebCopy } from '../copy'
+import { Copy } from '../copy'
 
 const props = defineProps({
   /**
@@ -36,7 +36,7 @@ const props = defineProps({
    * 默认为 `WebConfig.moneyDirection`
    */
   direction: {
-    type: String as PropType<WebMoneyDirection>,
+    type: String as PropType<MoneyDirection>,
     default: WebConfig.moneyDirection,
   },
 })
@@ -65,9 +65,9 @@ const showMoney = computed(() => {
     <div class="prefix">
       {{ props.prefix }}
     </div>
-    <WebCopy :content="showMoney" hide-icon>
+    <Copy :content="showMoney" hide-icon>
       {{ showMoney }}
-    </WebCopy>
+    </Copy>
   </div>
 </template>
 

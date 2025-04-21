@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { WebDateTime, WebDesensitize, WebMoney, WebPanel, WebPermissionUtil } from '../src'
+import { AMoney, DateTime, PermissionUtil, WebDesensitize, WebPanel } from '../src'
 import { WebConfig } from '../src/config'
 import { User } from './User'
 
 WebConfig.autoPermissionPrefix = true
 
 async function init() {
-  console.log(WebPermissionUtil.get(User, 'add'))
+  console.log(PermissionUtil.get(User, 'add'))
 }
 
 init()
@@ -14,9 +14,9 @@ init()
 
 <template>
   <WebPanel title="车上">
-    <WebDateTime :milli-second="new Date().valueOf() - 961238200" is-friendly />
+    <DateTime :milli-second="new Date().valueOf() - 961238200" is-friendly />
     <WebDesensitize :head="2" :tail="6" content="17666666666" />
-    <WebMoney :money="1234.5678" />
+    <AMoney :money="1234.5678" />
   </WebPanel>
 </template>
 
