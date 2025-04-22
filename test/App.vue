@@ -1,23 +1,19 @@
 <script lang="ts" setup>
-import { AMoney, DateTime, PermissionUtil, WebDesensitize, WebPanel } from '../src'
-import { WebConfig } from '../src/config'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
+import { ATable } from '../src'
 import { User } from './User'
 
-WebConfig.autoPermissionPrefix = true
-
-async function init() {
-  console.log(PermissionUtil.get(User, 'add'))
+const list: Ref<User[]> = ref([])
+for (let i = 1; i < 10; i++) {
+  const user = new User()
+  user.name = `Hamm-${i}`
+  list.value.push(user)
 }
-
-init()
 </script>
 
 <template>
-  <WebPanel title="车上">
-    <DateTime :milli-second="new Date().valueOf() - 961238200" is-friendly />
-    <WebDesensitize :head="2" :tail="6" content="17666666666" />
-    <AMoney :money="1234.5678" />
-  </WebPanel>
+  <ATable :data-list="list" :entity="User" />
 </template>
 
 <style lang="scss" scoped>

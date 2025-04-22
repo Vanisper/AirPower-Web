@@ -10,7 +10,7 @@ export class DialogProps {
   /**
    * ### 使用无参 `DialogProps` 配置
    */
-  static noParam() {
+  static create() {
     return {
       /**
        * ### 弹窗的确认按钮被点击事件
@@ -51,7 +51,7 @@ export class DialogProps {
    * @param value `可选` 默认参数
    */
   static withParam<P>(value: P | null = null) {
-    return Object.assign(this.noParam(), {
+    return Object.assign(this.create(), {
       /**
        * ### 父窗体弹出当前窗体时传入的参数
        */

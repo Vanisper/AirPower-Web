@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import type { IJson } from '@airpower/core'
+import type { IJson } from '@airpower/transformer'
 import type { FormInstance } from 'element-plus'
 import type { PropType } from 'vue'
-import type { WebValidator } from '../../util/validator'
+import type { WebValidator } from '../../util'
 import { Close, FullScreen } from '@element-plus/icons-vue'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { WebI18n } from '../../i18n'
 import { FeedbackUtil } from '../../util'
-import { Button } from '../button'
+import { AButton } from '../button'
 
 const props = defineProps({
   /**
@@ -470,21 +470,21 @@ async function confirmEvent() {
             class="control"
           >
             <slot name="leftCtrl" />
-            <Button
+            <AButton
               v-if="!hideConfirm"
               :disabled="disableConfirm || loading"
               primary
               @click="confirmEvent"
             >
               {{ confirmText }}
-            </Button>
+            </AButton>
             <slot name="middleButton" />
-            <Button
+            <AButton
               v-if="showCancel"
               @click="emits('cancel')"
             >
               {{ cancelText }}
-            </Button>
+            </AButton>
           </div>
         </div>
       </div>

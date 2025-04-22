@@ -1,4 +1,4 @@
-import ADesensitize from './WebDesensitize.vue'
+import ADesensitize from './Desensitize.vue'
 
 export {
   ADesensitize,

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { WarningFilled } from '@element-plus/icons-vue'
 import { ACopy, ADialog, AQrcode } from '..'
-import { airPropsParam } from '../../config/AirProps'
+import { DialogProps } from '../dialog/DialogProps'
 
 const props = defineProps({
-  ...airPropsParam(''),
+  ...DialogProps.withParam(''),
 
   /**
    * # 💡提示

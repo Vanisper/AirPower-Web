@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DateTimeFormatter, DateTimeUtil } from '@airpower/core'
+import { DateTimeFormatter, DateTimeUtil } from '@airpower/util'
 import { computed } from 'vue'
 import { AButton } from '../button'
 

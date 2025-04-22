@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DesensitizeType } from '@airpower/util'
+import { DesensitizeType, DesensitizeUtil } from '@airpower/util'
 import { Hide, View } from '@element-plus/icons-vue'
 import { ElIcon } from 'element-plus'
 import { computed, ref } from 'vue'

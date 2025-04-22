@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import QrcodeVue from 'src/components/qrcode/Qrcode.vue'
+import QrcodeVue from 'qrcode.vue'
 import { ref, watch } from 'vue'
 
 const props = defineProps({

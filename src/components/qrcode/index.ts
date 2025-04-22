@@ -1,4 +1,4 @@
-import AQrcode from './Qrcode'
+import AQrcode from './Qrcode.vue'
 
 export {
   AQrcode,

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Component, PropType, Ref } from 'vue'
 import type { ButtonIcon } from './type'
-import { Clock, Delete, DocumentCopy, Edit, Plus } from '@element-plus/icons-vue'
+import { Clock, Delete, DocumentCopy, Edit, Plus, Setting } from '@element-plus/icons-vue'
 import { ElButton } from 'element-plus'
 import { computed } from 'vue'
 import { WebConfig } from '../../config'
@@ -83,6 +83,8 @@ const icon: Ref<Component | string> = computed(() => {
       return Delete
     case 'COPY':
       return DocumentCopy
+    case 'SETTING':
+      return Setting
     default:
       return ''
   }
