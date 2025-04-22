@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import { ATable } from '../src'
+import { APanel, ATable } from '../src'
 import { User } from './User'
 
 const list: Ref<User[]> = ref([])
@@ -13,7 +13,9 @@ for (let i = 1; i < 10; i++) {
 </script>
 
 <template>
-  <ATable :data-list="list" :entity="User" />
+  <APanel title="哈哈">
+    <ATable :data-list="list" :entity="User" show-add-row />
+  </APanel>
 </template>
 
 <style lang="scss" scoped>

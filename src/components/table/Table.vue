@@ -6,13 +6,13 @@ import type { RootEntity } from '../../base'
 import type { IModelConfig, ITableColumn } from '../../decorator'
 import { Transformer } from '@airpower/transformer'
 import { DateTimeFormatter } from '@airpower/util'
-import { ElMessageBox, ElTable, ElTableColumn } from 'element-plus'
+import { ElLink, ElMessageBox, ElTable, ElTableColumn } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 import { getModelConfig } from '../../decorator'
 import { WebI18n } from '../../i18n'
 import { QuerySort } from '../../model'
 import { PermissionAction, PermissionUtil } from '../../util'
-import { AButton, ADateTime } from '../index'
+import { ADateTime } from '../index'
 import { ColumnSelector, CopyColumn, EnumColumn } from './column/'
 import { useTableColumn } from './useTableColumn'
 import { useTableSelect } from './useTableSelect'
@@ -254,9 +254,9 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示添加按钮
+   * # 是否显示行添加按钮
    */
-  showAdd: {
+  showAddRow: {
     type: Boolean,
     default: false,
   },
@@ -633,66 +633,66 @@ watch(
               name="customRow"
             />
             <template v-if="!hideCtrl">
-              <AButton
-                v-if="showAdd"
+              <ElLink
+                v-if="showAddRow"
                 :disabled="isAddDisabled(getRowEntity(scope))"
                 :permission="addPermission || PermissionUtil.get(entity, PermissionAction.ADD_CHILD)"
-                link
-                type="ADD"
+                :underline="false"
                 @click="emits('add', getRowEntity(scope))"
               >
                 {{ WebI18n.get().Add }}
-              </AButton>
-              <AButton
+              </ElLink>
+              <ElLink
                 v-if="!props.hideEdit"
                 :disabled="isEditDisabled(getRowEntity(scope))"
                 :permission="editPermission || PermissionUtil.get(entity, PermissionAction.EDIT)"
-                type="EDIT"
+                :underline="false"
+                type="primary"
                 @click="emits('edit', getRowEntity(scope))"
               >
                 {{ WebI18n.get().Update }}
-              </AButton>
-              <AButton
+              </ElLink>
+              <ElLink
                 v-if="showDetail"
                 :disabled="isDetailDisabled(getRowEntity(scope))"
                 :permission="detailPermission || PermissionUtil.get(entity, PermissionAction.DETAIL)"
-                type="DETAIL"
+                :underline="false"
                 @click="emits('detail', getRowEntity(scope))"
               >
                 {{ WebI18n.get().Detail }}
-              </AButton>
+              </ElLink>
               <template
                 v-if="showEnableAndDisable "
               >
-                <AButton
+                <ElLink
                   v-if="getRowEntity(scope).isDisabled"
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
                   :permission="enablePermission || PermissionUtil.get(entity, PermissionAction.ENABLE)"
-                  type="CLOSE"
+                  :underline="false"
                   @click="emits('enable', getRowEntity(scope))"
                 >
                   {{ WebI18n.get().Enable }}
-                </AButton>
-                <AButton
+                </ElLink>
+                <ElLink
                   v-else
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
                   :permission="disablePermission || PermissionUtil.get(entity, PermissionAction.ENABLE)"
-                  type="CLOSE"
+                  :underline="false"
                   @click="emits('disable', getRowEntity(scope))"
                 >
                   {{ WebI18n.get().Disable }}
-                </AButton>
+                </ElLink>
               </template>
-              <AButton
+              <ElLink
                 v-if="!hideDelete"
                 :disabled="isDeleteDisabled(getRowEntity(scope))"
                 :permission="deletePermission || PermissionUtil.get(entity, PermissionAction.DELETE)"
-                danger
-                type="DELETE"
+                :underline="false"
+                type="danger"
                 @click="handleDelete(getRowEntity(scope))"
               >
                 {{ WebI18n.get().Delete }}
-              </AButton>
+              </ElLink>
             </template>
             <!-- 自定义操作列后置插槽 -->
             <slot
@@ -838,31 +838,10 @@ watch(
       display: flex;
       padding-right: 8px;
 
-      .el-button--default {
-        font-weight: normal;
-        color: var(--primary-color);
-      }
-
-      .el-button + .el-button {
-        margin-left: 0;
-      }
-
-      .el-link.is-underline:hover:after {
-        border-bottom: none;
-      }
-
       .el-link {
-        font-size: 16px;
-        padding: 0 5px;
+        user-select: none;
+        padding: 0 3px;
       }
-
-      .el-link:not(.el-link--danger) {
-        --el-link-text-color: var(--label-color);
-      }
-    }
-
-    .ctrlRow + .el-button {
-      margin-left: 12px;
     }
   }
 }
