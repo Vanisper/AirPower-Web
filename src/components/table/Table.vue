@@ -1,27 +1,37 @@
-<script generic="E extends RootEntity" lang="ts" setup>
+<script generic="E extends RootEntity, S extends AbstractCurdService<E>" lang="ts" setup>
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { TableInstance } from 'element-plus'
-import type { PropType } from 'vue'
+import type { ComputedRef, PropType, Ref } from 'vue'
 import type { RootEntity } from '../../base'
-import type { IModelConfig, ITableColumn } from '../../decorator'
+import type { AbstractCurdService, CurdServiceConstructor } from '../../curd'
+import type { IModelConfig, ISearchField, ITableColumn } from '../../decorator'
+import type { QueryRequest } from '../../model'
+import type { IFile } from '../../util'
 import { Transformer } from '@airpower/transformer'
 import { DateTimeFormatter } from '@airpower/util'
-import { ElLink, ElMessageBox, ElTable, ElTableColumn } from 'element-plus'
+import { ElInput, ElLink, ElMessageBox, ElOption, ElSelect, ElTable, ElTableColumn } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
-import { getModelConfig } from '../../decorator'
+import { WebConfig } from '../../config'
+import { getModelConfig, getSearchConfigList } from '../../decorator'
 import { WebI18n } from '../../i18n'
-import { QuerySort } from '../../model'
-import { PermissionAction, PermissionUtil } from '../../util'
-import { ADateTime } from '../index'
-import { ColumnSelector, CopyColumn, EnumColumn } from './column/'
+import { ExportModel, QueryRequestPage, QuerySort } from '../../model'
+import { FeedbackUtil, Http, PermissionAction, PermissionUtil } from '../../util'
+import { AButton, ADateTime, DialogUtil } from '../index'
+import { ColumnSelector, CopyColumn, EnumColumn } from './component'
+import { useTableButton } from './useTableButton'
 import { useTableColumn } from './useTableColumn'
 import { useTableSelect } from './useTableSelect'
 
 const props = defineProps({
-
+  /**
+   * # 隐藏添加按钮
+   */
+  hideAdd: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * # 行尾编辑按钮的权限标识
-   * 如不传入 则默认使用 `EntityConfig` 的 `editPermission` 配置
    */
   editPermission: {
     type: String,
@@ -30,7 +40,6 @@ const props = defineProps({
 
   /**
    * # 行尾禁用按钮的权限标识
-   * 如不传入 则默认使用 `EntityConfig` 的 `disablePermission` 配置
    */
   disablePermission: {
     type: String,
@@ -39,7 +48,6 @@ const props = defineProps({
 
   /**
    * # 行尾启用按钮的权限标识
-   * 如不传入 则默认使用 `EntityConfig` 的 `enablePermission` 配置
    */
   enablePermission: {
     type: String,
@@ -48,7 +56,6 @@ const props = defineProps({
 
   /**
    * # 行尾详情按钮的权限标识
-   * 如不传入 则默认使用 `EntityConfig` 的 `detailPermission` 配置
    */
   detailPermission: {
     type: String,
@@ -57,7 +64,6 @@ const props = defineProps({
 
   /**
    * # 行尾删除按钮的权限标识
-   * 如不传入 则默认使用 `EntityConfig` 的 `deletePermission` 配置
    */
   deletePermission: {
     type: String,
@@ -66,9 +72,32 @@ const props = defineProps({
 
   /**
    * # 行尾添加按钮的权限标识
-   * 如不传入 则默认使用 `EntityConfig` 的 `addChildPermission` 配置
+   */
+  addRowPermission: {
+    type: String,
+    default: undefined,
+  },
+
+  /**
+   * # 左侧添加按钮的权限标识
    */
   addPermission: {
+    type: String,
+    default: undefined,
+  },
+
+  /**
+   * # 右侧导出按钮的权限标识
+   */
+  exportPermission: {
+    type: String,
+    default: undefined,
+  },
+
+  /**
+   * # 左侧导入按钮的权限标识
+   */
+  importPermission: {
     type: String,
     default: undefined,
   },
@@ -125,7 +154,7 @@ const props = defineProps({
   /**
    * # 控制是否禁用行内添加按钮的回调方法
    */
-  disableAdd: {
+  disableAddRow: {
     type: Function as PropType<(row: E) => boolean>,
     default: null,
   },
@@ -292,17 +321,114 @@ const props = defineProps({
     type: Function as unknown as PropType<ITransformerConstructor<E>>,
     required: true,
   },
+
+  /**
+   * # 是否显示导入按钮
+   * - `import-url` `可选` 导入的API接口地址
+   * - `import-title` `可选` 指定上传框的标题
+   */
+  showImport: {
+    type: Boolean,
+    default: false,
+  },
+
+  /**
+   * # 导入上传的标题
+   * 默认按传入的 `service` 自动生成
+   */
+  importTitle: {
+    type: String,
+    default: undefined,
+  },
+
+  /**
+   * # 导出的请求参数
+   */
+  exportParam: {
+    type: Object as PropType<QueryRequest>,
+    default: undefined,
+  },
+
+  /**
+   * # 是否显示导出按钮
+   * 如传入 则需要再传入 `:service`
+   */
+  showExport: {
+    type: Boolean,
+    default: false,
+  },
+
+  /**
+   * # 接口服务类
+   */
+  service: {
+    type: Function as unknown as PropType<CurdServiceConstructor<E, S>>,
+    required: undefined,
+  },
+
+  /**
+   * # 默认的筛选器
+   */
+  defaultFilter: {
+    type: Object as PropType<E>,
+    default: undefined,
+  },
+
+  /**
+   * # 搜索的对象
+   * 则覆盖自动生成的条件
+   */
+  searchParams: {
+    type: Array<ISearchField>,
+    default: undefined,
+  },
+
+  /**
+   * # 导入接口地址
+   * 默认按传入的 `service` 自动生成
+   */
+  importUrl: {
+    type: String,
+    default: undefined,
+  },
+
+  /**
+   * # 导入模板下载地址
+   * 默认按传入的 `service` 自动生成
+   */
+  importTemplateUrl: {
+    type: String,
+    default: undefined,
+  },
+
+  /**
+   * # 导入的文件实体类
+   */
+  fileEntity: {
+    type: Function as unknown as PropType<ITransformerConstructor<IFile & RootEntity>>,
+    default: undefined,
+  },
 })
 const emits = defineEmits<{
+  add: []
   detail: [row: E]
   delete: [row: E]
   edit: [row: E]
   selectChanged: [list: E[]]
-  add: [row: E]
+  addRow: [row: E]
   sortChanged: [sort?: QuerySort]
   disable: [row: E]
   enable: [row: E]
+  search: [request: QueryRequestPage<E>]
 }>()
+
+/**
+ * # 暴露一个重置搜索的方法
+ */
+defineExpose({
+  resetSearch: onReset,
+  search: onSearch,
+})
 
 /**
  * 表格dom
@@ -317,7 +443,7 @@ const tableId: string = `table_${Math.random()}`
 /**
  * # Entity的实例
  */
-const entityInstance = computed(() => Transformer.newInstance(props.entity))
+const entityInstance = Transformer.newInstance(props.entity)
 
 /**
  * # 内部使用的配置
@@ -330,7 +456,7 @@ const {
   updateSelectKeys,
   showColumnList,
 } = useTableColumn({
-  entityInstance: entityInstance.value,
+  entityInstance,
   customColumns: props.columnList,
   hideColumnSelector: props.hideColumnSelector,
   modelConfig,
@@ -344,12 +470,33 @@ const {
   selectList: props.selectList,
 })
 
-const isAddDisabled = (row: E) => (props.disableAdd ? props.disableAdd(row) : false)
-const isDisableChangeStatus = (row: E) => (props.disableChangeStatus ? props.disableChangeStatus(row) : false)
-const isDeleteDisabled = (row: E) => (props.disableDelete ? props.disableDelete(row) : false)
-const isDetailDisabled = (row: E) => (props.disableDetail ? props.disableDetail(row) : false)
-const isEditDisabled = (row: E) => (props.disableEdit ? props.disableEdit(row) : false)
-const isSelectable = (row: E) => (props.selectable ? props.selectable(row) : true)
+const {
+  isAddRowDisabled,
+  isSelectable,
+  isEditDisabled,
+  isDetailDisabled,
+  isDisableChangeStatus,
+  isDeleteDisabled,
+} = useTableButton({
+  entityClass: props.entity,
+  editPermission: props.editPermission,
+  deletePermission: props.deletePermission,
+  addRowPermission: props.addRowPermission,
+  disablePermission: props.disablePermission,
+  enablePermission: props.enablePermission,
+  detailPermission: props.detailPermission,
+  disableAddRow: props.disableAddRow,
+  disableDelete: props.disableDelete,
+  disableEdit: props.disableEdit,
+  disableChangeStatus: props.disableChangeStatus,
+  selectable: props.selectable,
+  isAddDisabled: props.disableAddRow,
+})
+
+/**
+ * # 高级搜索字段列表
+ */
+const searchFieldList: ComputedRef<ISearchField[]> = computed(() => props.searchParams || getSearchConfigList(entityInstance))
 
 /**
  * # 获取字符串值
@@ -360,6 +507,27 @@ function getStringValue(data: string | number | object | undefined | null): stri
     return ''
   }
   return data.toString()
+}
+
+/**
+ * # 查询对象
+ */
+const request = ref(new QueryRequestPage(props.entity)) as Ref<QueryRequestPage<E>>
+
+/**
+ * # 导出方法
+ */
+function onExport() {
+  if (!props.service) {
+    FeedbackUtil.toastError('请先传入 service 参数')
+    return
+  }
+  const service = Transformer.newInstance(props.service)
+  const exportModel = new ExportModel()
+  exportModel.param = request.value
+  exportModel.createExportTaskUrl = `${service.baseUrl}${WebConfig.exportUrl}`
+  exportModel.queryExportUrl = `${service.baseUrl}${WebConfig.exportQueryUrl}`
+  DialogUtil.createExportTask(exportModel)
 }
 
 /**
@@ -509,6 +677,117 @@ watch(
     })
   },
 )
+
+/**
+ * # 获取API地址
+ * @param url
+ */
+function getApiUrl(url: string): string {
+  if (url.includes(Http.PREFIX_HTTP) || url.includes(Http.PREFIX_HTTPS)) {
+    return url
+  }
+  return WebConfig.apiUrl + url
+}
+
+/**
+ * # 导入
+ */
+async function onImport() {
+  let url = props.importUrl
+  if (!url) {
+    if (!props.service) {
+      FeedbackUtil.toastError('请先传入 service 参数')
+      return
+    }
+    const service = Transformer.newInstance(props.service)
+    url = `${service.baseUrl}/${WebConfig.importUrl}`
+    url = getApiUrl(url)
+  }
+  if (!props.fileEntity) {
+    FeedbackUtil.toastError('请先传入 fileEntity 参数')
+    return
+  }
+  await DialogUtil.showUpload(
+    {
+      uploadUrl: url,
+      extensions: ['xls', 'xlsx'],
+      title: props.importTitle || WebI18n.get().Import,
+      uploadSuccess: WebI18n.get().ImportSuccess,
+      confirmText: WebI18n.get().DownloadTemplate,
+      entity: props.fileEntity,
+    },
+    () => {
+      onDownloadTemplate()
+    },
+  )
+  onReset()
+}
+
+/**
+ * # 为URL拼接AccessToken
+ * @param url
+ */
+function getUrlWithAccessToken(url: string): string {
+  const accessToken = WebConfig.getAccessToken()
+  const tempString = `${WebConfig.authorizationHeaderKey}=`
+  if (url.includes(`?${tempString}`) || url.includes((`&${tempString}`))) {
+    return url
+  }
+  if (url.includes('?')) {
+    return `&${WebConfig.authorizationHeaderKey}=${accessToken}`
+  }
+  return `?${WebConfig.authorizationHeaderKey}=${accessToken}`
+}
+
+/**
+ * # 下载导入的模板
+ */
+function onDownloadTemplate() {
+  let url = props.importTemplateUrl
+  if (url) {
+    window.open(WebConfig.apiUrl + getUrlWithAccessToken(url))
+    return
+  }
+  if (!props.service) {
+    FeedbackUtil.toastError('请先传入 service 参数')
+    return
+  }
+  const service = Transformer.newInstance(props.service)
+  url = `${service.baseUrl}/${WebConfig.importTemplateUrl}`
+  url = getApiUrl(url)
+  window.open(getUrlWithAccessToken(url))
+}
+
+const searchFilter = ref(entityInstance.copy())
+
+function onReset() {
+  if (props.defaultFilter) {
+    searchFilter.value = props.defaultFilter
+  }
+  else {
+    searchFilter.value = entityInstance.copy()
+  }
+  request.value = new QueryRequestPage(props.entity)
+  request.value.exclude('filter')
+}
+
+/**
+ * # 查询事件
+ */
+function onSearch() {
+  request.value = new QueryRequestPage(props.entity)
+  const keys = Object.keys(searchFilter.value)
+  keys.forEach((key) => {
+    if (searchFilter.value[key] === '') {
+      searchFilter.value[key] = undefined
+    }
+  })
+  request.value.filter = searchFilter.value.copy()
+  if (request.value.page) {
+    request.value.page.pageNum = 1
+  }
+  emits('search', request.value)
+}
 </script>
 
 <template>
@@ -518,10 +797,83 @@ watch(
   >
     <div class="a-table-toolbar">
       <div class="a-table-toolbar-left">
-        <slot name="left" />
+        <slot name="left">
+          <slot name="beforeButton" />
+          <AButton
+            v-if="props.entity && !hideAdd"
+            :permission="addPermission || PermissionUtil.get(entity, PermissionAction.ADD)"
+            icon="ADD"
+            primary
+            @click="emits('add')"
+          >
+            {{ modelConfig.addTitle || WebI18n.get().Add }}
+          </AButton>
+          <AButton
+            v-if="showImport"
+            :permission="importPermission || PermissionUtil.get(entity, PermissionAction.IMPORT)"
+            icon="IMPORT"
+            @click="onImport()"
+          >
+            {{ WebI18n.get().Import }}
+          </AButton>
+          <slot name="afterButton" />
+        </slot>
       </div>
       <div class="a-table-toolbar-right">
-        <slot name="right" />
+        <slot name="beforeSearch" />
+        <template
+          v-for="item in searchFieldList"
+          :key="item.key"
+        >
+          <div
+            v-if="!item.hide"
+            :style="{ width: `${item.width || 160}px` }"
+            class="a-table-toolbar-search-item"
+          >
+            <slot
+              :data="searchFilter"
+              :name="item.key"
+            >
+              <ElSelect
+                v-if="item.dictionary"
+                v-model="searchFilter[item.key!]"
+                :clearable="item.clearable !== false"
+                :filterable="item.filterable"
+                :placeholder="`${item.label}...`"
+                @change="onSearch()"
+                @clear="searchFilter[item.key!] = undefined"
+              >
+                <template v-for="enumItem of item.dictionary.toArray()">
+                  <ElOption
+                    v-if="!enumItem.disabled"
+                    :key="enumItem.key.toString()"
+                    :label="enumItem.label"
+                    :value="enumItem.key"
+                  />
+                </template>
+              </ElSelect>
+              <ElInput
+                v-else
+                v-model="searchFilter[item.key!]"
+                :clearable="item.clearable !== false"
+                :placeholder="`${item.label}...`"
+                @blur="onSearch()"
+                @clear="onSearch"
+                @keydown.enter="onSearch"
+              />
+            </slot>
+          </div>
+        </template>
+        <AButton
+          v-if="showExport"
+          :permission="exportPermission || PermissionUtil.get(entity, PermissionAction.EXPORT)"
+          custom-class="export-button"
+          icon="EXPORT"
+          @click="onExport()"
+        >
+          {{ WebI18n.get().Export }}
+        </AButton>
+        <slot name="afterSearch" />
         <ColumnSelector
           v-if="isColumnSelectorEnabled"
           :column-list="allColumnList"
@@ -591,7 +943,6 @@ watch(
                 :time="getValue(scope, item.key)"
               />
               <CopyColumn v-else-if="item.copy" :column="item" :data="scope.row" />
-              <!-- 图片字段 -->
               <template v-else>
                 <div
                   :class="item.nowrap ? 'nowrap' : ''"
@@ -635,17 +986,15 @@ watch(
             <template v-if="!hideCtrl">
               <ElLink
                 v-if="showAddRow"
-                :disabled="isAddDisabled(getRowEntity(scope))"
-                :permission="addPermission || PermissionUtil.get(entity, PermissionAction.ADD_CHILD)"
+                :disabled="isAddRowDisabled(getRowEntity(scope))"
                 :underline="false"
-                @click="emits('add', getRowEntity(scope))"
+                @click="emits('addRow', getRowEntity(scope))"
               >
                 {{ WebI18n.get().Add }}
               </ElLink>
               <ElLink
                 v-if="!props.hideEdit"
                 :disabled="isEditDisabled(getRowEntity(scope))"
-                :permission="editPermission || PermissionUtil.get(entity, PermissionAction.EDIT)"
                 :underline="false"
                 type="primary"
                 @click="emits('edit', getRowEntity(scope))"
@@ -655,7 +1004,6 @@ watch(
               <ElLink
                 v-if="showDetail"
                 :disabled="isDetailDisabled(getRowEntity(scope))"
-                :permission="detailPermission || PermissionUtil.get(entity, PermissionAction.DETAIL)"
                 :underline="false"
                 @click="emits('detail', getRowEntity(scope))"
               >
@@ -667,7 +1015,6 @@ watch(
                 <ElLink
                   v-if="getRowEntity(scope).isDisabled"
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
-                  :permission="enablePermission || PermissionUtil.get(entity, PermissionAction.ENABLE)"
                   :underline="false"
                   @click="emits('enable', getRowEntity(scope))"
                 >
@@ -676,7 +1023,6 @@ watch(
                 <ElLink
                   v-else
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
-                  :permission="disablePermission || PermissionUtil.get(entity, PermissionAction.ENABLE)"
                   :underline="false"
                   @click="emits('disable', getRowEntity(scope))"
                 >
@@ -686,7 +1032,6 @@ watch(
               <ElLink
                 v-if="!hideDelete"
                 :disabled="isDeleteDisabled(getRowEntity(scope))"
-                :permission="deletePermission || PermissionUtil.get(entity, PermissionAction.DELETE)"
                 :underline="false"
                 type="danger"
                 @click="handleDelete(getRowEntity(scope))"
@@ -731,12 +1076,24 @@ watch(
 
     .a-table-toolbar-left {
       flex: 1;
+
+      .el-button + .el-button {
+        margin-left: 5px;
+      }
     }
 
     .a-table-toolbar-right {
       flex: 1;
       display: flex;
       justify-content: flex-end;
+
+      .el-button + .el-button {
+        margin-left: 5px;
+      }
+
+      .a-table-toolbar-search-item {
+        margin-right: 5px;
+      }
     }
   }
 

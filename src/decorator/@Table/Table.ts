@@ -1,5 +1,6 @@
+import type { EnumKey } from '@airpower/enum/dist/enum/type'
 import type { DecoratorTarget } from '@airpower/transformer'
-import type { RootModel } from '../../base'
+import type { WebEnum } from '../../enum'
 import type { ITableColumn } from './ITableColumn'
 import { DecoratorUtil } from '@airpower/transformer'
 import { getFieldConfig } from '../@Field'
@@ -18,7 +19,10 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[TableList]`
  * ### 为属性标记是表格字段
  * @param config 表格列的配置
  */
-export function Table(config: ITableColumn = {}) {
+export function Table<
+  K extends EnumKey = EnumKey,
+  E extends WebEnum<K> = WebEnum<K>,
+>(config: ITableColumn<K, E> = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
     return DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
@@ -31,7 +35,7 @@ export function Table(config: ITableColumn = {}) {
  * @param key 属性名
  */
 export function getTableConfig(target: DecoratorTarget, key: string): ITableColumn {
-  const tableConfig: ITableColumn | null = DecoratorUtil.getFieldConfig(target, key, KEY, true)
+  const tableConfig = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!tableConfig) {
     return {}
   }
@@ -57,7 +61,7 @@ export function getTableFieldList(target: DecoratorTarget): string[] {
  * @param target 目标实体类
  * @param keyList 字段列表
  */
-export function getTableConfigList<M extends RootModel | never = never>(target: DecoratorTarget, keyList: string[] = []): Array<ITableColumn<M>> {
+export function getTableConfigList(target: DecoratorTarget, keyList: string[] = []): Array<ITableColumn> {
   if (keyList.length === 0) {
     keyList = getTableFieldList(target)
   }

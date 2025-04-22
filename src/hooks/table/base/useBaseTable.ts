@@ -110,7 +110,7 @@ export function useBaseTable<E extends RootEntity, S extends AbstractCurdService
    */
   async function onAdd() {
     if (!option.editView) {
-      FeedbackUtil.alertError('请为 useAirTableList 的 option 传入 editView')
+      FeedbackUtil.toastError('请为 useAirTableList 的 option 传入 editView')
       return
     }
     try {
@@ -127,7 +127,7 @@ export function useBaseTable<E extends RootEntity, S extends AbstractCurdService
    */
   async function onDetail(row: E) {
     if (!option.detailView) {
-      FeedbackUtil.alertError('请为 useAirTableList 的 option 传入 detailView')
+      FeedbackUtil.toastError('请为 useAirTableList 的 option 传入 detailView')
       return
     }
     try {

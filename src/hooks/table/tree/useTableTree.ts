@@ -34,7 +34,7 @@ export function useTableTree<E extends ITree<E> & RootEntity, S extends Abstract
    */
   async function onAddRow(row: E) {
     if (!option.editView) {
-      FeedbackUtil.alertError('请为 useAirTableList 的 option 传入 editor')
+      FeedbackUtil.toastError('请为 useAirTableList 的 option 传入 editor')
       return
     }
     try {

@@ -1,10 +1,10 @@
-<script generic="T extends ITree" lang="ts" setup="props">
+<script generic="T extends ITree<T> & RootEntity" lang="ts" setup="props">
+import type { TreeInstance } from 'element-plus'
 import type { Ref } from 'vue'
-import type { ITree } from '../interface/ITree'
-import type { AirTreeInstance } from '../type/AirType'
+import type { RootEntity } from '../../base'
+import type { ITree } from '../../model'
 import { computed, ref, watch } from 'vue'
-import { APanel } from '.'
-import { AirConfig } from '../config/AirConfig'
+import { APanel } from '../index'
 
 const props = defineProps({
   /**
@@ -103,7 +103,7 @@ const emits = defineEmits<{
 /**
  * # 树的实例
  */
-const treeRef = ref<AirTreeInstance>()
+const treeRef = ref<TreeInstance>()
 
 /**
  * # 当前选中的数据
@@ -145,7 +145,6 @@ function treeSelectChanged(row: T) {
   else {
     currentData.value = row
   }
-  emits('onChange', currentData.value)
   emits('change', currentData.value)
 }
 
@@ -154,7 +153,7 @@ function treeSelectChanged(row: T) {
  * @param value 输入的内容
  * @param node 节点
  */
-function filterNode(value: string, node: ITree): boolean {
+function filterNode(value: string, node: T): boolean {
   if (!value)
     return true
   return node.name?.indexOf(value) !== -1
@@ -162,7 +161,7 @@ function filterNode(value: string, node: ITree): boolean {
 </script>
 
 <template>
-  <div class="air-tree-box">
+  <div class="a-tree-box">
     <div
       v-if="!hideTree"
       :style="{ width: showWidth }"
@@ -173,7 +172,7 @@ function filterNode(value: string, node: ITree): boolean {
         :hide-icon="hideIcon"
         :show-title="!!title"
         :title="title"
-        class="air-tree-box-panel"
+        class="a-tree-box-panel"
         hide-footer
       >
         <template #icon>
@@ -197,7 +196,10 @@ function filterNode(value: string, node: ITree): boolean {
           :default-expand-all="defaultExpandAll"
           :expand-on-click-node="false"
           :filter-node-method="filterNode"
-          :props="AirConfig.treeProps"
+          :props="{
+            children: 'children',
+            label: 'name',
+          }"
           highlight-current
           node-key="id"
           @node-click="treeSelectChanged"
@@ -217,7 +219,7 @@ function filterNode(value: string, node: ITree): boolean {
 </template>
 
 <style lang="scss">
-.air-tree-box {
+.a-tree-box {
   display: flex;
   flex-direction: row;
   flex: 1;

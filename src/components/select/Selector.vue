@@ -189,7 +189,7 @@ const searchParamList: Ref<ISearchField[]> = computed(() => {
  */
 async function onAdd() {
   if (!props.editor) {
-    await FeedbackUtil.alertError('请先配置编辑器')
+    FeedbackUtil.toastError('请先配置编辑器')
     return
   }
   await DialogUtil.show(props.editor)
@@ -209,44 +209,29 @@ async function onAdd() {
     @on-confirm="props.props.onConfirm(selectList.filter((item) => !item.isDisabled))"
     @on-cancel="props.props.onCancel()"
   >
-    <AToolBar
-      :add-permission="addPermission"
-      :default-filter="props.props.param"
-      :entity="entity"
-      :hide-add="!editor"
-      :loading="isLoading"
-      :search-params="searchParamList"
-      :service="service"
-      @on-search="onSearch"
-      @on-add="onAdd"
-    >
-      <template #beforeSearch>
-        <slot name="beforeSearch" />
-      </template>
-      <template #afterSearch>
-        <slot name="afterSearch" />
-      </template>
-    </AToolBar>
     <ATable
-      :ctrl-width="80"
       :data-list="unPaginate || treeList ? list : response.list"
       :entity="entity"
       :field-list="fields"
       :hide-ctrl="props.props.isMultiple"
+      :search-params="searchParamList"
       :select-list="selectList"
       :show-select="props.props.isMultiple"
+      ctrl-width="80"
       hide-delete
       hide-edit
       hide-field-selector
-      @on-select="onSelected"
+      @add="onAdd"
+      @search="onSearch"
+      @select-changed="onSelected"
     >
       <template
-        v-for="(_, name) in slots"
+        v-for="(index, name) in slots"
         #[name]="row"
       >
         <slot
           :data="row.data"
-          :index="row.index"
+          :index="index"
           :name="name"
         />
       </template>

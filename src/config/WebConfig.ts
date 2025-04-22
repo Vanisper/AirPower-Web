@@ -108,9 +108,21 @@ export class WebConfig {
   static staticUrl = '/static'
 
   /**
+   * ### 登录地址
+   */
+  static loginUrl = '/login'
+
+  /**
    * ### 获取 `AccessToken`
    */
   static getAccessToken(): string {
     return localStorage.getItem(this.authorizationHeaderKey) || ''
+  }
+
+  /**
+   * ### 移除 `AccessToken`
+   */
+  static removeAccessToken() {
+    localStorage.removeItem(this.authorizationHeaderKey)
   }
 }

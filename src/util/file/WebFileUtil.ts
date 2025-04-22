@@ -1,5 +1,4 @@
 import { WebConfig } from '../../config'
-import { FeedbackUtil } from '../feedback'
 import { Http } from '../http'
 
 /**
@@ -13,9 +12,7 @@ export class WebFileUtil {
    */
   static getStaticFileUrl(url: string): string {
     if (!url) {
-      const message = '文件地址不能为空'
-      FeedbackUtil.alertError(message)
-      throw new Error(message)
+      throw new Error('文件地址不能为空')
     }
     if (url.includes(Http.PREFIX_HTTP) || url.includes(Http.PREFIX_HTTPS)) {
       return url

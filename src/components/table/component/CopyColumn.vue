@@ -4,7 +4,7 @@ import type { ITableColumn } from '../../../decorator'
 import { ACopy } from '../../copy'
 
 const props = defineProps<{
-  column: ITableColumn<E>
+  column: ITableColumn
   data: E
 }>()
 

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { IJson } from '@airpower/transformer'
 import { ref } from 'vue'
-import { ADialog } from '..'
-import { WebI18n } from '../../i18n'
-import { ExportModel } from '../../model'
-import { Http } from '../../util'
-import { WebFileUtil } from '../../util/file/WebFileUtil'
-import { DialogProps } from '../dialog/DialogProps'
+import { WebI18n } from '../../../i18n'
+import { ExportModel } from '../../../model'
+import { Http } from '../../../util'
+import { WebFileUtil } from '../../../util/file/WebFileUtil'
+import { DialogProps } from '../../dialog/DialogProps'
+import { ADialog } from '../../index'
 
 const props = defineProps(DialogProps.withParam(new ExportModel()))
 

@@ -7,6 +7,6 @@ import type { WebEnum } from './WebEnum'
  */
 export type WebColorString = WebColor | string
 
-export type WebEnumConstructor<K extends EnumKey, E extends WebEnum<K> = WebEnum<K>> =
+export type WebEnumConstructor<K extends EnumKey = EnumKey, E extends WebEnum<K> = WebEnum<K>> =
   typeof WebEnum<K>
   & EnumConstructor<K, E>

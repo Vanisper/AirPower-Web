@@ -1,15 +1,14 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import type { IUser } from '../interface/IUser'
+import type { IUser } from './IUser'
 import { SwitchButton } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
 import { computed, ref } from 'vue'
-import defaultAvatar from '../assets/img/avatar.svg'
-import { AirConfig } from '../config/AirConfig'
-import { AirConfirm } from '../feedback/AirConfirm'
-import { AirFile } from '../helper/AirFile'
-import { AirI18n } from '../helper/AirI18n'
-import { AirPermission } from '../helper/AirPermission'
-import { AirRouter } from '../helper/AirRouter'
+import defaultAvatar from '../../assets/img/avatar.svg'
+import { WebConfig } from '../../config'
+import { WebI18n } from '../../i18n'
+import { PermissionUtil } from '../../util'
+import { WebFileUtil } from '../../util/file/WebFileUtil'
 
 const props = defineProps({
   /**
@@ -41,7 +40,7 @@ const isDialogShow = ref(false)
 
 const userAvatar = computed(() => {
   if (props.user.avatar) {
-    return AirFile.getStaticFileUrl(props.user.avatar)
+    return WebFileUtil.getStaticFileUrl(props.user.avatar)
   }
   return defaultAvatar
 })
@@ -50,47 +49,44 @@ const userAvatar = computed(() => {
  * # 退出登录
  */
 async function logout() {
-  await AirConfirm.create()
-    .dangerButton()
-    .setConfirmText(AirI18n.get().LogoutConfirm || '退出确认')
-    .show(
-      AirI18n.get().AreYouConfirmToLogout || '是否确认退出当前登录的用户?',
-      AirI18n.get().LogoutConfirm || '退出确认',
-    )
-  AirConfig.removeAccessToken()
-  AirPermission.saveList([])
-  if (AirRouter.router) {
-    await AirRouter.router.replace('/login')
-  }
+  await ElMessageBox.confirm(WebI18n.get().ConfirmToLogout, WebI18n.get().ConfirmPlease, {
+    confirmButtonText: WebI18n.get().Confirm,
+    cancelButtonText: WebI18n.get().Cancel,
+    confirmButtonClass: 'danger',
+    type: 'warning',
+  })
+  WebConfig.removeAccessToken()
+  PermissionUtil.saveList([])
+  window.location.replace(WebConfig.loginUrl)
 }
 </script>
 
 <template>
-  <div class="air-user">
+  <div class="a-user">
     <div
-      class="air-user-head"
+      class="a-user-head"
       @click="isDialogShow = true"
     >
       <el-image :src="userAvatar" />
     </div>
     <div
       v-if="isDialogShow"
-      class="air-user-cover"
+      class="a-user-cover"
       @click.self="isDialogShow = false"
     />
     <transition name="search">
       <div
         v-if="isDialogShow"
         :style="{ width: `${width}px`, height: `${height}px` }"
-        class="air-user-dialog"
+        class="a-user-dialog"
       >
-        <div class="air-user-header">
-          <div class="air-user-title">
+        <div class="a-user-header">
+          <div class="a-user-title">
             <slot name="title">
               {{ user.nickname }}
             </slot>
           </div>
-          <div class="air-user-logout">
+          <div class="a-user-logout">
             <el-button
               text
               type="danger"
@@ -99,11 +95,11 @@ async function logout() {
               <el-icon>
                 <SwitchButton />
               </el-icon>
-              {{ AirI18n.get().Logout || '退出登录' }}
+              {{ WebI18n.get().Logout }}
             </el-button>
           </div>
         </div>
-        <div class="air-user-body">
+        <div class="a-user-body">
           <slot>
             <div class="slot">
               User Profile Card...
@@ -116,13 +112,13 @@ async function logout() {
 </template>
 
 <style lang="scss" scoped>
-.air-user {
+.a-user {
   display: flex;
   flex-direction: row;
   align-items: center;
   position: relative;
 
-  .air-user-head {
+  .a-user-head {
     border-radius: 8px;
     cursor: pointer;
     width: 36px;
@@ -136,7 +132,7 @@ async function logout() {
     }
   }
 
-  .air-user-cover {
+  .a-user-cover {
     position: fixed;
     left: 0;
     right: 0;
@@ -146,7 +142,7 @@ async function logout() {
     background-color: rgba($color: #000000, $alpha: 0.05);
   }
 
-  .air-user-dialog {
+  .a-user-dialog {
     position: absolute;
     right: 0;
     top: 50px;
@@ -157,7 +153,7 @@ async function logout() {
     display: flex;
     flex-direction: column;
 
-    .air-user-body {
+    .a-user-body {
       flex: 1;
       height: 0;
       overflow: hidden;
@@ -172,14 +168,14 @@ async function logout() {
       }
     }
 
-    .air-user-header {
+    .a-user-header {
       border-bottom: 1px solid #f5f5f5;
       padding: 10px;
       display: flex;
       flex-direction: row;
       align-items: center;
 
-      .air-user-title {
+      .a-user-title {
         flex: 1;
         font-size: 16px;
         font-weight: bold;

@@ -7,7 +7,7 @@ import type { WebEnum } from '../../enum'
  *
  * @author Hamm.cn
  */
-export interface IEnumField<K extends EnumKey = EnumKey, E extends WebEnum<K> = WebEnum<K>> {
+export interface IEnumField<K extends EnumKey = number, E extends WebEnum<K> = WebEnum<K>> {
   /**
    * ### 配置字典
    */

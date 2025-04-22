@@ -4,29 +4,34 @@ import type { IModelConfig, ITableColumn } from '../../decorator'
 import { computed, ref } from 'vue'
 import { getModelConfig, getTableConfigList } from '../../decorator'
 
+/**
+ * # 表格字段
+ *
+ * @author Hamm.cn
+ */
 export function useTableColumn<E extends RootEntity>(params: {
   /**
-   * 实体实例
+   * ### 实体实例
    */
   entityInstance: E
 
   /**
-   * 自定义字段
+   * ### 自定义字段
    */
   customColumns: Array<ITableColumn<E>>
 
   /**
-   * 字段缓存key
+   * ### 字段缓存key
    */
   columnCacheKey?: string
 
   /**
-   * 隐藏字段选择器
+   * ### 隐藏字段选择器
    */
   hideColumnSelector: boolean
 
   /**
-   * 模型配置
+   * ### 模型配置
    */
   modelConfig: IModelConfig
 }) {
@@ -38,12 +43,12 @@ export function useTableColumn<E extends RootEntity>(params: {
   } = params
 
   /**
-   * 选择的字段
+   * ### 选择的字段
    */
   const selectKeys: Ref<string[]> = ref([])
 
   /**
-   * # 所有的字段
+   * ### 所有的字段
    */
   const allColumnList: Ref<Array<ITableColumn<E>>> = ref([])
 
@@ -70,7 +75,7 @@ export function useTableColumn<E extends RootEntity>(params: {
   const showColumnList: Ref<ITableColumn<E>[]> = ref([])
 
   /**
-   * # 字段选择器是否启用
+   * ### 字段选择器是否启用
    */
   const isColumnSelectorEnabled: Ref<boolean> = computed(() => {
     if (modelConfig.hideFieldSelector) {
@@ -81,8 +86,11 @@ export function useTableColumn<E extends RootEntity>(params: {
     return !hideColumnSelector
   })
 
+  /**
+   * ### 更新选中字段
+   * @param list 选中的字段
+   */
   function updateSelectKeys(list: string[] = []) {
-    console.log('updateSelectKeys', list)
     if (list.length === 0) {
       selectKeys.value = allColumnList.value.map(item => item.key as string)
     }

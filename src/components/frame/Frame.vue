@@ -1,4 +1,5 @@
-<script lang="ts" setup>
+<script generic="T extends IMenu<T> & RootEntity" lang="ts" setup>
+import type { RootEntity } from '../../base'
 import type { IMenu } from '../menu'
 import { AMenu } from '../menu'
 
@@ -16,7 +17,7 @@ defineProps({
    * 请确保传入的数组类型为 `IMenu` 的实现类
    */
   menuList: {
-    type: Array<IMenu>,
+    type: Array<T>,
     default: () => [],
   },
 

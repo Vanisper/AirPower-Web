@@ -28,6 +28,10 @@
   padding: 20px !important;
 }
 
+.el-button {
+  outline: none !important;
+}
+
 .el-button.el-loading-parent--relative {
   pointer-events: none;
 }

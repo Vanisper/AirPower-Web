@@ -5,7 +5,7 @@ import type { ITableColumn } from '../../../decorator'
 import { WebColor } from '../../../enum'
 
 const props = defineProps<{
-  column: ITableColumn<E>
+  column: ITableColumn
   data: E
 }>()
 const key = props.column.key as keyof E

@@ -71,9 +71,9 @@ const props = defineProps({
   },
 
   /**
-   * # 隐藏底部控制栏
+   * # 隐藏底部按钮
    */
-  hideCtrl: {
+  hideButtons: {
     type: Boolean,
     default: false,
   },
@@ -466,7 +466,7 @@ async function confirmEvent() {
             <slot name="status" />
           </div>
           <div
-            v-if="!hideCtrl"
+            v-if="!hideButtons"
             class="control"
           >
             <slot name="leftCtrl" />

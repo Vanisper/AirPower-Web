@@ -1,6 +1,5 @@
 import type { EnumKey } from '@airpower/enum/dist/enum/type'
 import type { DateTimeFormatter, DesensitizeType } from '@airpower/util'
-import type { RootModel } from '../../base'
 import type { WebEnum } from '../../enum'
 import type { IFieldConfig } from '../@Field'
 import type { IElementTableColumn } from './IElementTableColumn'
@@ -10,7 +9,7 @@ import type { IElementTableColumn } from './IElementTableColumn'
  *
  * @author Hamm.cn
  */
-export interface ITableColumn<M extends RootModel = any, K extends EnumKey = EnumKey, E extends WebEnum<K> = WebEnum<K>> extends IFieldConfig<M, K, E>, IElementTableColumn {
+export interface ITableColumn<K extends EnumKey = EnumKey, E extends WebEnum<K> = WebEnum<K>> extends IFieldConfig<K, E>, IElementTableColumn {
   /**
    * ### 是否是金额
    */

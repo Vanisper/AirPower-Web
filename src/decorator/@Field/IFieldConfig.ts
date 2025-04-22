@@ -1,5 +1,4 @@
 import type { EnumKey } from '@airpower/enum/dist/enum/type'
-import type { RootModel } from '../../base'
 import type { WebEnum } from '../../enum'
 import type { IBaseField, IEnumField } from '../common'
 
@@ -8,5 +7,5 @@ import type { IBaseField, IEnumField } from '../common'
  *
  * @author Hamm.cn
  */
-export interface IFieldConfig<M extends RootModel = any, K extends EnumKey = EnumKey, E extends WebEnum<K> = WebEnum<K>> extends IBaseField<M>, IEnumField<K, E> {
+export interface IFieldConfig<K extends EnumKey = EnumKey, E extends WebEnum<K> = WebEnum<K>> extends IBaseField, IEnumField<K, E> {
 }

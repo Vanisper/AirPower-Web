@@ -44,7 +44,7 @@ const props = defineProps({
    */
   symbol: {
     type: String,
-    default: DesensitizeUtil.DEFAULT_MASK,
+    default: undefined,
   },
 })
 

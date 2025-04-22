@@ -1,4 +1,6 @@
+import type { EnumKey } from '@airpower/enum/dist/enum/type'
 import type { DecoratorTarget } from '@airpower/transformer'
+import type { WebEnum } from '../../enum'
 import type { ISearchField } from './ISearchField'
 import { DecoratorUtil } from '@airpower/transformer'
 import { getFieldConfig } from '../@Field'
@@ -17,7 +19,10 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[SearchList]`
  * ### 标记该字段可用于表单配置
  * @param config 配置项
  */
-export function Search(config: ISearchField = {}) {
+export function Search<
+  K extends EnumKey = EnumKey,
+  E extends WebEnum<K> = WebEnum<K>,
+>(config: ISearchField<K, E> = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
     return DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)

@@ -1,14 +1,16 @@
-<script generic="T extends IPayload" lang="ts" setup>
+<script generic="T extends IPayload & RootEntity" lang="ts" setup>
 import type { Component, PropType } from 'vue'
+import type { RootEntity } from '../../base'
 import type { IPayload } from './IPayload'
 import { ElLink } from 'element-plus'
+import { DialogUtil } from '../dialog'
 
 const props = defineProps({
   /**
    * # 负载对象
    */
   payload: {
-    type: Object as PropType<IPayload>,
+    type: Object as PropType<T>,
     required: true,
   },
 
@@ -22,7 +24,7 @@ const props = defineProps({
 })
 
 function show() {
-  AirDialog.show(props.view, props.payload.copy())
+  DialogUtil.show(props.view, props.payload.copy())
 }
 </script>
 

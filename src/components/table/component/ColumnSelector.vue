@@ -47,7 +47,7 @@ if (list.value.length === 0) {
 
 <template>
   <AButton class="a-field-selector" icon="SETTING" @click="isShow = true">
-    自定义
+    {{ WebI18n.get().Column }}
   </AButton>
   <div
     v-if="isShow"

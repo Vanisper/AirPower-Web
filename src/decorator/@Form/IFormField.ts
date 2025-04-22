@@ -1,11 +1,12 @@
-import type { RootModel } from '../../base'
+import type { EnumKey } from '@airpower/enum/dist/enum/type'
+import type { WebEnum } from '../../enum'
 import type { IBaseField, IEnumField } from '../common'
 
 /**
  * # 表单的字段配置接口
  * @author Hamm.cn
  */
-export interface IFormField<M extends RootModel | string = string> extends IBaseField<M>, IEnumField {
+export interface IFormField<K extends EnumKey = EnumKey, E extends WebEnum<K> = WebEnum<K>> extends IBaseField, IEnumField<K, E> {
   /**
    * ### 最大数字
    * 默认配置 `AirConfig.maxNumber` 仅在 `number` 时有效

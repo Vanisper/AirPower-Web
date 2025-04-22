@@ -28,7 +28,7 @@ export function useTable<E extends RootEntity, S extends AbstractCurdService<E>>
    */
   async function onEdit(row: E) {
     if (!option.editView) {
-      await FeedbackUtil.alertError('请为 useAirTableList 的 option 传入 editor')
+      await FeedbackUtil.toastError('请为 useAirTableList 的 option 传入 editor')
       return
     }
     try {

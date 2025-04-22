@@ -7,7 +7,7 @@ import type { IUploadProps } from '../upload'
 import ElementPlus from 'element-plus'
 import { createApp } from 'vue'
 import { WebConfig } from '../../config'
-import { AExport } from '../toolbar'
+import Export from '../table/component/Export.vue'
 import { AUpload } from '../upload'
 
 /**
@@ -113,8 +113,8 @@ export class DialogUtil {
    */
   static async selectList<E extends RootEntity>(
     view: Component,
-        selectList: E[] = [],
-        param: E | undefined = undefined,
+    selectList: E[] = [],
+    param: E | undefined = undefined,
   ): Promise<E[]> {
     return this.build(view, {
       selectList,
@@ -128,6 +128,6 @@ export class DialogUtil {
    * @param exportModel `可选` 导出参数对象
    */
   static async createExportTask(exportModel: ExportModel): Promise<unknown> {
-    return this.show(AExport, exportModel)
+    return this.show(Export, exportModel)
   }
 }

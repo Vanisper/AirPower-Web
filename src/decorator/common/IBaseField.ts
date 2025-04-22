@@ -1,18 +1,14 @@
-import type { RootModel } from '../../base'
-
-export type IsModelInstance<T> = T extends RootModel ? true : false
-
 /**
  * ### 字段基础配置
  *
  * @author Hamm.cn
  */
-export interface IBaseField<M extends RootModel = any> {
+export interface IBaseField {
   /**
    * ### 字段标题
    * 此字段无需传入, 将自动从被标记类的属性上读取
    */
-  key?: IsModelInstance<M> extends true ? keyof M : string
+  key?: string
 
   /**
    * ### 字段标题

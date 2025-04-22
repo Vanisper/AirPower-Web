@@ -12,4 +12,6 @@ export type ButtonIcon =
   | 'SETTING'
   | 'WARNING'
   | 'COPY'
+  | 'IMPORT'
+  | 'EXPORT'
   | ''

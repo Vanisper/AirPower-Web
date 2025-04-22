@@ -1,4 +1,4 @@
-import type { ITransformerConstructor } from '@airpower/transformer'
+import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { RootEntity } from '../../base'
 import type { IFile } from '../../util'
 

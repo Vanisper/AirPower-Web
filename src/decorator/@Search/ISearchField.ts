@@ -1,10 +1,15 @@
+import type { EnumKey } from '@airpower/enum/dist/enum/type'
+import type { WebEnum } from '../../enum'
 import type { IBaseField, IEnumField } from '../common'
 
 /**
  * # 表单的字段配置接口
  * @author Hamm.cn
  */
-export interface ISearchField extends IBaseField, IEnumField {
+export interface ISearchField<
+  K extends EnumKey = EnumKey,
+  E extends WebEnum<K> = WebEnum<K>,
+> extends IBaseField, IEnumField<K, E> {
   /**
    * ### 隐藏搜索
    */
