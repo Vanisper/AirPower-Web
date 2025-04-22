@@ -1,4 +1,5 @@
-<script generic="T extends IMenu<T>" lang="ts" setup>
+<script generic="T extends IMenu<T> & RootEntity" lang="ts" setup>
+import type { RootEntity } from '../../base'
 import type { IMenu } from './IMenu'
 import { ElMenuItem, ElSubMenu } from 'element-plus'
 

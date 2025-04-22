@@ -123,7 +123,7 @@ const props = defineProps({
    * 如传入 则优先使用
    */
   columnList: {
-    type: Array<ITableColumn<E>>,
+    type: Array<ITableColumn>,
     default: () => [],
   },
 

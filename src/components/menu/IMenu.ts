@@ -5,7 +5,7 @@ import type { ITree } from '../../model'
  *
  * @author Hamm.cn
  */
-export interface IMenu<T> extends ITree<T> {
+export interface IMenu<T extends IMenu<T>> extends ITree<T> {
   /**
    * ### 菜单 `URL`
    */
@@ -25,9 +25,4 @@ export interface IMenu<T> extends ITree<T> {
    * ### 菜单是否禁用
    */
   isDisabled: boolean
-
-  /**
-   * ### 菜单名称
-   */
-  name: string
 }

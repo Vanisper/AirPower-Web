@@ -1,18 +1,16 @@
-<script generic="F extends IFile" lang="ts" setup>
+<script generic="F extends IFile & RootEntity" lang="ts" setup>
+import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType } from 'vue'
-import type { IFile } from '../interface/IFile'
-import type { IJson } from '../interface/IJson'
-import type { ClassConstructor } from '../type/AirType'
-import { AirFileEntity } from '@airpower/model/entity/AirFileEntity'
+import type { RootEntity } from '../../base'
+import type { IFile } from '../../util'
+import { Transformer } from '@airpower/transformer'
+import { FileUtil } from '@airpower/util'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
 import { computed, ref, watch } from 'vue'
 import { WebConfig } from '../../config'
-import { AirConfig } from '../config/AirConfig'
-
-import { AirNotification } from '../feedback/AirNotification'
-import { AirClassTransformer } from '../helper/AirClassTransformer'
-import { AirFile } from '../helper/AirFile'
-import { AirI18n } from '../helper/AirI18n'
+import { WebI18n } from '../../i18n'
+import { FeedbackUtil } from '../../util'
+import { WebFileUtil } from '../../util/file/WebFileUtil'
 
 const props = defineProps({
   /**
@@ -125,11 +123,10 @@ const props = defineProps({
 
   /**
    * # 接收的文件实体类
-   * 可通过 `AirConfig.fileEntityClass` 配置, 默认为 `AirFileEntity`
    */
   entity: {
-    type: Function as unknown as PropType<ClassConstructor<F>>,
-    default: AirFileEntity,
+    type: Function as unknown as PropType<ITransformerConstructor<F>>,
+    default: undefined,
   },
 })
 
@@ -141,7 +138,7 @@ const emits = defineEmits<{
 /**
  * # 真实上传地址
  */
-const uploadUrl = computed(() => props.uploadUrl || AirConfig.uploadUrl)
+const uploadUrl = computed(() => props.uploadUrl || WebConfig.uploadUrl)
 
 /**
  * # 显示的文件地址
@@ -155,7 +152,7 @@ const isUploading = ref(false)
 
 function init() {
   if (props.src) {
-    imageUrl.value = AirFile.getStaticFileUrl(props.src)
+    imageUrl.value = WebFileUtil.getStaticFileUrl(props.src)
     return
   }
   imageUrl.value = ''
@@ -163,7 +160,7 @@ function init() {
 
 watch(props, () => {
   if (props.src) {
-    imageUrl.value = AirFile.getStaticFileUrl(props.src)
+    imageUrl.value = WebFileUtil.getStaticFileUrl(props.src)
   }
 })
 
@@ -172,7 +169,7 @@ watch(props, () => {
  */
 const uploadHeader = ref<IJson>({})
 uploadHeader.value = { ...uploadHeader.value, ...props.headers }
-uploadHeader.value[AirConfig.authorizationHeaderKey] = WebConfig.getAccessToken()
+uploadHeader.value[WebConfig.authorizationHeaderKey] = WebConfig.getAccessToken()
 
 /**
  * # 移除图像事件
@@ -203,16 +200,12 @@ function showLocalFile(file: File) {
 function beforeUpload(file: File): boolean {
   const fileExt = file.name.substring(file.name.lastIndexOf('.') + 1)
   if (!props.extensions.includes(fileExt.toLocaleLowerCase())) {
-    AirNotification.warning(
-      `${AirI18n.get().ImageSupportExtensions || '支持的图片格式为: '} ${props.extensions.join('/')}`,
-      AirI18n.get().ImageExtNotSupported || '图片格式不支持',
-    )
+    FeedbackUtil.toastError(`${WebI18n.get().ImageSupportExtensions} ${props.extensions.join('/')}`)
     return false
   }
   if (file.size > props.limit) {
-    AirNotification.warning(
-      `${AirI18n.get().FileMaxSizeAllowed || '文件最大允许为: '}${AirFile.getFileSizeFriendly(props.limit)}`,
-      AirI18n.get().FileTooLarge || '文件过大',
+    FeedbackUtil.toastError(
+      `${WebI18n.get().FileMaxSizeAllowed}${FileUtil.getFileSizeFriendly(props.limit)}`,
     )
     return false
   }
@@ -226,9 +219,8 @@ function beforeUpload(file: File): boolean {
  */
 function onUploadError() {
   isUploading.value = false
-  AirNotification.error(
-    AirI18n.get().FileUploadErrorAndRetryPlease || '文件上传失败,请重新上传',
-    AirI18n.get().UploadError || '上传失败',
+  FeedbackUtil.toastError(
+    WebI18n.get().FileUploadErrorAndRetryPlease,
   )
 }
 
@@ -240,8 +232,12 @@ function onUploadError() {
  * @param response.data.url 文件地址
  */
 function onUploadSuccess(response: { code: number, data: { url: string } }) {
-  if (response.code === AirConfig.successCode) {
-    const entityData = AirClassTransformer.parse(response.data, props.entity)
+  if (response.code === WebConfig.successCode) {
+    if (!props.entity) {
+      FeedbackUtil.toastError('请先传入 entity 参数')
+      return
+    }
+    const entityData = Transformer.parse(response.data, props.entity)
     if (entityData && entityData.url) {
       emits('onUpload', entityData)
       isUploading.value = false
@@ -271,7 +267,7 @@ init()
         <div class="image-error">
           {{
             placeholder
-              || (upload && entity ? AirI18n.get().UploadImage || '上传图片' : AirI18n.get().NoPicture || '暂无图片')
+              || (upload && entity ? WebI18n.get().UploadImage : WebI18n.get().NoPicture)
           }}
         </div>
       </template>

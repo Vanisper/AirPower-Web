@@ -1,4 +1,4 @@
-import type { RootEntity } from '../base'
+import type { RootEntity } from '../../base'
 import { Transformer, Type } from '@airpower/transformer'
 import { QueryPage } from './QueryPage'
 import { QuerySort } from './QuerySort'

@@ -18,7 +18,7 @@ export function useTableColumn<E extends RootEntity>(params: {
   /**
    * ### 自定义字段
    */
-  customColumns: Array<ITableColumn<E>>
+  customColumns: Array<ITableColumn>
 
   /**
    * ### 字段缓存key
@@ -50,7 +50,7 @@ export function useTableColumn<E extends RootEntity>(params: {
   /**
    * ### 所有的字段
    */
-  const allColumnList: Ref<Array<ITableColumn<E>>> = ref([])
+  const allColumnList: Ref<Array<ITableColumn>> = ref([])
 
   if (customColumns.length > 0) {
     // 过滤没有隐藏且没有移除的列
@@ -64,7 +64,7 @@ export function useTableColumn<E extends RootEntity>(params: {
       })
   }
   else {
-    allColumnList.value = getTableConfigList<E>(entityInstance).filter(item => !item.removed).map((item) => {
+    allColumnList.value = getTableConfigList(entityInstance).filter(item => !item.removed).map((item) => {
       if (item.money && !item.align) {
         item.align = 'right'
       }
@@ -72,7 +72,7 @@ export function useTableColumn<E extends RootEntity>(params: {
     })
   }
 
-  const showColumnList: Ref<ITableColumn<E>[]> = ref([])
+  const showColumnList: Ref<ITableColumn[]> = ref([])
 
   /**
    * ### 字段选择器是否启用

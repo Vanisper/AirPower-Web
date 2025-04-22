@@ -33,7 +33,7 @@ const props = defineProps<{
   /**
    * # 选择器使用的字段列表
    */
-  fieldList?: Array<ITableColumn<E>>
+  fieldList?: Array<ITableColumn>
 
   /**
    * # `Editor`
@@ -162,11 +162,11 @@ const dialogTitle = computed(() => {
 /**
  * # 列定义
  */
-const fields: Ref<Array<ITableColumn<E>>> = computed(() => {
+const fields = computed(() => {
   if (props.fieldList) {
     return props.fieldList
   }
-  return getTableConfigList<E>(entityInstance)
+  return getTableConfigList(entityInstance)
 })
 
 /**

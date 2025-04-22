@@ -1,4 +1,4 @@
-<script generic="T extends ITree<T> & RootEntity" lang="ts" setup="props">
+<script generic="T extends ITree<T> & RootEntity" lang="ts" setup>
 import type { TreeInstance } from 'element-plus'
 import type { Ref } from 'vue'
 import type { RootEntity } from '../../base'

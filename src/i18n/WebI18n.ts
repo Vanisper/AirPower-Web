@@ -66,4 +66,8 @@ export class WebI18n extends I18n {
   ConfirmToLogout = '是否确认退出登录?'
   Logout = '退出登录'
   Column = '列'
+  ImageSupportExtensions = '支持的图片格式：'
+  FileMaxSizeAllowed = '最大允许上传文件大小：'
+  UploadImage = '上传图片'
+  NoPicture = '暂无图片'
 }

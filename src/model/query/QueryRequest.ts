@@ -1,5 +1,5 @@
 import type { ITransformerConstructor } from '@airpower/transformer'
-import type { RootEntity } from '../base'
+import type { RootEntity } from '../../base'
 import { Transformer, Type } from '@airpower/transformer'
 import { QuerySort } from './QuerySort'
 
