@@ -1,14 +1,14 @@
-<script generic="E extends AirEntity" lang="ts" setup>
+<script generic="E extends RootEntity" lang="ts" setup>
+import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType } from 'vue'
-import type { AirEntity } from '../base/AirEntity'
-import type { IDictionary } from '../interface/IDictionary'
-import type { IJson } from '../interface/IJson'
-import type { ITree } from '../interface/ITree'
-import type { ClassConstructor } from '../type/AirType'
+import type { RootEntity } from '../../base'
+import type { IFormField } from '../../decorator'
+import type { ITree } from '../../model'
+import { Transformer } from '@airpower/transformer'
 import { ElFormItem } from 'element-plus'
 import { computed, inject, ref } from 'vue'
-import { AInput } from '.'
-import { AirClassTransformer } from '../helper/AirClassTransformer'
+import { getFieldConfig, getFormConfig } from '../../decorator'
+import { AInput } from '../index'
 
 const props = defineProps({
   /**
@@ -16,7 +16,7 @@ const props = defineProps({
    * 传入表单内容的类型，如传入则覆盖自动注入的类
    */
   entity: {
-    type: Function as unknown as PropType<ClassConstructor<E>>,
+    type: Function as unknown as PropType<ITransformerConstructor<E>>,
     default: null,
   },
 
@@ -66,7 +66,7 @@ const props = defineProps({
    * 优先级: `AInput`传入 > `@Form`
    */
   list: {
-    type: Array<IDictionary>,
+    type: Array<IFormField>,
     default: undefined,
   },
 
@@ -75,20 +75,16 @@ const props = defineProps({
    * 优先级: `AInput` 传入 > `@Form`
    */
   tree: {
-    type: Array<ITree>,
+    type: Array <ITree<E>>,
     default: undefined,
   },
 })
 
 const emits = defineEmits<{
-  'onChange': [value: E]
   'change': [value: E]
   'update:modelValue': [value: E]
   'blur': []
-  'onBlur': []
   'focus': []
-  'onFocus': []
-  'onClear': []
   'clear': []
 }>()
 
@@ -113,7 +109,7 @@ if (!formData) {
 /**
  * # 手动传入的实体类 覆盖 自动注入的实体类
  */
-const entityClass = (inject('entityClass') as ClassConstructor<E>) || props.entity
+const entityClass = (inject('entityClass') as ITransformerConstructor<E>) || props.entity
 
 if (!entityClass) {
   throw new Error('请手动传入到AFormField的entity属性或使用useAirEditor创建表单对象(推荐)！！！')
@@ -122,7 +118,7 @@ if (!entityClass) {
 /**
  * # 实例化实体类
  */
-const entityInstance = computed(() => AirClassTransformer.newInstance(entityClass))
+const entityInstance = computed(() => Transformer.newInstance(entityClass))
 
 /**
  * # 监听值变化
@@ -132,31 +128,20 @@ function onChange(val: unknown) {
   formData!.value[props.field] = val
   emits('update:modelValue', formData!.value)
   emits('change', formData!.value)
-  emits('onChange', formData!.value)
   if (injectFormData) {
     ;(injectFormData.value as IJson)[props.field] = val
   }
 }
 
-function emitBlur() {
-  emits('onBlur')
-  emits('blur')
-}
-
-function emitClear() {
-  emits('onClear')
-  emits('clear')
-}
-
-function emitFocus() {
-  emits('onFocus')
-  emits('focus')
+function getFormFieldLabel(fieldKey: string): string {
+  const props = getFieldConfig(entityInstance.value, fieldKey)
+  return getFormConfig(entityInstance.value, fieldKey)?.label || props.label || fieldKey
 }
 </script>
 
 <template>
   <ElFormItem
-    :label="entityInstance.getFormFieldLabel(field)"
+    :label="getFormFieldLabel(field)"
     :prop="field"
   >
     <slot>
@@ -170,10 +155,10 @@ function emitFocus() {
         :modifier="field"
         :readonly="readonly"
         :tree="tree"
-        @blur=" emitBlur() "
+        @blur=" emits('blur') "
         @change="onChange($event)"
-        @clear=" emitClear() "
-        @focus=" emitFocus() "
+        @clear=" emits('clear') "
+        @focus=" emits('focus') "
       />
     </slot>
   </ElFormItem>

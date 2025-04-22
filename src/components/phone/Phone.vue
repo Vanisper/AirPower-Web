@@ -1,11 +1,9 @@
 <script lang="ts" setup>
+import { DesensitizeType, DesensitizeUtil, ValidateUtil } from '@airpower/util'
 import { Iphone } from '@element-plus/icons-vue'
 import { computed } from 'vue'
-import { AirDesensitizeType } from '../enum/AirDesensitizeType'
-import { AirDesensitize } from '../helper/AirDesensitize'
-import { AirDialog } from '../helper/AirDialog'
-import { AirValidator } from '../helper/AirValidator'
-import Call from './phone/Call.vue'
+import { DialogUtil } from '../dialog'
+import { ACall } from './index'
 
 const props = defineProps({
   /**
@@ -20,7 +18,7 @@ const props = defineProps({
    * # 是否脱敏
    */
   desensitize: {
-    type: AirDesensitizeType,
+    type: DesensitizeType,
     default: undefined,
   },
 
@@ -47,7 +45,7 @@ const props = defineProps({
  * # 显示拨打电话弹窗
  */
 async function callPhone() {
-  await AirDialog.show(Call, props.phone)
+  await DialogUtil.show(ACall, props.phone)
 }
 
 /**
@@ -57,15 +55,14 @@ const desensitizePhone = computed(() => {
   if (!props.desensitize) {
     return props.phone
   }
-  return AirDesensitize.desensitize(props.phone, props.desensitize, props.desensitizeHead, props.desensitizeTail)
+  return DesensitizeUtil.desensitize(props.phone, props.desensitize, props.desensitizeHead, props.desensitizeTail)
 })
 </script>
 
 <template>
   <div
-    v-if="phone && AirValidator.isTelephoneOrMobilePhone(phone)"
-    v-tip="'点击扫码拨打'"
-    class="air-phone"
+    v-if="phone && ValidateUtil.isTelephoneOrMobilePhone(phone)"
+    class="a-phone"
     @click="callPhone()"
   >
     <el-icon>
@@ -79,7 +76,7 @@ const desensitizePhone = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-.air-phone {
+.a-phone {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -87,7 +84,7 @@ const desensitizePhone = computed(() => {
   transition: all 0.3s;
 }
 
-.air-phone:hover {
+.a-phone:hover {
   color: var(--primary-color);
 }
 </style>

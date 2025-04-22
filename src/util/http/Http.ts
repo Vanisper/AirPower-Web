@@ -3,8 +3,8 @@ import type { AxiosRequestConfig } from 'axios'
 import type { HttpHeaderRecord } from './type'
 import { Transformer } from '@airpower/transformer'
 import axios from 'axios'
+import { WebConfig } from '../../config'
 import { HttpContentType, HttpHeader, HttpMethod, HttpStatus } from './enum'
-import { HttpConfig } from './HttpConfig'
 import { HttpResponse } from './HttpResponse'
 
 /**
@@ -36,7 +36,7 @@ export class Http {
   /**
    * ### 请求超时时间
    */
-  private timeout = HttpConfig.timeout
+  private timeout = WebConfig.timeout
 
   /**
    * ### 是否携带 `Cookies`
@@ -73,16 +73,16 @@ export class Http {
   static create(url: string, handlers: {
     error?: (error: HttpResponse) => void
     loading?: (loading: boolean) => void
-  }): Http {
+  } = {}): Http {
     const http = new Http()
     if (url.includes(this.PREFIX_HTTP) || url.includes(this.PREFIX_HTTPS)) {
       http.url = url
     }
     else {
-      http.url = HttpConfig.apiUrl + url
+      http.url = WebConfig.apiUrl + url
     }
     http.headers[HttpHeader.CONTENT_TYPE] = HttpContentType.JSON
-    http.headers[HttpConfig.authorizationHeaderKey] = localStorage.getItem(HttpConfig.authorizationHeaderKey) || ''
+    http.headers[WebConfig.authorizationHeaderKey] = WebConfig.getAccessToken()
     http.errorHandler = handlers.error
     http.loadingHandler = handlers.loading
     return http
@@ -196,7 +196,7 @@ export class Http {
         this.loadingHandler(true)
       }
       this.send(body).then((response) => {
-        if (response.code === HttpConfig.unAuthorizeCode) {
+        if (response.code === WebConfig.unAuthorizeCode) {
           // 需要登录
           if (this.isThrowError || !this.errorHandler) {
             reject(response)
@@ -205,7 +205,7 @@ export class Http {
           this.errorHandler(response)
           return
         }
-        if (response.code !== HttpConfig.successCode) {
+        if (response.code !== WebConfig.successCode) {
           if (this.isThrowError || !this.errorHandler) {
             reject(response)
             return

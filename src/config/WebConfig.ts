@@ -1,14 +1,26 @@
 import type { MoneyDirection } from '../components'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import { HttpHeader, HttpStatus } from '../util'
 
+/**
+ * # 全局配置
+ *
+ * @author Hamm.cn
+ */
 export class WebConfig {
+  /**
+   * ### 应用标识
+   */
+  static appKey = 'AirPower'
+
   /**
    * ### 是否自动处理权限前缀
    */
   static autoPermissionPrefix = true
 
-  static appKey = 'airpower'
-
+  /**
+   * ### 上传地址
+   */
   static uploadUrl = '/upload'
 
   /**
@@ -38,5 +50,67 @@ export class WebConfig {
    */
   static uploadFileName = 'file'
 
+  /**
+   * ### element-plus 语言包
+   */
   static elementPlusLocale = zhCn
+
+  /**
+   * ### 接口根地址
+   * 以 `/` 结尾
+   */
+  static apiUrl = '/api/'
+
+  /**
+   * ### `AccessToken` 对应的 `Key`
+   */
+  static authorizationHeaderKey = HttpHeader.AUTHORIZATION
+
+  /**
+   * ### 全局 `http` 请求返回 成功状态码
+   */
+  static successCode = HttpStatus.OK
+
+  /**
+   * ### 全局 `http` 请求返回 登录状态码
+   */
+  static unAuthorizeCode = HttpStatus.UNAUTHORIZED
+
+  /**
+   * ### 超时时间 毫秒
+   * 超时后请求会自动断开并抛出异常
+   */
+  static timeout = 5000
+
+  /**
+   * ### 导出模板地址
+   */
+  static importTemplateUrl = '/export/template'
+
+  /**
+   * ### 导入API地址
+   */
+  static importUrl = '/import'
+
+  /**
+   * ### 导出API地址
+   */
+  static exportUrl = '/export'
+
+  /**
+   * ### 导出查询API地址
+   */
+  static exportQueryUrl = '/queryExport'
+
+  /**
+   * ### 静态资源地址
+   */
+  static staticUrl = '/static'
+
+  /**
+   * ### 获取 `AccessToken`
+   */
+  static getAccessToken(): string {
+    return localStorage.getItem(this.authorizationHeaderKey) || ''
+  }
 }

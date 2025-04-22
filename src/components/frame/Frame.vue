@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { IMenu } from '../interface/IMenu'
-import { AMenu } from '.'
+import type { IMenu } from '../menu'
+import { AMenu } from '../menu'
 
 defineProps({
   /**
@@ -44,22 +44,22 @@ defineProps({
 </script>
 
 <template>
-  <div class="air-frame">
+  <div class="a-frame">
     <div
       :style="{ height: `${headerHeight}px` }"
-      class="air-header"
+      class="a-header"
     >
-      <div class="air-logo">
+      <div class="a-logo">
         <slot name="logo">
           <span>AirPower4T</span>
         </slot>
       </div>
-      <div class="air-navigator">
+      <div class="a-navigator">
         <slot name="navigator" />
       </div>
       <slot name="user" />
     </div>
-    <div class="air-main">
+    <div class="a-main">
       <div
         v-if="!hideMenu"
         :style="{ width: `${menuWidth}px` }"
@@ -67,7 +67,7 @@ defineProps({
       >
         <div
           v-loading="!menuList"
-          class="air-menu"
+          class="a-menu"
         >
           <AMenu
             v-if="menuList"
@@ -76,7 +76,7 @@ defineProps({
           />
         </div>
       </div>
-      <div class="air-right">
+      <div class="a-right">
         <slot />
       </div>
     </div>
@@ -84,7 +84,7 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
-.air-frame {
+.a-frame {
   position: fixed;
   left: 0;
   right: 0;
@@ -93,7 +93,7 @@ defineProps({
   display: flex;
   flex-direction: column;
 
-  .air-header {
+  .a-header {
     padding: 5px 15px;
     display: flex;
     flex-direction: row;
@@ -102,7 +102,7 @@ defineProps({
     background-color: #fff;
     height: 40px;
 
-    .air-logo {
+    .a-logo {
       word-break: keep-all;
       text-align: center;
       cursor: pointer;
@@ -118,7 +118,7 @@ defineProps({
       }
     }
 
-    .air-navigator {
+    .a-navigator {
       flex: 1;
       font-size: 14px;
       color: #aaa;
@@ -130,7 +130,7 @@ defineProps({
     }
   }
 
-  .air-main {
+  .a-main {
     flex: 1;
     height: 0;
     display: flex;
@@ -144,7 +144,7 @@ defineProps({
       margin: 5px;
       border-radius: 4px;
 
-      .air-menu {
+      .a-menu {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -177,13 +177,13 @@ defineProps({
         }
       }
 
-      .air-menu::-webkit-scrollbar {
+      .a-menu::-webkit-scrollbar {
         width: 0;
         height: 0;
       }
     }
 
-    .air-right {
+    .a-right {
       flex: 1;
       width: 0;
       display: flex;

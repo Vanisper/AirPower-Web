@@ -6,8 +6,12 @@ import { I18n } from '@airpower/i18n'
  * @author Hamm.cn
  */
 export class WebI18n extends I18n {
+  ID = 'ID'
   Detail = '详情'
   Update = '修改'
+  Disable = '禁用'
+  Enable = '启用'
+  Delete = '删除'
   Add = '添加'
   UpdateSuccess = '修改成功'
   AddSuccess = '添加成功'
@@ -51,4 +55,13 @@ export class WebI18n extends I18n {
   InvalidMobilePhone = '请输入正确的手机号'
   Required = '必填项'
   InvalidContain = '不允许输入中包含'
+  Import = '导入'
+  ImportSuccess = '导入成功'
+  DownloadTemplate = '下载模板'
+  Export = '导出'
+  DownloadExportFile = '下载导出文件'
+  ExportSuccess = '数据导出成功'
+  ExportLoadingAndWaitPlease = '正在导出数据，请稍后等待...'
+  NoData = '暂无数据'
+  SelectTableColumnsToShow = '选择要显示的列'
 }

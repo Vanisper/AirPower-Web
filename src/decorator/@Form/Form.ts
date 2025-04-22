@@ -56,7 +56,7 @@ export function getFormFieldList(target: DecoratorTarget): string[] {
  * @param target 目标类或对象
  * @param keyList 选择字段列表
  */
-export function getFormConfigList(target: DecoratorTarget, keyList: string[]): IFormField[] {
+export function getFormConfigList(target: DecoratorTarget, keyList: string[] = []): IFormField[] {
   if (keyList.length === 0) {
     keyList = getFormFieldList(target)
   }

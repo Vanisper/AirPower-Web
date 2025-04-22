@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { DateTimeFormatter, DateTimeUtil } from '@airpower/core'
 import { computed } from 'vue'
-import { Button } from '../button'
+import { AButton } from '../button'
 
 const props = defineProps({
   /**
@@ -65,9 +65,9 @@ const getDateTimeString = computed(() => {
 </script>
 
 <template>
-  <Button icon="CLOCK" link>
+  <AButton icon="CLOCK" link>
     {{ getDateTimeString }}
-  </Button>
+  </AButton>
 </template>
 
 <style lang="scss" scoped>

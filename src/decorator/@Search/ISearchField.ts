@@ -21,4 +21,14 @@ export interface ISearchField extends IBaseField, IEnumField {
    * 仅枚举字典下拉选择时有效
    */
   filterable?: boolean
+
+  /**
+   * ### 可清除
+   */
+  clearable?: boolean
+
+  /**
+   * ### 宽度
+   */
+  width?: number
 }

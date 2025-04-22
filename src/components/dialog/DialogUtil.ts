@@ -1,12 +1,14 @@
 import type { IJson } from '@airpower/transformer'
 import type { App, Component } from 'vue'
 import type { RootEntity } from '../../base'
+import type { ExportModel } from '../../model'
 import type { IFile } from '../../util'
 import type { IUploadProps } from '../upload'
 import ElementPlus from 'element-plus'
 import { createApp } from 'vue'
 import { WebConfig } from '../../config'
-import { WebUpload } from '../upload'
+import { AExport } from '../toolbar'
+import { AUpload } from '../upload'
 
 /**
  * # 弹窗工具类
@@ -82,7 +84,7 @@ export class DialogUtil {
    * @param customConfirm `可选` 自定义确认按钮回调方法
    */
   static async showUpload<F extends IFile & RootEntity>(config?: IUploadProps<F>, customConfirm?: () => void): Promise<F> {
-    return this.build<F>(WebUpload, {
+    return this.build<F>(AUpload, {
       onCustomConfirm: () => {
         if (customConfirm) {
           customConfirm()
@@ -111,13 +113,21 @@ export class DialogUtil {
    */
   static async selectList<E extends RootEntity>(
     view: Component,
-    selectList: E[] = [],
-    param: E | undefined = undefined,
+        selectList: E[] = [],
+        param: E | undefined = undefined,
   ): Promise<E[]> {
     return this.build(view, {
       selectList,
       isMultiple: true,
       param,
     })
+  }
+
+  /**
+   * ### 创建一个导出任务
+   * @param exportModel `可选` 导出参数对象
+   */
+  static async createExportTask(exportModel: ExportModel): Promise<unknown> {
+    return this.show(AExport, exportModel)
   }
 }

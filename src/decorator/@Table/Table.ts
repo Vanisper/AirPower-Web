@@ -1,4 +1,5 @@
 import type { DecoratorTarget } from '@airpower/transformer'
+import type { RootModel } from '../../base'
 import type { ITableColumn } from './ITableColumn'
 import { DecoratorUtil } from '@airpower/transformer'
 import { getFieldConfig } from '../@Field'
@@ -56,7 +57,7 @@ export function getTableFieldList(target: DecoratorTarget): string[] {
  * @param target 目标实体类
  * @param keyList 字段列表
  */
-export function getTableConfigList(target: DecoratorTarget, keyList: string[]): ITableColumn[] {
+export function getTableConfigList<M extends RootModel | never = never>(target: DecoratorTarget, keyList: string[] = []): Array<ITableColumn<M>> {
   if (keyList.length === 0) {
     keyList = getTableFieldList(target)
   }

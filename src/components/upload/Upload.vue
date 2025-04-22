@@ -9,7 +9,7 @@ import { ElUpload } from 'element-plus'
 import { ref } from 'vue'
 import { WebConfig } from '../../config'
 import { WebI18n } from '../../i18n'
-import { FeedbackUtil, HttpConfig } from '../../util'
+import { FeedbackUtil } from '../../util'
 import { ADialog } from '../dialog'
 
 const props = defineProps({
@@ -144,7 +144,7 @@ const loading = ref(false)
  * # 上传的header
  */
 const uploadHeader = ref({
-  Authorization: localStorage.getItem(HttpConfig.authorizationHeaderKey),
+  Authorization: WebConfig.getAccessToken(),
 } as IJson)
 
 if (props.header) {
@@ -199,7 +199,7 @@ function onUploadSuccess(result: IJson) {
     onUploadError()
     return
   }
-  if (result.code === HttpConfig.successCode) {
+  if (result.code === WebConfig.successCode) {
     FeedbackUtil.toastSuccess(props.uploadSuccess)
 
     const entity = Transformer.parse(result.data as IJson, props.entity)

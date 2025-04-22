@@ -13,6 +13,9 @@ const props = defineProps({
     required: true,
   },
 
+  /**
+   * # 是否隐藏图标
+   */
   hideIcon: {
     type: Boolean,
     default: false,

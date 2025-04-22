@@ -1,6 +1,6 @@
-import WebUpload from './WebUpload.vue'
+import AUpload from './Upload.vue'
 
 export {
-  WebUpload,
+  AUpload,
 }
 export * from './IUploadProps'

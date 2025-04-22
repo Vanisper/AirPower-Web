@@ -56,7 +56,7 @@ export function getSearchFieldList(target: DecoratorTarget): string[] {
  * @param target 目标类或对象
  * @param keyList 选择字段列表
  */
-export function getSearchConfigList(target: DecoratorTarget, keyList: string[]): ISearchField[] {
+export function getSearchConfigList(target: DecoratorTarget, keyList: string[] = []): ISearchField[] {
   if (keyList.length === 0) {
     keyList = getSearchFieldList(target)
   }

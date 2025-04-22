@@ -1,5 +1,5 @@
-<script lang="ts" setup>
-import type { IMenu } from '../../interface/IMenu'
+<script generic="T extends IMenu<T>" lang="ts" setup>
+import type { IMenu } from './IMenu'
 import { ElMenuItem, ElSubMenu } from 'element-plus'
 
 defineProps({
@@ -8,7 +8,7 @@ defineProps({
    * 请确保传入的数组类型为 `IMenu` 的实现类
    */
   menuList: {
-    type: Array<IMenu>,
+    type: Array<T>,
     required: true,
   },
 })

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { PropType } from 'vue'
+import type { Component, PropType, Ref } from 'vue'
 import type { ButtonIcon } from './type'
 import { Clock, Delete, DocumentCopy, Edit, Plus } from '@element-plus/icons-vue'
 import { ElButton } from 'element-plus'
@@ -49,6 +49,9 @@ const props = defineProps({
     default: false,
   },
 
+  /**
+   * # 图标
+   */
   icon: {
     type: String as PropType<ButtonIcon>,
     default: '',
@@ -58,7 +61,7 @@ const props = defineProps({
 /**
  * # 是否禁用
  */
-const isDisabled = computed(() => {
+const isDisabled: Ref<boolean> = computed(() => {
   if (props.disabled) {
     return true
   }
@@ -68,7 +71,7 @@ const isDisabled = computed(() => {
   return false
 })
 
-const icon = computed(() => {
+const icon: Ref<Component | string> = computed(() => {
   switch (props.icon) {
     case 'ADD':
       return Plus

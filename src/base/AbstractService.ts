@@ -3,7 +3,8 @@ import type { Ref } from 'vue'
 import type { HttpResponse } from '../util'
 import { Transformer } from '@airpower/transformer'
 import { ElMessage } from 'element-plus'
-import { Http, HttpConfig } from '../util'
+import { WebConfig } from '../config'
+import { Http } from '../util'
 
 /**
  * # `API` 服务超类
@@ -47,7 +48,7 @@ export abstract class AbstractService extends Transformer {
         }
       },
       error: (response: HttpResponse) => {
-        if (response.code === HttpConfig.unAuthorizeCode) {
+        if (response.code === WebConfig.unAuthorizeCode) {
           return
         }
         ElMessage.error(response.message)

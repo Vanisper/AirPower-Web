@@ -1,19 +1,28 @@
-<script generic="E extends AirEntity, S extends AirAbstractEntityService<E>" lang="ts" setup>
-import type { Component } from 'vue'
-import type { QueryRequestPage } from '../model'
+<script generic="E extends RootEntity, S extends AbstractCurdService<E>" lang="ts" setup>
+import type { IJson, ITransformerConstructor } from '@airpower/transformer'
+import type { Component, Ref } from 'vue'
+import type { RootEntity } from '../../base'
+import type { AbstractCurdService, CurdServiceConstructor } from '../../curd'
+import type { ISearchField, ITableColumn } from '../../decorator'
+import type { ISelectorOption } from '../../hooks'
+import type { QueryRequestPage } from '../../model'
+import { Transformer } from '@airpower/transformer'
 import { computed, useSlots } from 'vue'
-import { AButton, ADialog, APage, ATable } from '.'
+import { getSearchConfigList, getTableConfigList } from '../../decorator'
+import { useSelector } from '../../hooks'
+import { FeedbackUtil } from '../../util'
+import { AButton, ADialog, APage, ATable, DialogUtil } from '../index'
 
 const props = defineProps<{
   /**
    * # 选择器使用的实体类
    */
-  entity: ClassConstructor<E>
+  entity: ITransformerConstructor<E>
 
   /**
    * # 选择器使用的服务类
    */
-  service: ClassConstructor<S>
+  service: CurdServiceConstructor<E, S>
 
   /**
    * # 选择器的添加按钮的权限标识
@@ -24,7 +33,7 @@ const props = defineProps<{
   /**
    * # 选择器使用的字段列表
    */
-  fieldList?: AirTableFieldConfig[]
+  fieldList?: Array<ITableColumn<E>>
 
   /**
    * # `Editor`
@@ -35,7 +44,7 @@ const props = defineProps<{
   /**
    * # 搜索使用的字段列表
    */
-  searchParams?: AirSearchFieldConfig[]
+  searchParams?: ISearchField[]
 
   /**
    * # 选择器宽度
@@ -83,7 +92,7 @@ const props = defineProps<{
     /**
      * # 查询参数
      */
-    param: AirAny
+    param: any
 
     /**
      * # 是否多选
@@ -111,7 +120,7 @@ const props = defineProps<{
 const slots: IJson = useSlots()
 const { entity, service } = props
 
-const hookOptions: IUseSelectorOption<E> = {}
+const hookOptions: ISelectorOption<E> = {}
 if (props.beforeSearch) {
   hookOptions.beforeSearch = props.beforeSearch
 }
@@ -136,9 +145,9 @@ const {
   onPageChanged,
   onSelected,
   onReloadData,
-} = useAirSelector(props.props, service, hookOptions)
+} = useSelector(props.props, service, hookOptions)
 
-const entityInstance = AirClassTransformer.parse({}, props.entity)
+const entityInstance = Transformer.parse({}, props.entity)
 
 /**
  * # 弹窗标题
@@ -153,18 +162,18 @@ const dialogTitle = computed(() => {
 /**
  * # 列定义
  */
-const fields = computed(() => {
+const fields: Ref<Array<ITableColumn<E>>> = computed(() => {
   if (props.fieldList) {
     return props.fieldList
   }
-  return AirClassTransformer.parse({}, props.entity).getTableFieldConfigList()
+  return getTableConfigList<E>(entityInstance)
 })
 
 /**
  * # 搜索参数
  */
-const searchParamList = computed(() => {
-  let list = entityInstance.getSearchFieldConfigList()
+const searchParamList: Ref<ISearchField[]> = computed(() => {
+  let list = getSearchConfigList(entityInstance)
   if (props.searchParams) {
     list = props.searchParams
   }
@@ -172,7 +181,7 @@ const searchParamList = computed(() => {
   if (!defaultFilter) {
     return list
   }
-  return list.filter(item => !(defaultFilter[item?.key] !== null && defaultFilter[item?.key] !== undefined))
+  return list.filter(item => !(defaultFilter[item.key!] !== null && defaultFilter[item.key!] !== undefined))
 })
 
 /**
@@ -180,10 +189,10 @@ const searchParamList = computed(() => {
  */
 async function onAdd() {
   if (!props.editor) {
-    await AirNotification.error('请先配置编辑器')
+    await FeedbackUtil.alertError('请先配置编辑器')
     return
   }
-  await AirDialog.show(props.editor)
+  await DialogUtil.show(props.editor)
   onReloadData()
 }
 </script>

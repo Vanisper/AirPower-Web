@@ -1,11 +1,12 @@
-import type { ClassConstructor, Entity, IJson } from '@airpower/core'
+import type { ITransformerConstructor } from '@airpower/transformer'
+import type { RootEntity } from '../../base'
 import type { IFile } from '../../util'
 
 /**
  * # 上传配置项
  * @author Hamm.cn
  */
-export interface IUploadProps<F extends IFile & Entity> {
+export interface IUploadProps<F extends IFile & RootEntity> {
   /**
    * ### 对话框标题
    */
@@ -46,7 +47,7 @@ export interface IUploadProps<F extends IFile & Entity> {
   /**
    * ### 上传文件的接收实体类
    */
-  entity?: ClassConstructor<F>
+  entity?: ITransformerConstructor<F>
 
   /**
    * ### 自定义上传成功的回调

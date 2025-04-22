@@ -1,8 +1,8 @@
 <script generic="T extends IPayload" lang="ts" setup>
 import type { Component, ModelRef, PropType } from 'vue'
-import type { IPayload } from '../interface/IPayload'
+import type { IPayload } from '../payload'
 import { computed } from 'vue'
-import { AirDialog } from '../helper/AirDialog'
+import { DialogUtil } from '../dialog'
 
 const props = defineProps({
   /**
@@ -64,40 +64,28 @@ const props = defineProps({
 
 const emits = defineEmits<{
   change: [data: T | undefined]
-  onChange: [data: T | undefined]
   clear: []
-  onClear: []
 }>()
 
 const result = defineModel<T>() as ModelRef<T | undefined>
 
-function emitChange() {
-  emits('change', result.value)
-  emits('onChange', result.value)
-}
-
-function emitClear() {
-  emits('clear')
-  emits('onClear')
-}
-
 /**
  * # 显示标签
  */
-const label = computed(() => result.value?.getPayloadLabel() || props.default)
+const label = computed(() => result.value?.getLabel() || props.default)
 
 /**
  * # 选择事件
  */
 async function onSelect() {
-  result.value = await AirDialog.show<T>(props.selector, props.param)
-  emitChange()
+  result.value = await DialogUtil.show<T>(props.selector, props.param)
+  emits('change', result.value)
 }
 
 async function onClear() {
   result.value = undefined
-  emitChange()
-  emitClear()
+  emits('change', result.value)
+  emits('clear')
 }
 </script>
 

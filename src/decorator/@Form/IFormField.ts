@@ -1,10 +1,11 @@
+import type { RootModel } from '../../base'
 import type { IBaseField, IEnumField } from '../common'
 
 /**
  * # 表单的字段配置接口
  * @author Hamm.cn
  */
-export interface IFormField extends IBaseField, IEnumField {
+export interface IFormField<M extends RootModel | string = string> extends IBaseField<M>, IEnumField {
   /**
    * ### 最大数字
    * 默认配置 `AirConfig.maxNumber` 仅在 `number` 时有效

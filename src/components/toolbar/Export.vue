@@ -1,9 +1,14 @@
 <script lang="ts" setup>
+import type { IJson } from '@airpower/transformer'
 import { ref } from 'vue'
 import { ADialog } from '..'
+import { WebI18n } from '../../i18n'
 import { ExportModel } from '../../model'
+import { Http } from '../../util'
+import { WebFileUtil } from '../../util/file/WebFileUtil'
+import { DialogProps } from '../dialog/DialogProps'
 
-const props = defineProps(airPropsParam(new ExportModel()))
+const props = defineProps(DialogProps.withParam(new ExportModel()))
 
 /**
  * 加载状态
@@ -37,11 +42,11 @@ async function startLoop(fileCode: string) {
   try {
     const exportModel = new ExportModel()
     exportModel.fileCode = fileCode
-    const downloadPath = (await AirHttp.create(props.param.queryExportUrl)
-      .callbackError()
-      .post(exportModel)) as unknown as string
+    const downloadPath = (await Http.create(props.param.queryExportUrl)
+      .throwError()
+      .request(exportModel)) as unknown as string
     isLoading.value = false
-    exportFilePath.value = AirFile.getStaticFileUrl(downloadPath)
+    exportFilePath.value = WebFileUtil.getStaticFileUrl(downloadPath)
   }
   catch (e) {
     console.warn(e)
@@ -71,7 +76,7 @@ async function createExportTask() {
 
     // 导出数据无需分页
     (exportRequest as IJson).page = undefined
-    const fileCode: string = (await AirHttp.create(props.param.createExportTaskUrl).post(
+    const fileCode: string = (await Http.create(props.param.createExportTaskUrl).request(
       exportRequest,
     )) as unknown as string
     // 轮询任务结果
@@ -89,10 +94,10 @@ createExportTask()
 <template>
   <ADialog
     :allow-fullscreen="false"
+    :title="WebI18n.get().Export"
     class="export-dialog"
     hide-footer
     min-height="300px"
-    title="数据导出"
     width="400px"
     @on-cancel="cancelExport"
   >
@@ -105,11 +110,11 @@ createExportTask()
           :percentage="100"
           :stroke-width="10"
         />
-        {{ AirI18n.get().ExportLoadingAndWaitPlease || '数据准备中,请稍后...' }}
+        {{ WebI18n.get().ExportLoadingAndWaitPlease }}
       </template>
       <template v-else>
         <el-result
-          :title="AirI18n.get().ExportSuccess || '数据导出成功'"
+          :title="WebI18n.get().ExportSuccess"
           icon="success"
         >
           <template #extra>
@@ -117,7 +122,7 @@ createExportTask()
               type="primary"
               @click="download"
             >
-              {{ AirI18n.get().DownloadExportFile || '下载导出文件' }}
+              {{ WebI18n.get().DownloadExportFile }}
             </el-button>
           </template>
         </el-result>

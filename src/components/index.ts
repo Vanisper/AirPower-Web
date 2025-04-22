@@ -7,6 +7,7 @@ export * from './empty'
 export * from './money'
 export * from './page'
 export * from './panel'
+export * from './phone'
 export * from './table'
 export * from './upload'
 

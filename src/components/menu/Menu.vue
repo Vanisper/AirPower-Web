@@ -1,8 +1,8 @@
-<script lang="ts" setup>
-import type { IMenu } from '../interface/IMenu'
+<script generic="T extends IMenu<T>" lang="ts" setup>
+import type { IMenu } from './'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import ChildMenu from './menu/ChildMenu.vue'
+import ChildMenu from './ChildMenu.vue'
 
 defineProps({
   /**
@@ -10,7 +10,7 @@ defineProps({
    * 请确保传入的数组类型为 `IMenu` 的实现类
    */
   menuList: {
-    type: Array<IMenu>,
+    type: Array<T>,
     required: true,
   },
 

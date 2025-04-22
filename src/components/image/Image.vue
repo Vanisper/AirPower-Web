@@ -2,12 +2,13 @@
 import type { PropType } from 'vue'
 import type { IFile } from '../interface/IFile'
 import type { IJson } from '../interface/IJson'
-
 import type { ClassConstructor } from '../type/AirType'
 import { AirFileEntity } from '@airpower/model/entity/AirFileEntity'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
 import { computed, ref, watch } from 'vue'
+import { WebConfig } from '../../config'
 import { AirConfig } from '../config/AirConfig'
+
 import { AirNotification } from '../feedback/AirNotification'
 import { AirClassTransformer } from '../helper/AirClassTransformer'
 import { AirFile } from '../helper/AirFile'
@@ -171,7 +172,7 @@ watch(props, () => {
  */
 const uploadHeader = ref<IJson>({})
 uploadHeader.value = { ...uploadHeader.value, ...props.headers }
-uploadHeader.value[AirConfig.authorizationHeaderKey] = localStorage.getItem(AirConfig.authorizationHeaderKey)
+uploadHeader.value[AirConfig.authorizationHeaderKey] = WebConfig.getAccessToken()
 
 /**
  * # 移除图像事件
