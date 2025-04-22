@@ -165,7 +165,7 @@ function filterNode(value: string, node: T): boolean {
     <div
       v-if="!hideTree"
       :style="{ width: showWidth }"
-      class="air-tree-box-left"
+      class="a-tree-box-left"
     >
       <APanel
         v-show="isShow"
@@ -212,7 +212,7 @@ function filterNode(value: string, node: T): boolean {
         @click="isShow = !isShow"
       />
     </div>
-    <div class="air-tree-box-right">
+    <div class="a-tree-box-right">
       <slot />
     </div>
   </div>

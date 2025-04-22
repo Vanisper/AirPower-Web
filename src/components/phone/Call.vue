@@ -21,14 +21,14 @@ const content = `tel:${props.param}`
 <template>
   <ADialog
     :allow-fullscreen="false"
-    class="air-phone-call"
+    class="a-phone-call"
     hide-footer
     min-height="200px"
     min-width="250px"
     title="拨打电话"
     @on-cancel="onCancel()"
   >
-    <div class="air-phone-call__content">
+    <div class="a-phone-call__content">
       <AQrcode
         :content="content"
         :size="160"
@@ -45,7 +45,7 @@ const content = `tel:${props.param}`
 </template>
 
 <style lang="scss" scoped>
-.air-phone-call__content {
+.a-phone-call__content {
   display: flex;
   align-items: center;
   justify-content: center;

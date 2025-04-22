@@ -2,7 +2,7 @@
 
 <template>
   <el-tabs
-    class="air-tabs"
+    class="a-tabs"
     type="border-card"
   >
     <slot />
@@ -10,7 +10,7 @@
 </template>
 
 <style lang="scss" scoped>
-.air-tabs {
+.a-tabs {
   min-height: 100px;
   flex: 1;
   height: 0;

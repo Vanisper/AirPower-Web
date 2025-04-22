@@ -468,7 +468,7 @@ init()
 </script>
 
 <template>
-  <div class="air-input">
+  <div class="a-input">
     <template v-if="fieldConfig && fieldConfig.dateType !== undefined">
       <el-date-picker
         v-if="fieldConfig.dateType !== AirDateTimeType.TIME"
@@ -572,7 +572,7 @@ init()
         >
           <div
             v-if="fieldConfig?.showColor"
-            class="air-input-select"
+            class="a-input-select"
           >
             <span class="label">{{ item.label }}</span>
             <span
@@ -601,9 +601,9 @@ init()
       }"
       :readonly="readonly"
       :show-all-levels="fieldConfig?.showAllLevels"
-      class="air-input-cascader"
+      class="a-input-cascader"
       collapse-tags-tooltip
-      popper-class="air-input-cascader-popper"
+      popper-class="a-input-cascader-popper"
       @clear="onClear"
       @focus="emits('focus')"
       @keydown="onKeyDown"
@@ -661,15 +661,15 @@ init()
 </template>
 
 <style lang="scss">
-.air-input {
+.a-input {
   width: 100%;
 
-  .air-input-cascader {
+  .a-input-cascader {
     display: inline;
     width: 100%;
   }
 
-  .air-input-cascader-popper {
+  .a-input-cascader-popper {
     margin-top: 8px !important;
 
     .el-cascader-menu__list {
@@ -677,14 +677,14 @@ init()
     }
   }
 
-  .air-input-number {
+  .a-input-number {
     .el-input__inner {
       text-align: left;
     }
   }
 }
 
-.air-input-select {
+.a-input-select {
   display: flex;
   flex-direction: row;
   justify-content: center;

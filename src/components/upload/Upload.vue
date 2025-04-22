@@ -328,7 +328,7 @@ function onUploadSuccess(result: IJson) {
   }
 }
 
-::v-deep(.air-dialog) {
+::v-deep(.a-dialog) {
   .main {
     min-height: 200px !important;
   }

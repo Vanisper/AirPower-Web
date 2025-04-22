@@ -64,7 +64,7 @@ defineProps({
       <div
         v-if="!hideMenu"
         :style="{ width: `${menuWidth}px` }"
-        class="air-left"
+        class="a-left"
       >
         <div
           v-loading="!menuList"
@@ -138,7 +138,7 @@ defineProps({
     flex-direction: row;
     background-color: var(--el-color-primary-light-9);
 
-    .air-left {
+    .a-left {
       display: flex;
       flex-direction: column;
       background: #fff;

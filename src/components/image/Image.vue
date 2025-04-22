@@ -257,7 +257,7 @@ init()
 <template>
   <div
     :style="{ width: `${width}px`, height: `${height}px` }"
-    class="air-image"
+    class="a-image"
   >
     <el-image
       :preview-src-list="[imageUrl]"
@@ -310,7 +310,7 @@ init()
 </template>
 
 <style lang="scss">
-.air-image {
+.a-image {
   display: inline-block;
   position: relative;
   background: #f5f7fa;
@@ -381,7 +381,7 @@ init()
   }
 }
 
-.air-image:hover {
+.a-image:hover {
   cursor: pointer;
 
   .action {

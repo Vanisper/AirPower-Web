@@ -94,7 +94,7 @@ function getBodyClass() {
 <template>
   <div
     :class="autoHeight ? 'auto-height' : ''"
-    class="air-group"
+    class="a-group"
   >
     <div
       v-if="title && !hideTitle"
@@ -135,7 +135,7 @@ function getBodyClass() {
 </template>
 
 <style lang="scss">
-.air-group {
+.a-group {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
@@ -238,7 +238,7 @@ function getBodyClass() {
   }
 }
 
-.air-group.auto-height {
+.a-group.auto-height {
   flex: 1;
   height: 0;
   margin-bottom: 0;

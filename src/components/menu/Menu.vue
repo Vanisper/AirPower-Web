@@ -53,14 +53,14 @@ watch(
     :default-active="defaultMenu"
     :router="true"
     :unique-opened="uniqueOpened"
-    class="air-menu-tree"
+    class="a-menu-tree"
   >
     <ChildMenu :menu-list="menuList" />
   </el-menu>
 </template>
 
 <style lang="scss">
-.air-menu-tree {
+.a-menu-tree {
   background-color: transparent;
   border: none;
   width: 100%;

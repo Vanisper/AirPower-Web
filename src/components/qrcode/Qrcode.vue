@@ -40,7 +40,7 @@ watch(
   <div
     v-loading="!content"
     :style="{ width: `${size}px`, height: `${size}px` }"
-    class="air-qrcode"
+    class="a-qrcode"
   >
     <QrcodeVue
       v-if="content"
@@ -52,7 +52,7 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-.air-qrcode {
+.a-qrcode {
   position: relative;
   display: flex;
   background-color: #fff;

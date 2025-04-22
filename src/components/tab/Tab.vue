@@ -15,7 +15,7 @@ defineProps({
 <template>
   <ElTabPane
     :label="label"
-    class="air-tab"
+    class="a-tab"
   >
     <slot />
   </ElTabPane>
