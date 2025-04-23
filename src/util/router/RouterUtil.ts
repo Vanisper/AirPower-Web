@@ -27,12 +27,13 @@ export class RouterUtil {
   /**
    * ### 将 `AirMenu` 菜单列表初始化到 `Vue` 路由中
    * @param menuList 菜单列表
+   * @param components 组件列表
    * @param componentsDirectory `可选` 组件目录 默认 `/src/view`
    * @param parentRouter `可选` 父级路由 默认 `admin`
    * @param menuCacheKey `可选` 缓存Key 默认 `AirPowerMenuList`
    */
-  static initVueRouter(menuList: IMenu[], componentsDirectory = '/src/view', parentRouter = 'admin', menuCacheKey = 'AirPowerMenuList'): void {
-    this.components = import.meta.glob(`${componentsDirectory}/**/*.vue`)
+  static initVueRouter(menuList: IMenu[], components: Record<string, () => Promise<unknown>> = {}, componentsDirectory = '/src/view', parentRouter = 'admin', menuCacheKey = 'AirPowerMenuList'): void {
+    this.components = components
     this.componentsDirectory = componentsDirectory
     localStorage.setItem(menuCacheKey, JSON.stringify(menuList))
     if (!WebConfig.isTimeout) {
