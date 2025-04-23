@@ -134,7 +134,7 @@ const emits = defineEmits([
 /**
  * # 实体的实例
  */
-const entityInstance: E | undefined = props.entity ? Transformer.parse({}, props.entity) : undefined
+const entityInstance = ref(props.entity ? Transformer.parse({}, props.entity) : undefined)
 
 /**
  * 绑定的数据
@@ -384,12 +384,13 @@ function initFieldName() {
 function init() {
   initFieldName()
   // 初始化配置信息
-  if (props.entity && fieldName && entityInstance) {
-    formConfig.value = getFormConfig(entityInstance, fieldName.value)
-    fieldConfig.value = getFieldConfig(entityInstance, fieldName.value)
+  console.warn(props.entity, fieldName.value, entityInstance.value)
+  if (props.entity && fieldName.value && entityInstance.value) {
+    formConfig.value = getFormConfig(entityInstance.value, fieldName.value)
+    fieldConfig.value = getFieldConfig(entityInstance.value, fieldName.value)
 
     if (!placeholderRef.value) {
-      const field = fieldConfig.value.label || getFieldConfig(entityInstance, fieldName.value).label || fieldName
+      const field = fieldConfig.value.label || getFieldConfig(entityInstance.value, fieldName.value).label || fieldName
       // 默认生成输入的placeholder
       placeholderRef.value = `请输入${field}...`
 
@@ -412,13 +413,12 @@ function init() {
       }
     }
   }
+  dictionary.value = props.list ? props.list : (formConfig.value && fieldConfig.value?.dictionary) ? fieldConfig.value.dictionary.toArray() : undefined
   if (props.modelValue === undefined && formConfig.value?.defaultValue !== undefined) {
     // 没有初始化的值 但装饰器设置了默认值
     value.value = formConfig.value.defaultValue
     emitValue()
-    return
   }
-  dictionary.value = props.list ? props.list : (formConfig.value && fieldConfig.value?.dictionary) ? fieldConfig.value.dictionary.toArray() : undefined
 
   // 初始化同步值
   onPropsValueUpdated(props)
@@ -434,7 +434,7 @@ init()
       <el-date-picker
         v-if="formConfig.dateType !== DateTimeType.DATE"
         v-model="value"
-        :clearable="formConfig?.clearable"
+        :clearable="formConfig?.clearable !== false"
         :disabled="disabled"
         :format="formConfig.dateShowFormatter || getShowFormatter"
         :placeholder="placeholderRef"
@@ -451,7 +451,7 @@ init()
       <el-time-picker
         v-else
         v-model="value"
-        :clearable="formConfig?.clearable"
+        :clearable="formConfig?.clearable !== false"
         :disabled="disabled"
         :format="formConfig.dateShowFormatter || DateTimeFormatter.FULL_TIME"
         :placeholder="placeholderRef"
@@ -506,7 +506,7 @@ init()
       <el-select
         v-else
         v-model="value"
-        :clearable="formConfig?.clearable"
+        :clearable="formConfig?.clearable !== false"
         :collapse-tags="formConfig?.collapseTags"
         :disabled="disabled"
         :filterable="formConfig?.filterable"
@@ -548,7 +548,7 @@ init()
     <el-cascader
       v-else-if="formConfig && tree"
       v-model="value"
-      :clearable="formConfig?.clearable"
+      :clearable="formConfig?.clearable !== false"
       :collapse-tags="formConfig?.collapseTags"
       :disabled="disabled"
       :options="tree"
@@ -573,7 +573,7 @@ init()
       v-else
       v-model="value"
       :autosize="formConfig?.autoSize ? { minRows: formConfig.minRows, maxRows: formConfig.maxRows } : false"
-      :clearable="formConfig?.clearable"
+      :clearable="formConfig?.clearable !== false"
       :disabled="disabled"
       :max="formConfig?.max"
       :maxlength="

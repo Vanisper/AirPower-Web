@@ -6,12 +6,12 @@ import { getFieldConfig } from '../@Field'
 /**
  * ### KEY
  */
-const KEY = `${DecoratorUtil.DecoratorKeyPrefix}[Table]`
+const KEY = `${DecoratorUtil.DecoratorKeyPrefix}[Form]`
 
 /**
  * ### LIST KEY
  */
-const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[TableList]`
+const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[FormList]`
 
 /**
  * ### 标记该字段可用于表单配置
