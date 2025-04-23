@@ -1,13 +1,13 @@
 <script generic="E extends RootEntity" lang="ts" setup>
+import type { IEnum } from '@airpower/enum'
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType } from 'vue'
 import type { RootEntity } from '../../base'
-import type { IFormField } from '../../decorator'
 import type { ITree } from '../../model'
 import { Transformer } from '@airpower/transformer'
 import { ElFormItem } from 'element-plus'
 import { computed, inject, ref } from 'vue'
-import { getFieldConfig, getFormConfig } from '../../decorator'
+import { getFieldLabel } from '../../decorator'
 import { AInput } from '../index'
 
 const props = defineProps({
@@ -66,7 +66,7 @@ const props = defineProps({
    * 优先级: `AInput`传入 > `@Form`
    */
   list: {
-    type: Array<IFormField>,
+    type: Array<IEnum>,
     default: undefined,
   },
 
@@ -75,7 +75,7 @@ const props = defineProps({
    * 优先级: `AInput` 传入 > `@Form`
    */
   tree: {
-    type: Array <ITree<E>>,
+    type: Array<ITree>,
     default: undefined,
   },
 })
@@ -132,16 +132,11 @@ function onChange(val: unknown) {
     ;(injectFormData.value as IJson)[props.field] = val
   }
 }
-
-function getFormFieldLabel(fieldKey: string): string {
-  const props = getFieldConfig(entityInstance.value, fieldKey)
-  return getFormConfig(entityInstance.value, fieldKey)?.label || props.label || fieldKey
-}
 </script>
 
 <template>
   <ElFormItem
-    :label="getFormFieldLabel(field)"
+    :label="getFieldLabel(entityInstance, field)"
     :prop="field"
   >
     <slot>

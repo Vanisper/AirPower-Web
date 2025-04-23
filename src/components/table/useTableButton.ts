@@ -3,19 +3,81 @@ import type { RootEntity } from '../../base'
 import { WebConfig } from '../../config'
 import { PermissionAction, PermissionUtil } from '../../util'
 
+/**
+ * # 表格按钮权限控制
+ *
+ * @author Hamm.cn
+ */
 export function useTableButton<E extends RootEntity>(params: {
+  /**
+   * ### 实体类
+   */
   entityClass: ITransformerConstructor<E>
+
+  /**
+   * ### 编辑权限标识
+   */
   editPermission?: string
+
+  /**
+   * ### 删除权限标识
+   */
   deletePermission?: string
+
+  /**
+   * ### 添加子项权限标识
+   */
   addRowPermission?: string
+
+  /**
+   * ### 禁用权限标识
+   */
   disablePermission?: string
+
+  /**
+   * ### 启用权限标识
+   */
   enablePermission?: string
+
+  /**
+   * ### 详情权限标识
+   */
   detailPermission?: string
+
+  /**
+   * ### 禁用添加子项函数
+   * @param row 行数据
+   */
   disableAddRow: (row: E) => boolean
+
+  /**
+   * ### 禁用删除函数
+   * @param row 行数据
+   */
   disableDelete: (row: E) => boolean
+
+  /**
+   * ### 禁用编辑函数
+   * @param row 行数据
+   */
   disableEdit: (row: E) => boolean
+
+  /**
+   * ### 禁用状态切换函数
+   * @param row 行数据
+   */
   disableChangeStatus: (row: E) => boolean
+
+  /**
+   * ### 是否可选
+   * @param row 行数据
+   */
   selectable: (row: E) => boolean
+
+  /**
+   * ### 添加按钮是否禁用
+   * @param row 行数据
+   */
   isAddDisabled: (row: E) => boolean
 }) {
   const {
@@ -33,6 +95,10 @@ export function useTableButton<E extends RootEntity>(params: {
     selectable,
   } = params
 
+  /**
+   * ### 判断是否有权限
+   * @param permission 权限标识
+   */
   function hasPermission(permission: string) {
     if (WebConfig.disablePermission) {
       return true
@@ -43,6 +109,10 @@ export function useTableButton<E extends RootEntity>(params: {
     return PermissionUtil.has(permission)
   }
 
+  /**
+   * ### 添加子项是否禁用
+   * @param row 行数据
+   */
   function isAddRowDisabled(row: E) {
     if (!hasPermission(addRowPermission)) {
       return true
@@ -50,6 +120,10 @@ export function useTableButton<E extends RootEntity>(params: {
     return disableAddRow ? disableAddRow(row) : false
   }
 
+  /**
+   * ### 删除是否禁用
+   * @param row 行数据
+   */
   function isDeleteDisabled(row: E) {
     if (!hasPermission(deletePermission)) {
       return true
@@ -57,6 +131,10 @@ export function useTableButton<E extends RootEntity>(params: {
     return disableDelete ? disableDelete(row) : false
   }
 
+  /**
+   * ### 编辑是否禁用
+   * @param row 行数据
+   */
   function isEditDisabled(row: E) {
     if (!hasPermission(editPermission)) {
       return true
@@ -64,6 +142,10 @@ export function useTableButton<E extends RootEntity>(params: {
     return disableEdit ? disableEdit(row) : false
   }
 
+  /**
+   * ### 详情是否禁用
+   * @param row 行数据
+   */
   function isDetailDisabled(row: E) {
     if (!hasPermission(detailPermission)) {
       return true
@@ -71,6 +153,10 @@ export function useTableButton<E extends RootEntity>(params: {
     return disableEdit ? disableEdit(row) : false
   }
 
+  /**
+   * ### 禁用/启用是否禁用
+   * @param row 行数据
+   */
   function isDisableChangeStatus(row: E) {
     let permission
     if (row.isDisabled) {
@@ -87,6 +173,10 @@ export function useTableButton<E extends RootEntity>(params: {
     return disableChangeStatus ? disableChangeStatus(row) : false
   }
 
+  /**
+   * ### 是否可选
+   * @param row 行数据
+   */
   const isSelectable = (row: E) => (selectable ? selectable(row) : true)
 
   return {

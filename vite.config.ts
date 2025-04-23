@@ -13,7 +13,7 @@ export default defineConfig({
       fileName: () => `main.js`,
     },
     rollupOptions: {
-      external: ['@airpower/transformer', '@airpower/enum', '@airpower/util', 'vue', 'axios', 'element-plus'],
+      external: ['@airpower/transformer', '@airpower/enum', '@airpower/util', 'vue', 'axios', 'element-plus', 'tests'],
     },
   },
   plugins: [dts(), vue()],

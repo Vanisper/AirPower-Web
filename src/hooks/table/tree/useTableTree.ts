@@ -14,7 +14,7 @@ import { useTable } from '../list'
  * @param option `可选` 更多配置
  * @author Hamm.cn
  */
-export function useTableTree<E extends ITree<E> & RootEntity, S extends AbstractCurdService<E>>(
+export function useTableTree<E extends ITree & RootEntity, S extends AbstractCurdService<E>>(
   serviceClass: CurdServiceConstructor<E, S>,
   option: ITableTreeOption<E> = {},
 ): ITableTreeResult<E, S> {

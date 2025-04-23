@@ -5,7 +5,7 @@ import type { ITree } from '../../model'
  *
  * @author Hamm.cn
  */
-export interface IMenu<T extends IMenu<T>> extends ITree<T> {
+export interface IMenu extends ITree {
   /**
    * ### 菜单 `URL`
    */

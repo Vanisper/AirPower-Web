@@ -1,4 +1,4 @@
-<script generic="E extends RootEntity, T extends ITree<T> & RootEntity" lang="ts" setup>
+<script generic="E extends RootEntity, T extends ITree, EM extends IEnum" lang="ts" setup>
 import type { IEnum } from '@airpower/enum'
 import type { EnumKey } from '@airpower/enum/dist/enum/type'
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
@@ -10,7 +10,7 @@ import type { ITree } from '../../model'
 import { Transformer } from '@airpower/transformer'
 import { DateTimeFormatter, ValidateUtil } from '@airpower/util'
 import { CircleClose } from '@element-plus/icons-vue'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, useSlots, watch } from 'vue'
 import { WebConfig } from '../../config'
 import { FormTrim, getFieldConfig, getFormConfig } from '../../decorator'
 import { WebColor } from '../../enum'
@@ -92,7 +92,7 @@ const props = defineProps({
    * 优先级: `AInput` 传入 > `@Form`
    */
   list: {
-    type: Array<IEnum & RootEntity>,
+    type: Array<EM>,
     default: undefined,
   },
 
@@ -424,6 +424,7 @@ function init() {
   onPropsValueUpdated(props)
 }
 
+const slots: Readonly<any> = useSlots()
 init()
 </script>
 
@@ -593,7 +594,7 @@ init()
       @keydown="onKeyDown"
     >
       <template
-        v-for="(_, name) in $slots"
+        v-for="(_, name) in slots"
         #[name]
       >
         <slot :name="name">

@@ -15,20 +15,23 @@
 <a href="https://www.npmjs.com/package/@airpower/web">NPM</a>
 </p>
 
-## 🎉 项目介绍
+# 🎉 项目介绍
 
 **AirPower-Web**, 一个基于 **Vue3** **Element Plus** **TypeScript** 的快速开发脚手架。
 
-此项目是基于 **[@airpower-core](https://github.com/AirPowerTeam/AirPower-Core)** 的 **Web** 端实现，我们还提供了很多的工具包，例如：
+此项目 依赖了 **@AirPower** 提供的其他公共工具库：
 
-- **Vue3+TypeScript+ElementPlus+Vite** 的 **Web开发工具包**，
-  请查看 [AirPower4T](https://github.com/AirPowerTeam/AirPower4T)
-- **[@airpower/web](https://www.npmjs.com/package/@airpower/web)** 适用于 **Web** 开发 (开发中，**AirPower4T** 的重构版)
-- **[@airpower/uniapp](https://www.npmjs.com/package/@airpower/uniapp)** 适用于 **UniApp** 开发 (计划中)
-- **[@airpower/electron](https://www.npmjs.com/package/@airpower/electron)** 适用于 **Electron** 开发 (计划中)
-- **[@airpower/wechat](https://www.npmjs.com/package/@airpower/wechat)** 适用于 **微信小程序** 开发 (计划中)
+# 🚗 项目依赖
 
-## 💻 如何安装
+- **[AirPower-Transformer](https://github.com/AirPowerTeam/AirPower-Transformer)**
+
+- **[AirPower-Enum](https://github.com/AirPowerTeam/AirPower-Enum)**
+
+- **[AirPower-Enum](https://github.com/AirPowerTeam/AirPower-Enum)**
+
+- **[AirPower-Util](https://github.com/AirPowerTeam/AirPower-Util)**
+
+# 💻 如何安装
 
 ```shell
 npm install @airpower/web
@@ -39,14 +42,12 @@ cnpm install @airpower/web
 # or ...
 ```
 
-## 📖 参考文档
+# 📖 参考文档
 
 **我们提供了一系列的使用文档，你可以 [点击这里阅读](docs/README.md)**
 
-## ⏰ 欢迎反馈
+# ⏰ 欢迎反馈
 
 如有疑问，可以通过本仓库的 **Issues** 与我们联系，如果你有一些代码贡献，可以通过 **Pull Request** 将代码贡献，为这个项目添砖加瓦。
-
-> 高司令：“嗯？Java? 什么Java?”
 
 如果有更多的需求和建议，欢迎通过本仓库的 `Issues` 提出，也欢迎加入 QQ群 555156313 与我们及时反馈。

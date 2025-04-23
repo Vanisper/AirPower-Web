@@ -867,11 +867,10 @@ function onSearch() {
         <AButton
           v-if="showExport"
           :permission="exportPermission || PermissionUtil.get(entity, PermissionAction.EXPORT)"
-          custom-class="export-button"
           icon="EXPORT"
           @click="onExport()"
         >
-          {{ WebI18n.get().Export }}
+          {{ WebI18n.get().Export }}:
         </AButton>
         <slot name="afterSearch" />
         <ColumnSelector

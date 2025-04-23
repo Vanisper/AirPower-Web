@@ -1,4 +1,4 @@
-<script generic="T extends IPayload & RootEntity" lang="ts" setup>
+<script lang="ts" setup>
 import type { Component, PropType } from 'vue'
 import type { RootEntity } from '../../base'
 import type { IPayload } from './IPayload'
@@ -10,7 +10,7 @@ const props = defineProps({
    * # 负载对象
    */
   payload: {
-    type: Object as PropType<T>,
+    type: Object as PropType<IPayload & RootEntity>,
     required: true,
   },
 

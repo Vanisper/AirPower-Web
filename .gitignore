@@ -26,3 +26,4 @@ dist-ssr
 #lock
 yarn.lock
 package-lock.json
+tests

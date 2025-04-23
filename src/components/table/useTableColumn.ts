@@ -72,6 +72,9 @@ export function useTableColumn<E extends RootEntity>(params: {
     })
   }
 
+  /**
+   * ### 显示的字段
+   */
   const showColumnList: Ref<ITableColumn[]> = ref([])
 
   /**
