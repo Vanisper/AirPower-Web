@@ -100,10 +100,10 @@ export class DialogProps {
       /**
        * ### 传入参数为一个实体
        *
-       * 能保证的是, 确实是一个实体的基类, 可以调用一些 `AirModel` 的方法
+       * 能保证的是, 确实是一个实体的基类, 可以调用一些 `Transformer` 的方法
        *
        * ```typescript
-       * AirClassTransformer.parse(props.param.toSourceObject(), UserEntity)
+       * Transformer.parse(props.param.toSourceObject(), UserEntity)
        * ```
        */
       param: {

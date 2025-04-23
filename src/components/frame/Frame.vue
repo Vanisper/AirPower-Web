@@ -52,7 +52,7 @@ defineProps({
     >
       <div class="a-logo">
         <slot name="logo">
-          <span>AirPower4T</span>
+          <span>AirPower</span>
         </slot>
       </div>
       <div class="a-navigator">

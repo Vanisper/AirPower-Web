@@ -22,7 +22,7 @@ const props = defineProps({
 
   /**
    * # 时间格式化模板
-   * 建议使用 `AirDateTimeFormatter`
+   * 建议使用 `DateTimeFormatter`
    */
   formatter: {
     type: DateTimeFormatter,

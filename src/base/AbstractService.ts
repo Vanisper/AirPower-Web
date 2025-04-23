@@ -36,7 +36,7 @@ export abstract class AbstractService extends Transformer {
   }
 
   /**
-   * ### 创建一个 `AirHttp` 实例
+   * ### 创建一个 `HTTP` 实例
    * @param url 请求的接口地址
    * @param baseUrl `可选` 请求的接口目录
    */

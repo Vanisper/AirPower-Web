@@ -25,7 +25,7 @@ export class RouterUtil {
   private static componentsDirectory = ''
 
   /**
-   * ### 将 `AirMenu` 菜单列表初始化到 `Vue` 路由中
+   * ### 将 `IMenu` 菜单列表初始化到 `Vue` 路由中
    * @param menuList 菜单列表
    * @param components 组件列表
    * @param componentsDirectory `可选` 组件目录 默认 `/src/view`
@@ -80,7 +80,7 @@ export class RouterUtil {
         return
       }
       if (!this.router) {
-        FeedbackUtil.toastError('请先向AirConfig注入当前路由对象')
+        FeedbackUtil.toastError('请先调用 createRouter 创建路由')
         return
       }
       if (!item.name || (!item.path && !item.component)) {
