@@ -30,6 +30,6 @@ function show() {
 
 <template>
   <ElLink @click="show()">
-    {{ payload.getLabel() }}
+    {{ payload.getPayloadLabel() }}
   </ElLink>
 </template>

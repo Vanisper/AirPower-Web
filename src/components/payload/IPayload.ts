@@ -7,5 +7,5 @@ export interface IPayload {
   /**
    * ### 获取负载标签
    */
-  getLabel: () => string
+  getPayloadLabel: () => string
 }

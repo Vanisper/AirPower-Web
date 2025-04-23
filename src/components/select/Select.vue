@@ -72,7 +72,7 @@ const result = defineModel<T>() as ModelRef<T | undefined>
 /**
  * # 显示标签
  */
-const label = computed(() => result.value?.getLabel() || props.default)
+const label = computed(() => result.value?.getPayloadLabel() || props.default)
 
 /**
  * # 选择事件
