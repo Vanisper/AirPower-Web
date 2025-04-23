@@ -94,17 +94,17 @@ export class WebConfig {
   /**
    * ### `AccessToken` 对应的 `Key`
    */
-  static authorizationHeaderKey = HttpHeader.AUTHORIZATION
+  static authorizationHeaderKey: string = HttpHeader.AUTHORIZATION
 
   /**
    * ### 全局 `http` 请求返回 成功状态码
    */
-  static successCode = HttpStatus.OK
+  static successCode: number = HttpStatus.OK
 
   /**
    * ### 全局 `http` 请求返回 登录状态码
    */
-  static unAuthorizeCode = HttpStatus.UNAUTHORIZED
+  static unAuthorizeCode: number = HttpStatus.UNAUTHORIZED
 
   /**
    * ### 超时时间 毫秒
