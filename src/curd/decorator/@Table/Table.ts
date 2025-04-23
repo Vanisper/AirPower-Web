@@ -18,7 +18,7 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[TableList]`
  * ### 为属性标记是表格字段
  * @param config 表格列的配置
  */
-export function Table(config: FieldConfigOptionalKey<ITableColumn, 'key'> = {}) {
+export function Table(config: FieldConfigOptionalKey<ITableColumn> = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
     DecoratorUtil.setFieldConfig(target, key, KEY, config)
