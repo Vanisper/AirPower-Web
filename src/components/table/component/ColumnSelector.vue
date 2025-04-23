@@ -1,11 +1,11 @@
 <script generic="E extends RootEntity" lang="ts" setup>
 import type { Ref } from 'vue'
 import type { RootEntity } from '../../../base'
-import type { ITableColumn } from '../../../decorator'
+import type { ITableColumn } from '../../../curd'
 import { ElCheckTag } from 'element-plus'
 import { ref } from 'vue'
-import { getFieldLabel } from '../../../decorator'
-import { WebI18n } from '../../../i18n'
+import { getFieldLabel } from '../../../curd'
+import { WebI18n } from '../../../util'
 import { AButton } from '../../button'
 
 const props = defineProps<{

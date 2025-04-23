@@ -5,8 +5,7 @@ import type { PropType } from 'vue'
 import type { WebValidator } from '../../util'
 import { Close, FullScreen } from '@element-plus/icons-vue'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { WebI18n } from '../../i18n'
-import { FeedbackUtil } from '../../util'
+import { FeedbackUtil, WebI18n } from '../../util'
 import { AButton } from '../button'
 
 const props = defineProps({

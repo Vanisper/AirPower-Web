@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { WarningFilled } from '@element-plus/icons-vue'
 import { ACopy, ADialog, AQrcode } from '..'
-import { DialogProps } from '../dialog/DialogProps'
+import { DialogProps } from '../dialog'
 
 const props = defineProps({
   ...DialogProps.withParam(''),

@@ -6,9 +6,7 @@ import { ElMessageBox } from 'element-plus'
 import { computed, ref } from 'vue'
 import defaultAvatar from '../../assets/img/avatar.svg'
 import { WebConfig } from '../../config'
-import { WebI18n } from '../../i18n'
-import { PermissionUtil } from '../../util'
-import { WebFileUtil } from '../../util/file/WebFileUtil'
+import { PermissionUtil, WebFileUtil, WebI18n } from '../../util'
 
 const props = defineProps({
   /**

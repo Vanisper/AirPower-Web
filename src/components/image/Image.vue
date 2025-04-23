@@ -8,9 +8,7 @@ import { FileUtil } from '@airpower/util'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
 import { computed, ref, watch } from 'vue'
 import { WebConfig } from '../../config'
-import { WebI18n } from '../../i18n'
-import { FeedbackUtil } from '../../util'
-import { WebFileUtil } from '../../util/file/WebFileUtil'
+import { FeedbackUtil, WebFileUtil, WebI18n } from '../../util'
 
 const props = defineProps({
   /**

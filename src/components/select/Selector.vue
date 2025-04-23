@@ -2,14 +2,17 @@
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { Component, Ref } from 'vue'
 import type { RootEntity } from '../../base'
-import type { AbstractCurdService, CurdServiceConstructor } from '../../curd'
-import type { ISearchField, ITableColumn } from '../../decorator'
-import type { ISelectorOption } from '../../hooks'
-import type { QueryRequestPage } from '../../model'
+import type {
+  AbstractCurdService,
+  CurdServiceConstructor,
+  ISearchField,
+  ISelectorOption,
+  ITableColumn,
+  QueryRequestPage,
+} from '../../curd'
 import { Transformer } from '@airpower/transformer'
 import { computed, useSlots } from 'vue'
-import { getSearchConfigList, getTableConfigList } from '../../decorator'
-import { useSelector } from '../../hooks'
+import { getSearchConfigList, getTableConfigList, useSelector } from '../../curd'
 import { FeedbackUtil } from '../../util'
 import { AButton, ADialog, APage, ATable, DialogUtil } from '../index'
 

@@ -1,6 +1,6 @@
 <script generic="E extends RootEntity" lang="ts" setup>
 import type { RootEntity } from '../../../base'
-import type { ITableColumn } from '../../../decorator'
+import type { ITableColumn } from '../../../curd'
 import { computed } from 'vue'
 import { ACopy } from '../../copy'
 

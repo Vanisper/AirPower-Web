@@ -1,10 +1,10 @@
 <script generic="E extends RootEntity" lang="ts" setup>
 import type { EnumKey } from '@airpower/enum'
 import type { RootEntity } from '../../../base'
-import type { ITableColumn } from '../../../decorator'
-import type { WebEnumConstructor } from '../../../enum'
+import type { ITableColumn } from '../../../curd'
+import type { WebEnumConstructor } from '../../../util'
 import { computed } from 'vue'
-import { WebColor } from '../../../enum'
+import { WebColor } from '../../../util'
 
 const props = defineProps<{
   column: ITableColumn

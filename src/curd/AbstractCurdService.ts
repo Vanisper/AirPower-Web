@@ -1,13 +1,12 @@
 import type { ITransformerConstructor } from '@airpower/transformer'
 import type { RootEntity } from '../base'
-import type { QueryRequest } from '../model'
 import type { WebValidateRule } from '../util'
+import type { QueryRequest } from './model'
 import type { CurdServiceConstructor } from './type'
 import { Transformer } from '@airpower/transformer'
 import { AbstractService } from '../base'
-import { WebI18n } from '../i18n'
-import { QueryResponsePage } from '../model'
-import { FeedbackUtil, WebValidator } from '../util'
+import { FeedbackUtil, WebI18n, WebValidator } from '../util'
+import { QueryResponsePage } from './model'
 
 /**
  * # 实体 `API` 服务超类
@@ -76,7 +75,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
     E extends RootEntity,
     S extends AbstractCurdService<E>,
   >(this: CurdServiceConstructor<E, S>,
-      moreRule: WebValidateRule<E> = {},
+    moreRule: WebValidateRule<E> = {},
   ): WebValidateRule<E> {
     return WebValidator.createRules(new this(), moreRule)
   }

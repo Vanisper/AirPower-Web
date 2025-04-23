@@ -8,8 +8,7 @@ import { FileUtil } from '@airpower/util'
 import { ElUpload } from 'element-plus'
 import { ref } from 'vue'
 import { WebConfig } from '../../config'
-import { WebI18n } from '../../i18n'
-import { FeedbackUtil } from '../../util'
+import { FeedbackUtil, WebI18n } from '../../util'
 import { ADialog } from '../dialog'
 
 const props = defineProps({

@@ -1,8 +1,8 @@
 import type { Ref } from 'vue'
 import type { RootEntity } from '../../base'
-import type { IModelConfig, ITableColumn } from '../../decorator'
+import type { IModelConfig, ITableColumn } from '../../curd'
 import { computed, ref } from 'vue'
-import { getModelConfig, getTableConfigList } from '../../decorator'
+import { getModelConfig, getTableConfigList } from '../../curd'
 
 /**
  * # 表格字段

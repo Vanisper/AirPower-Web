@@ -1,7 +1,7 @@
 import type { ITransformerConstructor } from '@airpower/transformer'
 import type { RootEntity } from '../../base'
 import { WebConfig } from '../../config'
-import { getModelConfig } from '../../decorator'
+import { getModelConfig } from '../../curd'
 import { PermissionAction } from './PermissionAction'
 
 /**

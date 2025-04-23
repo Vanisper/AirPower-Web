@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import useClipboard from 'vue-clipboard3'
-import { WebI18n } from '../../i18n'
-import { FeedbackUtil } from '../../util'
+import { FeedbackUtil, WebI18n } from '../../util'
 import { AButton } from '../button'
 
 const props = defineProps({

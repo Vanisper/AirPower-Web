@@ -1,6 +1,6 @@
 import type { FeedbackType } from './type'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { WebI18n } from '../../i18n'
+import { WebI18n } from '../i18n'
 
 /**
  * ### 弹窗工具

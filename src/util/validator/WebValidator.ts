@@ -10,8 +10,8 @@ import type {
 } from './type'
 import { Transformer } from '@airpower/transformer'
 import { ValidateUtil } from '@airpower/util'
-import { getFormConfig, getFormFieldList } from '../../decorator'
-import { WebI18n } from '../../i18n'
+import { getFormConfig, getFormFieldList } from '../../curd'
+import { WebI18n } from '../i18n'
 
 /**
  * # 表单验证
@@ -68,7 +68,7 @@ export class WebValidator {
    */
   static createRules<E extends RootEntity, S extends AbstractCurdService<E>>(
     service: S,
-        rules: WebValidateRule<E> = {},
+    rules: WebValidateRule<E> = {},
   ) {
     const formRules: IJson = rules
     const entity = Transformer.newInstance(service.entityClass)

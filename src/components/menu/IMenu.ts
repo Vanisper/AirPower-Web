@@ -1,4 +1,4 @@
-import type { ITree } from '../../model'
+import type { ITree } from '../../curd'
 
 /**
  * # 菜单接口

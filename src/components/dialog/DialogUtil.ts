@@ -1,7 +1,7 @@
 import type { IJson } from '@airpower/transformer'
 import type { App, Component } from 'vue'
 import type { RootEntity } from '../../base'
-import type { ExportModel } from '../../model'
+import type { ExportModel } from '../../curd'
 import type { IFile } from '../../util'
 import type { IUploadProps } from '../upload'
 import ElementPlus from 'element-plus'

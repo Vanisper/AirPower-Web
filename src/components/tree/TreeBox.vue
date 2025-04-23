@@ -2,7 +2,7 @@
 import type { TreeInstance } from 'element-plus'
 import type { Ref } from 'vue'
 import type { RootEntity } from '../../base'
-import type { ITree } from '../../model'
+import type { ITree } from '../../curd'
 import { computed, ref, watch } from 'vue'
 import { APanel } from '../index'
 

@@ -3,8 +3,8 @@ import type { RootEntity } from '../../base'
 import { ElButton, ElInput, ElPagination, ElPopover, ElRadioButton, ElRadioGroup } from 'element-plus'
 import { computed, ref } from 'vue'
 import { WebConfig } from '../../config'
-import { WebI18n } from '../../i18n'
-import { QueryPage, QueryResponsePage } from '../../model'
+import { QueryPage, QueryResponsePage } from '../../curd'
+import { WebI18n } from '../../util'
 
 const props = defineProps({
   /**

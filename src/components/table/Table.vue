@@ -3,19 +3,30 @@ import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { TableInstance } from 'element-plus'
 import type { ComputedRef, PropType, Ref } from 'vue'
 import type { RootEntity } from '../../base'
-import type { AbstractCurdService, CurdServiceConstructor } from '../../curd'
-import type { IModelConfig, ISearchField, ITableColumn } from '../../decorator'
-import type { QueryRequest } from '../../model'
+import type {
+  AbstractCurdService,
+  CurdServiceConstructor,
+  IModelConfig,
+  ISearchField,
+  ITableColumn,
+  QueryRequest,
+} from '../../curd'
 import type { IFile } from '../../util'
 import { Transformer } from '@airpower/transformer'
 import { DateTimeFormatter } from '@airpower/util'
 import { ElInput, ElLink, ElMessageBox, ElOption, ElSelect, ElTable, ElTableColumn } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 import { WebConfig } from '../../config'
-import { getDictionary, getFieldLabel, getModelConfig, getSearchConfigList } from '../../decorator'
-import { WebI18n } from '../../i18n'
-import { ExportModel, QueryRequestPage, QuerySort } from '../../model'
-import { FeedbackUtil, Http, PermissionAction, PermissionUtil } from '../../util'
+import {
+  ExportModel,
+  getDictionary,
+  getFieldLabel,
+  getModelConfig,
+  getSearchConfigList,
+  QueryRequestPage,
+  QuerySort,
+} from '../../curd'
+import { FeedbackUtil, Http, PermissionAction, PermissionUtil, WebI18n } from '../../util'
 import { AButton, ADateTime, ADesensitize, DialogUtil } from '../index'
 import { ColumnSelector, CopyColumn, EnumColumn } from './component'
 import { useTableButton } from './useTableButton'

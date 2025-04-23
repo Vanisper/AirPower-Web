@@ -1,6 +1,6 @@
 import type { IEntity } from './IEntity'
-import { Field, Table } from '../decorator'
-import { DisableEnum } from '../enum'
+import { Field, Table } from '../curd'
+import { DisableEnum } from '../util'
 import { RootModel } from './RootModel'
 
 /**

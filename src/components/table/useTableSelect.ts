@@ -1,7 +1,7 @@
 import type { TableInstance } from 'element-plus'
 import type { Ref } from 'vue'
 import type { RootEntity } from '../../base'
-import type { ITree } from '../../model'
+import type { ITree } from '../../curd'
 
 /**
  * ### 表格多选
