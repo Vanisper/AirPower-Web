@@ -4,6 +4,7 @@ import type { Ref } from 'vue'
 import type { RootEntity } from '../../base'
 import type { ITree } from '../../curd'
 import { computed, ref, watch } from 'vue'
+import { WebConfig } from '../../config'
 import { APanel } from '../index'
 
 const props = defineProps({
@@ -196,10 +197,7 @@ function filterNode(value: string, node: T): boolean {
           :default-expand-all="defaultExpandAll"
           :expand-on-click-node="false"
           :filter-node-method="filterNode"
-          :props="{
-            children: 'children',
-            label: 'name',
-          }"
+          :props="WebConfig.treeProps"
           highlight-current
           node-key="id"
           @node-click="treeSelectChanged"

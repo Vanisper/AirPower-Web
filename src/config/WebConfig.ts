@@ -158,6 +158,14 @@ export class WebConfig {
   static product = 'AirPower'
 
   /**
+   * ### 树形控件属性
+   */
+  static treeProps = {
+    children: 'children',
+    label: 'name',
+  }
+
+  /**
    * ### 获取身份令牌
    */
   static getAccessToken(): string {
