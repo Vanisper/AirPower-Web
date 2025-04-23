@@ -1,4 +1,5 @@
 import type { DecoratorTarget } from '@airpower/transformer'
+import type { RootModel } from '../../../base'
 import type { IFormField } from './IFormField'
 import { DecoratorUtil } from '@airpower/transformer'
 import { getFieldConfig } from '../@Field'
@@ -29,7 +30,7 @@ export function Form(config: IFormField = {}) {
  * @param target 目标类或对象
  * @param key 属性名
  */
-export function getFormConfig(target: DecoratorTarget, key: string): IFormField {
+export function getFormConfig<M extends RootModel>(target: M, key: string): IFormField {
   const formConfig = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!formConfig) {
     return {}
@@ -47,7 +48,7 @@ export function getFormConfig(target: DecoratorTarget, key: string): IFormField 
  * ### 获取标记了表单配置的字段列表
  * @param target 目标对象
  */
-export function getFormFieldList(target: DecoratorTarget): string[] {
+export function getFormFieldList<M extends RootModel>(target: M): string[] {
   return DecoratorUtil.getFieldList(target, LIST_KEY)
 }
 
@@ -56,7 +57,7 @@ export function getFormFieldList(target: DecoratorTarget): string[] {
  * @param target 目标类或对象
  * @param keyList 选择字段列表
  */
-export function getFormConfigList(target: DecoratorTarget, keyList: string[] = []): IFormField[] {
+export function getFormConfigList<M extends RootModel>(target: M, keyList: string[] = []): IFormField[] {
   if (keyList.length === 0) {
     keyList = getFormFieldList(target)
   }

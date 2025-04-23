@@ -1,4 +1,4 @@
-import type { DecoratorTarget } from '@airpower/transformer'
+import type { DecoratorTarget, Transformer } from '@airpower/transformer'
 import type { IModelConfig } from './IModelConfig'
 import { DecoratorUtil } from '@airpower/transformer'
 
@@ -14,8 +14,16 @@ export function Model<T extends IModelConfig = IModelConfig>(config: T = {} as T
 
 /**
  * ### 获取模型类配置项
- * @param target 目标类
+ * @param target 实例
  */
-export function getModelConfig<T extends IModelConfig = IModelConfig>(target: DecoratorTarget): T {
+export function getModelConfig<E extends Transformer, T extends IModelConfig = IModelConfig>(target: E): T {
   return DecoratorUtil.getClassConfig(target, KEY, {}, true) as T
+}
+
+/**
+ * ### 获取模型类名称
+ * @param target 实例
+ */
+export function getModelName<E extends Transformer>(target: E): string {
+  return getModelConfig(target).label || target.constructor.name
 }

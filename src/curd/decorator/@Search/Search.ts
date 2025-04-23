@@ -1,4 +1,5 @@
 import type { DecoratorTarget } from '@airpower/transformer'
+import type { RootModel } from '../../../base'
 import type { ISearchField } from './ISearchField'
 import { DecoratorUtil } from '@airpower/transformer'
 
@@ -28,7 +29,7 @@ export function Search(config: ISearchField = {}) {
  * @param target 目标类或对象
  * @param key 属性名
  */
-export function getSearchConfig(target: DecoratorTarget, key: string): ISearchField {
+export function getSearchConfig<M extends RootModel>(target: M, key: string): ISearchField {
   const formConfig: ISearchField | null = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!formConfig) {
     return {}
@@ -40,7 +41,7 @@ export function getSearchConfig(target: DecoratorTarget, key: string): ISearchFi
  * ### 获取标记了搜索配置的字段列表
  * @param target 目标对象
  */
-export function getSearchFieldList(target: DecoratorTarget): string[] {
+export function getSearchFieldList<M extends RootModel>(target: M): string[] {
   return DecoratorUtil.getFieldList(target, LIST_KEY)
 }
 
@@ -49,9 +50,9 @@ export function getSearchFieldList(target: DecoratorTarget): string[] {
  * @param target 目标类或对象
  * @param keyList 选择字段列表
  */
-export function getSearchConfigList(target: DecoratorTarget, keyList: string[] = []): ISearchField[] {
+export function getSearchConfigList<M extends RootModel>(target: M, keyList: string[] = []): ISearchField[] {
   if (keyList.length === 0) {
-    keyList = getSearchFieldList(target)
+    keyList = getSearchFieldList<M>(target)
   }
   const list = keyList.map(key => getSearchConfig(target, key))
   return list.filter(item => !item.hide)

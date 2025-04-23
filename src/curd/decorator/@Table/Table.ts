@@ -1,4 +1,5 @@
 import type { DecoratorTarget } from '@airpower/transformer'
+import type { RootModel } from '../../../base'
 import type { ITableColumn } from './ITableColumn'
 import { DecoratorUtil } from '@airpower/transformer'
 
@@ -28,7 +29,7 @@ export function Table(config: ITableColumn = {}) {
  * @param target 目标对象
  * @param key 属性名
  */
-export function getTableConfig(target: DecoratorTarget, key: string): ITableColumn {
+export function getTableConfig<M extends RootModel>(target: M, key: string): ITableColumn {
   const tableConfig = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!tableConfig) {
     return {}
@@ -40,7 +41,7 @@ export function getTableConfig(target: DecoratorTarget, key: string): ITableColu
  * ### 获取标记了表格配置的字段列表
  * @param target 目标对象
  */
-export function getTableFieldList(target: DecoratorTarget): string[] {
+export function getTableFieldList<M extends RootModel>(target: M): string[] {
   return DecoratorUtil.getFieldList(target, LIST_KEY)
 }
 
@@ -49,9 +50,9 @@ export function getTableFieldList(target: DecoratorTarget): string[] {
  * @param target 目标实体类
  * @param keyList 字段列表
  */
-export function getTableConfigList(target: DecoratorTarget, keyList: string[] = []): Array<ITableColumn> {
+export function getTableConfigList<M extends RootModel>(target: M, keyList: string[] = []): Array<ITableColumn> {
   if (keyList.length === 0) {
-    keyList = getTableFieldList(target)
+    keyList = getTableFieldList<M>(target)
   }
   const list = keyList.map(key => getTableConfig(target, key))
   return list.sort((a, b) => (b.order || 0) - (a.order || 0))
