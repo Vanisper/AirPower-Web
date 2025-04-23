@@ -4,4 +4,5 @@ export {
   ADialog,
 }
 
+export * from './DialogProps'
 export * from './DialogUtil'

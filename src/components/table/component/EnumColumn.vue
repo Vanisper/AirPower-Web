@@ -1,9 +1,10 @@
 <script generic="E extends RootEntity" lang="ts" setup>
-import type { EnumKey } from '@airpower/enum'
-import type { RootEntity } from '../../../base'
-import type { ITableColumn } from '../../../decorator'
-import type { WebEnumConstructor } from '../../../enum'
-import { WebColor } from '../../../enum'
+import type {EnumKey} from '@airpower/enum'
+import {computed} from 'vue'
+import type {RootEntity} from '../../../base'
+import type {ITableColumn} from '../../../decorator'
+import type {WebEnumConstructor} from '../../../enum'
+import {WebColor} from '../../../enum'
 
 const props = defineProps<{
   column: ITableColumn
@@ -11,19 +12,19 @@ const props = defineProps<{
   dictionary: WebEnumConstructor
 }>()
 const key = props.column.key as keyof E
-const value = props.data[key] as EnumKey
+const value = computed(() => props.data[key] as EnumKey)
 </script>
 
 <template>
   <div
-    class="a-enum-column"
+      class="a-enum-column"
   >
     <span
-      v-if="column.color"
-      :style="{
+        v-if="column.color"
+        :style="{
         backgroundColor: dictionary.get(value)?.color || WebColor.NORMAL,
       }"
-      class="light"
+        class="light"
     />
     {{
       dictionary.getLabel(value, column.emptyValue)

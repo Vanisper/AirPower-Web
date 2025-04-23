@@ -2,11 +2,12 @@ import type { ITransformerConstructor } from '@airpower/transformer'
 import type { RootEntity } from '../base'
 import type { QueryRequest } from '../model'
 import type { WebValidateRule } from '../util'
+import type { CurdServiceConstructor } from './type'
 import { Transformer } from '@airpower/transformer'
 import { AbstractService } from '../base'
 import { WebI18n } from '../i18n'
 import { QueryResponsePage } from '../model'
-import { FeedbackUtil } from '../util'
+import { FeedbackUtil, WebValidator } from '../util'
 
 /**
  * # 实体 `API` 服务超类
@@ -69,13 +70,15 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
 
   /**
    * ### 创建验证器
-   * @param form 表单对象
    * @param moreRule `可选` 更多的验证规则
    */
-  static createValidator<E extends RootEntity>(form: E, moreRule: WebValidateRule<E> = {}): WebValidateRule<E> {
-    // eslint-disable-next-line ts/ban-ts-comment
-    // @ts-expect-error
-    return AirValidator.createRules(form, this.newInstance(), moreRule)
+  static createValidator<
+    E extends RootEntity,
+    S extends AbstractCurdService<E>,
+  >(this: CurdServiceConstructor<E, S>,
+      moreRule: WebValidateRule<E> = {},
+  ): WebValidateRule<E> {
+    return WebValidator.createRules(new this(), moreRule)
   }
 
   /**
@@ -204,17 +207,6 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
     catch (err) {
       FeedbackUtil.toastError((err as Error).message)
     }
-  }
-
-  /**
-   * ### 创建验证器
-   * @param form 表单对象
-   * @param moreRule `可选` 更多的验证规则
-   */
-  createValidator<E extends RootEntity>(form: E, moreRule: WebValidateRule<E> = {}): WebValidateRule<E> {
-    // eslint-disable-next-line ts/ban-ts-comment
-    // @ts-expect-error
-    return AirValidator.createRules(form, this, moreRule)
   }
 
   /**

@@ -1,6 +1,6 @@
 import type { IEntity } from './IEntity'
 import { Field, Table } from '../decorator'
-import { DisableEnum } from '../enum/DisableEnum'
+import { DisableEnum } from '../enum'
 import { RootModel } from './RootModel'
 
 /**
@@ -21,6 +21,7 @@ export class RootEntity extends RootModel implements IEntity {
     width: 80,
     order: -100,
     force: true,
+    color: true,
   })
   @Field({
     label: '是否禁用',

@@ -1,14 +1,14 @@
 <script generic="E extends RootEntity" lang="ts" setup>
-import type { IEnum } from '@airpower/enum'
-import type { IJson, ITransformerConstructor } from '@airpower/transformer'
-import type { PropType } from 'vue'
-import type { RootEntity } from '../../base'
-import type { ITree } from '../../model'
-import { Transformer } from '@airpower/transformer'
-import { ElFormItem } from 'element-plus'
-import { computed, inject, ref } from 'vue'
-import { getFieldLabel } from '../../decorator'
-import { AInput } from '../index'
+import type {IEnum} from '@airpower/enum'
+import type {IJson, ITransformerConstructor} from '@airpower/transformer'
+import {Transformer} from '@airpower/transformer'
+import {ElFormItem} from 'element-plus'
+import type {PropType} from 'vue'
+import {computed, inject, ref} from 'vue'
+import type {RootEntity} from '../../base'
+import {getFieldLabel} from '../../decorator'
+import type {ITree} from '../../model'
+import {AInput} from '../index'
 
 const props = defineProps({
   /**
@@ -103,7 +103,7 @@ const injectFormData = inject<IJson>('formData')
 const formData = props.modelValue ? ref<IJson>(props.modelValue) : injectFormData
 
 if (!formData) {
-  throw new Error('请手动为AFormField绑定v-model或使用useAirEditor创建表单对象(推荐)！！！')
+  throw new Error('请手动为AFormField绑定v-model或使用 useEditor 创建表单对象(推荐)！！！')
 }
 
 /**
@@ -112,7 +112,7 @@ if (!formData) {
 const entityClass = (inject('entityClass') as ITransformerConstructor<E>) || props.entity
 
 if (!entityClass) {
-  throw new Error('请手动传入到AFormField的entity属性或使用useAirEditor创建表单对象(推荐)！！！')
+  throw new Error('请手动传入到AFormField的entity属性或使用 useEditor 创建表单对象(推荐)！！！')
 }
 
 /**
@@ -136,24 +136,24 @@ function onChange(val: unknown) {
 
 <template>
   <ElFormItem
-    :label="getFieldLabel(entityInstance, field)"
-    :prop="field"
+      :label="getFieldLabel(entityInstance, field)"
+      :prop="field"
   >
     <slot>
       <AInput
-        v-model="formData[field]"
-        :disabled="disabled"
-        :disabled-value="disabledValue"
-        :entity="entityClass"
-        :list="list"
-        :model-modifiers="{ field }"
-        :modifier="field"
-        :readonly="readonly"
-        :tree="tree"
-        @blur=" emits('blur') "
-        @change="onChange($event)"
-        @clear=" emits('clear') "
-        @focus=" emits('focus') "
+          v-model="formData[field]"
+          :disabled="disabled"
+          :disabled-value="disabledValue"
+          :entity="entityClass"
+          :list="list"
+          :model-modifiers="{ field }"
+          :modifier="field"
+          :readonly="readonly"
+          :tree="tree"
+          @blur=" emits('blur') "
+          @change="onChange($event)"
+          @clear=" emits('clear') "
+          @focus=" emits('focus') "
       />
     </slot>
   </ElFormItem>

@@ -1,7 +1,8 @@
 <script generic="E extends RootEntity" lang="ts" setup>
-import type { RootEntity } from '../../../base'
-import type { ITableColumn } from '../../../decorator'
-import { ACopy } from '../../copy'
+import {computed} from 'vue'
+import type {RootEntity} from '../../../base'
+import type {ITableColumn} from '../../../decorator'
+import {ACopy} from '../../copy'
 
 const props = defineProps<{
   column: ITableColumn
@@ -9,7 +10,7 @@ const props = defineProps<{
 }>()
 
 const key = props.column.key as keyof E
-const value = (props.data[key] || '').toString() || props.column.emptyValue || '-'
+const value = computed(() => (props.data[key] || '').toString() || props.column.emptyValue || '-')
 </script>
 
 <template>

@@ -134,8 +134,8 @@ export class Http {
   }
 
   /**
-   * ### 设置请求`content-type`
-   * @param contentType `content-type`
+   * ### 设置请求`content-shared`
+   * @param contentType `content-shared`
    */
   setContentType(contentType: HttpContentType): this {
     return this.addHttpHeader(HttpHeader.CONTENT_TYPE, contentType)
