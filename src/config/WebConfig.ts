@@ -148,6 +148,16 @@ export class WebConfig {
   static numberPrecision = 2
 
   /**
+   * ### 是否超时
+   */
+  static isTimeout = false
+
+  /**
+   * ### 产品名称
+   */
+  static product = 'AirPower'
+
+  /**
    * ### 获取 `AccessToken`
    */
   static getAccessToken(): string {
