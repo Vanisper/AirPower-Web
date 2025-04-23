@@ -1,8 +1,8 @@
 <script generic="E extends RootEntity" lang="ts" setup>
-import {computed} from 'vue'
-import type {RootEntity} from '../../../base'
-import type {ITableColumn} from '../../../decorator'
-import {ACopy} from '../../copy'
+import type { RootEntity } from '../../../base'
+import type { ITableColumn } from '../../../decorator'
+import { computed } from 'vue'
+import { ACopy } from '../../copy'
 
 const props = defineProps<{
   column: ITableColumn

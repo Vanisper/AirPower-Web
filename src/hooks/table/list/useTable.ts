@@ -1,11 +1,11 @@
-import type {RootEntity} from '../../../base'
-import {DialogUtil} from '../../../components'
-import type {AbstractCurdService, CurdServiceConstructor} from '../../../curd'
-import {WebI18n} from '../../../i18n'
-import {FeedbackUtil} from '../../../util'
-import {useBaseTable} from '../base'
-import type {ITableOption} from './ITableOption'
-import type {ITableResult} from './ITableResult'
+import type { RootEntity } from '../../../base'
+import type { AbstractCurdService, CurdServiceConstructor } from '../../../curd'
+import type { ITableOption } from './ITableOption'
+import type { ITableResult } from './ITableResult'
+import { DialogUtil } from '../../../components'
+import { WebI18n } from '../../../i18n'
+import { FeedbackUtil } from '../../../util'
+import { useBaseTable } from '../base'
 
 /**
  * # 引入表格使用的`Hook`
@@ -14,63 +14,64 @@ import type {ITableResult} from './ITableResult'
  * @author Hamm.cn
  */
 export function useTable<E extends RootEntity, S extends AbstractCurdService<E>>(
-    serviceClass: CurdServiceConstructor<E, S>,
-    option: ITableOption<E> = {},
+  serviceClass: CurdServiceConstructor<E, S>,
+  option: ITableOption<E> = {},
 ): ITableResult<E, S> {
-    /**
-     * ### 表格`Hook`返回对象
-     */
-    const result = useBaseTable(serviceClass, option)
+  /**
+   * ### 表格`Hook`返回对象
+   */
+  const result = useBaseTable(serviceClass, option)
 
-    /**
-     * ### 表格行编辑事件
-     * @param row 行数据
-     */
-    async function onEdit(row: E) {
-        if (!option.editView) {
-            await FeedbackUtil.toastError('请为 useTable 的 option 传入 editor')
-            return
-        }
-        try {
-            await DialogUtil.show(option.editView, row)
-        } finally {
-            result.onGetList()
-        }
+  /**
+   * ### 表格行编辑事件
+   * @param row 行数据
+   */
+  async function onEdit(row: E) {
+    if (!option.editView) {
+      await FeedbackUtil.toastError('请为 useTable 的 option 传入 editor')
+      return
     }
-
-    /**
-     * ### 表格行删除事件
-     * @param row 行数据
-     */
-    async function onDelete(row: E) {
-        await result.service.delete(row.id, WebI18n.get().DeleteSuccess)
-        result.onGetList()
+    try {
+      await DialogUtil.show(option.editView, row)
     }
-
-    /**
-     * ### 表格行禁用事件
-     * @param row 行数据
-     */
-    async function onDisable(row: E) {
-        await FeedbackUtil.confirmWarning(WebI18n.get().ConfirmToDisable, WebI18n.get().ConfirmPlease)
-        await result.service.disable(row.id, WebI18n.get().DisableSuccess)
-        result.onGetList()
+    finally {
+      result.onGetList()
     }
+  }
 
-    /**
-     * ### 表格行启用事件
-     * @param row 行数据
-     */
-    async function onEnable(row: E) {
-        await FeedbackUtil.confirmWarning(WebI18n.get().ConfirmToEnable, WebI18n.get().ConfirmPlease)
-        await result.service.enable(row.id, WebI18n.get().EnableSuccess)
-        result.onGetList()
-    }
+  /**
+   * ### 表格行删除事件
+   * @param row 行数据
+   */
+  async function onDelete(row: E) {
+    await result.service.delete(row.id, WebI18n.get().DeleteSuccess)
+    result.onGetList()
+  }
 
-    return Object.assign(result, {
-        onEdit,
-        onDelete,
-        onDisable,
-        onEnable,
-    })
+  /**
+   * ### 表格行禁用事件
+   * @param row 行数据
+   */
+  async function onDisable(row: E) {
+    await FeedbackUtil.confirmWarning(WebI18n.get().ConfirmToDisable, WebI18n.get().ConfirmPlease)
+    await result.service.disable(row.id, WebI18n.get().DisableSuccess)
+    result.onGetList()
+  }
+
+  /**
+   * ### 表格行启用事件
+   * @param row 行数据
+   */
+  async function onEnable(row: E) {
+    await FeedbackUtil.confirmWarning(WebI18n.get().ConfirmToEnable, WebI18n.get().ConfirmPlease)
+    await result.service.enable(row.id, WebI18n.get().EnableSuccess)
+    result.onGetList()
+  }
+
+  return Object.assign(result, {
+    onEdit,
+    onDelete,
+    onDisable,
+    onEnable,
+  })
 }

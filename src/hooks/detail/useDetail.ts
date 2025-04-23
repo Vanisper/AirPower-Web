@@ -1,12 +1,12 @@
-import type {IJson} from '@airpower/transformer'
-import {Transformer} from '@airpower/transformer'
-import type {Ref} from 'vue'
-import {provide, ref} from 'vue'
-import type {RootEntity} from '../../base'
-import type {AbstractCurdService, CurdServiceConstructor} from '../../curd'
-import {WebI18n} from '../../i18n'
-import type {IDetailOption} from './IDetailOption'
-import type {IDetailResult} from './IDetailResult'
+import type { IJson } from '@airpower/transformer'
+import type { Ref } from 'vue'
+import type { RootEntity } from '../../base'
+import type { AbstractCurdService, CurdServiceConstructor } from '../../curd'
+import type { IDetailOption } from './IDetailOption'
+import type { IDetailResult } from './IDetailResult'
+import { Transformer } from '@airpower/transformer'
+import { provide, ref } from 'vue'
+import { WebI18n } from '../../i18n'
 
 /**
  * # 引入详情的`Hook`
@@ -16,57 +16,57 @@ import type {IDetailResult} from './IDetailResult'
  * @author Hamm.cn
  */
 export function useDetail<E extends RootEntity, S extends AbstractCurdService<E>>(
-    props: IJson,
-    ServiceClass: CurdServiceConstructor<E, S>,
-    option: IDetailOption<E> = {},
+  props: IJson,
+  ServiceClass: CurdServiceConstructor<E, S>,
+  option: IDetailOption<E> = {},
 ): IDetailResult<E, S> {
-    /**
-     * ### 加载状态
-     */
-    const isLoading = ref(false)
+  /**
+   * ### 加载状态
+   */
+  const isLoading = ref(false)
 
-    /**
-     * ### 传入的 `Service` 对象
-     */
-    const service: S = Transformer.newInstance(ServiceClass)
-    service.loading = isLoading
+  /**
+   * ### 传入的 `Service` 对象
+   */
+  const service: S = Transformer.newInstance(ServiceClass)
+  service.loading = isLoading
 
-    /**
-     * ### 表单对象
-     */
-    const formData: Ref<E> = ref(props.param ? props.param.copy() : Transformer.newInstance(service.entityClass))
+  /**
+   * ### 表单对象
+   */
+  const formData: Ref<E> = ref(props.param ? props.param.copy() : Transformer.newInstance(service.entityClass))
 
-    /**
-     * ### 显示的对话框标题
-     */
-    const title = ref(WebI18n.get().Detail)
+  /**
+   * ### 显示的对话框标题
+   */
+  const title = ref(WebI18n.get().Detail)
 
-    /**
-     * ### 查询详情方法
-     */
-    async function getDetail() {
-        if (formData.value.id) {
-            formData.value = await service.getDetail(formData.value.id, option.apiUrl)
+  /**
+   * ### 查询详情方法
+   */
+  async function getDetail() {
+    if (formData.value.id) {
+      formData.value = await service.getDetail(formData.value.id, option.apiUrl)
 
-            if (option.afterGetDetail) {
-                const result = option.afterGetDetail(formData.value)
-                if (result !== undefined) {
-                    formData.value = result
-                }
-            }
+      if (option.afterGetDetail) {
+        const result = option.afterGetDetail(formData.value)
+        if (result !== undefined) {
+          formData.value = result
         }
+      }
     }
+  }
 
-    provide('entityClass', service.entityClass)
-    provide('formData', formData)
+  provide('entityClass', service.entityClass)
+  provide('formData', formData)
 
-    getDetail()
+  getDetail()
 
-    return {
-        title,
-        formData,
-        isLoading,
-        service,
-        getDetail,
-    }
+  return {
+    title,
+    formData,
+    isLoading,
+    service,
+    getDetail,
+  }
 }
