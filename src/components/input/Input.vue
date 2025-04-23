@@ -6,7 +6,6 @@ import type { PropType, Ref } from 'vue'
 import type { RootEntity } from '../../base'
 import type { IFieldConfig, IFormField, ITree } from '../../curd'
 import type { IWebEnum } from '../../util'
-import { Transformer } from '@airpower/transformer'
 import { DateTimeFormatter, ValidateUtil } from '@airpower/util'
 import { CircleClose } from '@element-plus/icons-vue'
 import { computed, ref, useSlots, watch } from 'vue'
@@ -128,11 +127,6 @@ const emits = defineEmits([
   'update:modelValue',
   'clear',
 ])
-
-/**
- * # 实体的实例
- */
-const entityInstance = ref(props.entity ? Transformer.parse({}, props.entity) : undefined)
 
 /**
  * 绑定的数据
@@ -382,13 +376,12 @@ function initFieldName() {
 function init() {
   initFieldName()
   // 初始化配置信息
-  console.warn(props.entity, fieldName.value, entityInstance.value)
-  if (props.entity && fieldName.value && entityInstance.value) {
-    formConfig.value = getFormConfig(entityInstance.value, fieldName.value)
-    fieldConfig.value = getFieldConfig(entityInstance.value, fieldName.value)
+  if (props.entity && fieldName.value) {
+    formConfig.value = getFormConfig(props.entity, fieldName.value)
+    fieldConfig.value = getFieldConfig(props.entity, fieldName.value)
 
     if (!placeholderRef.value) {
-      const field = fieldConfig.value.label || getFieldConfig(entityInstance.value, fieldName.value).label || fieldName
+      const field = fieldConfig.value.label || getFieldConfig(props.entity, fieldName.value).label || fieldName
       // 默认生成输入的placeholder
       placeholderRef.value = `请输入${field}...`
 

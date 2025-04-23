@@ -459,7 +459,7 @@ const entityInstance = Transformer.newInstance(props.entity)
 /**
  * # 内部使用的配置
  */
-const modelConfig: IModelConfig = getModelConfig(entityInstance)
+const modelConfig: IModelConfig = getModelConfig(props.entity)
 
 const {
   allColumnList,
@@ -467,7 +467,7 @@ const {
   updateSelectKeys,
   showColumnList,
 } = useTableColumn({
-  entityInstance,
+  entityClass: props.entity,
   customColumns: props.columnList,
   hideColumnSelector: props.hideColumnSelector,
   modelConfig,
@@ -506,7 +506,7 @@ const {
 /**
  * # 高级搜索字段列表
  */
-const searchFieldList: ComputedRef<ISearchField[]> = computed(() => props.searchParams || getSearchConfigList(entityInstance))
+const searchFieldList: ComputedRef<ISearchField[]> = computed(() => props.searchParams || getSearchConfigList(props.entity))
 
 /**
  * # 获取字符串值
@@ -845,15 +845,15 @@ function onSearch() {
               :name="item.key"
             >
               <ElSelect
-                v-if="getDictionary(entityInstance, item.key)"
+                v-if="getDictionary(entity, item.key)"
                 v-model="searchFilter[item.key]"
                 :clearable="item.clearable !== false"
                 :filterable="item.filterable"
-                :placeholder="`${getFieldLabel(entityInstance, item.key)}...`"
+                :placeholder="`${getFieldLabel(entity, item.key)}...`"
                 @change="onSearch()"
                 @clear="searchFilter[item.key] = undefined"
               >
-                <template v-for="enumItem of getDictionary(entityInstance, item.key)?.toArray()">
+                <template v-for="enumItem of getDictionary(entity, item.key)?.toArray()">
                   <ElOption
                     v-if="!enumItem.disabled"
                     :key="enumItem.key.toString()"
@@ -866,7 +866,7 @@ function onSearch() {
                 v-else
                 v-model="searchFilter[item.key]"
                 :clearable="item.clearable !== false"
-                :placeholder="`${getFieldLabel(entityInstance, item.key)}...`"
+                :placeholder="`${getFieldLabel(entity, item.key)}...`"
                 @blur="onSearch()"
                 @clear="onSearch"
                 @keydown.enter="onSearch"
@@ -886,7 +886,7 @@ function onSearch() {
         <ColumnSelector
           v-if="isColumnSelectorEnabled"
           :column-list="allColumnList"
-          :entity-instance="entityInstance"
+          :entity-class="entity"
           @changed="updateSelectKeys($event)"
         />
       </div>
@@ -928,7 +928,7 @@ function onSearch() {
         <ElTableColumn
           :align="item.align"
           :fixed="item.fixed"
-          :label="getFieldLabel(entityInstance, item.key)"
+          :label="getFieldLabel(entity, item.key)"
           :min-width="item.minWidth || 'auto'"
           :prop="item.key as string"
           :sortable="item.sortable"
@@ -946,8 +946,8 @@ function onSearch() {
                 style="color: #aaa; margin-right: 3px"
               >{{ item.prefixText }}</span>
               <EnumColumn
-                v-if="getDictionary(entityInstance, item.key)" :column="item" :data="scope.row"
-                :dictionary="getDictionary(entityInstance, item.key)!"
+                v-if="getDictionary(entity, item.key)" :column="item" :data="scope.row"
+                :dictionary="getDictionary(entity, item.key)!"
               />
               <ADesensitize
                 v-else-if="item.desensitize"

@@ -8,7 +8,6 @@ import type {
   WebValidatorTrigger,
   WebValidatorType,
 } from './type'
-import { Transformer } from '@airpower/transformer'
 import { ValidateUtil } from '@airpower/util'
 import { getFormConfig, getFormFieldList } from '../../curd'
 import { WebI18n } from '../i18n'
@@ -71,8 +70,7 @@ export class WebValidator {
     rules: WebValidateRule<E> = {},
   ) {
     const formRules: IJson = rules
-    const entity = Transformer.newInstance(service.entityClass)
-    const formFieldList = getFormFieldList(entity).map(key => getFormConfig(entity, key))
+    const formFieldList = getFormFieldList(service.entityClass).map(key => getFormConfig(service.entityClass, key))
     for (let i = 0; i < formFieldList.length; i += 1) {
       const config = formFieldList[i]
       const fieldKey = config.key

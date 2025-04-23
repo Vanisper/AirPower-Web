@@ -1,3 +1,4 @@
+import type { ITransformerConstructor } from '@airpower/transformer'
 import type { Ref } from 'vue'
 import type { RootEntity } from '../../base'
 import type { IModelConfig, ITableColumn } from '../../curd'
@@ -11,9 +12,9 @@ import { getModelConfig, getTableConfigList } from '../../curd'
  */
 export function useTableColumn<E extends RootEntity>(params: {
   /**
-   * ### 实体实例
+   * ### 实体类
    */
-  entityInstance: E
+  entityClass: ITransformerConstructor<E>
 
   /**
    * ### 自定义字段
@@ -36,10 +37,10 @@ export function useTableColumn<E extends RootEntity>(params: {
   modelConfig: IModelConfig
 }) {
   const {
-    entityInstance,
+    entityClass,
     customColumns = [],
     hideColumnSelector = false,
-    modelConfig = getModelConfig(entityInstance),
+    modelConfig = getModelConfig(entityClass),
   } = params
 
   /**
@@ -64,7 +65,7 @@ export function useTableColumn<E extends RootEntity>(params: {
       })
   }
   else {
-    allColumnList.value = getTableConfigList(entityInstance).filter(item => !item.removed).map((item) => {
+    allColumnList.value = getTableConfigList(entityClass).filter(item => !item.removed).map((item) => {
       if (item.money && !item.align) {
         item.align = 'right'
       }

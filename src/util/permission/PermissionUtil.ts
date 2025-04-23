@@ -39,7 +39,7 @@ export class PermissionUtil {
    */
   static get<E extends RootEntity>(EntityClass: ITransformerConstructor<E>, action: PermissionAction | string): string {
     let permission: string | undefined
-    const modelConfig = getModelConfig(new EntityClass())
+    const modelConfig = getModelConfig(EntityClass)
     const actionRecord: Record<PermissionAction, string | undefined> = {
       [PermissionAction.ADD]: modelConfig?.addPermission,
       [PermissionAction.DELETE]: modelConfig?.deletePermission,

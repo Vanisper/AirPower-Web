@@ -1,4 +1,4 @@
-import type { DecoratorTarget } from '@airpower/transformer'
+import type { DecoratorTarget, ITransformerConstructor } from '@airpower/transformer'
 import type { RootModel } from '../../../base'
 import type { FieldConfigOptionalKey } from '../@Field'
 import type { ISearchField } from './ISearchField'
@@ -27,11 +27,12 @@ export function Search(config: FieldConfigOptionalKey<ISearchField> = {}) {
 
 /**
  * ### 获取对象某个字段标记的搜索配置项
- * @param target 目标类或对象
+ * @param TargetClass 目标类
  * @param key 属性名
  */
-export function getSearchConfig<M extends RootModel>(target: M, key: string): ISearchField {
-  const formConfig: ISearchField | null = DecoratorUtil.getFieldConfig(target, key, KEY, true)
+export function getSearchConfig<M extends RootModel>(TargetClass: ITransformerConstructor<M>, key: string): ISearchField {
+  const instance = new TargetClass()
+  const formConfig: ISearchField | null = DecoratorUtil.getFieldConfig(instance, key, KEY, true)
   if (!formConfig) {
     return { key }
   }
@@ -40,22 +41,22 @@ export function getSearchConfig<M extends RootModel>(target: M, key: string): IS
 
 /**
  * ### 获取标记了搜索配置的字段列表
- * @param target 目标对象
+ * @param TargetClass 目标类
  */
-export function getSearchFieldList<M extends RootModel>(target: M): string[] {
-  return DecoratorUtil.getFieldList(target, LIST_KEY)
+export function getSearchFieldList<M extends RootModel>(TargetClass: ITransformerConstructor<M>): string[] {
+  return DecoratorUtil.getFieldList(TargetClass, LIST_KEY)
 }
 
 /**
  * ### 获取指定类的搜索字段配置项列表
- * @param target 目标类或对象
+ * @param TargetClass 目标类
  * @param keyList 选择字段列表
  */
-export function getSearchConfigList<M extends RootModel>(target: M, keyList: string[] = []): ISearchField[] {
+export function getSearchConfigList<M extends RootModel>(TargetClass: ITransformerConstructor<M>, keyList: string[] = []): ISearchField[] {
   if (keyList.length === 0) {
-    keyList = getSearchFieldList<M>(target)
+    keyList = getSearchFieldList<M>(TargetClass)
   }
-  const list = keyList.map(key => getSearchConfig(target, key))
+  const list = keyList.map(key => getSearchConfig(TargetClass, key))
   return list.filter(item => !item.hide)
     .sort((a, b) => (b.order || 0) - (a.order || 0))
 }

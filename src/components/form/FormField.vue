@@ -4,9 +4,8 @@ import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType } from 'vue'
 import type { RootEntity } from '../../base'
 import type { ITree } from '../../curd'
-import { Transformer } from '@airpower/transformer'
 import { ElFormItem } from 'element-plus'
-import { computed, inject, ref } from 'vue'
+import { inject, ref } from 'vue'
 import { getFieldLabel } from '../../curd'
 import { AInput } from '../index'
 
@@ -109,16 +108,11 @@ if (!formData) {
 /**
  * # 手动传入的实体类 覆盖 自动注入的实体类
  */
-const entityClass = (inject('entityClass') as ITransformerConstructor<E>) || props.entity
+const EntityClass = (inject('entityClass') as ITransformerConstructor<E>) || props.entity
 
-if (!entityClass) {
+if (!EntityClass) {
   throw new Error('请手动传入到AFormField的entity属性或使用 useEditor 创建表单对象(推荐)！！！')
 }
-
-/**
- * # 实例化实体类
- */
-const entityInstance = computed(() => Transformer.newInstance(entityClass))
 
 /**
  * # 监听值变化
@@ -136,7 +130,7 @@ function onChange(val: unknown) {
 
 <template>
   <ElFormItem
-    :label="getFieldLabel(entityInstance, field)"
+    :label="getFieldLabel(EntityClass, field)"
     :prop="field"
   >
     <slot>
@@ -144,7 +138,7 @@ function onChange(val: unknown) {
         v-model="formData[field]"
         :disabled="disabled"
         :disabled-value="disabledValue"
-        :entity="entityClass"
+        :entity="EntityClass"
         :list="list"
         :model-modifiers="{ field }"
         :modifier="field"

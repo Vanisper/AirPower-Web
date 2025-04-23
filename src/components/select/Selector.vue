@@ -10,7 +10,6 @@ import type {
   ITableColumn,
   QueryRequestPage,
 } from '../../curd'
-import { Transformer } from '@airpower/transformer'
 import { computed, useSlots } from 'vue'
 import { getSearchConfigList, getTableConfigList, useSelector } from '../../curd'
 import { FeedbackUtil } from '../../util'
@@ -150,8 +149,6 @@ const {
   onReloadData,
 } = useSelector(props.props, service, hookOptions)
 
-const entityInstance = Transformer.parse({}, props.entity)
-
 /**
  * # 弹窗标题
  */
@@ -169,14 +166,14 @@ const fields = computed(() => {
   if (props.fieldList) {
     return props.fieldList
   }
-  return getTableConfigList(entityInstance)
+  return getTableConfigList(props.entity)
 })
 
 /**
  * # 搜索参数
  */
 const searchParamList: Ref<ISearchField[]> = computed(() => {
-  let list = getSearchConfigList(entityInstance)
+  let list = getSearchConfigList(props.entity)
   if (props.searchParams) {
     list = props.searchParams
   }

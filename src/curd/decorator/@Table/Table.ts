@@ -1,4 +1,4 @@
-import type { DecoratorTarget } from '@airpower/transformer'
+import type { DecoratorTarget, ITransformerConstructor } from '@airpower/transformer'
 import type { RootModel } from '../../../base'
 import type { FieldConfigOptionalKey } from '../@Field'
 import type { ITableColumn } from './ITableColumn'
@@ -27,11 +27,12 @@ export function Table(config: FieldConfigOptionalKey<ITableColumn> = {}) {
 
 /**
  * ### 获取对象的属性表格的配置
- * @param target 目标对象
+ * @param TargetClass 目标类
  * @param key 属性名
  */
-export function getTableConfig<M extends RootModel>(target: M, key: string): ITableColumn {
-  const tableConfig = DecoratorUtil.getFieldConfig(target, key, KEY, true)
+export function getTableConfig<M extends RootModel>(TargetClass: ITransformerConstructor<M>, key: string): ITableColumn {
+  const instance = new TargetClass()
+  const tableConfig = DecoratorUtil.getFieldConfig(instance, key, KEY, true)
   if (!tableConfig) {
     return { key }
   }
@@ -40,21 +41,21 @@ export function getTableConfig<M extends RootModel>(target: M, key: string): ITa
 
 /**
  * ### 获取标记了表格配置的字段列表
- * @param target 目标对象
+ * @param TargetClass 目标类
  */
-export function getTableFieldList<M extends RootModel>(target: M): string[] {
-  return DecoratorUtil.getFieldList(target, LIST_KEY)
+export function getTableFieldList<M extends RootModel>(TargetClass: ITransformerConstructor<M>): string[] {
+  return DecoratorUtil.getFieldList(TargetClass, LIST_KEY)
 }
 
 /**
  * ### 获取字段标记的表格字段配置列表
- * @param target 目标实体类
+ * @param TargetClass 目标类
  * @param keyList 字段列表
  */
-export function getTableConfigList<M extends RootModel>(target: M, keyList: string[] = []): Array<ITableColumn> {
+export function getTableConfigList<M extends RootModel>(TargetClass: ITransformerConstructor<M>, keyList: string[] = []): Array<ITableColumn> {
   if (keyList.length === 0) {
-    keyList = getTableFieldList<M>(target)
+    keyList = getTableFieldList<M>(TargetClass)
   }
-  const list = keyList.map(key => getTableConfig(target, key))
+  const list = keyList.map(key => getTableConfig(TargetClass, key))
   return list.sort((a, b) => (b.order || 0) - (a.order || 0))
 }

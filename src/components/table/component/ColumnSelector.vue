@@ -1,4 +1,5 @@
 <script generic="E extends RootEntity" lang="ts" setup>
+import type { ITransformerConstructor } from '@airpower/transformer'
 import type { Ref } from 'vue'
 import type { RootEntity } from '../../../base'
 import type { ITableColumn } from '../../../curd'
@@ -10,7 +11,7 @@ import { AButton } from '../../button'
 
 const props = defineProps<{
   columnList: Array<ITableColumn>
-  entityInstance: E
+  entityClass: ITransformerConstructor<E>
 }>()
 
 const emits = defineEmits<{
@@ -73,7 +74,7 @@ if (list.value.length === 0) {
           :disabled="item.force"
           @change="changed($event, item)"
         >
-          {{ getFieldLabel(entityInstance, item.key) }}
+          {{ getFieldLabel(entityClass, item.key) }}
         </ElCheckTag>
       </div>
     </div>
