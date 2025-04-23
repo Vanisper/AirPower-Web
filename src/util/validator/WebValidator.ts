@@ -75,7 +75,7 @@ export class WebValidator {
     const formFieldList = getFormFieldList(entity).map(key => getFormConfig(entity, key))
     for (let i = 0; i < formFieldList.length; i += 1) {
       const config = formFieldList[i]
-      const fieldKey = config.key!
+      const fieldKey = config.key
       if (!formRules[fieldKey]) {
         formRules[fieldKey] = []
       }

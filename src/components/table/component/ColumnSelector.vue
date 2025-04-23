@@ -37,7 +37,7 @@ function changed(status: boolean, config: ITableColumn) {
     }
   }
   if (status) {
-    list.value.push(config.key!)
+    list.value.push(config.key)
   }
   emits('changed', list.value)
 }
@@ -73,7 +73,7 @@ if (list.value.length === 0) {
           :disabled="item.force"
           @change="changed($event, item)"
         >
-          {{ getFieldLabel(entityInstance, item.key!) }}
+          {{ getFieldLabel(entityInstance, item.key) }}
         </ElCheckTag>
       </div>
     </div>
