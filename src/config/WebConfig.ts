@@ -158,16 +158,24 @@ export class WebConfig {
   static product = 'AirPower'
 
   /**
-   * ### 获取 `AccessToken`
+   * ### 获取身份令牌
    */
   static getAccessToken(): string {
     return localStorage.getItem(this.authorizationHeaderKey) || ''
   }
 
   /**
-   * ### 移除 `AccessToken`
+   * ### 移除身份令牌
    */
   static removeAccessToken() {
     localStorage.removeItem(this.authorizationHeaderKey)
+  }
+
+  /**
+   * ### 设置身份令牌
+   * @param accessToken 身份令牌
+   */
+  static saveAccessToken(accessToken: string) {
+    localStorage.setItem(this.authorizationHeaderKey, accessToken)
   }
 }

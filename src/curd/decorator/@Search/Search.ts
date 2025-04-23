@@ -1,5 +1,6 @@
 import type { DecoratorTarget } from '@airpower/transformer'
 import type { RootModel } from '../../../base'
+import type { FieldConfigOptionalKey } from '../@Field'
 import type { ISearchField } from './ISearchField'
 import { DecoratorUtil } from '@airpower/transformer'
 
@@ -17,10 +18,10 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[SearchList]`
  * ### 标记该字段可用于表单配置
  * @param config 配置项
  */
-export function Search(config: ISearchField = {}) {
+export function Search(config: FieldConfigOptionalKey<ISearchField> = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
-    return DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
+    DecoratorUtil.setFieldConfig(target, key, KEY, config)
   }
 }
 
@@ -32,7 +33,7 @@ export function Search(config: ISearchField = {}) {
 export function getSearchConfig<M extends RootModel>(target: M, key: string): ISearchField {
   const formConfig: ISearchField | null = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!formConfig) {
-    return {}
+    return { key }
   }
   return formConfig
 }

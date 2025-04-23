@@ -1,5 +1,6 @@
 import type { DecoratorTarget } from '@airpower/transformer'
 import type { RootModel } from '../../../base'
+import type { FieldConfigOptionalKey } from '../@Field'
 import type { ITableColumn } from './ITableColumn'
 import { DecoratorUtil } from '@airpower/transformer'
 
@@ -17,10 +18,10 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[TableList]`
  * ### 为属性标记是表格字段
  * @param config 表格列的配置
  */
-export function Table(config: ITableColumn = {}) {
+export function Table(config: FieldConfigOptionalKey<ITableColumn, 'key'> = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
-    return DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
+    DecoratorUtil.setFieldConfig(target, key, KEY, config)
   }
 }
 
@@ -32,7 +33,7 @@ export function Table(config: ITableColumn = {}) {
 export function getTableConfig<M extends RootModel>(target: M, key: string): ITableColumn {
   const tableConfig = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!tableConfig) {
-    return {}
+    return { key }
   }
   return tableConfig
 }

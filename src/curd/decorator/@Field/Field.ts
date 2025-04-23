@@ -3,6 +3,7 @@ import type { DecoratorTarget } from '@airpower/transformer'
 import type { RootModel } from '../../../base'
 import type { WebEnumConstructor } from '../../../util'
 import type { IFieldConfig } from './IFieldConfig'
+import type { FieldConfigOptionalKey } from './type'
 import { DecoratorUtil } from '@airpower/transformer'
 
 /**
@@ -14,8 +15,9 @@ const KEY = `${DecoratorUtil.DecoratorKeyPrefix}[Field]`
  * ### 为属性标记配置
  * @param config 配置项
  */
-export function Field<K extends EnumKey = EnumKey>(config: IFieldConfig<K> = {}) {
+export function Field<K extends EnumKey = EnumKey>(config: FieldConfigOptionalKey<IFieldConfig<K>> = {}) {
   return (target: DecoratorTarget, key: string) => {
+    config.key = key
     DecoratorUtil.setFieldConfig(target, key, KEY, config)
   }
 }

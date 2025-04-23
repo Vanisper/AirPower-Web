@@ -1,5 +1,6 @@
 import type { DecoratorTarget } from '@airpower/transformer'
 import type { RootModel } from '../../../base'
+import type { FieldConfigOptionalKey } from '../@Field'
 import type { IFormField } from './IFormField'
 import { DecoratorUtil } from '@airpower/transformer'
 import { getFieldConfig } from '../@Field'
@@ -18,10 +19,10 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[FormList]`
  * ### 标记该字段可用于表单配置
  * @param config 配置项
  */
-export function Form(config: IFormField = {}) {
+export function Form(config: FieldConfigOptionalKey<IFormField> = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
-    return DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
+    DecoratorUtil.setFieldConfig(target, key, KEY, config)
   }
 }
 
@@ -33,7 +34,7 @@ export function Form(config: IFormField = {}) {
 export function getFormConfig<M extends RootModel>(target: M, key: string): IFormField {
   const formConfig = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!formConfig) {
-    return {}
+    return { key }
   }
   if (!formConfig.dictionary) {
     const props = getFieldConfig(target, key)
