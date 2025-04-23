@@ -27,7 +27,7 @@
 
 - **[AirPower-Enum](https://github.com/AirPowerTeam/AirPower-Enum)**
 
-- **[AirPower-Enum](https://github.com/AirPowerTeam/AirPower-Enum)**
+- **[AirPower-i18n](https://github.com/AirPowerTeam/AirPower-i18n)**
 
 - **[AirPower-Util](https://github.com/AirPowerTeam/AirPower-Util)**
 
