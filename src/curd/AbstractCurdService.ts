@@ -86,7 +86,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
   async getPage(request: QueryRequest<E>, apiUrl = this.urlGetPage): Promise<QueryResponsePage<E>> {
     // eslint-disable-next-line ts/ban-ts-comment
     // @ts-expect-error
-    const responsePage: QueryResponsePage<E> = await this.api(apiUrl).postArray(request, QueryResponsePage)
+    const responsePage: QueryResponsePage<E> = await this.api(apiUrl).post(request, QueryResponsePage)
     responsePage.list = responsePage.list.map(json => Transformer.parse(json, this.entityClass))
     return responsePage
   }
