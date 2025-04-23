@@ -16,8 +16,7 @@ import { getDictionary, getFieldLabel, getModelConfig, getSearchConfigList } fro
 import { WebI18n } from '../../i18n'
 import { ExportModel, QueryRequestPage, QuerySort } from '../../model'
 import { FeedbackUtil, Http, PermissionAction, PermissionUtil } from '../../util'
-import Desensitize from '../desensitize/Desensitize'
-import { AButton, ADateTime, DialogUtil } from '../index'
+import { AButton, ADateTime, ADesensitize, DialogUtil } from '../index'
 import { ColumnSelector, CopyColumn, EnumColumn } from './component'
 import { useTableButton } from './useTableButton'
 import { useTableColumn } from './useTableColumn'
@@ -939,7 +938,7 @@ function onSearch() {
                 v-if="getDictionary(entityInstance, item.key!)" :column="item" :data="scope.row"
                 :dictionary="getDictionary(entityInstance, item.key!)!"
               />
-              <Desensitize
+              <ADesensitize
                 v-else-if="item.desensitize"
                 :content="getValue(scope, item.key)"
                 :type="item.desensitize"
