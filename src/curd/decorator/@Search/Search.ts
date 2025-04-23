@@ -30,7 +30,7 @@ export function Search(config: FieldConfigOptionalKey<ISearchField> = {}) {
  * @param TargetClass 目标类
  * @param key 属性名
  */
-export function getSearchConfig<M extends RootModel>(TargetClass: ITransformerConstructor<M>, key: keyof M): ISearchField {
+export function getSearchConfig<M extends RootModel>(TargetClass: ITransformerConstructor<M>, key: keyof M | string): ISearchField {
   const instance = new TargetClass()
   const formConfig: ISearchField | null = DecoratorUtil.getFieldConfig(instance, key.toString(), KEY, true)
   if (!formConfig) {
@@ -43,8 +43,8 @@ export function getSearchConfig<M extends RootModel>(TargetClass: ITransformerCo
  * ### 获取标记了搜索配置的字段列表
  * @param TargetClass 目标类
  */
-export function getSearchFieldList<M extends RootModel>(TargetClass: ITransformerConstructor<M>): Array<keyof M> {
-  return DecoratorUtil.getFieldList(TargetClass, LIST_KEY) as Array<keyof M> as Array<keyof M>
+export function getSearchFieldList<M extends RootModel>(TargetClass: ITransformerConstructor<M>): Array<keyof M | string> {
+  return DecoratorUtil.getFieldList(TargetClass, LIST_KEY) as Array<keyof M | string>
 }
 
 /**
@@ -52,7 +52,7 @@ export function getSearchFieldList<M extends RootModel>(TargetClass: ITransforme
  * @param TargetClass 目标类
  * @param keyList 选择字段列表
  */
-export function getSearchConfigList<M extends RootModel>(TargetClass: ITransformerConstructor<M>, keyList: Array<keyof M> = []): ISearchField[] {
+export function getSearchConfigList<M extends RootModel>(TargetClass: ITransformerConstructor<M>, keyList: Array<keyof M | string> = []): ISearchField[] {
   if (keyList.length === 0) {
     keyList = getSearchFieldList<M>(TargetClass)
   }

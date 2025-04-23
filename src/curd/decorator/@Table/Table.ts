@@ -30,7 +30,7 @@ export function Table(config: FieldConfigOptionalKey<ITableColumn> = {}) {
  * @param TargetClass 目标类
  * @param key 属性名
  */
-export function getTableConfig<M extends RootModel>(TargetClass: ITransformerConstructor<M>, key: keyof M): ITableColumn {
+export function getTableConfig<M extends RootModel>(TargetClass: ITransformerConstructor<M>, key: keyof M | string): ITableColumn {
   const instance = new TargetClass()
   const tableConfig = DecoratorUtil.getFieldConfig(instance, key.toString(), KEY, true)
   if (!tableConfig) {
@@ -43,8 +43,8 @@ export function getTableConfig<M extends RootModel>(TargetClass: ITransformerCon
  * ### 获取标记了表格配置的字段列表
  * @param TargetClass 目标类
  */
-export function getTableFieldList<M extends RootModel>(TargetClass: ITransformerConstructor<M>): Array<keyof M> {
-  return DecoratorUtil.getFieldList(TargetClass, LIST_KEY) as Array<keyof M>
+export function getTableFieldList<M extends RootModel>(TargetClass: ITransformerConstructor<M>): Array<keyof M | string> {
+  return DecoratorUtil.getFieldList(TargetClass, LIST_KEY) as Array<keyof M | string>
 }
 
 /**
@@ -52,7 +52,7 @@ export function getTableFieldList<M extends RootModel>(TargetClass: ITransformer
  * @param TargetClass 目标类
  * @param keyList 字段列表
  */
-export function getTableConfigList<M extends RootModel>(TargetClass: ITransformerConstructor<M>, keyList: Array<keyof M> = []): Array<ITableColumn> {
+export function getTableConfigList<M extends RootModel>(TargetClass: ITransformerConstructor<M>, keyList: Array<keyof M | string> = []): Array<ITableColumn> {
   if (keyList.length === 0) {
     keyList = getTableFieldList<M>(TargetClass)
   }
