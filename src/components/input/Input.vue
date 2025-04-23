@@ -175,22 +175,22 @@ const placeholderRef = ref(props.placeholder)
 /**
  * # 字段的表单配置信息
  */
-let formConfig: IFormField | null
+const formConfig: Ref<IFormField | undefined> = ref(undefined)
 
 /**
  * # 字段的配置信息
  */
-let fieldConfig: IFieldConfig | null
+const fieldConfig: Ref<IFieldConfig | undefined> = ref(undefined)
 
 /**
  * # 字段名称
  */
-let fieldName = ''
+const fieldName = ref('')
 
 /**
  * # 枚举数据
  */
-let dictionary: IWebEnum<EnumKey>[] | undefined
+const dictionary: Ref<IWebEnum<EnumKey>[] | undefined> = ref(undefined)
 
 /**
  * # Props的value变化
@@ -214,8 +214,8 @@ function onPropsValueUpdated(newProps?: typeof props) {
  * # 获取显示的格式化
  */
 const getShowFormatter = computed(() => {
-  if (formConfig) {
-    switch (formConfig?.dateType) {
+  if (formConfig.value) {
+    switch (formConfig.value?.dateType) {
       case DateTimeType.DATE:
         return DateTimeFormatter.FULL_DATE
       case DateTimeType.WEEK:
@@ -236,7 +236,7 @@ const getShowFormatter = computed(() => {
  * @param status
  */
 function getSwitchColor(status: boolean): string {
-  return dictionary?.find(item => !!item.key === status)?.color || ''
+  return dictionary.value?.find(item => !!item.key === status)?.color || ''
 }
 
 /**
@@ -244,20 +244,20 @@ function getSwitchColor(status: boolean): string {
  * @param status
  */
 function getSwitchLabel(status: boolean): string {
-  return dictionary?.find(item => !!item.key === status)?.label || ''
+  return dictionary.value?.find(item => !!item.key === status)?.label || ''
 }
 
 /**
  * # 获取输入类型的字符串
  */
 const getInputType = computed(() => {
-  if (formConfig?.textarea) {
+  if (formConfig.value?.textarea) {
     return 'textarea'
   }
-  if (formConfig?.password) {
+  if (formConfig.value?.password) {
     return 'password'
   }
-  if (formConfig?.number) {
+  if (formConfig.value?.number) {
     return 'number'
   }
   return 'text'
@@ -275,11 +275,11 @@ watch(props, (newProps) => {
  * # 验证输入的值
  */
 function checkNumberValue() {
-  if (formConfig?.number) {
+  if (formConfig.value?.number) {
     // 数字输入
     let tempValue = value.value as number | string | undefined | null
-    const max = Math.min(formConfig.max ?? WebConfig.maxNumber, Number.MAX_SAFE_INTEGER)
-    const min = Math.max(formConfig.min ?? WebConfig.minNumber, Number.MIN_SAFE_INTEGER)
+    const max = Math.min(formConfig.value.max ?? WebConfig.maxNumber, Number.MAX_SAFE_INTEGER)
+    const min = Math.max(formConfig.value.min ?? WebConfig.minNumber, Number.MIN_SAFE_INTEGER)
     if (
       tempValue !== ''
       && tempValue !== undefined
@@ -290,7 +290,7 @@ function checkNumberValue() {
       // 按最大值最小值做边界处理
       tempValue = Math.max(tempValue, min)
       tempValue = Math.min(tempValue, max)
-      tempValue = Number.parseFloat(tempValue.toFixed(formConfig.precision ?? WebConfig.numberPrecision))
+      tempValue = Number.parseFloat(tempValue.toFixed(formConfig.value.precision ?? WebConfig.numberPrecision))
       value.value = tempValue
       value.value = Number.parseFloat(value.value?.toString() || '0')
     }
@@ -310,8 +310,8 @@ function onClear() {
  * # 将数据丢出去
  */
 function emitValue() {
-  if (formConfig && value.value) {
-    switch (formConfig.trim) {
+  if (formConfig.value && value.value) {
+    switch (formConfig.value.trim) {
       case FormTrim.ALL:
         value.value = value.value.toString().trim()
         break
@@ -335,13 +335,13 @@ function emitValue() {
 function onKeyDown(event: KeyboardEvent) {
   switch (event.code) {
     case 'KeyE':
-      if (formConfig?.number) {
+      if (formConfig.value?.number) {
         // 数字类型输入不允许输入科学计数的e
         event.preventDefault()
       }
       break
     case 'Escape':
-      if (formConfig?.clearable !== false) {
+      if (formConfig.value?.clearable !== false) {
         value.value = undefined
         emitValue()
       }
@@ -369,11 +369,11 @@ watch(value, () => {
 function initFieldName() {
   if (props.modifier) {
     // 如传入了自定义的modifier 则优先使用
-    fieldName = props.modifier
+    fieldName.value = props.modifier
   }
   else {
     for (const key in props.modelModifiers) {
-      fieldName = key
+      fieldName.value = key
     }
   }
 }
@@ -384,41 +384,41 @@ function initFieldName() {
 function init() {
   initFieldName()
   // 初始化配置信息
-  if (props.entity && fieldName) {
-    formConfig = getFormConfig(entityInstance, fieldName)
-    fieldConfig = getFieldConfig(entityInstance, fieldName)
+  if (props.entity && fieldName && entityInstance) {
+    formConfig.value = getFormConfig(entityInstance, fieldName.value)
+    fieldConfig.value = getFieldConfig(entityInstance, fieldName.value)
 
     if (!placeholderRef.value) {
-      const field = fieldConfig.label || getFieldConfig(entityInstance, fieldName).label || fieldName
+      const field = fieldConfig.value.label || getFieldConfig(entityInstance, fieldName.value).label || fieldName
       // 默认生成输入的placeholder
       placeholderRef.value = `请输入${field}...`
 
-      if (formConfig) {
+      if (formConfig.value) {
         // 装饰了FormField
         if (
-          dictionary
-          || fieldConfig.dictionary
+          dictionary.value
+          || fieldConfig.value.dictionary
           || props.list
           || props.tree
-          || formConfig.dateType !== undefined
+          || formConfig.value.dateType !== undefined
         ) {
           // 传入了枚举值
           placeholderRef.value = WebI18n.get().SelectPlease
         }
-        if (formConfig.placeholder) {
+        if (formConfig.value.placeholder) {
           // 传入了自定义placeholder
-          placeholderRef.value = formConfig.placeholder
+          placeholderRef.value = formConfig.value.placeholder
         }
       }
     }
   }
-  if (props.modelValue === undefined && formConfig?.defaultValue !== undefined) {
+  if (props.modelValue === undefined && formConfig.value?.defaultValue !== undefined) {
     // 没有初始化的值 但装饰器设置了默认值
-    value.value = formConfig.defaultValue
+    value.value = formConfig.value.defaultValue
     emitValue()
     return
   }
-  dictionary = props.list ? props.list : (formConfig && fieldConfig?.dictionary) ? fieldConfig.dictionary.toArray() : undefined
+  dictionary.value = props.list ? props.list : (formConfig.value && fieldConfig.value?.dictionary) ? fieldConfig.value.dictionary.toArray() : undefined
 
   // 初始化同步值
   onPropsValueUpdated(props)
