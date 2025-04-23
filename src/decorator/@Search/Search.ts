@@ -1,9 +1,6 @@
-import type { EnumKey } from '@airpower/enum/dist/enum/type'
 import type { DecoratorTarget } from '@airpower/transformer'
-import type { WebEnum } from '../../enum'
 import type { ISearchField } from './ISearchField'
 import { DecoratorUtil } from '@airpower/transformer'
-import { getFieldConfig } from '../@Field'
 
 /**
  * ### KEY
@@ -19,10 +16,7 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[SearchList]`
  * ### 标记该字段可用于表单配置
  * @param config 配置项
  */
-export function Search<
-  K extends EnumKey = EnumKey,
-  E extends WebEnum<K> = WebEnum<K>,
->(config: ISearchField<K, E> = {}) {
+export function Search(config: ISearchField = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
     return DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
@@ -38,12 +32,6 @@ export function getSearchConfig(target: DecoratorTarget, key: string): ISearchFi
   const formConfig: ISearchField | null = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!formConfig) {
     return {}
-  }
-  if (!formConfig.dictionary) {
-    const props = getFieldConfig(target, key)
-    if (props && props.dictionary) {
-      formConfig.dictionary = props.dictionary
-    }
   }
   return formConfig
 }
@@ -68,9 +56,4 @@ export function getSearchConfigList(target: DecoratorTarget, keyList: string[] =
   const list = keyList.map(key => getSearchConfig(target, key))
   return list.filter(item => !item.hide)
     .sort((a, b) => (b.order || 0) - (a.order || 0))
-    .map((item) => {
-      const props = getFieldConfig(target, item.key!)
-      item.label = item.label || props.label || item.key
-      return item
-    })
 }

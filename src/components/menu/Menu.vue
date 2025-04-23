@@ -1,4 +1,5 @@
-<script generic="T extends IMenu<T>" lang="ts" setup>
+<script generic="T extends IMenu<T> & RootEntity" lang="ts" setup>
+import type { RootEntity } from '../../base'
 import type { IMenu } from './'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'

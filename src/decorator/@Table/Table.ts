@@ -1,9 +1,6 @@
-import type { EnumKey } from '@airpower/enum/dist/enum/type'
 import type { DecoratorTarget } from '@airpower/transformer'
-import type { WebEnum } from '../../enum'
 import type { ITableColumn } from './ITableColumn'
 import { DecoratorUtil } from '@airpower/transformer'
-import { getFieldConfig } from '../@Field'
 
 /**
  * ### KEY
@@ -19,10 +16,7 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[TableList]`
  * ### 为属性标记是表格字段
  * @param config 表格列的配置
  */
-export function Table<
-  K extends EnumKey = EnumKey,
-  E extends WebEnum<K> = WebEnum<K>,
->(config: ITableColumn<K, E> = {}) {
+export function Table(config: ITableColumn = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
     return DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
@@ -38,12 +32,6 @@ export function getTableConfig(target: DecoratorTarget, key: string): ITableColu
   const tableConfig = DecoratorUtil.getFieldConfig(target, key, KEY, true)
   if (!tableConfig) {
     return {}
-  }
-  if (!tableConfig.dictionary) {
-    const props = getFieldConfig(target, key)
-    if (props && props.dictionary) {
-      tableConfig.dictionary = props.dictionary
-    }
   }
   return tableConfig
 }
@@ -67,9 +55,4 @@ export function getTableConfigList(target: DecoratorTarget, keyList: string[] = 
   }
   const list = keyList.map(key => getTableConfig(target, key))
   return list.sort((a, b) => (b.order || 0) - (a.order || 0))
-    .map((item) => {
-      const props = getFieldConfig(target, item.key!)
-      item.label = item.label || props.label || item.key
-      return item
-    })
 }

@@ -1,5 +1,4 @@
-import { Field, RootEntity, Search, Table } from '../src'
-import { AbstractCurdService } from '../src/curd'
+import { AbstractCurdService, Field, RootEntity, Search, Table } from '../src'
 
 export class User extends RootEntity {
   @Field({
@@ -8,14 +7,10 @@ export class User extends RootEntity {
   @Table()
   name!: string
 
-  @Table({
-    label: '年龄',
-  })
+  @Table({})
   age!: number
 
-  @Search({
-    label: '在哪',
-  })
+  @Search({})
   @Table()
   addr!: string
 }

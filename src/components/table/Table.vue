@@ -12,7 +12,7 @@ import { DateTimeFormatter } from '@airpower/util'
 import { ElInput, ElLink, ElMessageBox, ElOption, ElSelect, ElTable, ElTableColumn } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 import { WebConfig } from '../../config'
-import { getModelConfig, getSearchConfigList } from '../../decorator'
+import { getDictionary, getFieldLabel, getModelConfig, getSearchConfigList } from '../../decorator'
 import { WebI18n } from '../../i18n'
 import { ExportModel, QueryRequestPage, QuerySort } from '../../model'
 import { FeedbackUtil, Http, PermissionAction, PermissionUtil } from '../../util'
@@ -835,15 +835,15 @@ function onSearch() {
               :name="item.key"
             >
               <ElSelect
-                v-if="item.dictionary"
+                v-if="getDictionary(entityInstance, item.key!)"
                 v-model="searchFilter[item.key!]"
                 :clearable="item.clearable !== false"
                 :filterable="item.filterable"
-                :placeholder="`${item.label}...`"
+                :placeholder="`${getFieldLabel(entityInstance, item.key!)}...`"
                 @change="onSearch()"
                 @clear="searchFilter[item.key!] = undefined"
               >
-                <template v-for="enumItem of item.dictionary.toArray()">
+                <template v-for="enumItem of getDictionary(entityInstance, item.key!)?.toArray()">
                   <ElOption
                     v-if="!enumItem.disabled"
                     :key="enumItem.key.toString()"
@@ -856,7 +856,7 @@ function onSearch() {
                 v-else
                 v-model="searchFilter[item.key!]"
                 :clearable="item.clearable !== false"
-                :placeholder="`${item.label}...`"
+                :placeholder="`${getFieldLabel(entityInstance, item.key!)}...`"
                 @blur="onSearch()"
                 @clear="onSearch"
                 @keydown.enter="onSearch"
@@ -877,6 +877,7 @@ function onSearch() {
         <ColumnSelector
           v-if="isColumnSelectorEnabled"
           :column-list="allColumnList"
+          :entity-instance="entityInstance"
           @changed="updateSelectKeys($event)"
         />
       </div>
@@ -918,7 +919,7 @@ function onSearch() {
         <ElTableColumn
           :align="item.align"
           :fixed="item.fixed"
-          :label="item.label"
+          :label="getFieldLabel(entityInstance, item.key!)"
           :min-width="item.minWidth || 'auto'"
           :prop="item.key as string"
           :sortable="item.sortable"
@@ -935,7 +936,10 @@ function onSearch() {
                 v-if="item.prefixText"
                 style="color: #aaa; margin-right: 3px"
               >{{ item.prefixText }}</span>
-              <EnumColumn v-if="item.dictionary" :column="item" :data="scope.row" />
+              <EnumColumn
+                v-if="getDictionary(entityInstance, item.key!)" :column="item" :data="scope.row"
+                :dictionary="getDictionary(entityInstance, item.key!)!"
+              />
 
               <ADateTime
                 v-else-if="item.datetime"

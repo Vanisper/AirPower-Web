@@ -2,11 +2,13 @@
 import type { EnumKey } from '@airpower/enum'
 import type { RootEntity } from '../../../base'
 import type { ITableColumn } from '../../../decorator'
+import type { WebEnumConstructor } from '../../../enum'
 import { WebColor } from '../../../enum'
 
 const props = defineProps<{
   column: ITableColumn
   data: E
+  dictionary: WebEnumConstructor
 }>()
 const key = props.column.key as keyof E
 const value = props.data[key] as EnumKey
@@ -16,18 +18,16 @@ const value = props.data[key] as EnumKey
   <div
     class="a-enum-column"
   >
-    <template v-if="column.dictionary">
-      <span
-        v-if="column.color"
-        :style="{
-          backgroundColor: column.dictionary.get(value)?.color || WebColor.NORMAL,
-        }"
-        class="light"
-      />
-      {{
-        column.dictionary?.getLabel(value, column.emptyValue)
-      }}
-    </template>
+    <span
+      v-if="column.color"
+      :style="{
+        backgroundColor: dictionary.get(value)?.color || WebColor.NORMAL,
+      }"
+      class="light"
+    />
+    {{
+      dictionary.getLabel(value, column.emptyValue)
+    }}
   </div>
 </template>
 

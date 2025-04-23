@@ -19,6 +19,26 @@ export class WebConfig {
   static autoPermissionPrefix = true
 
   /**
+   * ### 最大文本域长度
+   */
+  static maxTextAreaLength = 200
+
+  /**
+   * ### 最大文本长度
+   */
+  static maxTextLength = 50
+
+  /**
+   * ### 文本域的最小行数
+   */
+  static textareaMinRows = 3
+
+  /**
+   * ### 文本域的最大行数
+   */
+  static textareaMaxRows = 6
+
+  /**
    * ### 上传地址
    */
   static uploadUrl = '/upload'
@@ -60,6 +80,16 @@ export class WebConfig {
    * 以 `/` 结尾
    */
   static apiUrl = '/api/'
+
+  /**
+   * ### 最大数字
+   */
+  static maxNumber = 999999999
+
+  /**
+   * ### 最小数字
+   */
+  static minNumber = 0
 
   /**
    * ### `AccessToken` 对应的 `Key`
@@ -111,6 +141,11 @@ export class WebConfig {
    * ### 登录地址
    */
   static loginUrl = '/login'
+
+  /**
+   * ### 小数精度位数
+   */
+  static numberPrecision = 2
 
   /**
    * ### 获取 `AccessToken`

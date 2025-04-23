@@ -1,6 +1,4 @@
-import type { EnumKey } from '@airpower/enum/dist/enum/type'
 import type { DecoratorTarget } from '@airpower/transformer'
-import type { WebEnum } from '../../enum'
 import type { IFormField } from './IFormField'
 import { DecoratorUtil } from '@airpower/transformer'
 import { getFieldConfig } from '../@Field'
@@ -19,10 +17,7 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[TableList]`
  * ### 标记该字段可用于表单配置
  * @param config 配置项
  */
-export function Form<
-  K extends EnumKey = EnumKey,
-  E extends WebEnum<K> = WebEnum<K>,
->(config: IFormField<K, E> = {}) {
+export function Form(config: IFormField = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
     return DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
@@ -68,9 +63,4 @@ export function getFormConfigList(target: DecoratorTarget, keyList: string[] = [
   const list = keyList.map(key => getFormConfig(target, key))
   return list.filter(item => !item.hide)
     .sort((a, b) => (b.order || 0) - (a.order || 0))
-    .map((item) => {
-      const props = getFieldConfig(target, item.key!)
-      item.label = item.label || props.label || item.key
-      return item
-    })
 }

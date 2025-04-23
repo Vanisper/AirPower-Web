@@ -4,11 +4,13 @@ import type { RootEntity } from '../../../base'
 import type { ITableColumn } from '../../../decorator'
 import { ElCheckTag } from 'element-plus'
 import { ref } from 'vue'
+import { getFieldLabel } from '../../../decorator'
 import { WebI18n } from '../../../i18n'
 import { AButton } from '../../button'
 
 const props = defineProps<{
   columnList: Array<ITableColumn>
+  entityInstance: E
 }>()
 
 const emits = defineEmits<{
@@ -71,7 +73,7 @@ if (list.value.length === 0) {
           :disabled="item.force"
           @change="changed($event, item)"
         >
-          {{ item.label }}
+          {{ getFieldLabel(entityInstance, item.key!) }}
         </ElCheckTag>
       </div>
     </div>

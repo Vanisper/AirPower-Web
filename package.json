@@ -33,7 +33,7 @@
     "docs"
   ],
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "eslint && tsc && vite build",
     "lint": "eslint src --ext .ts",
     "preview": "vite preview"
   },

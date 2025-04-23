@@ -1,4 +1,5 @@
 import type { EnumKey } from '@airpower/enum'
+import type { IWebEnum } from './IWebEnum'
 import type { WebColorString } from './type'
 import { Enum } from '@airpower/enum'
 
@@ -7,15 +8,8 @@ import { Enum } from '@airpower/enum'
  *
  * @author Hamm.cn
  */
-export class WebEnum<K extends EnumKey = number> extends Enum<K> {
-  /**
-   * ### 颜色
-   */
+export class WebEnum<K extends EnumKey = number> extends Enum<K> implements IWebEnum<K> {
   color?: WebColorString
-
-  /**
-   * ### 是否禁用
-   */
   disabled?: boolean
 
   /**

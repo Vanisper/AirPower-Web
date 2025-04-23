@@ -1,26 +1,21 @@
-<script generic="M extends AirModel" lang="ts" setup>
+<script generic="E extends RootEntity, T extends ITree<T> & RootEntity" lang="ts" setup>
+import type { IEnum } from '@airpower/enum'
+import type { EnumKey } from '@airpower/enum/dist/enum/type'
+import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType, Ref } from 'vue'
-import type { AirModel } from '../base/AirModel'
-import type { AirFormFieldConfig } from '../config/AirFormFieldConfig'
-import type { IDictionary } from '../interface/IDictionary'
-import type { IJson } from '../interface/IJson'
-import type { ITree } from '../interface/ITree'
-import type { ClassConstructor } from '../type/AirType'
-
+import type { RootEntity } from '../../base'
+import type { IFieldConfig, IFormField } from '../../decorator'
+import type { IWebEnum } from '../../enum'
+import type { ITree } from '../../model'
+import { Transformer } from '@airpower/transformer'
+import { DateTimeFormatter, ValidateUtil } from '@airpower/util'
 import { CircleClose } from '@element-plus/icons-vue'
-import { computed, ref, useSlots, watch } from 'vue'
-import { AirEntity } from '../base/AirEntity'
-import { AirConfig } from '../config/AirConfig'
-import { AirConstant } from '../config/AirConstant'
-import { AirColor } from '../enum/AirColor'
-import { AirDateTimeFormatter } from '../enum/AirDateTimeFormatter'
-import { AirDateTimeType } from '../enum/AirDateTimeType'
-import { AirTrim } from '../enum/AirTrim'
-import { AirClassTransformer } from '../helper/AirClassTransformer'
-import { AirDecorator } from '../helper/AirDecorator'
-import { AirI18n } from '../helper/AirI18n'
-import { AirValidator } from '../helper/AirValidator'
-import { AirDictionaryArray } from '../model/extend/AirDictionaryArray'
+import { computed, ref, watch } from 'vue'
+import { WebConfig } from '../../config'
+import { FormTrim, getFieldConfig, getFormConfig } from '../../decorator'
+import { WebColor } from '../../enum'
+import { WebI18n } from '../../i18n'
+import { DateTimeType } from './DateTimeType'
 
 const props = defineProps({
   modelValue: {
@@ -79,7 +74,7 @@ const props = defineProps({
    * 如同时传入了 `modifier` 或 `v-model` 指令的 `modifier` 则自动生成兜底的 `placeholder` 等信息
    */
   entity: {
-    type: Function as unknown as PropType<ClassConstructor<M>>,
+    type: Function as unknown as PropType<ITransformerConstructor<E>>,
     default: undefined,
   },
 
@@ -97,7 +92,7 @@ const props = defineProps({
    * 优先级: `AInput` 传入 > `@Form`
    */
   list: {
-    type: Array<IDictionary>,
+    type: Array<IEnum & RootEntity>,
     default: undefined,
   },
 
@@ -106,7 +101,7 @@ const props = defineProps({
    * 优先级: `AInput` 传入 > `@Form`
    */
   tree: {
-    type: Array<ITree>,
+    type: Array<T>,
     default: undefined,
   },
 
@@ -130,16 +125,16 @@ const props = defineProps({
 })
 const emits = defineEmits([
   'blur',
-  'onBlur',
   'focus',
-  'onFocus',
-  'onChange',
   'change',
   'update:modelValue',
-  'onClear',
   'clear',
 ])
-const slots: IJson = useSlots()
+
+/**
+ * # 实体的实例
+ */
+const entityInstance: E | undefined = props.entity ? Transformer.parse({}, props.entity) : undefined
 
 /**
  * 绑定的数据
@@ -150,7 +145,6 @@ const value: Ref<string | number | boolean | Array<unknown> | IJson | undefined>
  * # 触发 change 事件
  */
 function emitChange() {
-  emits('onChange', value.value)
   emits('change', value.value)
 }
 
@@ -159,7 +153,6 @@ function emitChange() {
  */
 function emitBlur() {
   emits('blur')
-  emits('onBlur')
 }
 
 /**
@@ -167,18 +160,7 @@ function emitBlur() {
  */
 function emitClear() {
   emits('clear')
-  emits('onClear')
 }
-
-/**
- * # 实体的实例
- */
-const entityInstance = computed(() => {
-  if (props.entity) {
-    return AirClassTransformer.parse({}, props.entity)
-  }
-  return new AirEntity()
-})
 
 /**
  * # 是否显示清空按钮
@@ -193,25 +175,22 @@ const placeholderRef = ref(props.placeholder)
 /**
  * # 字段的表单配置信息
  */
-const fieldConfig: Ref<AirFormFieldConfig | null> = ref(null)
+let formConfig: IFormField | null
+
+/**
+ * # 字段的配置信息
+ */
+let fieldConfig: IFieldConfig | null
 
 /**
  * # 字段名称
  */
-const fieldName = ref('')
+let fieldName = ''
 
 /**
  * # 枚举数据
  */
-const dictionary = computed(() => {
-  if (props.list) {
-    return AirDictionaryArray.create(props.list)
-  }
-  if (fieldConfig.value && fieldConfig.value.dictionary) {
-    return AirDecorator.getDictionary(fieldConfig.value.dictionary)
-  }
-  return undefined
-})
+let dictionary: IWebEnum<EnumKey>[] | undefined
 
 /**
  * # Props的value变化
@@ -235,19 +214,21 @@ function onPropsValueUpdated(newProps?: typeof props) {
  * # 获取显示的格式化
  */
 const getShowFormatter = computed(() => {
-  if (fieldConfig.value) {
-    switch (fieldConfig.value?.dateType) {
-      case AirDateTimeType.DATE:
-        return AirDateTimeFormatter.YYYY_MM_DD
-      case AirDateTimeType.WEEK:
+  if (formConfig) {
+    switch (formConfig?.dateType) {
+      case DateTimeType.DATE:
+        return DateTimeFormatter.FULL_DATE
+      case DateTimeType.WEEK:
         return '第ww周'
-      case AirDateTimeType.YEAR:
+      case DateTimeType.YEAR:
         return 'YYYY'
-      case AirDateTimeType.MONTH:
+      case DateTimeType.MONTH:
         return 'YYYY-MM'
+      case DateTimeType.DATETIME:
+        return DateTimeFormatter.FULL_DATE_TIME
     }
   }
-  return AirConfig.dateTimeFormatter
+  return DateTimeFormatter.FULL_DATE_TIME
 })
 
 /**
@@ -255,7 +236,7 @@ const getShowFormatter = computed(() => {
  * @param status
  */
 function getSwitchColor(status: boolean): string {
-  return dictionary.value?.find(item => item.key === status)?.color || AirConstant.STRING_EMPTY
+  return dictionary?.find(item => !!item.key === status)?.color || ''
 }
 
 /**
@@ -263,36 +244,20 @@ function getSwitchColor(status: boolean): string {
  * @param status
  */
 function getSwitchLabel(status: boolean): string {
-  return dictionary.value?.find(item => item.key === status)?.label || AirConstant.STRING_EMPTY
-}
-
-/**
- * # 获取是否显示字符长度的显示label
- */
-function getShowWordLimit(): boolean {
-  if (!fieldConfig.value) {
-    // 没有配置装饰器 直接不显示
-    return false
-  }
-  if (fieldConfig.value.showLimit !== undefined) {
-    // 配置了装饰器 且配置了属性 直接返回
-    return fieldConfig.value.showLimit
-  }
-  // 配置了装饰器 但没配置属性 读取默认值
-  return fieldConfig.value.textarea ? AirConfig.showLengthLimitTextarea : AirConfig.showLengthLimitInput
+  return dictionary?.find(item => !!item.key === status)?.label || ''
 }
 
 /**
  * # 获取输入类型的字符串
  */
 const getInputType = computed(() => {
-  if (fieldConfig.value?.textarea) {
+  if (formConfig?.textarea) {
     return 'textarea'
   }
-  if (fieldConfig.value?.password) {
+  if (formConfig?.password) {
     return 'password'
   }
-  if (fieldConfig.value?.number) {
+  if (formConfig?.number) {
     return 'number'
   }
   return 'text'
@@ -310,22 +275,22 @@ watch(props, (newProps) => {
  * # 验证输入的值
  */
 function checkNumberValue() {
-  if (fieldConfig.value?.number) {
+  if (formConfig?.number) {
     // 数字输入
     let tempValue = value.value as number | string | undefined | null
-    const max = Math.min(fieldConfig.value.max ?? AirConfig.maxNumber, Number.MAX_SAFE_INTEGER)
-    const min = Math.max(fieldConfig.value.min ?? AirConfig.minNumber, Number.MIN_SAFE_INTEGER)
+    const max = Math.min(formConfig.max ?? WebConfig.maxNumber, Number.MAX_SAFE_INTEGER)
+    const min = Math.max(formConfig.min ?? WebConfig.minNumber, Number.MIN_SAFE_INTEGER)
     if (
       tempValue !== ''
       && tempValue !== undefined
       && tempValue !== null
-      && AirValidator.isNumber(tempValue.toString())
+      && ValidateUtil.isNumber(tempValue.toString())
     ) {
       tempValue = Number.parseFloat(tempValue.toString())
       // 按最大值最小值做边界处理
       tempValue = Math.max(tempValue, min)
       tempValue = Math.min(tempValue, max)
-      tempValue = Number.parseFloat(tempValue.toFixed(fieldConfig.value.precision ?? AirConfig.numberPrecision))
+      tempValue = Number.parseFloat(tempValue.toFixed(formConfig.precision ?? WebConfig.numberPrecision))
       value.value = tempValue
       value.value = Number.parseFloat(value.value?.toString() || '0')
     }
@@ -345,13 +310,16 @@ function onClear() {
  * # 将数据丢出去
  */
 function emitValue() {
-  if (fieldConfig.value && value.value) {
-    switch (fieldConfig.value.trim) {
-      case AirTrim.ALL:
+  if (formConfig && value.value) {
+    switch (formConfig.trim) {
+      case FormTrim.ALL:
         value.value = value.value.toString().trim()
         break
-      case AirTrim.END:
+      case FormTrim.END:
         value.value = value.value.toString().trimEnd()
+        break
+      case FormTrim.START:
+        value.value = value.value.toString().trimStart()
         break
       default:
     }
@@ -367,13 +335,13 @@ function emitValue() {
 function onKeyDown(event: KeyboardEvent) {
   switch (event.code) {
     case 'KeyE':
-      if (fieldConfig.value?.number) {
+      if (formConfig?.number) {
         // 数字类型输入不允许输入科学计数的e
         event.preventDefault()
       }
       break
     case 'Escape':
-      if (fieldConfig.value?.clearable) {
+      if (formConfig?.clearable !== false) {
         value.value = undefined
         emitValue()
       }
@@ -386,20 +354,6 @@ function onKeyDown(event: KeyboardEvent) {
  * # 输入框失去焦点
  */
 function onBlur() {
-  if (fieldConfig.value && value.value) {
-    switch (fieldConfig.value.trim) {
-      case AirTrim.ALL:
-        value.value = value.value.toString().trim()
-        break
-      case AirTrim.START:
-        value.value = value.value.toString().trimStart()
-        break
-      case AirTrim.END:
-        value.value = value.value.toString().trimEnd()
-        break
-      default:
-    }
-  }
   checkNumberValue()
   emitValue()
   emitBlur()
@@ -412,54 +366,60 @@ watch(value, () => {
   emitValue()
 })
 
+function initFieldName() {
+  if (props.modifier) {
+    // 如传入了自定义的modifier 则优先使用
+    fieldName = props.modifier
+  }
+  else {
+    for (const key in props.modelModifiers) {
+      fieldName = key
+    }
+  }
+}
+
 /**
  * # 初始化
  */
 function init() {
-  if (props.modifier) {
-    // 如传入了自定义的modifier 则优先使用
-    fieldName.value = props.modifier
-  }
-  else {
-    for (const key in props.modelModifiers) {
-      fieldName.value = key
-    }
-  }
-
+  initFieldName()
   // 初始化配置信息
-  if (props.entity && fieldName.value) {
-    fieldConfig.value = entityInstance.value.getCustomFormFieldConfig(fieldName.value)
+  if (props.entity && fieldName) {
+    formConfig = getFormConfig(entityInstance, fieldName)
+    fieldConfig = getFieldConfig(entityInstance, fieldName)
 
     if (!placeholderRef.value) {
-      const field = fieldConfig.value?.label || entityInstance.value.getFieldName(fieldName.value)
+      const field = fieldConfig.label || getFieldConfig(entityInstance, fieldName).label || fieldName
       // 默认生成输入的placeholder
       placeholderRef.value = `请输入${field}...`
 
-      if (fieldConfig.value) {
+      if (formConfig) {
         // 装饰了FormField
         if (
-          dictionary.value
-          || fieldConfig.value.dictionary
+          dictionary
+          || fieldConfig.dictionary
           || props.list
           || props.tree
-          || fieldConfig.value.dateType !== undefined
+          || formConfig.dateType !== undefined
         ) {
           // 传入了枚举值
-          placeholderRef.value = AirI18n.get().SelectPlease || '请选择'
+          placeholderRef.value = WebI18n.get().SelectPlease
         }
-        if (fieldConfig.value.placeholder) {
+        if (formConfig.placeholder) {
           // 传入了自定义placeholder
-          placeholderRef.value = fieldConfig.value.placeholder
+          placeholderRef.value = formConfig.placeholder
         }
       }
     }
   }
-  if (props.modelValue === undefined && fieldConfig.value?.defaultValue !== undefined) {
+  if (props.modelValue === undefined && formConfig?.defaultValue !== undefined) {
     // 没有初始化的值 但装饰器设置了默认值
-    value.value = fieldConfig.value.defaultValue
+    value.value = formConfig.defaultValue
     emitValue()
     return
   }
+  dictionary = props.list ? props.list : (formConfig && fieldConfig?.dictionary) ? fieldConfig.dictionary.toArray() : undefined
+
   // 初始化同步值
   onPropsValueUpdated(props)
 }
@@ -469,19 +429,19 @@ init()
 
 <template>
   <div class="a-input">
-    <template v-if="fieldConfig && fieldConfig.dateType !== undefined">
+    <template v-if="formConfig && formConfig.dateType !== undefined">
       <el-date-picker
-        v-if="fieldConfig.dateType !== AirDateTimeType.TIME"
+        v-if="formConfig.dateType !== DateTimeType.DATE"
         v-model="value"
-        :clearable="fieldConfig?.clearable"
+        :clearable="formConfig?.clearable"
         :disabled="disabled"
-        :format="fieldConfig.dateShowFormatter || getShowFormatter"
+        :format="formConfig.dateShowFormatter || getShowFormatter"
         :placeholder="placeholderRef"
-        :prefix-icon="fieldConfig?.prefixIcon"
+        :prefix-icon="formConfig?.prefixIcon"
         :readonly="readonly"
-        :suffix-icon="fieldConfig?.suffixIcon"
-        :type="fieldConfig.dateType"
-        :value-format="fieldConfig.dateFormatter"
+        :suffix-icon="formConfig?.suffixIcon"
+        :type="formConfig.dateType"
+        :value-format="formConfig.dateFormatter"
         style="width: 100%"
         @clear="onClear"
         @focus="emits('focus')"
@@ -490,14 +450,14 @@ init()
       <el-time-picker
         v-else
         v-model="value"
-        :clearable="fieldConfig?.clearable"
+        :clearable="formConfig?.clearable"
         :disabled="disabled"
-        :format="fieldConfig.dateShowFormatter || AirDateTimeFormatter.HH_mm_ss"
+        :format="formConfig.dateShowFormatter || DateTimeFormatter.FULL_TIME"
         :placeholder="placeholderRef"
-        :prefix-icon="fieldConfig?.prefixIcon"
+        :prefix-icon="formConfig?.prefixIcon"
         :readonly="readonly"
-        :suffix-icon="fieldConfig?.suffixIcon"
-        :value-format="fieldConfig.dateFormatter"
+        :suffix-icon="formConfig?.suffixIcon"
+        :value-format="formConfig.dateFormatter"
         style="width: 100%"
         @clear="onClear"
         @focus="emits('focus')"
@@ -506,7 +466,7 @@ init()
     </template>
     <template v-else-if="list || dictionary">
       <el-switch
-        v-if="fieldConfig?.switch"
+        v-if="formConfig?.switch"
         v-model="value"
         :active-text="getSwitchLabel(true)"
         :inactive-text="getSwitchLabel(false)"
@@ -517,7 +477,7 @@ init()
         }"
       />
       <el-radio-group
-        v-else-if="fieldConfig?.radioButton"
+        v-else-if="formConfig?.radioButton"
         v-model="value"
         :readonly="readonly"
       >
@@ -530,7 +490,7 @@ init()
         </el-radio-button>
       </el-radio-group>
       <el-radio-group
-        v-else-if="fieldConfig?.radio"
+        v-else-if="formConfig?.radio"
         v-model="value"
         :readonly="readonly"
       >
@@ -545,18 +505,18 @@ init()
       <el-select
         v-else
         v-model="value"
-        :clearable="fieldConfig?.clearable"
-        :collapse-tags="fieldConfig?.collapseTags"
+        :clearable="formConfig?.clearable"
+        :collapse-tags="formConfig?.collapseTags"
         :disabled="disabled"
-        :filterable="fieldConfig?.filterable"
-        :multiple="fieldConfig?.multiple"
-        :multiple-limit="fieldConfig?.multipleLimit"
+        :filterable="formConfig?.filterable"
+        :multiple="formConfig?.multiple"
+        :multiple-limit="formConfig?.multipleLimit"
         :placeholder="placeholderRef"
-        :prefix-icon="fieldConfig?.prefixIcon"
+        :prefix-icon="formConfig?.prefixIcon"
         :readonly="readonly"
         :remote="!!onSearch"
         :remote-method="onSearch"
-        :suffix-icon="fieldConfig?.suffixIcon"
+        :suffix-icon="formConfig?.suffixIcon"
         collapse-tags-tooltip
         fit-input-width
         @clear="onClear"
@@ -571,12 +531,12 @@ init()
           :value="item.key"
         >
           <div
-            v-if="fieldConfig?.showColor"
+            v-if="formConfig?.color"
             class="a-input-select"
           >
             <span class="label">{{ item.label }}</span>
             <span
-              :style="{ backgroundColor: item.color || AirColor.NORMAL }"
+              :style="{ backgroundColor: item.color || WebColor.NORMAL }"
               class="light"
             />
           </div>
@@ -585,22 +545,22 @@ init()
     </template>
 
     <el-cascader
-      v-else-if="fieldConfig && tree"
+      v-else-if="formConfig && tree"
       v-model="value"
-      :clearable="fieldConfig?.clearable"
-      :collapse-tags="fieldConfig?.collapseTags"
+      :clearable="formConfig?.clearable"
+      :collapse-tags="formConfig?.collapseTags"
       :disabled="disabled"
       :options="tree"
       :placeholder="placeholderRef"
       :props="{
         value: 'id',
         label: 'name',
-        multiple: fieldConfig?.multiple,
-        emitPath: fieldConfig?.emitPath,
-        checkStrictly: fieldConfig?.checkStrictly,
+        multiple: formConfig?.multiple,
+        emitPath: formConfig?.emitPath,
+        checkStrictly: formConfig?.checkStrictly,
       }"
       :readonly="readonly"
-      :show-all-levels="fieldConfig?.showAllLevels"
+      :show-all-levels="formConfig?.showAllLevels"
       class="a-input-cascader"
       collapse-tags-tooltip
       popper-class="a-input-cascader-popper"
@@ -611,20 +571,20 @@ init()
     <el-input
       v-else
       v-model="value"
-      :autosize="fieldConfig?.autoSize ? { minRows: fieldConfig.minRows, maxRows: fieldConfig.maxRows } : false"
-      :clearable="fieldConfig?.clearable"
+      :autosize="formConfig?.autoSize ? { minRows: formConfig.minRows, maxRows: formConfig.maxRows } : false"
+      :clearable="formConfig?.clearable"
       :disabled="disabled"
-      :max="fieldConfig?.max"
+      :max="formConfig?.max"
       :maxlength="
-        fieldConfig?.maxLength || (fieldConfig?.textarea ? AirConfig.maxTextAreaLength : AirConfig.maxTextLength)
+        formConfig?.maxLength || (formConfig?.textarea ? WebConfig.maxTextAreaLength : WebConfig.maxTextLength)
       "
-      :min="fieldConfig?.min ?? 0"
+      :min="formConfig?.min ?? 0"
       :placeholder="placeholderRef"
-      :prefix-icon="fieldConfig?.prefixIcon"
+      :prefix-icon="formConfig?.prefixIcon"
       :readonly="readonly"
-      :rows="fieldConfig?.textarea ? AirConfig.textareaMinRows : 0"
-      :show-word-limit="getShowWordLimit()"
-      :suffix-icon="fieldConfig?.suffixIcon"
+      :rows="formConfig?.textarea ? WebConfig.textareaMinRows : 0"
+      :show-word-limit="formConfig?.showLimit !== false"
+      :suffix-icon="formConfig?.suffixIcon"
       :type="getInputType"
       @blur="onBlur"
       @change="checkNumberValue"
@@ -633,12 +593,12 @@ init()
       @keydown="onKeyDown"
     >
       <template
-        v-for="(index, name) in slots"
+        v-for="(_, name) in $slots"
         #[name]
       >
         <slot :name="name">
           <template v-if="name === 'append'">
-            {{ fieldConfig?.suffixText }}
+            {{ formConfig?.suffixText }}
           </template>
           <template v-if="name === 'suffix'">
             <el-icon
@@ -651,10 +611,10 @@ init()
         </slot>
       </template>
       <template
-        v-if="!slots.append && fieldConfig?.suffixText"
+        v-if="!$slots.append && formConfig?.suffixText"
         #append
       >
-        {{ fieldConfig.suffixText }}
+        {{ formConfig.suffixText }}
       </template>
     </el-input>
   </div>

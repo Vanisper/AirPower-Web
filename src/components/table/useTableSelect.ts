@@ -23,7 +23,7 @@ export function useTableSelect<E extends RootEntity>(params: {
         }
       }
       if (row.children && row.children.length > 0) {
-        selectRow(row.children)
+        selectRow(row.children as unknown as Array<ITree<E>>)
       }
     }
   }
