@@ -2,8 +2,8 @@ import type { ITransformerConstructor } from '@airpower/transformer'
 import type { Ref } from 'vue'
 import type { HttpResponse } from '../http/HttpResponse'
 import { Transformer } from '@airpower/transformer'
-import { ElMessage } from 'element-plus'
 import { WebConfig } from '../config/WebConfig'
+import { FeedbackUtil } from '../feedback/FeedbackUtil'
 import { Http } from '../http/Http'
 
 /**
@@ -51,7 +51,7 @@ export abstract class AbstractService extends Transformer {
         if (response.code === WebConfig.unAuthorizeCode) {
           return
         }
-        ElMessage.error(response.message)
+        FeedbackUtil.toastError(response.message)
       },
     })
   }
