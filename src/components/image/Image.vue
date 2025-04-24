@@ -176,7 +176,7 @@ uploadHeader.value[WebConfig.authorizationHeaderKey] = WebConfig.getAccessToken(
  */
 function imageRemoved() {
   imageUrl.value = ''
-  emits('onRemove')
+  emits('removed')
 }
 
 /**
@@ -239,7 +239,7 @@ function onUploadSuccess(response: { code: number, data: { url: string } }) {
     }
     const entityData = Transformer.parse(response.data, props.entity)
     if (entityData && entityData.url) {
-      emits('onUpload', entityData)
+      emits('uploaded', entityData)
       isUploading.value = false
       return
     }
