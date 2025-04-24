@@ -2,7 +2,7 @@
 import type { PropType } from 'vue'
 import type { MoneyDirection } from './type'
 import { computed } from 'vue'
-import { WebConfig } from '../../config'
+import { WebConfig } from '../../config/WebConfig'
 import { ACopy } from '../copy'
 
 const props = defineProps({

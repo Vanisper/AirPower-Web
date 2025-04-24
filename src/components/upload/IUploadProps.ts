@@ -1,6 +1,6 @@
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
-import type { RootEntity } from '../../base'
-import type { IFile } from '../../util'
+import type { IFile } from '../../interface/IFile'
+import type { RootEntity } from '../../model/RootEntity'
 
 /**
  * # 上传配置项

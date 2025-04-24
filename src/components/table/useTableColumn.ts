@@ -1,9 +1,11 @@
 import type { ITransformerConstructor } from '@airpower/transformer'
 import type { Ref } from 'vue'
-import type { RootEntity } from '../../base'
-import type { IModelConfig, ITableColumn } from '../../curd'
+import type { IModelConfig } from '../../decorator/@Model/IModelConfig'
+import type { ITableColumn } from '../../decorator/@Table/ITableColumn'
+import type { RootEntity } from '../../model/RootEntity'
 import { computed, ref } from 'vue'
-import { getModelConfig, getTableConfigList } from '../../curd'
+import { getModelConfig } from '../../decorator/@Model/Model'
+import { getTableConfigList } from '../../decorator/@Table/Table'
 
 /**
  * # 表格字段

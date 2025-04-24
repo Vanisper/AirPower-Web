@@ -2,7 +2,7 @@
 import type { Component, ModelRef, PropType } from 'vue'
 import type { IPayload } from '../payload'
 import { computed } from 'vue'
-import { DialogUtil } from '../dialog'
+import { DialogUtil } from '../../dialog/DialogUtil'
 
 const props = defineProps({
   /**

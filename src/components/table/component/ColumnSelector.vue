@@ -1,12 +1,12 @@
 <script generic="E extends RootEntity" lang="ts" setup>
 import type { ITransformerConstructor } from '@airpower/transformer'
 import type { Ref } from 'vue'
-import type { RootEntity } from '../../../base'
-import type { ITableColumn } from '../../../curd'
+import type { ITableColumn } from '../../../decorator/@Table/ITableColumn'
+import type { RootEntity } from '../../../model/RootEntity'
 import { ElCheckTag } from 'element-plus'
 import { ref } from 'vue'
-import { getFieldLabel } from '../../../curd'
-import { WebI18n } from '../../../util'
+import { getFieldLabel } from '../../../decorator/@Field/Field'
+import { WebI18n } from '../../../i18n/WebI18n'
 import { AButton } from '../../button'
 
 const props = defineProps<{

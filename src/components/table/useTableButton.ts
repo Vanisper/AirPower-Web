@@ -1,7 +1,8 @@
 import type { ITransformerConstructor } from '@airpower/transformer'
-import type { RootEntity } from '../../base'
-import { WebConfig } from '../../config'
-import { PermissionAction, PermissionUtil } from '../../util'
+import type { RootEntity } from '../../model/RootEntity'
+import { WebConfig } from '../../config/WebConfig'
+import { PermissionAction } from '../../permission/PermissionAction'
+import { PermissionUtil } from '../../permission/PermissionUtil'
 
 /**
  * # 表格按钮权限控制

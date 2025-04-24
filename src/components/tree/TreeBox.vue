@@ -1,10 +1,10 @@
 <script generic="T extends ITree & RootEntity" lang="ts" setup>
 import type { TreeInstance } from 'element-plus'
 import type { Ref } from 'vue'
-import type { RootEntity } from '../../base'
-import type { ITree } from '../../curd'
+import type { ITree } from '../../interface/ITree'
+import type { RootEntity } from '../../model/RootEntity'
 import { computed, ref, watch } from 'vue'
-import { WebConfig } from '../../config'
+import { WebConfig } from '../../config/WebConfig'
 import { APanel } from '../index'
 
 const props = defineProps({

@@ -2,11 +2,11 @@
 import type { IEnum } from '@airpower/enum'
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType } from 'vue'
-import type { RootEntity } from '../../base'
-import type { ITree } from '../../curd'
+import type { ITree } from '../../interface/ITree'
+import type { RootEntity } from '../../model/RootEntity'
 import { ElFormItem } from 'element-plus'
 import { inject, ref } from 'vue'
-import { getFieldLabel } from '../../curd'
+import { getFieldLabel } from '../../decorator/@Field/Field'
 import { AInput } from '../index'
 
 const props = defineProps({

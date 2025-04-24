@@ -4,8 +4,8 @@ import type { ButtonIcon } from './type'
 import { BottomRight, Clock, Delete, DocumentCopy, Edit, Plus, Setting, TopRight } from '@element-plus/icons-vue'
 import { ElButton } from 'element-plus'
 import { computed } from 'vue'
-import { WebConfig } from '../../config'
-import { PermissionUtil } from '../../util'
+import { WebConfig } from '../../config/WebConfig'
+import { PermissionUtil } from '../../permission/PermissionUtil'
 
 const props = defineProps({
   /**

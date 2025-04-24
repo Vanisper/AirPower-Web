@@ -1,19 +1,20 @@
 <script generic="E extends RootEntity, S extends AbstractCurdService<E>" lang="ts" setup>
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { Component, Ref } from 'vue'
-import type { RootEntity } from '../../base'
-import type {
-  AbstractCurdService,
-  CurdServiceConstructor,
-  ISearchField,
-  ISelectorOption,
-  ITableColumn,
-  QueryRequestPage,
-} from '../../curd'
+import type { ISearchField } from '../../decorator/@Search/ISearchField'
+import type { ITableColumn } from '../../decorator/@Table/ITableColumn'
+import type { ISelectorOption } from '../../hooks/table/selector/ISelectorOption'
+import type { QueryRequestPage } from '../../model/query/QueryRequestPage'
+import type { RootEntity } from '../../model/RootEntity'
+import type { AbstractCurdService } from '../../service/AbstractCurdService'
+import type { CurdServiceConstructor } from '../../service/type'
 import { computed, useSlots } from 'vue'
-import { getSearchConfigList, getTableConfigList, useSelector } from '../../curd'
-import { FeedbackUtil } from '../../util'
-import { AButton, ADialog, APage, ATable, DialogUtil } from '../index'
+import { getSearchConfigList } from '../../decorator/@Search/Search'
+import { getTableConfigList } from '../../decorator/@Table/Table'
+import { DialogUtil } from '../../dialog/DialogUtil'
+import { FeedbackUtil } from '../../feedback/FeedbackUtil'
+import { useSelector } from '../../hooks/table/selector/useSelector'
+import { AButton, ADialog, APage, ATable } from '../index'
 
 const props = defineProps<{
   /**

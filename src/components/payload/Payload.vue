@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { Component, PropType } from 'vue'
-import type { RootEntity } from '../../base'
-import type { IPayload } from './IPayload'
+import type { IPayload } from '../../interface/IPayload'
+import type { RootEntity } from '../../model/RootEntity'
 import { ElLink } from 'element-plus'
-import { DialogUtil } from '../dialog'
+import { DialogUtil } from '../../dialog/DialogUtil'
 
 const props = defineProps({
   /**

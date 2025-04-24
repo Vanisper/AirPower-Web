@@ -2,7 +2,7 @@
 import { DesensitizeType, DesensitizeUtil, ValidateUtil } from '@airpower/util'
 import { Iphone } from '@element-plus/icons-vue'
 import { computed } from 'vue'
-import { DialogUtil } from '../dialog'
+import { DialogUtil } from '../../dialog/DialogUtil'
 import { ACall } from './index'
 
 const props = defineProps({

@@ -2,10 +2,11 @@
 import type { IJson } from '@airpower/transformer'
 import type { FormInstance } from 'element-plus'
 import type { PropType } from 'vue'
-import type { WebValidator } from '../../util'
+import type { WebValidator } from '../../validator/WebValidator'
 import { Close, FullScreen } from '@element-plus/icons-vue'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { FeedbackUtil, WebI18n } from '../../util'
+import { FeedbackUtil } from '../../feedback/FeedbackUtil'
+import { WebI18n } from '../../i18n/WebI18n'
 import { AButton } from '../button'
 
 const props = defineProps({

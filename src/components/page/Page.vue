@@ -1,10 +1,11 @@
 <script generic="E extends RootEntity" lang="ts" setup="props">
-import type { RootEntity } from '../../base'
+import type { RootEntity } from '../../model/RootEntity'
 import { ElButton, ElInput, ElPagination, ElPopover, ElRadioButton, ElRadioGroup } from 'element-plus'
 import { computed, ref } from 'vue'
-import { WebConfig } from '../../config'
-import { QueryPage, QueryResponsePage } from '../../curd'
-import { WebI18n } from '../../util'
+import { WebConfig } from '../../config/WebConfig'
+import { WebI18n } from '../../i18n/WebI18n'
+import { QueryPage } from '../../model/query/QueryPage'
+import { QueryResponsePage } from '../../model/query/QueryResponsePage'
 
 const props = defineProps({
   /**

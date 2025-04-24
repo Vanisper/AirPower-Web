@@ -1,5 +1,0 @@
-export * from './AbstractCurdService'
-export * from './decorator'
-export * from './hooks'
-export * from './model'
-export * from './type'

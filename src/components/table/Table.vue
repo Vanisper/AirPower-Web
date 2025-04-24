@@ -2,32 +2,32 @@
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { TableInstance } from 'element-plus'
 import type { ComputedRef, PropType, Ref } from 'vue'
-import type { RootEntity } from '../../base'
-import type {
-  AbstractCurdService,
-  CurdServiceConstructor,
-  IModelConfig,
-  ISearchField,
-  ITableColumn,
-  QueryRequest,
-} from '../../curd'
-import type { IFile } from '../../util'
+import type { IModelConfig } from '../../decorator/@Model/IModelConfig'
+import type { ISearchField } from '../../decorator/@Search/ISearchField'
+import type { ITableColumn } from '../../decorator/@Table/ITableColumn'
+import type { IFile } from '../../interface/IFile'
+import type { QueryRequest } from '../../model/query/QueryRequest'
+import type { RootEntity } from '../../model/RootEntity'
+import type { AbstractCurdService } from '../../service/AbstractCurdService'
+import type { CurdServiceConstructor } from '../../service/type'
 import { Transformer } from '@airpower/transformer'
 import { DateTimeFormatter } from '@airpower/util'
 import { ElInput, ElLink, ElMessageBox, ElOption, ElSelect, ElTable, ElTableColumn } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
-import { WebConfig } from '../../config'
-import {
-  ExportModel,
-  getDictionary,
-  getFieldLabel,
-  getModelConfig,
-  getSearchConfigList,
-  QueryRequestPage,
-  QuerySort,
-} from '../../curd'
-import { FeedbackUtil, Http, PermissionAction, PermissionUtil, WebI18n } from '../../util'
-import { AButton, ADateTime, ADesensitize, DialogUtil } from '../index'
+import { WebConfig } from '../../config/WebConfig'
+import { WebConstant } from '../../config/WebConstant'
+import { getDictionary, getFieldLabel } from '../../decorator/@Field/Field'
+import { getModelConfig } from '../../decorator/@Model/Model'
+import { getSearchConfigList } from '../../decorator/@Search/Search'
+import { DialogUtil } from '../../dialog/DialogUtil'
+import { FeedbackUtil } from '../../feedback/FeedbackUtil'
+import { WebI18n } from '../../i18n/WebI18n'
+import { ExportModel } from '../../model/export/ExportModel'
+import { QueryRequestPage } from '../../model/query/QueryRequestPage'
+import { QuerySort } from '../../model/query/QuerySort'
+import { PermissionAction } from '../../permission/PermissionAction'
+import { PermissionUtil } from '../../permission/PermissionUtil'
+import { AButton, ADateTime, ADesensitize } from '../index'
 import { ColumnSelector, CopyColumn, EnumColumn } from './component'
 import { useTableButton } from './useTableButton'
 import { useTableColumn } from './useTableColumn'
@@ -693,7 +693,7 @@ watch(
  * @param url
  */
 function getApiUrl(url: string): string {
-  if (url.includes(Http.PREFIX_HTTP) || url.includes(Http.PREFIX_HTTPS)) {
+  if (url.includes(WebConstant.PREFIX_HTTP) || url.includes(WebConstant.PREFIX_HTTPS)) {
     return url
   }
   return WebConfig.apiUrl + url

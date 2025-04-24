@@ -5,8 +5,10 @@ import { SwitchButton } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 import { computed, ref } from 'vue'
 import defaultAvatar from '../../assets/img/avatar.svg'
-import { WebConfig } from '../../config'
-import { PermissionUtil, WebFileUtil, WebI18n } from '../../util'
+import { WebConfig } from '../../config/WebConfig'
+import { WebFileUtil } from '../../file/WebFileUtil'
+import { WebI18n } from '../../i18n/WebI18n'
+import { PermissionUtil } from '../../permission/PermissionUtil'
 
 const props = defineProps({
   /**

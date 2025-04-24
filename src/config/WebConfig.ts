@@ -1,6 +1,7 @@
 import type { MoneyDirection } from '../components'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import { HttpHeader, HttpStatus } from '../util'
+import { HttpHeader } from '../http/enum/HttpHeader'
+import { HttpStatus } from '../http/enum/HttpStatus'
 
 /**
  * # 全局配置
@@ -74,6 +75,11 @@ export class WebConfig {
    * ### element-plus 语言包
    */
   static elementPlusLocale = zhCn
+
+  /**
+   * ### 权限缓存 `Key`
+   */
+  static permissionCacheKey = 'permissions'
 
   /**
    * ### 接口根地址

@@ -1,14 +1,16 @@
 <script generic="F extends IFile & RootEntity" lang="ts" setup>
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType } from 'vue'
-import type { RootEntity } from '../../base'
-import type { IFile } from '../../util'
+import type { IFile } from '../../interface/IFile'
+import type { RootEntity } from '../../model/RootEntity'
 import { Transformer } from '@airpower/transformer'
 import { FileUtil } from '@airpower/util'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
 import { computed, ref, watch } from 'vue'
-import { WebConfig } from '../../config'
-import { FeedbackUtil, WebFileUtil, WebI18n } from '../../util'
+import { WebConfig } from '../../config/WebConfig'
+import { FeedbackUtil } from '../../feedback/FeedbackUtil'
+import { WebFileUtil } from '../../file/WebFileUtil'
+import { WebI18n } from '../../i18n/WebI18n'
 
 const props = defineProps({
   /**
