@@ -84,7 +84,7 @@ async function onSelect() {
 
 async function onClear() {
   result.value = undefined
-  emits('change', result.value)
+  emits('changed', result.value)
   emits('clear')
 }
 </script>
