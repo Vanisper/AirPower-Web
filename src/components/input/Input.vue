@@ -128,7 +128,7 @@ const props = defineProps({
 const emits = defineEmits([
   'blur',
   'focus',
-  'change',
+  'changed',
   'update:modelValue',
   'clear',
 ])
@@ -142,7 +142,7 @@ const value: Ref<string | number | boolean | Array<unknown> | IJson | undefined>
  * # 触发 change 事件
  */
 function emitChange() {
-  emits('change', value.value)
+  emits('changed', value.value)
 }
 
 /**

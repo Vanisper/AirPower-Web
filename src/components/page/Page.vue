@@ -18,7 +18,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits<{
-  change: [page: QueryPage]
+  changed: [page: QueryPage]
 }>()
 
 /**
@@ -36,7 +36,7 @@ const currentPage = ref(page.value.pageNum)
  */
 function emitChange() {
   currentPage.value = page.value.pageNum
-  emits('change', page.value)
+  emits('changed', page.value)
 }
 
 /**
