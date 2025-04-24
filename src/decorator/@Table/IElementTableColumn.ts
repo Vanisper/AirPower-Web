@@ -1,4 +1,4 @@
-import type { TableAlign, TableFixed, TableSortable } from './TableType'
+import type { TableAlign, TableFixed, TableSortable } from './type'
 
 /**
  * # ElementPlus支持的列配置项
