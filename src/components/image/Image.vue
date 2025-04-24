@@ -131,8 +131,8 @@ const props = defineProps({
 })
 
 const emits = defineEmits<{
-  onUpload: [file: F]
-  onRemove: []
+  uploaded: [file: F]
+  removed: []
 }>()
 
 /**
