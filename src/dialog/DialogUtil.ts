@@ -1,14 +1,14 @@
 import type { IJson } from '@airpower/transformer'
 import type { App, Component } from 'vue'
-import type { IUploadProps } from '../components/upload'
 import type { IFile } from '../interface/IFile'
+import type { IUploadProps } from '../interface/IUploadProps'
 import type { ExportModel } from '../model/export/ExportModel'
 import type { RootEntity } from '../model/RootEntity'
 import ElementPlus from 'element-plus'
 import { createApp } from 'vue'
+import Export from '../components/table/component/Export.vue'
 import { AUpload } from '../components/upload'
 import { WebConfig } from '../config/WebConfig'
-import Export from '../table/component/Export.vue'
 
 /**
  * # 弹窗工具类

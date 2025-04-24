@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import type { IUser } from './IUser'
+import type { IUser } from '../../interface/IUser'
 import { SwitchButton } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 import { computed, ref } from 'vue'

@@ -1,6 +1,6 @@
 <script generic="T extends IMenu & RootEntity" lang="ts" setup>
-import type { RootEntity } from '../../base'
 import type { IMenu } from '../../interface/IMenu'
+import type { RootEntity } from '../../model/RootEntity'
 import { ElMenuItem, ElSubMenu } from 'element-plus'
 
 defineProps({

@@ -1,5 +1,5 @@
 import type { DateTimeFormatter } from '@airpower/util'
-import type { DateTimeType } from '../../components'
+import type { DateTimeType } from '../../enum/DateTimeType'
 import type { IBaseField } from '../common/IBaseField'
 import type { FormTrim } from './FormTrim'
 

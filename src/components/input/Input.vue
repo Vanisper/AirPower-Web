@@ -15,9 +15,9 @@ import { WebConfig } from '../../config/WebConfig'
 import { getFieldConfig } from '../../decorator/@Field/Field'
 import { getFormConfig } from '../../decorator/@Form/Form'
 import { FormTrim } from '../../decorator/@Form/FormTrim'
+import { DateTimeType } from '../../enum/DateTimeType'
 import { WebColor } from '../../enum/WebColor'
 import { WebI18n } from '../../i18n/WebI18n'
-import { DateTimeType } from './DateTimeType'
 
 const props = defineProps({
   modelValue: {

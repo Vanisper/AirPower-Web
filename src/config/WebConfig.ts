@@ -1,4 +1,4 @@
-import type { MoneyDirection } from '../components'
+import type { MoneyDirection } from '../type'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { HttpHeader } from '../http/enum/HttpHeader'
 import { HttpStatus } from '../http/enum/HttpStatus'

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import type { MoneyDirection } from './type'
+import type { MoneyDirection } from '../../type'
 import { computed } from 'vue'
 import { WebConfig } from '../../config/WebConfig'
 import { ACopy } from '../copy'

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Component, PropType, Ref } from 'vue'
-import type { ButtonIcon } from './type'
+import type { ButtonIcon } from '../../type'
 import { BottomRight, Clock, Delete, DocumentCopy, Edit, Plus, Setting, TopRight } from '@element-plus/icons-vue'
 import { ElButton } from 'element-plus'
 import { computed } from 'vue'
