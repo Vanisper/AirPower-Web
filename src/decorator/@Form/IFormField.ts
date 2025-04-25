@@ -42,7 +42,6 @@ export interface IFormField extends IBaseField {
 
   /**
    * ### 最大数字
-   * 默认配置 `WebConfig.maxNumber` 仅在 `number` 时有效
    */
   max?: number
 

@@ -10,7 +10,9 @@ const KEY = `${DecoratorUtil.DecoratorKeyPrefix}[MODEL]`
  */
 export function Model<
   T extends IModelConfig = IModelConfig,
->(config: T = {} as T) {
+>(
+  config: T = {} as T,
+) {
   return (target: DecoratorTarget) => DecoratorUtil.setClassConfig(target, KEY, config)
 }
 
@@ -21,7 +23,9 @@ export function Model<
 export function getModelConfig<
   E extends Transformer,
   T extends IModelConfig = IModelConfig,
->(TargetClass: ITransformerConstructor<E>): T {
+>(
+  TargetClass: ITransformerConstructor<E>,
+): T {
   return DecoratorUtil.getClassConfig(TargetClass, KEY, {}, true) as T
 }
 
@@ -31,6 +35,8 @@ export function getModelConfig<
  */
 export function getModelName<
   E extends Transformer,
->(TargetClass: ITransformerConstructor<E>): string {
+>(
+  TargetClass: ITransformerConstructor<E>,
+): string {
   return getModelConfig(TargetClass).label || TargetClass.name
 }

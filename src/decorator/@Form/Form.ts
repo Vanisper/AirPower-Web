@@ -19,7 +19,9 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[FormList]`
  * ### 标记该字段可用于表单配置
  * @param config 配置项
  */
-export function Form(config: FieldConfigOptionalKey<IFormField> = {}) {
+export function Form(
+  config: FieldConfigOptionalKey<IFormField> = {},
+) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
     DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
@@ -33,7 +35,10 @@ export function Form(config: FieldConfigOptionalKey<IFormField> = {}) {
  */
 export function getFormConfig<
   M extends RootModel,
->(TargetClass: ITransformerConstructor<M>, key: keyof M | string): IFormField {
+>(
+  TargetClass: ITransformerConstructor<M>,
+  key: keyof M | string,
+): IFormField {
   const formConfig = DecoratorUtil.getFieldConfig(TargetClass, key.toString(), KEY, true)
   if (!formConfig) {
     return { key: key.toString() }
@@ -51,7 +56,11 @@ export function getFormConfig<
  * ### 获取标记了表单配置的字段列表
  * @param TargetClass 目标类
  */
-export function getFormFieldList<M extends RootModel>(TargetClass: ITransformerConstructor<M>): Array<keyof M | string> {
+export function getFormFieldList<
+  M extends RootModel,
+>(
+  TargetClass: ITransformerConstructor<M>,
+): Array<keyof M | string> {
   return DecoratorUtil.getFieldList(TargetClass, LIST_KEY) as Array<keyof M | string>
 }
 
@@ -62,7 +71,10 @@ export function getFormFieldList<M extends RootModel>(TargetClass: ITransformerC
  */
 export function getFormConfigList<
   M extends RootModel,
->(TargetClass: ITransformerConstructor<M>, keyList: Array<keyof M | string> = []): IFormField[] {
+>(
+  TargetClass: ITransformerConstructor<M>,
+  keyList: Array<keyof M | string> = [],
+): IFormField[] {
   if (keyList.length === 0) {
     keyList = getFormFieldList(TargetClass)
   }

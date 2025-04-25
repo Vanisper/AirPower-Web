@@ -15,7 +15,11 @@ const KEY = `${DecoratorUtil.DecoratorKeyPrefix}[Field]`
  * ### 为属性标记配置
  * @param config 配置项
  */
-export function Field<K extends EnumKey = EnumKey>(config: FieldConfigOptionalKey<IFieldConfig<K>> = {}) {
+export function Field<
+  K extends EnumKey = EnumKey,
+>(
+  config: FieldConfigOptionalKey<IFieldConfig<K>> = {},
+) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
     DecoratorUtil.setFieldConfig(target, key, KEY, config)
@@ -31,7 +35,10 @@ export function Field<K extends EnumKey = EnumKey>(config: FieldConfigOptionalKe
 export function getFieldConfig<
   M extends RootModel,
   K extends EnumKey = EnumKey,
->(TargetClass: ITransformerConstructor<M>, key: keyof M | string): IFieldConfig<K> {
+>(
+  TargetClass: ITransformerConstructor<M>,
+  key: keyof M | string,
+): IFieldConfig<K> {
   return (DecoratorUtil.getFieldConfig(TargetClass, key.toString(), KEY, true) || {}) as IFieldConfig<K>
 }
 
@@ -43,7 +50,10 @@ export function getFieldConfig<
 export function getDictionary<
   M extends RootModel,
   K extends EnumKey = EnumKey,
->(TargetClass: ITransformerConstructor<M>, key: keyof M | string): WebEnumConstructor<K> | undefined {
+>(
+  TargetClass: ITransformerConstructor<M>,
+  key: keyof M | string,
+): WebEnumConstructor<K> | undefined {
   return getFieldConfig<M, K>(TargetClass, key)?.dictionary
 }
 
@@ -54,6 +64,9 @@ export function getDictionary<
  */
 export function getFieldLabel<
   M extends RootModel,
->(TargetClass: ITransformerConstructor<M>, key: keyof M | string): string {
+>(
+  TargetClass: ITransformerConstructor<M>,
+  key: keyof M | string,
+): string {
   return getFieldConfig<M>(TargetClass, key)?.label || key.toString()
 }
