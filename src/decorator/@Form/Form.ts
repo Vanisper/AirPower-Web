@@ -22,7 +22,7 @@ const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[FormList]`
 export function Form(config: FieldConfigOptionalKey<IFormField> = {}) {
   return (target: DecoratorTarget, key: string) => {
     config.key = key
-    DecoratorUtil.setFieldConfig(target, key, KEY, config)
+    DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
   }
 }
 
