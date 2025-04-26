@@ -221,7 +221,7 @@ const getShowFormatter = computed(() => {
   if (formConfig.value) {
     switch (formConfig.value?.dateType) {
       case DateTimeType.DATE:
-        return DateTimeFormatter.FULL_DATE.label
+        return DateTimeFormatter.FULL_DATE.key
       case DateTimeType.WEEK:
         return '第ww周'
       case DateTimeType.YEAR:
@@ -229,7 +229,7 @@ const getShowFormatter = computed(() => {
       case DateTimeType.MONTH:
         return 'YYYY-MM'
       case DateTimeType.DATETIME:
-        return DateTimeFormatter.FULL_DATE_TIME.label
+        return DateTimeFormatter.FULL_DATE_TIME.key
     }
   }
   return DateTimeFormatter.FULL_DATE_TIME
@@ -439,13 +439,13 @@ init()
         v-model="value"
         :clearable="formConfig?.clearable !== false"
         :disabled="disabled"
-        :format="formConfig.dateShowFormatter?.label || getShowFormatter"
+        :format="formConfig.dateShowFormatter?.key || getShowFormatter"
         :placeholder="placeholderRef"
         :prefix-icon="formConfig?.prefixIcon"
         :readonly="readonly"
         :suffix-icon="formConfig?.suffixIcon"
         :type="formConfig.dateType"
-        :value-format="formConfig.dateFormatter?.label"
+        :value-format="formConfig.dateFormatter ? formConfig.dateFormatter.key : DateTimeFormatter.TIMESTAMP.key"
         style="width: 100%"
         @clear="onClear"
         @focus="emitFocus"
@@ -456,12 +456,12 @@ init()
         v-model="value"
         :clearable="formConfig?.clearable !== false"
         :disabled="disabled"
-        :format="formConfig.dateShowFormatter?.label || DateTimeFormatter.FULL_TIME.label"
+        :format="formConfig.dateShowFormatter?.key || DateTimeFormatter.FULL_TIME.key"
         :placeholder="placeholderRef"
         :prefix-icon="formConfig?.prefixIcon"
         :readonly="readonly"
         :suffix-icon="formConfig?.suffixIcon"
-        :value-format="formConfig.dateFormatter?.label"
+        :value-format="formConfig.dateFormatter ? formConfig.dateFormatter.key : DateTimeFormatter.TIMESTAMP.key"
         style="width: 100%"
         @clear="onClear"
         @focus="emitFocus"

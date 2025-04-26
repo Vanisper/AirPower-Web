@@ -1,7 +1,19 @@
 <script lang="ts" setup>
 import type { Component, PropType, Ref } from 'vue'
 import type { ButtonIcon } from '../../type'
-import { BottomRight, Clock, Delete, DocumentCopy, Edit, Plus, Setting, TopRight } from '@element-plus/icons-vue'
+import {
+  BottomRight,
+  CircleCheck,
+  CirclePlus,
+  Clock,
+  DocumentCopy,
+  EditPen,
+  Filter,
+  Remove,
+  SetUp,
+  TopRight,
+  Upload,
+} from '@element-plus/icons-vue'
 import { ElButton } from 'element-plus'
 import { computed } from 'vue'
 import { WebConfig } from '../../config/WebConfig'
@@ -16,6 +28,9 @@ const props = defineProps({
     default: undefined,
   },
 
+  /**
+   * # 是否是链接按钮
+   */
   link: {
     type: Boolean,
     default: false,
@@ -79,21 +94,27 @@ const isDisabled: Ref<boolean> = computed(() => {
 const icon: Ref<Component | string> = computed(() => {
   switch (props.icon) {
     case 'ADD':
-      return Plus
+      return CirclePlus
     case 'CLOCK':
       return Clock
     case 'EDIT':
-      return Edit
+      return EditPen
     case 'DELETE':
-      return Delete
+      return Remove
     case 'COPY':
       return DocumentCopy
     case 'SETTING':
-      return Setting
+      return SetUp
     case 'IMPORT':
       return TopRight
     case 'EXPORT':
       return BottomRight
+    case 'UPLOAD':
+      return Upload
+    case 'CHECK':
+      return CircleCheck
+    case 'FILTER':
+      return Filter
     default:
       return ''
   }
@@ -101,16 +122,28 @@ const icon: Ref<Component | string> = computed(() => {
 </script>
 
 <template>
-  <ElButton
-    :disabled="isDisabled"
-    :icon="icon"
-    :link="link"
-    :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : 'default'"
-    v-bind="$attrs"
-    v-on="$attrs"
-  >
-    <slot />
-  </ElButton>
+  <template v-if="link">
+    <ElLink
+      :disabled="isDisabled"
+      :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : 'default'"
+      :underline="false"
+      v-bind="$attrs"
+      v-on="$attrs"
+    >
+      <slot />
+    </ElLink>
+  </template>
+  <template v-else>
+    <ElButton
+      :disabled="isDisabled"
+      :icon="icon"
+      :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : 'default'"
+      v-bind="$attrs"
+      v-on="$attrs"
+    >
+      <slot />
+    </ElButton>
+  </template>
 </template>
 
 <style lang="scss" scoped></style>

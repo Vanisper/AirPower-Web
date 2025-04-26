@@ -477,9 +477,7 @@ const {
  * ### 选中行
  */
 function selectRow(list: Array<ITree & E>) {
-  console.warn('selectRow', list)
   for (const row of list) {
-    console.warn('selectRow', row)
     airTableRef.value?.toggleRowSelection(row, false)
     for (const selectedRow of props.selectList) {
       // 遍历每一行
@@ -853,49 +851,51 @@ function onSearch() {
       </div>
       <div class="a-table-toolbar-right">
         <slot name="beforeSearch" />
-        <template
-          v-for="item in searchFieldList"
-          :key="item.key"
-        >
-          <div
-            v-if="!item.hide"
-            :style="{ width: `${item.width || 160}px` }"
-            class="a-table-toolbar-search-item"
+        <div class="a-table-toolbar-search">
+          <template
+            v-for="item in searchFieldList"
+            :key="item.key"
           >
-            <slot
-              :data="searchFilter"
-              :name="item.key"
+            <div
+              v-if="!item.hide"
+              :style="{ width: `${item.width || 160}px` }"
+              class="a-table-toolbar-search-item"
             >
-              <ElSelect
-                v-if="getDictionary(entity, item.key)"
-                v-model="searchFilter[item.key]"
-                :clearable="item.clearable !== false"
-                :filterable="item.filterable"
-                :placeholder="`${getFieldLabel(entity, item.key)}...`"
-                @change="onSearch()"
-                @clear="searchFilter[item.key] = undefined"
+              <slot
+                :data="searchFilter"
+                :name="item.key"
               >
-                <template v-for="enumItem of getDictionary(entity, item.key)?.toArray()">
-                  <ElOption
-                    v-if="!enumItem.disabled"
-                    :key="enumItem.key.toString()"
-                    :label="enumItem.label"
-                    :value="enumItem.key"
-                  />
-                </template>
-              </ElSelect>
-              <ElInput
-                v-else
-                v-model="searchFilter[item.key]"
-                :clearable="item.clearable !== false"
-                :placeholder="`${getFieldLabel(entity, item.key)}...`"
-                @blur="onSearch()"
-                @clear="onSearch"
-                @keydown.enter="onSearch"
-              />
-            </slot>
-          </div>
-        </template>
+                <ElSelect
+                  v-if="getDictionary(entity, item.key)"
+                  v-model="searchFilter[item.key]"
+                  :clearable="item.clearable !== false"
+                  :filterable="item.filterable"
+                  :placeholder="`${getFieldLabel(entity, item.key)}...`"
+                  @change="onSearch()"
+                  @clear="searchFilter[item.key] = undefined"
+                >
+                  <template v-for="enumItem of getDictionary(entity, item.key)?.toArray()">
+                    <ElOption
+                      v-if="!enumItem.disabled"
+                      :key="enumItem.key.toString()"
+                      :label="enumItem.label"
+                      :value="enumItem.key"
+                    />
+                  </template>
+                </ElSelect>
+                <ElInput
+                  v-else
+                  v-model="searchFilter[item.key]"
+                  :clearable="item.clearable !== false"
+                  :placeholder="`${getFieldLabel(entity, item.key)}...`"
+                  @blur="onSearch()"
+                  @clear="onSearch"
+                  @keydown.enter="onSearch"
+                />
+              </slot>
+            </div>
+          </template>
+        </div>
         <AButton
           v-if="showExport"
           :permission="exportPermission || PermissionUtil.get(entity, PermissionAction.EXPORT)"
@@ -1118,7 +1118,7 @@ function onSearch() {
 
   .a-table-toolbar {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
 
     .a-table-toolbar-left {
@@ -1134,12 +1134,23 @@ function onSearch() {
       display: flex;
       justify-content: flex-end;
 
+      .a-table-toolbar-search {
+        display: flex;
+        flex-direction: row;
+        width: 0;
+        flex: 1;
+        overflow: hidden;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
       .el-button + .el-button {
         margin-left: 5px;
       }
 
       .a-table-toolbar-search-item {
         margin-right: 5px;
+        margin-bottom: 5px;
       }
     }
   }

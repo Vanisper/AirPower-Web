@@ -17,6 +17,8 @@ export type ButtonIcon =
   | 'COPY'
   | 'IMPORT'
   | 'EXPORT'
+  | 'UPLOAD'
+  | 'FILTER'
   | ''
 
 /**

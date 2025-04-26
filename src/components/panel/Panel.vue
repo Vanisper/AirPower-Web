@@ -123,8 +123,8 @@ const realTitle = computed(() => props.title || useRouter().currentRoute.value.m
   flex-direction: column;
   background: white;
   border-radius: 4px;
-  //overflow: hidden;
-  //height: 0;
+  overflow: hidden;
+  height: 0;
 
   .panel-header {
     display: flex;
