@@ -70,4 +70,5 @@ export class WebI18n extends I18n {
   FileMaxSizeAllowed = '最大允许上传文件大小：'
   UploadImage = '上传图片'
   NoPicture = '暂无图片'
+  Operation = '操作'
 }

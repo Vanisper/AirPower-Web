@@ -16,6 +16,11 @@ const props = defineProps({
     default: undefined,
   },
 
+  link: {
+    type: Boolean,
+    default: false,
+  },
+
   /**
    * # 是否是主按钮
    */
@@ -99,6 +104,7 @@ const icon: Ref<Component | string> = computed(() => {
   <ElButton
     :disabled="isDisabled"
     :icon="icon"
+    :link="link"
     :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : 'default'"
     v-bind="$attrs"
     v-on="$attrs"

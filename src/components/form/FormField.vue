@@ -116,12 +116,11 @@ if (!EntityClass) {
 
 /**
  * # 监听值变化
- * @param val 值
  */
-function onChange(val: unknown) {
-  formData!.value[props.field] = val
-  emits('update:modelValue', formData!.value)
-  emits('change', formData!.value)
+function onChange() {
+  const val = formData!.value[props.field]
+  emits('update:modelValue', val)
+  emits('change', val)
   if (injectFormData) {
     ;(injectFormData.value as IJson)[props.field] = val
   }
@@ -145,7 +144,7 @@ function onChange(val: unknown) {
         :readonly="readonly"
         :tree="tree"
         @blur=" emits('blur') "
-        @change="onChange($event)"
+        @change="onChange"
         @clear=" emits('clear') "
         @focus=" emits('focus') "
       />

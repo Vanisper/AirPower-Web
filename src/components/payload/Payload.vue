@@ -19,17 +19,28 @@ const props = defineProps({
    */
   view: {
     type: Object as PropType<Component>,
-    required: true,
+    required: undefined,
   },
 })
 
 function show() {
-  DialogUtil.show(props.view, props.payload.copy())
+  if (props.view) {
+    DialogUtil.show(props.view, props.payload.copy())
+  }
 }
 </script>
 
 <template>
-  <ElLink @click="show()">
-    {{ payload.getPayloadLabel() }}
+  <ElLink :underline="false" class="a-payload" @click="show()">
+    {{ payload?.getPayloadLabel() || '-' }}
   </ElLink>
 </template>
+
+<style lang="scss" scoped>
+.a-payload {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: keep-all;
+}
+</style>

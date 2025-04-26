@@ -30,9 +30,15 @@ export interface ITableColumn extends IBaseField, IElementTableColumn {
   force?: boolean
 
   /**
-   * ### 是否强制不换行
+   * ### 是否强制换行
    */
-  nowrap?: boolean
+  wrap?: boolean
+
+  /**
+   * ### 是否是负载对象的字段
+   * 请确保该属性对应的类型已经实现了 `IPayload` 接口
+   */
+  payload?: boolean
 
   /**
    * ### 删除列

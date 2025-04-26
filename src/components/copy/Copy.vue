@@ -2,7 +2,6 @@
 import useClipboard from 'vue-clipboard3'
 import { FeedbackUtil } from '../../feedback/FeedbackUtil'
 import { WebI18n } from '../../i18n/WebI18n'
-import { AButton } from '../button'
 
 const props = defineProps({
   /**
@@ -37,15 +36,14 @@ async function copy() {
 
 <template>
   <div class="a-copy">
-    <AButton
-      :icon="hideIcon ? '' : 'COPY'"
-      link
+    <ElLink
+      :underline="false"
       v-bind="$attrs"
       @click="copy"
       v-on="$attrs"
     >
       <slot>{{ content || '-' }}</slot>
-    </AButton>
+    </ElLink>
   </div>
 </template>
 
@@ -56,15 +54,5 @@ async function copy() {
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  ::v-deep(.el-link__inner) {
-    flex: 1;
-  }
-
-  .el-button.is-link {
-    font-size: inherit;
-    padding: 0;
-    font-weight: bold;
-  }
 }
 </style>

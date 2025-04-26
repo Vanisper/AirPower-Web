@@ -55,25 +55,19 @@ export function useTableColumn<E extends RootEntity>(params: {
    */
   const allColumnList: Ref<Array<ITableColumn>> = ref([])
 
-  if (customColumns.length > 0) {
-    // 过滤没有隐藏且没有移除的列
-    allColumnList.value = customColumns
-      .filter(item => !item.removed)
-      .map((item) => {
-        if (item.money && !item.align) {
-          item.align = 'right'
-        }
-        return item
-      })
+  let list = customColumns
+  if (list.length === 0) {
+    list = getTableConfigList(entityClass)
   }
-  else {
-    allColumnList.value = getTableConfigList(entityClass).filter(item => !item.removed).map((item) => {
+
+  allColumnList.value = list
+    .filter(item => !item.removed)
+    .map((item) => {
       if (item.money && !item.align) {
         item.align = 'right'
       }
       return item
     })
-  }
 
   /**
    * ### 显示的字段

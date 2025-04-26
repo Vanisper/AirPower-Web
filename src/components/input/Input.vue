@@ -153,6 +153,13 @@ function emitBlur() {
 }
 
 /**
+ * # 触发 focus 事件
+ */
+function emitFocus() {
+  emits('focus')
+}
+
+/**
  * # 触发 clear 事件
  */
 function emitClear() {
@@ -441,7 +448,7 @@ init()
         :value-format="formConfig.dateFormatter"
         style="width: 100%"
         @clear="onClear"
-        @focus="emits('focus')"
+        @focus="emitFocus"
         @keydown="onKeyDown"
       />
       <el-time-picker
@@ -457,7 +464,7 @@ init()
         :value-format="formConfig.dateFormatter"
         style="width: 100%"
         @clear="onClear"
-        @focus="emits('focus')"
+        @focus="emitFocus"
         @keydown="onKeyDown"
       />
     </template>
@@ -517,7 +524,7 @@ init()
         collapse-tags-tooltip
         fit-input-width
         @clear="onClear"
-        @focus="emits('focus')"
+        @focus="emitFocus"
         @keydown="onKeyDown"
       >
         <el-option
@@ -562,7 +569,7 @@ init()
       collapse-tags-tooltip
       popper-class="a-input-cascader-popper"
       @clear="onClear"
-      @focus="emits('focus')"
+      @focus="emitFocus"
       @keydown="onKeyDown"
     />
     <el-input
@@ -586,7 +593,7 @@ init()
       @blur="onBlur"
       @change="checkNumberValue"
       @clear="onClear"
-      @focus="emits('focus')"
+      @focus="emitFocus"
       @keydown="onKeyDown"
     >
       <template

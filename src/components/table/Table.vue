@@ -27,7 +27,7 @@ import { QueryRequestPage } from '../../model/query/QueryRequestPage'
 import { QuerySort } from '../../model/query/QuerySort'
 import { PermissionAction } from '../../permission/PermissionAction'
 import { PermissionUtil } from '../../permission/PermissionUtil'
-import { AButton, ADateTime, ADesensitize } from '../index'
+import { AButton, ADateTime, ADesensitize, AMoney, APayload } from '../index'
 import { ColumnSelector, CopyColumn, EnumColumn } from './component'
 import { useTableButton } from './useTableButton'
 import { useTableColumn } from './useTableColumn'
@@ -265,7 +265,7 @@ const props = defineProps({
    */
   ctrlWidth: {
     type: String,
-    default: 'auto',
+    default: '',
   },
 
   /**
@@ -809,15 +809,17 @@ function onSearch() {
       <div class="a-table-toolbar-left">
         <slot name="left">
           <slot name="beforeButton" />
-          <AButton
-            v-if="props.entity && !hideAdd"
-            :permission="addPermission || PermissionUtil.get(entity, PermissionAction.ADD)"
-            icon="ADD"
-            primary
-            @click="emits('add')"
-          >
-            {{ modelConfig.addTitle || WebI18n.get().Add }}
-          </AButton>
+          <slot name="addButton">
+            <AButton
+              v-if="props.entity && !hideAdd"
+              :permission="addPermission || PermissionUtil.get(entity, PermissionAction.ADD)"
+              icon="ADD"
+              primary
+              @click="emits('add')"
+            >
+              {{ modelConfig.addTitle || WebI18n.get().Add }}
+            </AButton>
+          </slot>
           <AButton
             v-if="showImport"
             :permission="importPermission || PermissionUtil.get(entity, PermissionAction.IMPORT)"
@@ -949,21 +951,28 @@ function onSearch() {
                 v-if="getDictionary(entity, item.key)" :column="item" :data="scope.row"
                 :dictionary="getDictionary(entity, item.key)!"
               />
+              <AMoney
+                v-else-if="item.money"
+                :money="getValue(scope, item.key)"
+              />
+              <APayload
+                v-else-if="item.payload"
+                :payload="getValue(scope, item.key)"
+              />
               <ADesensitize
                 v-else-if="item.desensitize"
                 :content="getValue(scope, item.key)"
                 :type="item.desensitize"
               />
-
               <ADateTime
                 v-else-if="item.datetime"
                 :formatter="item.datetime === true ? DateTimeFormatter.FULL_DATE_TIME : item.datetime"
-                :time="getValue(scope, item.key)"
+                :milli-second="getValue(scope, item.key)"
               />
               <CopyColumn v-else-if="item.copy" :column="item" :data="scope.row" />
               <template v-else>
                 <div
-                  :class="item.nowrap ? 'nowrap' : ''"
+                  :class="item.wrap ? '' : 'nowrap'"
                   class="a-table-column"
                 >
                   {{ getStringValue(getValue(scope, item.key)) ?? item.emptyValue }}
@@ -979,18 +988,13 @@ function onSearch() {
       </template>
       <!-- 如果没有隐藏操作列 或者字段选择器启用 -->
       <ElTableColumn
-        v-if="!hideCtrl || isColumnSelectorEnabled"
-        :width="ctrlWidth || 'auto'"
+        v-if="!hideCtrl"
+        :width="ctrlWidth || '100px'"
         align="right"
         fixed="right"
       >
         <template #header>
-          <div class="custom-header">
-            <span
-              v-if="!hideCtrl"
-              class="custom-header-title"
-            />
-          </div>
+          {{ WebI18n.get().Operation }}
         </template>
         <template #default="scope">
           <div class="ctrlRow">
@@ -1211,7 +1215,6 @@ function onSearch() {
 
     .ctrlRow {
       display: flex;
-      padding-right: 8px;
 
       .el-link {
         user-select: none;

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { DateTimeFormatter, DateTimeUtil } from '@airpower/util'
-import { computed } from 'vue'
-import { AButton } from '../button'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   /**
@@ -38,6 +37,8 @@ const props = defineProps({
   },
 })
 
+const friendly = ref(props.isFriendly)
+
 /**
  * # 读取友好时间
  */
@@ -45,7 +46,7 @@ const getDateTimeString = computed(() => {
   if (!props.milliSecond && !props.date) {
     return '-'
   }
-  if (props.isFriendly) {
+  if (friendly.value) {
     if (props.milliSecond) {
       return DateTimeUtil.getFriendlyDateTime(props.milliSecond)
     }
@@ -65,9 +66,9 @@ const getDateTimeString = computed(() => {
 </script>
 
 <template>
-  <AButton icon="CLOCK" link>
+  <ElLink :underline="false" @click="friendly = !friendly">
     {{ getDateTimeString }}
-  </AButton>
+  </ElLink>
 </template>
 
 <style lang="scss" scoped>

@@ -38,18 +38,20 @@ function changed(status: boolean, config: ITableColumn) {
     }
   }
   if (status) {
+    config.hide = false
     list.value.push(config.key)
   }
   emits('changed', list.value)
 }
 
 if (list.value.length === 0) {
-  list.value = props.columnList.map(i => i.key as string)
+  list.value = props.columnList.filter(i => !i.hide).map(i => i.key as string)
 }
+emits('changed', list.value)
 </script>
 
 <template>
-  <AButton class="a-field-selector" icon="SETTING" @click="isShow = true">
+  <AButton icon="SETTING" @click="isShow = true">
     {{ WebI18n.get().Column }}
   </AButton>
   <div
@@ -70,7 +72,6 @@ if (list.value.length === 0) {
           v-for="item in columnList"
           :key="item.key"
           :checked="!!list.find((i: string) => i === item.key)"
-          :class="item.force ? 'disabled' : ''"
           :disabled="item.force"
           @change="changed($event, item)"
         >
@@ -82,11 +83,6 @@ if (list.value.length === 0) {
 </template>
 
 <style lang="scss" scoped>
-.a-field-selector {
-  position: relative;
-
-}
-
 .el-check-tag {
   font-weight: normal !important;
   user-select: none;

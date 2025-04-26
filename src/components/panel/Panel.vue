@@ -1,16 +1,17 @@
 <script lang="ts" setup>
 import { FullScreen } from '@element-plus/icons-vue'
 import { ElIcon } from 'element-plus'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-defineProps({
+const props = defineProps({
   /**
    * # 卡片的标题
    * 默认读取当前路由元数据里的 `name` 属性
    */
   title: {
     type: String,
-    required: true,
+    default: '',
   },
 
   /**
@@ -58,6 +59,8 @@ defineProps({
  * # 是否全屏
  */
 const isFullScreen = ref(false)
+
+const realTitle = computed(() => props.title || useRouter().currentRoute.value.meta?.name || '')
 </script>
 
 <template>
@@ -77,10 +80,10 @@ const isFullScreen = ref(false)
           <slot name="icon" />
         </div>
         <div
-          v-if="title"
+          v-if="realTitle"
           class="panel-title"
         >
-          {{ title }}
+          {{ realTitle }}
         </div>
       </div>
       <div class="panel-right">

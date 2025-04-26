@@ -25,7 +25,12 @@ export class QueryRequest<E extends RootEntity = RootEntity> extends Transformer
    */
   constructor(FilterClass: ITransformerConstructor<E>) {
     super()
-    this.filter = new FilterClass()
+    try {
+      this.filter = new FilterClass()
+    }
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    catch (e) {
+    }
   }
 
   /**
