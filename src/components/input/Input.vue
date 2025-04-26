@@ -435,7 +435,7 @@ init()
   <div class="a-input">
     <template v-if="formConfig && formConfig.dateType !== undefined">
       <el-date-picker
-        v-if="formConfig.dateType !== DateTimeType.DATE"
+        v-if="formConfig.dateType !== DateTimeType.TIME"
         v-model="value"
         :clearable="formConfig?.clearable !== false"
         :disabled="disabled"

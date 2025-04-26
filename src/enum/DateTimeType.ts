@@ -5,27 +5,32 @@
  */
 export enum DateTimeType {
   /**
+   * ### 时间日期
+   */
+  DATETIME = 'datetime',
+
+  /**
    * ### 日期
    */
   DATE = 'date',
 
   /**
-   * ### 星期
+   * ### 时间
+   */
+  TIME = 'time',
+
+  /**
+   * ### 周
    */
   WEEK = 'week',
 
   /**
-   * ### 月份
-   */
-  MONTH = 'month',
-
-  /**
-   * ### 年份
+   * ### 年
    */
   YEAR = 'year',
 
   /**
-   * ### 日期时间
+   * ### 月
    */
-  DATETIME = 'datetime',
+  MONTH = 'month',
 }
