@@ -80,7 +80,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits<{
-  'change': [value: E]
+  'changed': [value: E]
   'update:modelValue': [value: E]
   'blur': []
   'focus': []
@@ -120,7 +120,7 @@ if (!EntityClass) {
 function onChange() {
   const val = formData!.value[props.field]
   emits('update:modelValue', val)
-  emits('change', val)
+  emits('changed', val)
   if (injectFormData) {
     ;(injectFormData.value as IJson)[props.field] = val
   }

@@ -217,15 +217,15 @@ function onUploadSuccess(result: IJson) {
 
 <template>
   <ADialog
-    :allow-fullscreen="false"
     :confirm-text="confirmText"
     :hide-footer="!confirmText"
     :title="title"
     class="upload-dialog"
     hide-cancel
+    hide-fullscreen
     min-height="220px"
-    @on-cancel="onCancel()"
-    @on-confirm="onCustomConfirm()"
+    @cancel="onCancel()"
+    @confirm="onCustomConfirm()"
   >
     <div
       v-loading="loading"

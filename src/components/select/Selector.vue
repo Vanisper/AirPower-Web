@@ -14,7 +14,7 @@ import { getTableConfigList } from '../../decorator/@Table/Table'
 import { DialogUtil } from '../../dialog/DialogUtil'
 import { FeedbackUtil } from '../../feedback/FeedbackUtil'
 import { useSelector } from '../../hooks/table/selector/useSelector'
-import { AButton, ADialog, APage, ATable } from '../index'
+import { ADialog, APage, ATable } from '../index'
 
 const props = defineProps<{
   /**
@@ -111,7 +111,6 @@ const props = defineProps<{
      * # 确认按钮的回调事件
      * @param data [可选] 回调的数据
      */
-
     onConfirm: (data?: E | E[]) => void
 
     /**
@@ -196,6 +195,8 @@ async function onAdd() {
   await DialogUtil.show(props.editor)
   onReloadData()
 }
+
+console.warn(props)
 </script>
 
 <template>
@@ -207,9 +208,10 @@ async function onAdd() {
     :title="dialogTitle"
     :width="width || '70%'"
     is-selector
-    @on-confirm="props.props.onConfirm(selectList.filter((item) => !item.isDisabled))"
-    @on-cancel="props.props.onCancel()"
+    @cancel="props.props.onCancel()"
+    @confirm="props.props.onConfirm(selectList.filter((item) => !item.isDisabled))"
   >
+    <div>选择: {{ selectList }}</div>
     <ATable
       :data-list="unPaginate || treeList ? list : response.list"
       :entity="entity"
@@ -218,7 +220,7 @@ async function onAdd() {
       :search-params="searchParamList"
       :select-list="selectList"
       :show-select="props.props.isMultiple"
-      ctrl-width="80"
+      ctrl-width="60px"
       hide-delete
       hide-edit
       hide-field-selector
@@ -240,14 +242,13 @@ async function onAdd() {
         v-if="!props.props.isMultiple"
         #customRow="{ data }"
       >
-        <AButton
+        <ElLink
           :disabled="data.isDisabled"
-          link-button
-          tooltip="选择"
+          :underline="false"
           @click="props.props.onConfirm(data)"
         >
           选择
-        </AButton>
+        </ElLink>
       </template>
     </ATable>
     <template #status>

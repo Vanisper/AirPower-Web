@@ -27,7 +27,7 @@ import { QueryRequestPage } from '../../model/query/QueryRequestPage'
 import { QuerySort } from '../../model/query/QuerySort'
 import { PermissionAction } from '../../permission/PermissionAction'
 import { PermissionUtil } from '../../permission/PermissionUtil'
-import { AButton, ADateTime, ADesensitize, AMoney, APayload } from '../index'
+import { AButton, ADateTime, ADesensitize, AMoney, APayload, APhone } from '../index'
 import { ColumnSelector, CopyColumn, EnumColumn } from './component'
 import { useTableButton } from './useTableButton'
 import { useTableColumn } from './useTableColumn'
@@ -951,6 +951,16 @@ function onSearch() {
                 v-if="getDictionary(entity, item.key)" :column="item" :data="scope.row"
                 :dictionary="getDictionary(entity, item.key)!"
               />
+              <APhone
+                v-else-if="item.phone"
+                :desensitize="item.desensitize"
+                :phone="getValue(scope, item.key)"
+              />
+              <ADateTime
+                v-else-if="item.datetime"
+                :formatter="item.datetime === true ? DateTimeFormatter.FULL_DATE_TIME : item.datetime"
+                :milli-second="getValue(scope, item.key)"
+              />
               <AMoney
                 v-else-if="item.money"
                 :money="getValue(scope, item.key)"
@@ -963,11 +973,6 @@ function onSearch() {
                 v-else-if="item.desensitize"
                 :content="getValue(scope, item.key)"
                 :type="item.desensitize"
-              />
-              <ADateTime
-                v-else-if="item.datetime"
-                :formatter="item.datetime === true ? DateTimeFormatter.FULL_DATE_TIME : item.datetime"
-                :milli-second="getValue(scope, item.key)"
               />
               <CopyColumn v-else-if="item.copy" :column="item" :data="scope.row" />
               <template v-else>
@@ -989,7 +994,7 @@ function onSearch() {
       <!-- 如果没有隐藏操作列 或者字段选择器启用 -->
       <ElTableColumn
         v-if="!hideCtrl"
-        :width="ctrlWidth || '100px'"
+        :width="ctrlWidth || '90px'"
         align="right"
         fixed="right"
       >
@@ -1000,7 +1005,7 @@ function onSearch() {
           <div class="ctrlRow">
             <!-- 自定义操作列前置插槽 -->
             <slot
-              v-if="scope.index >= 0"
+              v-if="scope.$index >= 0"
               :data="getRowEntity(scope)"
               :index="scope.$index as number"
               name="customRow"

@@ -20,13 +20,13 @@ const content = `tel:${props.param}`
 
 <template>
   <ADialog
-    :allow-fullscreen="false"
     class="a-phone-call"
     hide-footer
+    hide-fullscreen
     min-height="200px"
     min-width="250px"
     title="拨打电话"
-    @on-cancel="onCancel()"
+    @cancel="onCancel()"
   >
     <div class="a-phone-call__content">
       <AQrcode

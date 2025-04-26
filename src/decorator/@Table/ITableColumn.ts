@@ -14,6 +14,11 @@ export interface ITableColumn extends IBaseField, IElementTableColumn {
   money?: boolean
 
   /**
+   * ### 是否是电话号码
+   */
+  phone?: boolean
+
+  /**
    * ### 列排序
    * 越大越靠前
    */

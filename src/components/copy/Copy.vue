@@ -54,5 +54,10 @@ async function copy() {
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  ::v-deep(.el-link) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 </style>

@@ -93,13 +93,13 @@ createExportTask()
 
 <template>
   <ADialog
-    :allow-fullscreen="false"
     :title="WebI18n.get().Export"
     class="export-dialog"
     hide-footer
+    hide-fullscreen
     min-height="300px"
     width="400px"
-    @on-cancel="cancelExport"
+    @cancel="cancelExport"
   >
     <div class="tips">
       <template v-if="isLoading">
