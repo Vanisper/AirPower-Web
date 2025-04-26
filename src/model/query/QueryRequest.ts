@@ -21,11 +21,11 @@ export class QueryRequest<E extends RootEntity = RootEntity> extends Transformer
 
   /**
    * ### 初始化一个请求类
-   * @param filterClass 如传入 `filter` 的类 将自动初始化一个空 `filter`
+   * @param FilterClass 如传入 `filter` 的类 将自动初始化一个空 `filter`
    */
-  constructor(filterClass: ITransformerConstructor<E>) {
+  constructor(FilterClass: ITransformerConstructor<E>) {
     super()
-    this.filter = Transformer.parse({}, filterClass)
+    this.filter = new FilterClass()
   }
 
   /**
