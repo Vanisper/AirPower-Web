@@ -1,4 +1,4 @@
-import type { DecoratorTarget, ITransformerConstructor } from '@airpower/transformer'
+import type { ITransformerConstructor, TransformerField } from '@airpower/transformer'
 import type { RootModel } from '../../model/RootModel'
 import type { FieldConfigOptionalKey } from '../@Field/type'
 import type { IFormField } from './IFormField'
@@ -8,43 +8,48 @@ import { getFieldConfig } from '../@Field/Field'
 /**
  * ### KEY
  */
-const KEY = `${DecoratorUtil.DecoratorKeyPrefix}[Form]`
+const KEY = '[Form]'
 
 /**
  * ### LIST KEY
  */
-const LIST_KEY = `${DecoratorUtil.DecoratorKeyPrefix}[FormList]`
+const LIST_KEY = '[FormList]'
 
 /**
  * ### 标记该字段可用于表单配置
  * @param config 配置项
  */
-export function Form(
+export function Form<
+  M extends RootModel,
+>(
   config: FieldConfigOptionalKey<IFormField> = {},
 ) {
-  return (target: DecoratorTarget, key: string) => {
-    config.key = key
-    DecoratorUtil.setFieldConfig(target, key, KEY, config, LIST_KEY)
+  return (
+    instance: M,
+    key: keyof M,
+  ) => {
+    config.key = key.toString()
+    DecoratorUtil.setFieldConfig(instance, key, KEY, config, LIST_KEY)
   }
 }
 
 /**
  * ### 获取对象某个字段标记的表单配置项
- * @param TargetClass 目标类
- * @param key 属性名
+ * @param Class 目标类
+ * @param field 属性名
  */
 export function getFormConfig<
   M extends RootModel,
 >(
-  TargetClass: ITransformerConstructor<M>,
-  key: keyof M | string,
+  Class: ITransformerConstructor<M>,
+  field: TransformerField<M>,
 ): IFormField {
-  const formConfig = DecoratorUtil.getFieldConfig(TargetClass, key.toString(), KEY, true)
+  const formConfig = DecoratorUtil.getFieldConfig(Class, field.toString(), KEY, true)
   if (!formConfig) {
-    return { key: key.toString() }
+    return { key: field.toString() }
   }
   if (!formConfig.dictionary) {
-    const props = getFieldConfig(TargetClass, key)
+    const props = getFieldConfig(Class, field)
     if (props && props.dictionary) {
       formConfig.dictionary = props.dictionary
     }
@@ -54,31 +59,31 @@ export function getFormConfig<
 
 /**
  * ### 获取标记了表单配置的字段列表
- * @param TargetClass 目标类
+ * @param Class 目标类
  */
 export function getFormFieldList<
   M extends RootModel,
 >(
-  TargetClass: ITransformerConstructor<M>,
-): Array<keyof M | string> {
-  return DecoratorUtil.getFieldList(TargetClass, LIST_KEY) as Array<keyof M | string>
+  Class: ITransformerConstructor<M>,
+): Array<TransformerField<M>> {
+  return DecoratorUtil.getFieldList(Class, LIST_KEY) as Array<TransformerField<M>>
 }
 
 /**
  * ### 获取指定类的表单字段配置项列表
- * @param TargetClass 目标类
- * @param keyList 选择字段列表
+ * @param Class 目标类
+ * @param fieldList 选择字段列表
  */
 export function getFormConfigList<
   M extends RootModel,
 >(
-  TargetClass: ITransformerConstructor<M>,
-  keyList: Array<keyof M | string> = [],
+  Class: ITransformerConstructor<M>,
+  fieldList: Array<TransformerField<M>> = [],
 ): IFormField[] {
-  if (keyList.length === 0) {
-    keyList = getFormFieldList(TargetClass)
+  if (fieldList.length === 0) {
+    fieldList = getFormFieldList(Class)
   }
-  const list = keyList.map(key => getFormConfig(TargetClass, key))
+  const list = fieldList.map(field => getFormConfig(Class, field))
   return list.filter(item => !item.hide)
     .sort((a, b) => (b.order || 0) - (a.order || 0))
 }

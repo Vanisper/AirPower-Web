@@ -1,42 +1,44 @@
-import type { DecoratorTarget, ITransformerConstructor, Transformer } from '@airpower/transformer'
+import type { ITransformerConstructor } from '@airpower/transformer'
+import type { RootModel } from '../../model/RootModel'
 import type { IModelConfig } from './IModelConfig'
 import { DecoratorUtil } from '@airpower/transformer'
 
-const KEY = `${DecoratorUtil.DecoratorKeyPrefix}[MODEL]`
+const KEY = '[MODEL]'
 
 /**
  * ### 为模型类标记配置项
  * @param config 配置项
  */
 export function Model<
+  M extends RootModel,
   T extends IModelConfig = IModelConfig,
 >(
   config: T = {} as T,
 ) {
-  return (target: DecoratorTarget) => DecoratorUtil.setClassConfig(target, KEY, config)
+  return (Class: ITransformerConstructor<M>) => DecoratorUtil.setClassConfig(Class, KEY, config)
 }
 
 /**
  * ### 获取模型类配置项
- * @param TargetClass 目标类
+ * @param Class 目标类
  */
 export function getModelConfig<
-  E extends Transformer,
+  M extends RootModel,
   T extends IModelConfig = IModelConfig,
 >(
-  TargetClass: ITransformerConstructor<E>,
+  Class: ITransformerConstructor<M>,
 ): T {
-  return DecoratorUtil.getClassConfig(TargetClass, KEY, {}, true) as T
+  return DecoratorUtil.getClassConfig(Class, KEY, {}, true) as T
 }
 
 /**
  * ### 获取模型类名称
- * @param TargetClass 目标类
+ * @param Class 目标类
  */
 export function getModelName<
-  E extends Transformer,
+  M extends RootModel,
 >(
-  TargetClass: ITransformerConstructor<E>,
+  Class: ITransformerConstructor<M>,
 ): string {
-  return getModelConfig(TargetClass).label || TargetClass.name
+  return getModelConfig(Class).label || Class.name
 }
