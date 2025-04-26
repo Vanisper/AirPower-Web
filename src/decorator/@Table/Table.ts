@@ -38,11 +38,7 @@ export function getTableConfig<
   Class: ITransformerConstructor<M>,
   field: TransformerField<M>,
 ): ITableColumn {
-  const tableConfig = DecoratorUtil.getFieldConfig(Class, field, KEY, true)
-  if (!tableConfig) {
-    return { key: '' }
-  }
-  return tableConfig
+  return DecoratorUtil.getFieldConfig(Class, field, KEY, true) || {}
 }
 
 /**

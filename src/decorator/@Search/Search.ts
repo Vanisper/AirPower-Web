@@ -38,11 +38,7 @@ export function getSearchConfig<
   Class: ITransformerConstructor<M>,
   field: TransformerField<M>,
 ): ISearchField {
-  const formConfig: ISearchField | null = DecoratorUtil.getFieldConfig(Class, field.toString(), KEY, true)
-  if (!formConfig) {
-    return { key: '' }
-  }
-  return formConfig
+  return DecoratorUtil.getFieldConfig(Class, field, KEY, true) || {}
 }
 
 /**
@@ -54,8 +50,8 @@ export function getSearchConfigList<
 >(
   Class: ITransformerConstructor<M>,
 ): ISearchField[] {
-  const fieldList = Object.keys(Class.prototype)
-  const list = fieldList.map(field => getSearchConfig(Class, field))
+  const fieldList = Object.keys(new Class())
+  const list = fieldList.map(field => getSearchConfig(Class, field)).filter(item => !!item.key)
   return list.filter(item => !item.hide)
     .sort((a, b) => (b.order || 0) - (a.order || 0))
 }

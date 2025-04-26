@@ -28,7 +28,7 @@ export function getModelConfig<
 >(
   Class: ITransformerConstructor<M>,
 ): T {
-  return DecoratorUtil.getClassConfig(Class, KEY, {}, true) as T
+  return DecoratorUtil.getClassConfig(Class, KEY, true) || {} as T
 }
 
 /**

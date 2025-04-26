@@ -3,7 +3,6 @@ import type { RootModel } from '../../model/RootModel'
 import type { FieldConfigOptionalKey } from '../@Field/type'
 import type { IFormField } from './IFormField'
 import { DecoratorUtil } from '@airpower/transformer'
-import { getFieldConfig } from '../@Field/Field'
 
 /**
  * ### KEY
@@ -39,17 +38,7 @@ export function getFormConfig<
   Class: ITransformerConstructor<M>,
   field: TransformerField<M>,
 ): IFormField {
-  const formConfig = DecoratorUtil.getFieldConfig(Class, field.toString(), KEY, true)
-  if (!formConfig) {
-    return { key: '' }
-  }
-  if (!formConfig.dictionary) {
-    const props = getFieldConfig(Class, field)
-    if (props && props.dictionary) {
-      formConfig.dictionary = props.dictionary
-    }
-  }
-  return formConfig
+  return DecoratorUtil.getFieldConfig(Class, field.toString(), KEY, true) || {}
 }
 
 /**

@@ -43,7 +43,7 @@ export function getFieldConfig<
   Class: ITransformerConstructor<M>,
   field: TransformerField<M>,
 ): IFieldConfig<K> {
-  return (DecoratorUtil.getFieldConfig(Class, field.toString(), KEY, true) || {}) as IFieldConfig<K>
+  return DecoratorUtil.getFieldConfig(Class, field.toString(), KEY, true) || {}
 }
 
 /**
