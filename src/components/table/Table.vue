@@ -6,6 +6,7 @@ import type { IModelConfig } from '../../decorator/@Model/IModelConfig'
 import type { ISearchField } from '../../decorator/@Search/ISearchField'
 import type { ITableColumn } from '../../decorator/@Table/ITableColumn'
 import type { IFile } from '../../interface/IFile'
+import type { ITree } from '../../interface/ITree'
 import type { QueryRequest } from '../../model/query/QueryRequest'
 import type { RootEntity } from '../../model/RootEntity'
 import type { AbstractCurdService } from '../../service/AbstractCurdService'
@@ -31,7 +32,6 @@ import { AButton, ADateTime, ADesensitize, AMoney, APayload, APhone } from '../i
 import { ColumnSelector, CopyColumn, EnumColumn } from './component'
 import { useTableButton } from './useTableButton'
 import { useTableColumn } from './useTableColumn'
-import { useTableSelect } from './useTableSelect'
 
 const props = defineProps({
   /**
@@ -472,13 +472,33 @@ const {
   hideColumnSelector: props.hideColumnSelector,
   modelConfig,
 })
-const {
-  toggleSelection,
-} = useTableSelect({
-  tableInstance: airTableRef,
-  dataList: props.dataList,
-  selectList: props.selectList,
-})
+
+/**
+ * ### 选中行
+ */
+function selectRow(list: Array<ITree & E>) {
+  console.warn('selectRow', list)
+  for (const row of list) {
+    console.warn('selectRow', row)
+    airTableRef.value?.toggleRowSelection(row, false)
+    for (const selectedRow of props.selectList) {
+      // 遍历每一行
+      if (selectedRow.id === row.id) {
+        airTableRef.value?.toggleRowSelection(row, true)
+      }
+    }
+    if (row.children && row.children.length > 0) {
+      selectRow(row.children as unknown as Array<ITree & E>)
+    }
+  }
+}
+
+/**
+ * ### 回显选中
+ */
+function toggleSelection() {
+  selectRow(props.dataList as unknown as Array<ITree & E>)
+}
 
 const {
   isAddRowDisabled,
