@@ -50,7 +50,7 @@ export function getFormConfigList<
 >(
   Class: ITransformerConstructor<M>,
 ): IFormField[] {
-  const fieldList = Object.keys(Class.prototype)
+  const fieldList = Object.keys(new Class())
   const list = fieldList.map(field => getFormConfig(Class, field)).filter(item => !!item.key)
   return list.filter(item => !item.hide)
     .sort((a, b) => (b.order || 0) - (a.order || 0))

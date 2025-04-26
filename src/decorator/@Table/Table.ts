@@ -50,7 +50,7 @@ export function getTableConfigList<
 >(
   Class: ITransformerConstructor<M>,
 ): Array<ITableColumn> {
-  const fieldList = Object.keys(Class.prototype)
+  const fieldList = Object.keys(new Class())
   const list = fieldList.map(field => getTableConfig(Class, field)).filter(item => !!item.key)
   return list.sort((a, b) => (b.order || 0) - (a.order || 0))
 }
