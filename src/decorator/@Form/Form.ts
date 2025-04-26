@@ -11,11 +11,6 @@ import { getFieldConfig } from '../@Field/Field'
 const KEY = '[Form]'
 
 /**
- * ### LIST KEY
- */
-const LIST_KEY = '[FormList]'
-
-/**
  * ### 标记该字段可用于表单配置
  * @param config 配置项
  */
@@ -29,7 +24,7 @@ export function Form<
     key: keyof M,
   ) => {
     config.key = key.toString()
-    DecoratorUtil.setFieldConfig(instance, key, KEY, config, LIST_KEY)
+    DecoratorUtil.setFieldConfig(instance, key, KEY, config)
   }
 }
 
@@ -46,7 +41,7 @@ export function getFormConfig<
 ): IFormField {
   const formConfig = DecoratorUtil.getFieldConfig(Class, field.toString(), KEY, true)
   if (!formConfig) {
-    return { key: field.toString() }
+    return { key: '' }
   }
   if (!formConfig.dictionary) {
     const props = getFieldConfig(Class, field)
@@ -58,32 +53,16 @@ export function getFormConfig<
 }
 
 /**
- * ### 获取标记了表单配置的字段列表
- * @param Class 目标类
- */
-export function getFormFieldList<
-  M extends RootModel,
->(
-  Class: ITransformerConstructor<M>,
-): Array<TransformerField<M>> {
-  return DecoratorUtil.getFieldList(Class, LIST_KEY) as Array<TransformerField<M>>
-}
-
-/**
  * ### 获取指定类的表单字段配置项列表
  * @param Class 目标类
- * @param fieldList 选择字段列表
  */
 export function getFormConfigList<
   M extends RootModel,
 >(
   Class: ITransformerConstructor<M>,
-  fieldList: Array<TransformerField<M>> = [],
 ): IFormField[] {
-  if (fieldList.length === 0) {
-    fieldList = getFormFieldList(Class)
-  }
-  const list = fieldList.map(field => getFormConfig(Class, field))
+  const fieldList = Object.keys(Class.prototype)
+  const list = fieldList.map(field => getFormConfig(Class, field)).filter(item => !!item.key)
   return list.filter(item => !item.hide)
     .sort((a, b) => (b.order || 0) - (a.order || 0))
 }

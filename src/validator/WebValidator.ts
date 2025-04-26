@@ -9,7 +9,7 @@ import type {
   WebValidatorType,
 } from './type'
 import { ValidateUtil } from '@airpower/util'
-import { getFormConfig, getFormFieldList } from '../decorator/@Form/Form'
+import { getFormConfigList } from '../decorator/@Form/Form'
 import { WebI18n } from '../i18n/WebI18n'
 
 /**
@@ -67,10 +67,10 @@ export class WebValidator {
    */
   static createRules<E extends RootEntity, S extends AbstractCurdService<E>>(
     service: S,
-        rules: WebValidateRule<E> = {},
+    rules: WebValidateRule<E> = {},
   ) {
     const formRules: IJson = rules
-    const formFieldList = getFormFieldList(service.entityClass).map(key => getFormConfig(service.entityClass, key))
+    const formFieldList = getFormConfigList(service.entityClass)
     for (let i = 0; i < formFieldList.length; i += 1) {
       const config = formFieldList[i]
       const fieldKey = config.key

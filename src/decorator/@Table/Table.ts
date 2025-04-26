@@ -10,11 +10,6 @@ import { DecoratorUtil } from '@airpower/transformer'
 const KEY = '[Table]'
 
 /**
- * ### LIST KEY
- */
-const LIST_KEY = '[TableList]'
-
-/**
  * ### 为属性标记是表格字段
  * @param config 表格列的配置
  */
@@ -28,7 +23,7 @@ export function Table<
     field: keyof M,
   ) => {
     config.key = field.toString()
-    DecoratorUtil.setFieldConfig(instance, field, KEY, config, LIST_KEY)
+    DecoratorUtil.setFieldConfig(instance, field, KEY, config)
   }
 }
 
@@ -45,37 +40,21 @@ export function getTableConfig<
 ): ITableColumn {
   const tableConfig = DecoratorUtil.getFieldConfig(Class, field, KEY, true)
   if (!tableConfig) {
-    return { key: field.toString() }
+    return { key: '' }
   }
   return tableConfig
 }
 
 /**
- * ### 获取标记了表格配置的字段列表
- * @param Class 目标类
- */
-export function getTableFieldList<
-  M extends RootModel,
->(
-  Class: ITransformerConstructor<M>,
-): Array<TransformerField<M>> {
-  return DecoratorUtil.getFieldList(Class, LIST_KEY) as Array<TransformerField<M>>
-}
-
-/**
  * ### 获取字段标记的表格字段配置列表
  * @param Class 目标类
- * @param fieldList 字段列表
  */
 export function getTableConfigList<
   M extends RootModel,
 >(
   Class: ITransformerConstructor<M>,
-  fieldList: Array<TransformerField<M>> = [],
 ): Array<ITableColumn> {
-  if (fieldList.length === 0) {
-    fieldList = getTableFieldList<M>(Class)
-  }
-  const list = fieldList.map(field => getTableConfig(Class, field))
+  const fieldList = Object.keys(Class.prototype)
+  const list = fieldList.map(field => getTableConfig(Class, field)).filter(item => !!item.key)
   return list.sort((a, b) => (b.order || 0) - (a.order || 0))
 }
