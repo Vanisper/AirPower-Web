@@ -61,6 +61,14 @@ const props = defineProps({
   },
 
   /**
+   * # 是否成功按钮
+   */
+  success: {
+    type: Boolean,
+    default: false,
+  },
+
+  /**
    * # 是否禁用按钮
    * 如不禁用，且传入了 `permission` 则按权限判断是否禁用 否则不禁用
    */
@@ -86,7 +94,11 @@ const isDisabled: Ref<boolean> = computed(() => {
     return true
   }
   if (props.permission) {
-    return !PermissionUtil.has(props.permission) && !WebConfig.disablePermission
+    const forbidden = !PermissionUtil.has(props.permission) && !WebConfig.disablePermission
+    if (forbidden) {
+      console.warn(`[AButton] 权限不足(${props.permission})`)
+    }
+    return forbidden
   }
   return false
 })
@@ -125,7 +137,7 @@ const icon: Ref<Component | string> = computed(() => {
   <template v-if="link">
     <ElLink
       :disabled="isDisabled"
-      :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : 'default'"
+      :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : success ? 'success' : 'default'"
       :underline="false"
       v-bind="$attrs"
       v-on="$attrs"
@@ -137,7 +149,7 @@ const icon: Ref<Component | string> = computed(() => {
     <ElButton
       :disabled="isDisabled"
       :icon="icon"
-      :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : 'default'"
+      :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : success ? 'success' : 'default'"
       v-bind="$attrs"
       v-on="$attrs"
     >

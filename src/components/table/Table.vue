@@ -517,6 +517,7 @@ const {
   disableAddRow: props.disableAddRow,
   disableDelete: props.disableDelete,
   disableEdit: props.disableEdit,
+  disableDetail: props.disableDetail,
   disableChangeStatus: props.disableChangeStatus,
   selectable: props.selectable,
   isAddDisabled: props.disableAddRow,
@@ -998,7 +999,7 @@ function onSearch() {
               />
               <template v-else-if="item.payload">
                 <template v-if="item.array">
-                  {{ getPayloadArray(scope, item.key).map(item => item.getPayloadLabel()).join(",") }}
+                  {{ getPayloadArray(scope, item.key).map(payload => payload.getPayloadLabel()).join(",") }}
                 </template>
                 <APayload
                   v-else
@@ -1059,7 +1060,6 @@ function onSearch() {
                 v-if="!props.hideEdit"
                 :disabled="isEditDisabled(getRowEntity(scope))"
                 :underline="false"
-                type="primary"
                 @click="emits('edit', getRowEntity(scope))"
               >
                 {{ WebI18n.get().Update }}
@@ -1087,6 +1087,7 @@ function onSearch() {
                   v-else
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
                   :underline="false"
+                  type="warning"
                   @click="emits('disable', getRowEntity(scope))"
                 >
                   {{ WebI18n.get().Disable }}
@@ -1140,7 +1141,7 @@ function onSearch() {
     .a-table-toolbar-left {
 
       .el-button + .el-button {
-        margin-left: 0px;
+        margin-left: 0;
       }
     }
 

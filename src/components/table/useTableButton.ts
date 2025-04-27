@@ -64,6 +64,12 @@ export function useTableButton<E extends RootEntity>(params: {
   disableEdit: (row: E) => boolean
 
   /**
+   * ### 禁用详情函数
+   * @param row 行数据
+   */
+  disableDetail: (row: E) => boolean
+
+  /**
    * ### 禁用状态切换函数
    * @param row 行数据
    */
@@ -92,6 +98,7 @@ export function useTableButton<E extends RootEntity>(params: {
     disableAddRow,
     disableDelete,
     disableEdit,
+    disableDetail,
     disableChangeStatus,
     selectable,
   } = params
@@ -107,7 +114,11 @@ export function useTableButton<E extends RootEntity>(params: {
     if (!permission) {
       return true
     }
-    return PermissionUtil.has(permission)
+    const hasPermission = PermissionUtil.has(permission)
+    if (!hasPermission) {
+      console.warn(`[ATable] 权限不足 (${permission})`)
+    }
+    return hasPermission
   }
 
   /**
@@ -151,7 +162,7 @@ export function useTableButton<E extends RootEntity>(params: {
     if (!hasPermission(detailPermission)) {
       return true
     }
-    return disableEdit ? disableEdit(row) : false
+    return disableDetail ? disableDetail(row) : false
   }
 
   /**
