@@ -1138,10 +1138,9 @@ function onSearch() {
     margin-bottom: 10px;
 
     .a-table-toolbar-left {
-      flex: 1;
 
       .el-button + .el-button {
-        margin-left: 5px;
+        margin-left: 0px;
       }
     }
 
