@@ -211,7 +211,6 @@ console.warn(props)
     @cancel="props.props.onCancel()"
     @confirm="props.props.onConfirm(selectList.filter((item) => !item.isDisabled))"
   >
-    <div>选择: {{ selectList }}</div>
     <ATable
       :data-list="unPaginate || treeList ? list : response.list"
       :entity="entity"
