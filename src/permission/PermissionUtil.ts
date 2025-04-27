@@ -79,7 +79,7 @@ export class PermissionUtil {
    * @param permissions 权限列表
    */
   static saveList(permissions: string[]) {
-    this.permissionList = permissions.map(permission => permission.toLocaleLowerCase())
+    this.permissionList = permissions
     localStorage.setItem(WebConfig.permissionCacheKey, JSON.stringify(this.permissionList))
   }
 
@@ -102,6 +102,6 @@ export class PermissionUtil {
    * @param permission 权限标识
    */
   static has(permission: string): boolean {
-    return this.permissionList.includes(permission.toLowerCase())
+    return this.permissionList.includes(permission)
   }
 }

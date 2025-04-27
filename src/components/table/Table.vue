@@ -869,7 +869,7 @@ function onSearch() {
           >
             <div
               v-if="!item.hide"
-              :style="{ width: `${item.width || 160}px` }"
+              :style="{ width: `${item.width || 150}px` }"
               class="a-table-toolbar-search-item"
             >
               <slot
