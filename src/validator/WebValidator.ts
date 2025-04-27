@@ -294,7 +294,7 @@ export class WebValidator {
   ifEmpty(): this {
     this.required = true
     if (!this.message) {
-      this.message = WebI18n.get().Required
+      this.message = WebI18n.get().ConfirmToComplete
     }
     return this
   }

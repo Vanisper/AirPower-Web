@@ -52,7 +52,7 @@ export class WebI18n extends I18n {
   InvalidIntegerNumber = '请输入正确的整数'
   InvalidNaturalNumber = '只允许输入非负数字'
   InvalidMobilePhone = '请输入正确的手机号'
-  Required = '必填项'
+  ConfirmToComplete = '请确认填写完整'
   InvalidContain = '不允许输入中包含'
   Import = '导入'
   ImportSuccess = '数据导入成功'
