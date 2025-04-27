@@ -988,7 +988,7 @@ function onSearch() {
               <template v-else-if="item.payload">
                 <template v-if="item.array">
                   <APayload
-                    v-for="(payload, i) in getValue(scope, item.key)" :key="i"
+                    v-for="payload in getValue(scope, item.key)" :key="payload.id"
                     :payload="payload"
                   />
                 </template>
