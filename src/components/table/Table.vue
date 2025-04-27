@@ -11,6 +11,7 @@ import type { QueryRequest } from '../../model/query/QueryRequest'
 import type { RootEntity } from '../../model/RootEntity'
 import type { AbstractCurdService } from '../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../service/type'
+import type { IPayload } from '../index'
 import { Transformer } from '@airpower/transformer'
 import { DateTimeFormatter } from '@airpower/util'
 import { ElInput, ElLink, ElMessageBox, ElOption, ElSelect, ElTable, ElTableColumn } from 'element-plus'
@@ -667,6 +668,16 @@ function getValue(scope: IJson, key: unknown): any {
   return getRowEntity(scope)[key as keyof E]
 }
 
+/**
+ * # 获取数组列
+ * @param scope Scope
+ * @param key 字段
+ */
+function getPayloadArray(scope: IJson, key: unknown): Array<RootEntity & IPayload> {
+  const value = getValue(scope, key)
+  return value as Array<RootEntity & IPayload>
+}
+
 function tableRowClassName({ row }: { row: E, rowIndex: number }) {
   if (props.disableRow && props.disableRow(row)) {
     return 'disable-row'
@@ -987,10 +998,7 @@ function onSearch() {
               />
               <template v-else-if="item.payload">
                 <template v-if="item.array">
-                  <APayload
-                    v-for="payload in getValue(scope, item.key)" :key="payload.id"
-                    :payload="payload"
-                  />
+                  {{ getPayloadArray(scope, item.key).map(item => item.getPayloadLabel()).join(",") }}
                 </template>
                 <APayload
                   v-else

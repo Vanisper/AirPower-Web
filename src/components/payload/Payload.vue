@@ -3,6 +3,7 @@ import type { Component, PropType } from 'vue'
 import type { IPayload } from '../../interface/IPayload'
 import type { RootEntity } from '../../model/RootEntity'
 import { ElLink } from 'element-plus'
+import { computed } from 'vue'
 import { DialogUtil } from '../../dialog/DialogUtil'
 
 const props = defineProps({
@@ -28,11 +29,22 @@ function show() {
     DialogUtil.show(props.view, props.payload.copy())
   }
 }
+
+const payloadLabel = computed(() => {
+  try {
+    return props.payload?.getPayloadLabel() || '-'
+  }
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  catch (e) {
+    console.error('[IPayload] 请实现 IPayload 接口', props.payload)
+  }
+  return '-'
+})
 </script>
 
 <template>
   <ElLink :underline="false" class="a-payload" @click="show()">
-    {{ payload?.getPayloadLabel() || '-' }}
+    {{ payloadLabel }}
   </ElLink>
 </template>
 

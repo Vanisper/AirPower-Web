@@ -48,7 +48,6 @@ export abstract class AbstractService extends Transformer {
         }
       },
       error: (response: HttpResponse) => {
-        console.warn('response', response)
         if (response.code === WebConfig.unAuthorizeCode) {
           window.location.replace(WebConfig.loginUrl)
           return
