@@ -46,6 +46,11 @@ export interface ITableColumn extends IBaseField, IElementTableColumn {
   payload?: boolean
 
   /**
+   * ### 是否是列表类数据
+   */
+  array?: boolean
+
+  /**
    * ### 删除列
    */
   removed?: boolean

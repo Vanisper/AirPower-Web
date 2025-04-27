@@ -985,10 +985,18 @@ function onSearch() {
                 v-else-if="item.money"
                 :money="getValue(scope, item.key)"
               />
-              <APayload
-                v-else-if="item.payload"
-                :payload="getValue(scope, item.key)"
-              />
+              <template v-else-if="item.payload">
+                <template v-if="item.array">
+                  <APayload
+                    v-for="(payload, i) in getValue(scope, item.key)" :key="i"
+                    :payload="payload"
+                  />
+                </template>
+                <APayload
+                  v-else
+                  :payload="getValue(scope, item.key)"
+                />
+              </template>
               <ADesensitize
                 v-else-if="item.desensitize"
                 :content="getValue(scope, item.key)"
