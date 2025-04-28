@@ -31,14 +31,6 @@ const props = defineProps({
   },
 
   /**
-   * # 是否隐藏底部
-   */
-  hideFooter: {
-    type: Boolean,
-    default: false,
-  },
-
-  /**
    * # 是否显示图标
    */
   hideIcon: {
@@ -101,17 +93,6 @@ const realTitle = computed(() => props.title || useRouter().currentRoute.value.m
     </div>
     <div class="panel-body">
       <slot />
-    </div>
-    <div
-      v-if="!hideFooter"
-      class="panel-footer"
-    >
-      <div class="panel-footer-left">
-        <slot name="footerLeft" />
-      </div>
-      <div class="panel-footer-right">
-        <slot name="footerRight" />
-      </div>
     </div>
   </div>
 </template>
@@ -184,27 +165,6 @@ const realTitle = computed(() => props.title || useRouter().currentRoute.value.m
     height: 0;
     padding: 10px;
     position: relative;
-  }
-
-  .panel-footer {
-    padding: 0 10px 10px 10px;
-    display: flex;
-    flex-direction: row;
-
-    .panel-footer-left {
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-    }
-
-    .panel-footer-right {
-      flex: 1;
-      width: 0;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: center;
-    }
   }
 }
 

@@ -5,6 +5,7 @@ import type { ComputedRef, PropType, Ref } from 'vue'
 import type { IModelConfig } from '../../decorator/@Model/IModelConfig'
 import type { ISearchField } from '../../decorator/@Search/ISearchField'
 import type { ITableColumn } from '../../decorator/@Table/ITableColumn'
+import type { ITableResult } from '../../hooks/table/list/ITableResult'
 import type { IFile } from '../../interface/IFile'
 import type { ITree } from '../../interface/ITree'
 import type { QueryRequest } from '../../model/query/QueryRequest'
@@ -29,12 +30,37 @@ import { QueryRequestPage } from '../../model/query/QueryRequestPage'
 import { QuerySort } from '../../model/query/QuerySort'
 import { PermissionAction } from '../../permission/PermissionAction'
 import { PermissionUtil } from '../../permission/PermissionUtil'
-import { AButton, ADateTime, ADesensitize, AMoney, APayload, APhone } from '../index'
+import { AButton, ADateTime, ADesensitize, AMoney, APage, APayload, APhone } from '../index'
 import { ColumnSelector, CopyColumn, EnumColumn } from './component'
 import { useTableButton } from './useTableButton'
 import { useTableColumn } from './useTableColumn'
 
 const props = defineProps({
+  /**
+   * # 直接使用表格Hook
+   * 请注意，将不会再触发一些事件，请使用 Hook 的前后置等拦截方法处理
+   */
+  useHook: {
+    type: Object as PropType<ITableResult<E, S>>,
+    default: undefined,
+  },
+
+  /**
+   * # 是否禁用分页
+   */
+  disablePage: {
+    type: Boolean,
+    default: false,
+  },
+
+  /**
+   * # 表格加载中
+   */
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+
   /**
    * # 隐藏添加按钮
    */
@@ -42,6 +68,7 @@ const props = defineProps({
     type: Boolean,
     default: undefined,
   },
+
   /**
    * # 行尾编辑按钮的权限标识
    */
@@ -119,7 +146,7 @@ const props = defineProps({
    */
   dataList: {
     type: Array<E>,
-    required: true,
+    default: () => [],
   },
 
   /**
@@ -331,7 +358,7 @@ const props = defineProps({
    */
   entity: {
     type: Function as unknown as PropType<ITransformerConstructor<E>>,
-    required: true,
+    default: undefined,
   },
 
   /**
@@ -452,15 +479,44 @@ const airTableRef = ref<TableInstance>()
  */
 const tableId: string = `table_${Math.random()}`
 
+const hook = props.useHook
+
+const ServiceClass: CurdServiceConstructor<E, S> | undefined = props.service || hook?.serviceClass
+
+let EntityClass: ITransformerConstructor<E>
+
+if (ServiceClass) {
+  EntityClass = Transformer.newInstance(ServiceClass).entityClass
+}
+else {
+  EntityClass = props.entity as ITransformerConstructor<E>
+}
+
+if (!EntityClass) {
+  throw new Error('[ATable] entity/service/useHook 三者必须传入一个')
+}
+
 /**
  * # Entity的实例
  */
-const entityInstance = Transformer.newInstance(props.entity)
+const entityInstance = Transformer.newInstance(EntityClass)
 
 /**
  * # 内部使用的配置
  */
-const modelConfig: IModelConfig = getModelConfig(props.entity)
+const modelConfig: IModelConfig = getModelConfig(EntityClass)
+
+const dataListRef = computed(() => {
+  return hook ? hook.response.value.list : props.dataList
+})
+
+const selectListRef = computed(() => {
+  return hook ? hook.selectList.value : props.selectList
+})
+
+const isLoadingRef = computed(() => {
+  return hook ? hook.isLoading.value : props.loading
+})
 
 const {
   allColumnList,
@@ -468,7 +524,7 @@ const {
   updateSelectKeys,
   showColumnList,
 } = useTableColumn({
-  entityClass: props.entity,
+  entityClass: EntityClass,
   customColumns: props.columnList,
   hideColumnSelector: props.hideColumnSelector,
   modelConfig,
@@ -480,7 +536,7 @@ const {
 function selectRow(list: Array<ITree & E>) {
   for (const row of list) {
     airTableRef.value?.toggleRowSelection(row, false)
-    for (const selectedRow of props.selectList) {
+    for (const selectedRow of selectListRef.value) {
       // 遍历每一行
       if (selectedRow.id === row.id) {
         airTableRef.value?.toggleRowSelection(row, true)
@@ -496,7 +552,7 @@ function selectRow(list: Array<ITree & E>) {
  * ### 回显选中
  */
 function toggleSelection() {
-  selectRow(props.dataList as unknown as Array<ITree & E>)
+  selectRow((dataListRef.value) as unknown as Array<ITree & E>)
 }
 
 const {
@@ -507,7 +563,7 @@ const {
   isDisableChangeStatus,
   isDeleteDisabled,
 } = useTableButton({
-  entityClass: props.entity,
+  entityClass: EntityClass,
   editPermission: props.editPermission,
   deletePermission: props.deletePermission,
   addRowPermission: props.addRowPermission,
@@ -526,7 +582,7 @@ const {
 /**
  * # 高级搜索字段列表
  */
-const searchFieldList: ComputedRef<ISearchField[]> = computed(() => props.searchParams || getSearchConfigList(props.entity))
+const searchFieldList: ComputedRef<ISearchField[]> = computed(() => props.searchParams || getSearchConfigList(EntityClass))
 
 /**
  * # 获取字符串值
@@ -542,7 +598,7 @@ function getStringValue(data: string | number | object | undefined | null): stri
 /**
  * # 查询对象
  */
-const request = ref(new QueryRequestPage(props.entity)) as Ref<QueryRequestPage<E>>
+const request = ref(new QueryRequestPage(EntityClass)) as Ref<QueryRequestPage<E>>
 
 /**
  * # 导出方法
@@ -566,7 +622,7 @@ function onExport() {
  */
 async function handleDelete(item: E) {
   if (props.customDelete) {
-    emits('delete', item)
+    hook ? hook.onDelete(item) : emits('delete', item)
     return
   }
   try {
@@ -590,7 +646,7 @@ async function handleDelete(item: E) {
       cancelButtonText: WebI18n.get().Cancel,
       type: 'warning',
     })
-    emits('delete', item)
+    hook ? hook.onDelete(item) : emits('delete', item)
   }
   catch (e) {
     console.error(e)
@@ -622,7 +678,7 @@ function inCurrentPage(list: E[], find: E): boolean {
 function handleSelectChanged(list: E[]) {
   const selectAll = list.map(item => item.copy())
   list.forEach((find) => {
-    if (inCurrentPage(props.dataList, find)) {
+    if (inCurrentPage(dataListRef.value, find)) {
       // 在当前页面没找到的数据 保持选中
       return
     }
@@ -631,7 +687,7 @@ function handleSelectChanged(list: E[]) {
       selectAll.push(find)
     }
   })
-  emits('selectChanged', selectAll)
+  hook ? hook.onSelected(selectAll) : emits('selectChanged', selectAll)
 }
 
 /**
@@ -645,10 +701,10 @@ function handleSortChanged(data: { prop: string, order: string }) {
     const sort = new QuerySort()
     sort.field = data.prop
     sort.direction = data.order === 'descending' ? 'desc' : 'asc'
-    emits('sortChanged', sort)
+    hook ? hook.onSortChanged(sort) : emits('sortChanged', sort)
   }
   else {
-    emits('sortChanged', undefined)
+    hook ? hook.onSortChanged(undefined) : emits('sortChanged', undefined)
   }
 }
 
@@ -690,7 +746,7 @@ function tableRowClassName({ row }: { row: E, rowIndex: number }) {
  * # 监听传入数据变化
  */
 watch(
-  () => props.dataList,
+  () => dataListRef,
   () => {
     nextTick(() => {
       toggleSelection()
@@ -707,7 +763,7 @@ watch(
  * # 监听选择的数组列表
  */
 watch(
-  () => props.selectList,
+  () => selectListRef,
   () => {
     nextTick(() => {
       if (airTableRef.value) {
@@ -807,7 +863,7 @@ function onReset() {
   else {
     searchFilter.value = entityInstance.copy()
   }
-  request.value = new QueryRequestPage(props.entity)
+  request.value = new QueryRequestPage(EntityClass)
   request.value.exclude('filter')
 }
 
@@ -815,7 +871,7 @@ function onReset() {
  * # 查询事件
  */
 function onSearch() {
-  request.value = new QueryRequestPage(props.entity)
+  request.value = new QueryRequestPage(EntityClass)
   const keys = Object.keys(searchFilter.value)
   keys.forEach((key) => {
     if (searchFilter.value[key] === '') {
@@ -826,7 +882,7 @@ function onSearch() {
   if (request.value.page) {
     request.value.page.pageNum = 1
   }
-  emits('search', request.value)
+  hook ? hook.onSearch(request.value) : emits('search', request.value)
 }
 </script>
 
@@ -841,18 +897,18 @@ function onSearch() {
           <slot name="beforeButton" />
           <slot name="addButton">
             <AButton
-              v-if="props.entity && !hideAdd"
-              :permission="addPermission || PermissionUtil.get(entity, PermissionAction.ADD)"
+              v-if="!hideAdd"
+              :permission="addPermission || PermissionUtil.get(EntityClass, PermissionAction.ADD)"
               icon="ADD"
               primary
-              @click="emits('add')"
+              @click="hook ? hook.onAdd() : emits('add')"
             >
               {{ modelConfig.addTitle || WebI18n.get().Add }}
             </AButton>
           </slot>
           <AButton
             v-if="showImport"
-            :permission="importPermission || PermissionUtil.get(entity, PermissionAction.IMPORT)"
+            :permission="importPermission || PermissionUtil.get(EntityClass, PermissionAction.IMPORT)"
             icon="IMPORT"
             @click="onImport()"
           >
@@ -878,15 +934,15 @@ function onSearch() {
                 :name="item.key"
               >
                 <ElSelect
-                  v-if="getDictionary(entity, item.key)"
+                  v-if="getDictionary(EntityClass, item.key)"
                   v-model="searchFilter[item.key]"
                   :clearable="item.clearable !== false"
                   :filterable="item.filterable"
-                  :placeholder="`${getFieldLabel(entity, item.key)}...`"
+                  :placeholder="`${getFieldLabel(EntityClass, item.key)}...`"
                   @change="onSearch()"
                   @clear="searchFilter[item.key] = undefined"
                 >
-                  <template v-for="enumItem of getDictionary(entity, item.key)?.toArray()">
+                  <template v-for="enumItem of getDictionary(EntityClass, item.key)?.toArray()">
                     <ElOption
                       v-if="!enumItem.disabled"
                       :key="enumItem.key.toString()"
@@ -899,7 +955,7 @@ function onSearch() {
                   v-else
                   v-model="searchFilter[item.key]"
                   :clearable="item.clearable !== false"
-                  :placeholder="`${getFieldLabel(entity, item.key)}...`"
+                  :placeholder="`${getFieldLabel(EntityClass, item.key)}...`"
                   @blur="onSearch()"
                   @clear="onSearch"
                   @keydown.enter="onSearch"
@@ -910,7 +966,7 @@ function onSearch() {
         </div>
         <AButton
           v-if="showExport"
-          :permission="exportPermission || PermissionUtil.get(entity, PermissionAction.EXPORT)"
+          :permission="exportPermission || PermissionUtil.get(EntityClass, PermissionAction.EXPORT)"
           icon="EXPORT"
           @click="onExport()"
         >
@@ -920,7 +976,7 @@ function onSearch() {
         <ColumnSelector
           v-if="isColumnSelectorEnabled"
           :column-list="allColumnList"
-          :entity-class="entity"
+          :entity-class="EntityClass"
           @changed="updateSelectKeys($event)"
         />
       </div>
@@ -929,7 +985,8 @@ function onSearch() {
       v-if="allColumnList"
       :id="tableId"
       ref="airTableRef"
-      :data="dataList"
+      v-loading="isLoadingRef"
+      :data="dataListRef"
       :row-class-name="tableRowClassName"
       :row-key="(row: E) => `${row.id}`"
       class="a-table"
@@ -962,7 +1019,7 @@ function onSearch() {
         <ElTableColumn
           :align="item.align"
           :fixed="item.fixed"
-          :label="getFieldLabel(entity, item.key)"
+          :label="getFieldLabel(EntityClass, item.key)"
           :min-width="item.minWidth || 'auto'"
           :prop="item.key as string"
           :sortable="item.sortable"
@@ -980,8 +1037,8 @@ function onSearch() {
                 style="color: #aaa; margin-right: 3px"
               >{{ item.prefixText }}</span>
               <EnumColumn
-                v-if="getDictionary(entity, item.key)" :column="item" :data="scope.row"
-                :dictionary="getDictionary(entity, item.key)!"
+                v-if="getDictionary(EntityClass, item.key)" :column="item" :data="scope.row"
+                :dictionary="getDictionary(EntityClass, item.key)!"
               />
               <APhone
                 v-else-if="item.phone"
@@ -1060,7 +1117,7 @@ function onSearch() {
                 v-if="!props.hideEdit"
                 :disabled="isEditDisabled(getRowEntity(scope))"
                 :underline="false"
-                @click="emits('edit', getRowEntity(scope))"
+                @click="hook ? hook.onEdit(getRowEntity(scope)) : emits('edit', getRowEntity(scope))"
               >
                 {{ WebI18n.get().Update }}
               </ElLink>
@@ -1068,7 +1125,7 @@ function onSearch() {
                 v-if="showDetail"
                 :disabled="isDetailDisabled(getRowEntity(scope))"
                 :underline="false"
-                @click="emits('detail', getRowEntity(scope))"
+                @click="hook ? hook.onDetail(getRowEntity(scope)) : emits('detail', getRowEntity(scope))"
               >
                 {{ WebI18n.get().Detail }}
               </ElLink>
@@ -1079,7 +1136,7 @@ function onSearch() {
                   v-if="getRowEntity(scope).isDisabled"
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
                   :underline="false"
-                  @click="emits('enable', getRowEntity(scope))"
+                  @click="hook ? hook.onEnable(getRowEntity(scope)) : emits('enable', getRowEntity(scope))"
                 >
                   {{ WebI18n.get().Enable }}
                 </ElLink>
@@ -1088,7 +1145,7 @@ function onSearch() {
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
                   :underline="false"
                   type="warning"
-                  @click="emits('disable', getRowEntity(scope))"
+                  @click="hook ? hook.onDisable(getRowEntity(scope)) : emits('disable', getRowEntity(scope))"
                 >
                   {{ WebI18n.get().Disable }}
                 </ElLink>
@@ -1123,6 +1180,19 @@ function onSearch() {
       </template>
     </ElTable>
   </div>
+  <div class="a-table-footer">
+    <div class="left">
+      <slot name="beforePage" />
+      <APage
+        v-if="!disablePage && hook" :response="hook.response.value" class="a-table-page"
+        @changed="hook.onPageChanged($event)"
+      />
+      <slot name="afterPage" />
+    </div>
+    <div class="right">
+      <slot name="footerRight" />
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
@@ -1141,7 +1211,7 @@ function onSearch() {
     .a-table-toolbar-left {
 
       .el-button + .el-button {
-        margin-left: 0;
+        margin-left: 5px;
       }
     }
 
@@ -1273,6 +1343,17 @@ function onSearch() {
         padding: 0 3px;
       }
     }
+  }
+}
+
+.a-table-footer {
+  padding: 10px 0 0 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .left {
+    flex: 1;
   }
 }
 </style>

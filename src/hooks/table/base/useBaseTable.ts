@@ -173,6 +173,7 @@ export function useBaseTable<E extends RootEntity, S extends AbstractCurdService
   return {
     entity,
     service,
+    serviceClass,
     isLoading,
     response,
     request,

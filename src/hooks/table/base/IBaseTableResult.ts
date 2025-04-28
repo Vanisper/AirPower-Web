@@ -5,6 +5,7 @@ import type { QueryResponsePage } from '../../../model/query/QueryResponsePage'
 import type { QuerySort } from '../../../model/query/QuerySort'
 import type { RootEntity } from '../../../model/RootEntity'
 import type { AbstractCurdService } from '../../../service/AbstractCurdService'
+import type { CurdServiceConstructor } from '../../../service/type'
 
 /**
  * # `TableHook` 的基础返回结构
@@ -46,6 +47,11 @@ export interface IBaseTableResult<E extends RootEntity, S extends AbstractCurdSe
    * ### `Service`的实例
    */
   service: S
+
+  /**
+   * ### 服务类
+   */
+  serviceClass: CurdServiceConstructor<E, S>
 
   /**
    * ### 刷新数据 返回第一页
