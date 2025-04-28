@@ -1288,62 +1288,60 @@ function onSearch() {
               :index="scope.$index as number"
               name="customRow"
             />
-            <template v-if="!hideCtrl">
+            <ElLink
+              v-if="showAddRow"
+              :disabled="isAddRowDisabled(getRowEntity(scope))"
+              underline="never"
+              @click="handleAddRow(getRowEntity(scope))"
+            >
+              {{ WebI18n.get().Add }}
+            </ElLink>
+            <ElLink
+              v-if="!props.hideEdit"
+              :disabled="isEditDisabled(getRowEntity(scope))"
+              underline="never"
+              @click="handleEdit(getRowEntity(scope))"
+            >
+              {{ WebI18n.get().Update }}
+            </ElLink>
+            <ElLink
+              v-if="showDetail"
+              :disabled="isDetailDisabled(getRowEntity(scope))"
+              underline="never"
+              @click="handleDetail(getRowEntity(scope))"
+            >
+              {{ WebI18n.get().Detail }}
+            </ElLink>
+            <template
+              v-if="showEnableAndDisable "
+            >
               <ElLink
-                v-if="showAddRow"
-                :disabled="isAddRowDisabled(getRowEntity(scope))"
+                v-if="getRowEntity(scope).isDisabled"
+                :disabled="isDisableChangeStatus(getRowEntity(scope))"
                 underline="never"
-                @click="handleAddRow(getRowEntity(scope))"
+                @click="handleEnable(getRowEntity(scope))"
               >
-                {{ WebI18n.get().Add }}
+                {{ WebI18n.get().Enable }}
               </ElLink>
               <ElLink
-                v-if="!props.hideEdit"
-                :disabled="isEditDisabled(getRowEntity(scope))"
+                v-else
+                :disabled="isDisableChangeStatus(getRowEntity(scope))"
+                type="warning"
                 underline="never"
-                @click="handleEdit(getRowEntity(scope))"
+                @click="handleDisable(getRowEntity(scope))"
               >
-                {{ WebI18n.get().Update }}
-              </ElLink>
-              <ElLink
-                v-if="showDetail"
-                :disabled="isDetailDisabled(getRowEntity(scope))"
-                underline="never"
-                @click="handleDetail(getRowEntity(scope))"
-              >
-                {{ WebI18n.get().Detail }}
-              </ElLink>
-              <template
-                v-if="showEnableAndDisable "
-              >
-                <ElLink
-                  v-if="getRowEntity(scope).isDisabled"
-                  :disabled="isDisableChangeStatus(getRowEntity(scope))"
-                  underline="never"
-                  @click="handleEnable(getRowEntity(scope))"
-                >
-                  {{ WebI18n.get().Enable }}
-                </ElLink>
-                <ElLink
-                  v-else
-                  :disabled="isDisableChangeStatus(getRowEntity(scope))"
-                  type="warning"
-                  underline="never"
-                  @click="handleDisable(getRowEntity(scope))"
-                >
-                  {{ WebI18n.get().Disable }}
-                </ElLink>
-              </template>
-              <ElLink
-                v-if="!hideDelete"
-                :disabled="isDeleteDisabled(getRowEntity(scope))"
-                type="danger"
-                underline="never"
-                @click="handleDelete(getRowEntity(scope))"
-              >
-                {{ WebI18n.get().Delete }}
+                {{ WebI18n.get().Disable }}
               </ElLink>
             </template>
+            <ElLink
+              v-if="!hideDelete"
+              :disabled="isDeleteDisabled(getRowEntity(scope))"
+              type="danger"
+              underline="never"
+              @click="handleDelete(getRowEntity(scope))"
+            >
+              {{ WebI18n.get().Delete }}
+            </ElLink>
             <!-- 自定义操作列后置插槽 -->
             <slot
               v-if="scope.index >= 0"
