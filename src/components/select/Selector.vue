@@ -195,8 +195,6 @@ async function onAdd() {
   await DialogUtil.show(props.editor)
   onReloadData()
 }
-
-console.warn(props)
 </script>
 
 <template>
