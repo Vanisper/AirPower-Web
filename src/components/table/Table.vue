@@ -1363,18 +1363,18 @@ function onSearch() {
         <div>{{ emptyText || modelConfig.tableEmptyText || WebI18n.get().NoData }}</div>
       </template>
     </ElTable>
-  </div>
-  <div class="a-table-footer">
-    <div class="left">
-      <slot name="beforePage" />
-      <APage
-        v-if="!disablePage && hook" :response="hook.response.value" class="a-table-page"
-        @changed="hook.onPageChanged($event)"
-      />
-      <slot name="afterPage" />
-    </div>
-    <div class="right">
-      <slot name="footerRight" />
+    <div class="a-table-footer">
+      <div class="left">
+        <slot name="beforePage" />
+        <APage
+          v-if="!disablePage && hook" :response="hook.response.value" class="a-table-page"
+          @changed="hook.onPageChanged($event)"
+        />
+        <slot name="afterPage" />
+      </div>
+      <div class="right">
+        <slot name="footerRight" />
+      </div>
     </div>
   </div>
 </template>
