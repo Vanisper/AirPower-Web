@@ -35,7 +35,6 @@ const content = `tel:${props.param}`
       />
       <ACopy
         :content="param"
-        class="phone"
       >
         {{ param }}
       </ACopy>
@@ -50,12 +49,6 @@ const content = `tel:${props.param}`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  .phone {
-    font-size: 18px;
-    margin-top: 10px;
-    font-weight: bold;
-  }
 
   > span {
     font-size: 12px;
