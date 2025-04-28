@@ -216,6 +216,9 @@ console.warn(props)
       :entity="entity"
       :field-list="fields"
       :hide-ctrl="props.props.isMultiple"
+      :on-add="onAdd"
+      :on-search="onSearch"
+      :on-selected="onSelected"
       :search-params="searchParamList"
       :select-list="selectList"
       :show-select="props.props.isMultiple"
@@ -223,9 +226,6 @@ console.warn(props)
       hide-delete
       hide-edit
       hide-field-selector
-      @add="onAdd"
-      @search="onSearch"
-      @select-changed="onSelected"
     >
       <template
         v-for="(index, name) in slots"
