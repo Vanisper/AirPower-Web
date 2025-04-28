@@ -243,7 +243,7 @@ console.warn(props)
       >
         <ElLink
           :disabled="data.isDisabled"
-          :underline="false"
+          underline="never"
           @click="props.props.onConfirm(data)"
         >
           选择

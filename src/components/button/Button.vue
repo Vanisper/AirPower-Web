@@ -138,7 +138,7 @@ const icon: Ref<Component | string> = computed(() => {
     <ElLink
       :disabled="isDisabled"
       :type="danger ? 'danger' : warning ? 'warning' : primary ? 'primary' : success ? 'success' : 'default'"
-      :underline="false"
+      underline="never"
       v-bind="$attrs"
       v-on="$attrs"
     >

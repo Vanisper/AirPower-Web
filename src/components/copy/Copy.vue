@@ -37,7 +37,7 @@ async function copy() {
 <template>
   <div class="a-copy">
     <ElLink
-      :underline="false"
+      underline="never"
       v-bind="$attrs"
       @click="copy"
       v-on="$attrs"

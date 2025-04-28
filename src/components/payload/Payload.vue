@@ -43,7 +43,10 @@ const payloadLabel = computed(() => {
 </script>
 
 <template>
-  <ElLink :underline="false" class="a-payload" @click="show()">
+  <ElLink
+    class="a-payload"
+    underline="never" @click="show()"
+  >
     {{ payloadLabel }}
   </ElLink>
 </template>

@@ -1292,7 +1292,7 @@ function onSearch() {
               <ElLink
                 v-if="showAddRow"
                 :disabled="isAddRowDisabled(getRowEntity(scope))"
-                :underline="false"
+                underline="never"
                 @click="handleAddRow(getRowEntity(scope))"
               >
                 {{ WebI18n.get().Add }}
@@ -1300,7 +1300,7 @@ function onSearch() {
               <ElLink
                 v-if="!props.hideEdit"
                 :disabled="isEditDisabled(getRowEntity(scope))"
-                :underline="false"
+                underline="never"
                 @click="handleEdit(getRowEntity(scope))"
               >
                 {{ WebI18n.get().Update }}
@@ -1308,7 +1308,7 @@ function onSearch() {
               <ElLink
                 v-if="showDetail"
                 :disabled="isDetailDisabled(getRowEntity(scope))"
-                :underline="false"
+                underline="never"
                 @click="handleDetail(getRowEntity(scope))"
               >
                 {{ WebI18n.get().Detail }}
@@ -1319,7 +1319,7 @@ function onSearch() {
                 <ElLink
                   v-if="getRowEntity(scope).isDisabled"
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
-                  :underline="false"
+                  underline="never"
                   @click="handleEnable(getRowEntity(scope))"
                 >
                   {{ WebI18n.get().Enable }}
@@ -1327,8 +1327,8 @@ function onSearch() {
                 <ElLink
                   v-else
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
-                  :underline="false"
                   type="warning"
+                  underline="never"
                   @click="handleDisable(getRowEntity(scope))"
                 >
                   {{ WebI18n.get().Disable }}
@@ -1337,8 +1337,8 @@ function onSearch() {
               <ElLink
                 v-if="!hideDelete"
                 :disabled="isDeleteDisabled(getRowEntity(scope))"
-                :underline="false"
                 type="danger"
+                underline="never"
                 @click="handleDelete(getRowEntity(scope))"
               >
                 {{ WebI18n.get().Delete }}

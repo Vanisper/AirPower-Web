@@ -66,7 +66,10 @@ const getDateTimeString = computed(() => {
 </script>
 
 <template>
-  <ElLink :underline="false" @click="friendly = !friendly">
+  <ElLink
+    underline="never"
+    @click="friendly = !friendly"
+  >
     {{ getDateTimeString }}
   </ElLink>
 </template>
