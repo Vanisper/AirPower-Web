@@ -6,6 +6,7 @@ import type { IModelConfig } from '../../decorator/@Model/IModelConfig'
 import type { ISearchField } from '../../decorator/@Search/ISearchField'
 import type { ITableColumn } from '../../decorator/@Table/ITableColumn'
 import type { ITableResult } from '../../hooks/table/list/ITableResult'
+import type { ITableTreeResult } from '../../hooks/table/tree/ITableTreeResult'
 import type { IFile } from '../../interface/IFile'
 import type { ITree } from '../../interface/ITree'
 import type { QueryRequest } from '../../model/query/QueryRequest'
@@ -447,19 +448,87 @@ const props = defineProps({
     type: Function as unknown as PropType<ITransformerConstructor<IFile & RootEntity>>,
     default: undefined,
   },
+
+  /**
+   * # 自定义添加事件
+   */
+  onAdd: {
+    type: Function as PropType<() => void>,
+    default: undefined,
+  },
+
+  /**
+   * # 自定义详情事件
+   */
+  onDetail: {
+    type: Function as PropType<(row: E) => void>,
+    default: undefined,
+  },
+
+  /**
+   * # 自定义删除事件
+   */
+  onDelete: {
+    type: Function as PropType<(row: E) => void>,
+    default: undefined,
+  },
+
+  /**
+   * # 自定义编辑事件
+   */
+  onEdit: {
+    type: Function as PropType<(row: E) => void>,
+    default: undefined,
+  },
+
+  /**
+   * # 选择变更事件
+   */
+  onSelected: {
+    type: Function as PropType<(list: E[]) => void>,
+    default: undefined,
+  },
+
+  /**
+   * # 行添加事件
+   */
+  onAddRow: {
+    type: Function as PropType<(row: E) => void>,
+    default: undefined,
+  },
+
+  /**
+   * # 排序变更事件
+   */
+  onSortChange: {
+    type: Function as PropType<(sort?: QuerySort) => void>,
+    default: undefined,
+  },
+
+  /**
+   * # 禁用事件
+   */
+  onDisable: {
+    type: Function as PropType<(row: E) => void>,
+    default: undefined,
+  },
+
+  /**
+   * # 启用事件
+   */
+  onEnable: {
+    type: Function as PropType<(row: E) => void>,
+    default: undefined,
+  },
+
+  /**
+   * # 搜索事件
+   */
+  onSearch: {
+    type: Function as PropType<(request: QueryRequestPage<E>) => void>,
+    default: undefined,
+  },
 })
-const emits = defineEmits<{
-  add: []
-  detail: [row: E]
-  delete: [row: E]
-  edit: [row: E]
-  selectChanged: [list: E[]]
-  addRow: [row: E]
-  sortChanged: [sort?: QuerySort]
-  disable: [row: E]
-  enable: [row: E]
-  search: [request: QueryRequestPage<E>]
-}>()
 
 /**
  * # 暴露一个重置搜索的方法
@@ -622,7 +691,12 @@ function onExport() {
  */
 async function handleDelete(item: E) {
   if (props.customDelete) {
-    hook ? hook.onDelete(item) : emits('delete', item)
+    if (props.onDelete) {
+      props.onDelete(item)
+    }
+    else if (hook) {
+      hook.onDelete(item)
+    }
     return
   }
   try {
@@ -646,7 +720,12 @@ async function handleDelete(item: E) {
       cancelButtonText: WebI18n.get().Cancel,
       type: 'warning',
     })
-    hook ? hook.onDelete(item) : emits('delete', item)
+    if (props.onDelete) {
+      props.onDelete(item)
+    }
+    else if (hook) {
+      hook.onDelete(item)
+    }
   }
   catch (e) {
     console.error(e)
@@ -687,7 +766,12 @@ function handleSelectChanged(list: E[]) {
       selectAll.push(find)
     }
   })
-  hook ? hook.onSelected(selectAll) : emits('selectChanged', selectAll)
+  if (props.onSelected) {
+    props.onSelected(selectAll)
+  }
+  else if (hook) {
+    hook.onSelected(selectAll)
+  }
 }
 
 /**
@@ -697,14 +781,18 @@ function handleSelectChanged(list: E[]) {
  * @param data.order 排序方向
  */
 function handleSortChanged(data: { prop: string, order: string }) {
+  let callback: QuerySort | undefined
   if (data.prop && data.order) {
     const sort = new QuerySort()
     sort.field = data.prop
     sort.direction = data.order === 'descending' ? 'desc' : 'asc'
-    hook ? hook.onSortChanged(sort) : emits('sortChanged', sort)
+    callback = sort
   }
-  else {
-    hook ? hook.onSortChanged(undefined) : emits('sortChanged', undefined)
+  if (props.onSortChange) {
+    props.onSortChange(callback)
+  }
+  else if (hook) {
+    hook.onSortChanged(callback)
   }
 }
 
@@ -783,6 +871,79 @@ function getApiUrl(url: string): string {
     return url
   }
   return WebConfig.apiUrl + url
+}
+
+/**
+ * # 添加事件
+ */
+function handleAdd() {
+  if (props.onAdd) {
+    props.onAdd()
+  }
+  else if (hook) {
+    hook.onAdd()
+  }
+}
+
+/**
+ * # 添加行
+ * @param row 行
+ */
+function handleAddRow(row: E) {
+  if (props.onAddRow) {
+    props.onAddRow(row)
+  }
+  else if (hook && (hook as ITableTreeResult<E, S>).onAddRow) {
+    (hook as ITableTreeResult<E, S>).onAddRow(row)
+  }
+}
+
+/**
+ * # 编辑事件
+ */
+function handleEdit(row: E) {
+  if (props.onEdit) {
+    props.onEdit(row)
+  }
+  else if (hook) {
+    hook.onEdit(row)
+  }
+}
+
+/**
+ * # 详情事件
+ */
+function handleDetail(row: E) {
+  if (props.onDetail) {
+    props.onDetail(row)
+  }
+  else if (hook) {
+    hook.onDetail(row)
+  }
+}
+
+/**
+ * # 禁用事件
+ */
+function handleDisable(row: E) {
+  if (props.onDisable) {
+    props.onDisable(row)
+  }
+  else if (hook) {
+    hook.onDisable(row)
+  }
+}
+
+/**
+ * # 启用事件
+ */
+function handleEnable(row: E) {
+  if (props.onEnable) {
+    props.onEnable(row)
+  }
+  else if (hook) {
+    hook.onEnable(row)
+  }
 }
 
 /**
@@ -882,7 +1043,12 @@ function onSearch() {
   if (request.value.page) {
     request.value.page.pageNum = 1
   }
-  hook ? hook.onSearch(request.value) : emits('search', request.value)
+  if (props.onSearch) {
+    props.onSearch(request.value)
+  }
+  else if (hook) {
+    hook.onSearch(request.value)
+  }
 }
 </script>
 
@@ -901,7 +1067,7 @@ function onSearch() {
               :permission="addPermission || PermissionUtil.get(EntityClass, PermissionAction.ADD)"
               icon="ADD"
               primary
-              @click="hook ? hook.onAdd() : emits('add')"
+              @click="handleAdd()"
             >
               {{ modelConfig.addTitle || WebI18n.get().Add }}
             </AButton>
@@ -1109,7 +1275,7 @@ function onSearch() {
                 v-if="showAddRow"
                 :disabled="isAddRowDisabled(getRowEntity(scope))"
                 :underline="false"
-                @click="emits('addRow', getRowEntity(scope))"
+                @click="handleAddRow(getRowEntity(scope))"
               >
                 {{ WebI18n.get().Add }}
               </ElLink>
@@ -1117,7 +1283,7 @@ function onSearch() {
                 v-if="!props.hideEdit"
                 :disabled="isEditDisabled(getRowEntity(scope))"
                 :underline="false"
-                @click="hook ? hook.onEdit(getRowEntity(scope)) : emits('edit', getRowEntity(scope))"
+                @click="handleEdit(getRowEntity(scope))"
               >
                 {{ WebI18n.get().Update }}
               </ElLink>
@@ -1125,7 +1291,7 @@ function onSearch() {
                 v-if="showDetail"
                 :disabled="isDetailDisabled(getRowEntity(scope))"
                 :underline="false"
-                @click="hook ? hook.onDetail(getRowEntity(scope)) : emits('detail', getRowEntity(scope))"
+                @click="handleDetail(getRowEntity(scope))"
               >
                 {{ WebI18n.get().Detail }}
               </ElLink>
@@ -1136,7 +1302,7 @@ function onSearch() {
                   v-if="getRowEntity(scope).isDisabled"
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
                   :underline="false"
-                  @click="hook ? hook.onEnable(getRowEntity(scope)) : emits('enable', getRowEntity(scope))"
+                  @click="handleEnable(getRowEntity(scope))"
                 >
                   {{ WebI18n.get().Enable }}
                 </ElLink>
@@ -1145,7 +1311,7 @@ function onSearch() {
                   :disabled="isDisableChangeStatus(getRowEntity(scope))"
                   :underline="false"
                   type="warning"
-                  @click="hook ? hook.onDisable(getRowEntity(scope)) : emits('disable', getRowEntity(scope))"
+                  @click="handleDisable(getRowEntity(scope))"
                 >
                   {{ WebI18n.get().Disable }}
                 </ElLink>
