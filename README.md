@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="300" src="./docs/airpower-bg.svg"/>
+  <img width="300" src="assets/airpower-bg.svg"/>
 </p>
 
 <p align="center">
@@ -44,7 +44,7 @@ cnpm install @airpower/web
 
 ## 📖 参考文档
 
-**我们提供了一系列的使用文档，你可以 [点击这里阅读](docs/README.md)**
+![](./assets/doc.jpg)
 
 ## ⏰ 欢迎反馈
 
