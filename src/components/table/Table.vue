@@ -528,6 +528,14 @@ const props = defineProps({
     type: Function as PropType<(request: QueryRequestPage<E>) => void>,
     default: undefined,
   },
+
+  /**
+   * # 是否树形
+   */
+  isTree: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 /**
@@ -576,7 +584,16 @@ const entityInstance = Transformer.newInstance(EntityClass)
 const modelConfig: IModelConfig = getModelConfig(EntityClass)
 
 const dataListRef = computed(() => {
-  return hook ? hook.response.value.list : props.dataList
+  if (props.dataList) {
+    return props.dataList
+  }
+  if (hook) {
+    if (props.isTree) {
+      return hook.list.value
+    }
+    return hook.response.value.list
+  }
+  return []
 })
 
 const selectListRef = computed(() => {
@@ -893,8 +910,8 @@ function handleAddRow(row: E) {
   if (props.onAddRow) {
     props.onAddRow(row)
   }
-  else if (hook && (hook as ITableTreeResult<E, S>).onAddRow) {
-    (hook as ITableTreeResult<E, S>).onAddRow(row)
+  else if (props.isTree) {
+    (hook as ITableTreeResult<E, S>)?.onAddRow(row)
   }
 }
 
