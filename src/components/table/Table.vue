@@ -584,7 +584,7 @@ const entityInstance = Transformer.newInstance(EntityClass)
 const modelConfig: IModelConfig = getModelConfig(EntityClass)
 
 const dataListRef = computed(() => {
-  if (props.dataList) {
+  if (props.dataList.length > 0) {
     return props.dataList
   }
   if (hook) {
@@ -1172,6 +1172,7 @@ function onSearch() {
       :data="dataListRef"
       :row-class-name="tableRowClassName"
       :row-key="(row: E) => `${row.id}`"
+      :tree-props="WebConfig.treeProps"
       class="a-table"
       flexible
       height="100%"
