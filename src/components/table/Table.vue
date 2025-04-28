@@ -1344,7 +1344,7 @@ function onSearch() {
             </ElLink>
             <!-- 自定义操作列后置插槽 -->
             <slot
-              v-if="scope.index >= 0"
+              v-if="scope.$index >= 0"
               :data="getRowEntity(scope)"
               :index="scope.$index as number"
               name="endRow"
