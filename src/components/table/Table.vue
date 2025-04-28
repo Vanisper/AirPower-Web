@@ -67,7 +67,7 @@ const props = defineProps({
    */
   hideAdd: {
     type: Boolean,
-    default: undefined,
+    default: false,
   },
 
   /**

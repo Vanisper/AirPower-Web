@@ -36,7 +36,7 @@ const props = defineProps<{
   /**
    * # 选择器使用的字段列表
    */
-  fieldList?: Array<ITableColumn>
+  columnList?: Array<ITableColumn>
 
   /**
    * # `Editor`
@@ -163,8 +163,8 @@ const dialogTitle = computed(() => {
  * # 列定义
  */
 const fields = computed(() => {
-  if (props.fieldList) {
-    return props.fieldList
+  if (props.columnList) {
+    return props.columnList
   }
   return getTableConfigList(props.entity)
 })
@@ -210,9 +210,9 @@ async function onAdd() {
     @confirm="props.props.onConfirm(selectList.filter((item) => !item.isDisabled))"
   >
     <ATable
+      :column-list="fields"
       :data-list="unPaginate || treeList ? list : response.list"
       :entity="entity"
-      :field-list="fields"
       :hide-ctrl="props.props.isMultiple"
       :on-add="onAdd"
       :on-search="onSearch"
