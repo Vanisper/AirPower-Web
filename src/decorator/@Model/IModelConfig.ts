@@ -77,7 +77,6 @@ export interface IModelConfig {
 
   /**
    * ### 全局隐藏字段列选择器
-   * 如设置 `true`, 则 `ATable` 传入的 `hideFieldSelector` 失效
    */
-  hideFieldSelector?: boolean
+  hideColumnSelector?: boolean
 }

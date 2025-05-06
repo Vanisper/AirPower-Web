@@ -78,7 +78,7 @@ export function useTableColumn<E extends RootEntity>(params: {
    * ### 字段选择器是否启用
    */
   const isColumnSelectorEnabled: Ref<boolean> = computed(() => {
-    if (modelConfig.hideFieldSelector) {
+    if (modelConfig.hideColumnSelector) {
       // 全局标记了隐藏
       return false
     }
