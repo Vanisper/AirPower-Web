@@ -91,7 +91,7 @@ const props = defineProps({
    */
   uploadUrl: {
     type: String,
-    default: WebConfig.uploadUrl,
+    default: () => WebConfig.uploadUrl,
   },
 
   /**
