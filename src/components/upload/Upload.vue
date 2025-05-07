@@ -67,7 +67,7 @@ const props = defineProps({
    */
   maxSize: {
     type: Number,
-    default: 10 * 1024 * 1024,
+    default: () => FileUtil.RADIX_FILE_SIZE ** 2 * 10,
   },
 
   /**

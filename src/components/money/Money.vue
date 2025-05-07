@@ -20,7 +20,7 @@ const props = defineProps({
    */
   precision: {
     type: Number,
-    default: WebConfig.moneyPrecision,
+    default: () => WebConfig.moneyPrecision,
   },
 
   /**
@@ -37,7 +37,7 @@ const props = defineProps({
    */
   direction: {
     type: String as PropType<MoneyDirection>,
-    default: WebConfig.moneyDirection,
+    default: () => WebConfig.moneyDirection,
   },
 })
 

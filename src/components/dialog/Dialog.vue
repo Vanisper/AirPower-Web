@@ -23,7 +23,7 @@ const props = defineProps({
    */
   confirmText: {
     type: String,
-    default: WebI18n.get().Confirm,
+    default: () => WebI18n.get().Confirm,
   },
 
   /**
@@ -31,7 +31,7 @@ const props = defineProps({
    */
   cancelText: {
     type: String,
-    default: WebI18n.get().Cancel,
+    default: () => WebI18n.get().Cancel,
   },
 
   /**
