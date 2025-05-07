@@ -75,7 +75,7 @@ const props = defineProps({
    */
   uploadName: {
     type: String,
-    default: WebConfig.uploadFileName,
+    default: () => WebConfig.uploadFileName,
   },
 
   /**
@@ -83,7 +83,7 @@ const props = defineProps({
    */
   uploadSuccess: {
     type: String,
-    default: WebI18n.get().UploadSuccess,
+    default: () => WebI18n.get().UploadSuccess,
   },
 
   /**
