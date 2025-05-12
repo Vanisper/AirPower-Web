@@ -28,13 +28,13 @@ export class WebValidator {
    * 不建议直接设置哦~ (默认blur)
    */
   trigger: WebValidatorTrigger = 'change'
-  
+
   /**
    * ### 类型
    * 可通过 `toString` `toNumber` `toArray` 设置 (默认`string`)
    */
   type!: WebValidatorType
-  
+
   /**
    * ### 是否必填
    * 可以调用 `.ifEmpty()`
