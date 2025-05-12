@@ -2,7 +2,7 @@ import type { SortType } from './type'
 import { Transformer } from '@airpower/transformer'
 
 /**
- * # 排序类
+ * ### 排序类
  * @author Hamm.cn
  */
 export class QuerySort extends Transformer {

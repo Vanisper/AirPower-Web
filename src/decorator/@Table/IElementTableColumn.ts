@@ -1,7 +1,7 @@
 import type { TableAlign, TableFixed, TableSortable } from './type'
 
 /**
- * # ElementPlus支持的列配置项
+ * ### ElementPlus支持的列配置项
  *
  * @autho Hamm.cn
  */

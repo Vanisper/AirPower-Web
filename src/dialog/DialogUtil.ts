@@ -11,7 +11,7 @@ import { AUpload } from '../components/upload'
 import { WebConfig } from '../config/WebConfig'
 
 /**
- * # 弹窗工具类
+ * ### 弹窗工具类
  * @author Hamm.cn
  */
 export class DialogUtil {

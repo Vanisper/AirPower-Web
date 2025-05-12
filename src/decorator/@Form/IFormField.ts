@@ -4,7 +4,7 @@ import type { IBaseField } from '../common/IBaseField'
 import type { FormTrim } from './FormTrim'
 
 /**
- * # 表单的字段配置接口
+ * ### 表单的字段配置接口
  * @author Hamm.cn
  */
 export interface IFormField extends IBaseField {

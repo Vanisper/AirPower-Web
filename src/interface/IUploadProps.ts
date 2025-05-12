@@ -3,7 +3,7 @@ import type { RootEntity } from '../model/RootEntity'
 import type { IFile } from './IFile'
 
 /**
- * # 上传配置项
+ * ### 上传配置项
  * @author Hamm.cn
  */
 export interface IUploadProps<F extends IFile & RootEntity> {

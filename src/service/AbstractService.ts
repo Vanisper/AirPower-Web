@@ -7,7 +7,7 @@ import { FeedbackUtil } from '../feedback/FeedbackUtil'
 import { Http } from '../http/Http'
 
 /**
- * # `API` 服务超类
+ * ### `API` 服务超类
  * @author Hamm.cn
  */
 export abstract class AbstractService extends Transformer {

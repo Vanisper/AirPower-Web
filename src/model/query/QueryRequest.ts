@@ -4,7 +4,7 @@ import { Transformer, Type } from '@airpower/transformer'
 import { QuerySort } from './QuerySort'
 
 /**
- * # 请求类
+ * ### 请求类
  * @author Hamm.cn
  */
 export class QueryRequest<E extends RootEntity = RootEntity> extends Transformer {

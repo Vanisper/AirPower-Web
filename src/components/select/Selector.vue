@@ -18,65 +18,65 @@ import { ADialog, APage, ATable } from '../index'
 
 const props = defineProps<{
   /**
-   * # 选择器使用的实体类
+   * ### 选择器使用的实体类
    */
   entity: ITransformerConstructor<E>
 
   /**
-   * # 选择器使用的服务类
+   * ### 选择器使用的服务类
    */
   service: CurdServiceConstructor<E, S>
 
   /**
-   * # 选择器的添加按钮的权限标识
+   * ### 选择器的添加按钮的权限标识
    * 则默认使用 `EntityConfig` 的 `addPermission` 配置
    */
   addPermission?: string
 
   /**
-   * # 选择器使用的字段列表
+   * ### 选择器使用的字段列表
    */
   columnList?: Array<ITableColumn>
 
   /**
-   * # `Editor`
+   * ### `Editor`
    * 传入后方可开启选择器快捷添加功能
    */
   editor?: Component
 
   /**
-   * # 搜索使用的字段列表
+   * ### 搜索使用的字段列表
    */
   searchParams?: ISearchField[]
 
   /**
-   * # 选择器宽度
+   * ### 选择器宽度
    */
   width?: string
 
   /**
-   * # 选择器的高度
+   * ### 选择器的高度
    */
   height?: string
 
   /**
-   * # 选择器标题
+   * ### 选择器标题
    */
   title?: string
 
   /**
-   * # 不分页
+   * ### 不分页
    * 默认请求分页接口 如配置了 `treeList` 则此项自动失效
    */
   unPaginate?: boolean
 
   /**
-   * # 请求专用的 `treeList` 接口
+   * ### 请求专用的 `treeList` 接口
    */
   treeList?: boolean
 
   /**
-   * # 搜索前的拦截方法
+   * ### 搜索前的拦截方法
    * 参数为发起请求的数据,请处理后返回
    *
    * @param requestData 请求对象
@@ -85,7 +85,7 @@ const props = defineProps<{
   beforeSearch?: (requestData: QueryRequestPage<E>) => QueryRequestPage<E> | void
 
   /**
-   * # Props参数
+   * ### Props参数
    * ```typescript
    * const props = defineProps(airPropsSelector<?>())
    * ```
@@ -93,28 +93,28 @@ const props = defineProps<{
    */
   props: {
     /**
-     * # 查询参数
+     * ### 查询参数
      */
     param: any
 
     /**
-     * # 是否多选
+     * ### 是否多选
      */
     isMultiple: boolean
 
     /**
-     * # 已选中的列表
+     * ### 已选中的列表
      */
     selectList: E[]
 
     /**
-     * # 确认按钮的回调事件
+     * ### 确认按钮的回调事件
      * @param data [可选] 回调的数据
      */
     onConfirm: (data?: E | E[]) => void
 
     /**
-     * # 取消按钮的回调事件
+     * ### 取消按钮的回调事件
      */
     onCancel: () => void
   }
@@ -150,7 +150,7 @@ const {
 } = useSelector(props.props, service, hookOptions)
 
 /**
- * # 弹窗标题
+ * ### 弹窗标题
  */
 const dialogTitle = computed(() => {
   if (props.title) {
@@ -160,7 +160,7 @@ const dialogTitle = computed(() => {
 })
 
 /**
- * # 列定义
+ * ### 列定义
  */
 const fields = computed(() => {
   if (props.columnList) {
@@ -170,7 +170,7 @@ const fields = computed(() => {
 })
 
 /**
- * # 搜索参数
+ * ### 搜索参数
  */
 const searchParamList: Ref<ISearchField[]> = computed(() => {
   let list = getSearchConfigList(props.entity)
@@ -185,7 +185,7 @@ const searchParamList: Ref<ISearchField[]> = computed(() => {
 })
 
 /**
- * # 弹出编辑器
+ * ### 弹出编辑器
  */
 async function onAdd() {
   if (!props.editor) {

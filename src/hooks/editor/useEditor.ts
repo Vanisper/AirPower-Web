@@ -13,7 +13,7 @@ import { WebValidator } from '../../validator/WebValidator'
 import { useDetail } from '../detail/useDetail'
 
 /**
- * # 引入`Editor`的`Hook`
+ * ### 引入`Editor`的`Hook`
  * @param props `defineProps`的返回值
  * @param ServiceClass `Editor`使用的`Service`
  * @param option `可选` 更多的配置

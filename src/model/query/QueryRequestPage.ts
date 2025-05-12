@@ -4,7 +4,7 @@ import { QueryPage } from './QueryPage'
 import { QueryRequest } from './QueryRequest'
 
 /**
- * # 请求分页类
+ * ### 请求分页类
  * @author Hamm.cn
  */
 export class QueryRequestPage<E extends RootEntity> extends QueryRequest<E> {

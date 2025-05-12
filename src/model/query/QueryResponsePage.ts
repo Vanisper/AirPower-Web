@@ -4,7 +4,7 @@ import { QueryPage } from './QueryPage'
 import { QuerySort } from './QuerySort'
 
 /**
- * # 响应分页类
+ * ### 响应分页类
  * @author Hamm.cn
  */
 export class QueryResponsePage<E extends RootEntity> extends Transformer {

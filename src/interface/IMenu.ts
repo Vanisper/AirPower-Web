@@ -1,7 +1,7 @@
 import type { ITree } from './ITree'
 
 /**
- * # 菜单接口
+ * ### 菜单接口
  *
  * @author Hamm.cn
  */

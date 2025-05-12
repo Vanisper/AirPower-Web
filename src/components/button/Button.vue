@@ -21,7 +21,7 @@ import { PermissionUtil } from '../../permission/PermissionUtil'
 
 const props = defineProps({
   /**
-   * # 权限标识
+   * ## 权限标识
    */
   permission: {
     type: String,
@@ -29,7 +29,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否是链接按钮
+   * ### 是否是链接按钮
    */
   link: {
     type: Boolean,
@@ -37,7 +37,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否是主按钮
+   * ### 是否是主按钮
    */
   primary: {
     type: Boolean,
@@ -45,7 +45,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否是危险按钮
+   * ### 是否是危险按钮
    */
   danger: {
     type: Boolean,
@@ -53,7 +53,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否是危险按钮
+   * ### 是否是危险按钮
    */
   warning: {
     type: Boolean,
@@ -61,7 +61,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否成功按钮
+   * ### 是否成功按钮
    */
   success: {
     type: Boolean,
@@ -69,7 +69,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否禁用按钮
+   * ### 是否禁用按钮
    * 如不禁用，且传入了 `permission` 则按权限判断是否禁用 否则不禁用
    */
   disabled: {
@@ -78,7 +78,7 @@ const props = defineProps({
   },
 
   /**
-   * # 图标
+   * ### 图标
    */
   icon: {
     type: String as PropType<ButtonIcon>,
@@ -87,7 +87,7 @@ const props = defineProps({
 })
 
 /**
- * # 是否禁用
+ * ### 是否禁用
  */
 const isDisabled: Ref<boolean> = computed(() => {
   if (props.disabled) {

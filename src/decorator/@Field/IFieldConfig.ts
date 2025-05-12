@@ -3,7 +3,7 @@ import type { WebEnumConstructor } from '../../enum/type'
 import type { IBaseField } from '../common/IBaseField'
 
 /**
- * # 字段配置
+ * ### 字段配置
  *
  * @author Hamm.cn
  */

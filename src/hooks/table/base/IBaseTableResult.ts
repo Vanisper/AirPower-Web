@@ -8,7 +8,7 @@ import type { AbstractCurdService } from '../../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../../service/type'
 
 /**
- * # `TableHook` 的基础返回结构
+ * ### `TableHook` 的基础返回结构
  * @author Hamm.cn
  */
 export interface IBaseTableResult<E extends RootEntity, S extends AbstractCurdService<E>> {

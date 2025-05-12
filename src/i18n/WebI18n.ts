@@ -1,7 +1,7 @@
 import { I18n } from '@airpower/i18n'
 
 /**
- * # Web端默认语言包
+ * ### Web端默认语言包
  *
  * @author Hamm.cn
  */

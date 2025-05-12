@@ -9,7 +9,7 @@ import { WebI18n } from '../../../i18n/WebI18n'
 import { useBaseTable } from '../base/useBaseTable'
 
 /**
- * # 引入`Selector`使用的`Hook`
+ * ### 引入`Selector`使用的`Hook`
  * @param props `defineProps`的返回值
  * @param serviceClass `Selector`使用的`Service`类
  * @param option `可选` 更多配置

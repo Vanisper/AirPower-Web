@@ -30,7 +30,7 @@ const props = defineProps({
   },
 
   /**
-   * # 如果是循环, 则此项必须传入
+   * ### 如果是循环, 则此项必须传入
    * 字段名
    */
   modifier: {
@@ -39,7 +39,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否禁用输入
+   * ### 是否禁用输入
    */
   disabled: {
     type: Boolean,
@@ -47,7 +47,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否只读
+   * ### 是否只读
    */
   readonly: {
     type: Boolean,
@@ -55,7 +55,7 @@ const props = defineProps({
   },
 
   /**
-   * # 禁用时显示的值
+   * ### 禁用时显示的值
    * 如果被禁用时传入了这个值, 则会显示这个值.
    */
   disabledValue: {
@@ -64,7 +64,7 @@ const props = defineProps({
   },
 
   /**
-   * # 显示的格式化方式
+   * ### 显示的格式化方式
    */
   dateShowFormatter: {
     type: String,
@@ -72,7 +72,7 @@ const props = defineProps({
   },
 
   /**
-   * # 传入的实体类
+   * ### 传入的实体类
    * 如同时传入了 `modifier` 或 `v-model` 指令的 `modifier` 则自动生成兜底的 `placeholder` 等信息
    */
   entity: {
@@ -81,7 +81,7 @@ const props = defineProps({
   },
 
   /**
-   * # 自定义提示文字
+   * ### 自定义提示文字
    * 优先级: `AInput` 传入 > `@Form` > 自动生成
    */
   placeholder: {
@@ -90,7 +90,7 @@ const props = defineProps({
   },
 
   /**
-   * # 可选数组
+   * ### 可选数组
    * 优先级: `AInput` 传入 > `@Form`
    */
   list: {
@@ -99,7 +99,7 @@ const props = defineProps({
   },
 
   /**
-   * # 可选树结构
+   * ### 可选树结构
    * 优先级: `AInput` 传入 > `@Form`
    */
   tree: {
@@ -108,7 +108,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示清空的图标
+   * ### 是否显示清空的图标
    * 仅在普通输入框的 `readonly` 下有效
    */
   showClear: {
@@ -117,7 +117,7 @@ const props = defineProps({
   },
 
   /**
-   * # 远程搜索的回调方法
+   * ### 远程搜索的回调方法
    * 如传入 则会回调此方法进行自定义搜索
    */
   onSearch: {
@@ -139,65 +139,65 @@ const emits = defineEmits([
 const value: Ref<string | number | boolean | Array<unknown> | IJson | undefined> = ref(props.modelValue)
 
 /**
- * # 触发 change 事件
+ * ### 触发 change 事件
  */
 function emitChange() {
   emits('changed', value.value)
 }
 
 /**
- * # 触发 blur 事件
+ * ### 触发 blur 事件
  */
 function emitBlur() {
   emits('blur')
 }
 
 /**
- * # 触发 focus 事件
+ * ### 触发 focus 事件
  */
 function emitFocus() {
   emits('focus')
 }
 
 /**
- * # 触发 clear 事件
+ * ### 触发 clear 事件
  */
 function emitClear() {
   emits('clear')
 }
 
 /**
- * # 是否显示清空按钮
+ * ### 是否显示清空按钮
  */
 const isClearButtonShow = ref(props.showClear)
 
 /**
- * # 占位内容
+ * ### 占位内容
  */
 const placeholderRef = ref(props.placeholder)
 
 /**
- * # 字段的表单配置信息
+ * ### 字段的表单配置信息
  */
 const formConfig: Ref<IFormField | undefined> = ref(undefined)
 
 /**
- * # 字段的配置信息
+ * ### 字段的配置信息
  */
 const fieldConfig: Ref<IFieldConfig | undefined> = ref(undefined)
 
 /**
- * # 字段名称
+ * ### 字段名称
  */
 const fieldName = ref('')
 
 /**
- * # 枚举数据
+ * ### 枚举数据
  */
 const dictionary: Ref<IWebEnum<EnumKey>[] | undefined> = ref(undefined)
 
 /**
- * # Props的value变化
+ * ### Props的value变化
  */
 function onPropsValueUpdated(newProps?: typeof props) {
   if (newProps) {
@@ -215,7 +215,7 @@ function onPropsValueUpdated(newProps?: typeof props) {
 }
 
 /**
- * # 获取显示的格式化
+ * ### 获取显示的格式化
  */
 const getShowFormatter = computed(() => {
   if (formConfig.value) {
@@ -236,7 +236,7 @@ const getShowFormatter = computed(() => {
 })
 
 /**
- * # 获取switch的颜色
+ * ### 获取switch的颜色
  * @param status
  */
 function getSwitchColor(status: boolean): string {
@@ -244,7 +244,7 @@ function getSwitchColor(status: boolean): string {
 }
 
 /**
- * # 获取Switch的文案
+ * ### 获取Switch的文案
  * @param status
  */
 function getSwitchLabel(status: boolean): string {
@@ -252,7 +252,7 @@ function getSwitchLabel(status: boolean): string {
 }
 
 /**
- * # 获取输入类型的字符串
+ * ### 获取输入类型的字符串
  */
 const getInputType = computed(() => {
   if (formConfig.value?.textarea) {
@@ -268,7 +268,7 @@ const getInputType = computed(() => {
 })
 
 /**
- * # 监听Props变化, 同步数据
+ * ### 监听Props变化, 同步数据
  */
 watch(props, (newProps) => {
   isClearButtonShow.value = props.showClear
@@ -276,7 +276,7 @@ watch(props, (newProps) => {
 })
 
 /**
- * # 验证输入的值
+ * ### 验证输入的值
  */
 function checkNumberValue() {
   if (formConfig.value?.number) {
@@ -303,7 +303,7 @@ function checkNumberValue() {
 }
 
 /**
- * # 清空事件
+ * ### 清空事件
  */
 function onClear() {
   emitClear()
@@ -311,7 +311,7 @@ function onClear() {
 }
 
 /**
- * # 将数据丢出去
+ * ### 将数据丢出去
  */
 function emitValue() {
   if (formConfig.value && value.value) {
@@ -333,7 +333,7 @@ function emitValue() {
 }
 
 /**
- * # 输入键盘按下事件
+ * ### 输入键盘按下事件
  * @param event
  */
 function onKeyDown(event: KeyboardEvent) {
@@ -355,7 +355,7 @@ function onKeyDown(event: KeyboardEvent) {
 }
 
 /**
- * # 输入框失去焦点
+ * ### 输入框失去焦点
  */
 function onBlur() {
   checkNumberValue()
@@ -364,7 +364,7 @@ function onBlur() {
 }
 
 /**
- * # 监听Value变化, 同步数据
+ * ### 监听Value变化, 同步数据
  */
 watch(value, () => {
   emitValue()
@@ -383,7 +383,7 @@ function initFieldName() {
 }
 
 /**
- * # 初始化
+ * ### 初始化
  */
 function init() {
   initFieldName()

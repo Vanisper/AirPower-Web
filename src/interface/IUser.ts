@@ -1,5 +1,5 @@
 /**
- * # 标准用户接口
+ * ### 标准用户接口
  * @author Hamm.cn
  */
 export interface IUser {

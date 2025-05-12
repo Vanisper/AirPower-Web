@@ -6,7 +6,7 @@ import { DialogUtil } from '../../dialog/DialogUtil'
 
 const props = defineProps({
   /**
-   * # 默认空值的提示
+   * ### 默认空值的提示
    */
   default: {
     type: String,
@@ -14,7 +14,7 @@ const props = defineProps({
   },
 
   /**
-   * # 选择按钮文案
+   * ### 选择按钮文案
    */
   selectLabel: {
     type: String,
@@ -22,7 +22,7 @@ const props = defineProps({
   },
 
   /**
-   * # 清除按钮文案
+   * ### 清除按钮文案
    */
   clearLabel: {
     type: String,
@@ -30,7 +30,7 @@ const props = defineProps({
   },
 
   /**
-   * # 提示信息
+   * ### 提示信息
    */
   placeholder: {
     type: String,
@@ -38,7 +38,7 @@ const props = defineProps({
   },
 
   /**
-   * # 使用的选择器视图
+   * ### 使用的选择器视图
    */
   selector: {
     type: Object as PropType<Component>,
@@ -46,7 +46,7 @@ const props = defineProps({
   },
 
   /**
-   * # 选择器参数
+   * ### 选择器参数
    */
   param: {
     type: Object as PropType<T>,
@@ -54,7 +54,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否禁用
+   * ### 是否禁用
    */
   disabled: {
     type: Boolean,
@@ -70,12 +70,12 @@ const emits = defineEmits<{
 const result = defineModel<T>() as ModelRef<T | undefined>
 
 /**
- * # 显示标签
+ * ### 显示标签
  */
 const label = computed(() => result.value?.getPayloadLabel() || props.default)
 
 /**
- * # 选择事件
+ * ### 选择事件
  */
 async function onSelect() {
   result.value = await DialogUtil.show<T>(props.selector, props.param)

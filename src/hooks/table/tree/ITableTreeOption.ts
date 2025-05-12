@@ -3,7 +3,7 @@ import type { RootEntity } from '../../../model/RootEntity'
 import type { ITableOption } from '../list/ITableOption'
 
 /**
- * # `TableTreeList` 的 `Hook` 可选配置
+ * ### `TableTreeList` 的 `Hook` 可选配置
  * @author Hamm.cn
  */
 export interface ITableTreeOption<T extends ITree & RootEntity> extends ITableOption<T> {

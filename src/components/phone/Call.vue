@@ -7,7 +7,7 @@ const props = defineProps({
   ...DialogProps.withParam(''),
 
   /**
-   * # 💡提示
+   * ### 💡提示
    */
   tips: {
     type: String,

@@ -6,7 +6,7 @@ import { useRouter } from 'vue-router'
 
 const props = defineProps({
   /**
-   * # 卡片的标题
+   * ### 卡片的标题
    * 默认读取当前路由元数据里的 `name` 属性
    */
   title: {
@@ -15,7 +15,7 @@ const props = defineProps({
   },
 
   /**
-   * # 描述
+   * ### 描述
    */
   description: {
     type: String,
@@ -23,7 +23,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示标题
+   * ### 是否显示标题
    */
   showTitle: {
     type: Boolean,
@@ -31,7 +31,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示图标
+   * ### 是否显示图标
    */
   hideIcon: {
     type: Boolean,
@@ -39,7 +39,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否允许全屏
+   * ### 是否允许全屏
    */
   allowFullscreen: {
     type: Boolean,
@@ -48,7 +48,7 @@ const props = defineProps({
 })
 
 /**
- * # 是否全屏
+ * ### 是否全屏
  */
 const isFullScreen = ref(false)
 

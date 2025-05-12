@@ -4,7 +4,7 @@ import { HttpHeader } from '../http/enum/HttpHeader'
 import { HttpStatus } from '../http/enum/HttpStatus'
 
 /**
- * # 全局配置
+ * ### 全局配置
  *
  * @author Hamm.cn
  */

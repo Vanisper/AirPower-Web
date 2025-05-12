@@ -3,7 +3,7 @@ import { ElTabPane } from 'element-plus'
 
 defineProps({
   /**
-   * # Tab标题
+   * ### Tab标题
    */
   label: {
     type: String,

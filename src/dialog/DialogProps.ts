@@ -2,7 +2,7 @@ import type { PropType } from 'vue'
 import type { RootEntity } from '../model/RootEntity'
 
 /**
- * # 弹窗的配置
+ * ### 弹窗的配置
  *
  * @author Hamm.cn
  */

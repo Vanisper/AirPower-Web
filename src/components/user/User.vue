@@ -12,7 +12,7 @@ import { PermissionUtil } from '../../permission/PermissionUtil'
 
 const props = defineProps({
   /**
-   * # 用户信息
+   * ### 用户信息
    */
   user: {
     type: Object as PropType<IUser>,
@@ -20,7 +20,7 @@ const props = defineProps({
   },
 
   /**
-   * # 宽度
+   * ### 宽度
    */
   width: {
     type: Number,
@@ -28,7 +28,7 @@ const props = defineProps({
   },
 
   /**
-   * # 宽度
+   * ### 宽度
    */
   height: {
     type: Number,
@@ -46,7 +46,7 @@ const userAvatar = computed(() => {
 })
 
 /**
- * # 退出登录
+ * ### 退出登录
  */
 async function logout() {
   await ElMessageBox.confirm(WebI18n.get().ConfirmToLogout, WebI18n.get().ConfirmPlease, {

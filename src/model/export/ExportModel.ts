@@ -2,7 +2,7 @@ import type { QueryRequest } from '../query/QueryRequest'
 import { Transformer } from '@airpower/transformer'
 
 /**
- * # 导出的数据模型
+ * ### 导出的数据模型
  * @author Hamm.cn
  */
 export class ExportModel<R extends QueryRequest = QueryRequest> extends Transformer {

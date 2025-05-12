@@ -6,7 +6,7 @@ import type { WebValidateRule } from '../../validator/type'
 import type { IDetailResult } from '../detail/IDetailResult'
 
 /**
- * # `Editor` 的 `Hook` 标准返回
+ * ### `Editor` 的 `Hook` 标准返回
  * @author Hamm.cn
  */
 export interface IEditorResult<E extends RootEntity, S extends AbstractCurdService<E>>

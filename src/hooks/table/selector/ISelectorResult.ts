@@ -4,7 +4,7 @@ import type { AbstractCurdService } from '../../../service/AbstractCurdService'
 import type { IBaseTableResult } from '../base/IBaseTableResult'
 
 /**
- * # 选择器 `Hook` 的标准返回
+ * ### 选择器 `Hook` 的标准返回
  * @author Hamm.cn
  */
 export interface ISelectorResult<E extends RootEntity, S extends AbstractCurdService<E>>

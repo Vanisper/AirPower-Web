@@ -9,14 +9,14 @@ import { APanel } from '../index'
 
 const props = defineProps({
   /**
-   * # 隐藏树
+   * ### 隐藏树
    */
   hideTree: {
     type: Boolean,
     default: false,
   },
   /**
-   * # 是否默认展开全部
+   * ### 是否默认展开全部
    */
   defaultExpandAll: {
     type: Boolean,
@@ -24,7 +24,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示树搜索
+   * ### 是否显示树搜索
    */
   searchable: {
     type: Boolean,
@@ -32,7 +32,7 @@ const props = defineProps({
   },
 
   /**
-   * # 树搜索提示文案
+   * ### 树搜索提示文案
    */
   placeholder: {
     type: String,
@@ -40,7 +40,7 @@ const props = defineProps({
   },
 
   /**
-   * # 左侧树的数据
+   * ### 左侧树的数据
    */
   treeData: {
     type: Array<T>,
@@ -48,7 +48,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否隐藏图标
+   * ### 是否隐藏图标
    */
   hideIcon: {
     type: Boolean,
@@ -56,7 +56,7 @@ const props = defineProps({
   },
 
   /**
-   * # 树是否正在加载
+   * ### 树是否正在加载
    */
   isTreeLoading: {
     type: Boolean,
@@ -64,7 +64,7 @@ const props = defineProps({
   },
 
   /**
-   * # 标题
+   * ### 标题
    */
   title: {
     type: String,
@@ -72,7 +72,7 @@ const props = defineProps({
   },
 
   /**
-   * # 左侧树的宽度
+   * ### 左侧树的宽度
    */
   width: {
     type: Number,
@@ -80,7 +80,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否可折叠
+   * ### 是否可折叠
    */
   collapse: {
     type: Boolean,
@@ -88,7 +88,7 @@ const props = defineProps({
   },
 
   /**
-   * # 默认折叠状态
+   * ### 默认折叠状态
    */
   defaultCollapse: {
     type: Boolean,
@@ -101,27 +101,27 @@ const emits = defineEmits<{
 }>()
 
 /**
- * # 树的实例
+ * ### 树的实例
  */
 const treeRef = ref<TreeInstance>()
 
 /**
- * # 当前选中的数据
+ * ### 当前选中的数据
  */
 const currentData: Ref<T | undefined> = ref()
 
 /**
- * # 当前搜索关键词
+ * ### 当前搜索关键词
  */
 const searchKeyword = ref('')
 
 /**
- * # 是否显示树
+ * ### 是否显示树
  */
 const isShow = ref(!props.defaultCollapse)
 
 /**
- * # 关键词变更事件
+ * ### 关键词变更事件
  */
 watch(searchKeyword, (val) => {
   if (treeRef.value) {
@@ -132,7 +132,7 @@ watch(searchKeyword, (val) => {
 const showWidth = computed(() => (isShow.value ? `${props.width}px` : 'auto'))
 
 /**
- * # 树节点选中事件
+ * ### 树节点选中事件
  * @param row
  */
 function treeSelectChanged(row: T) {
@@ -149,7 +149,7 @@ function treeSelectChanged(row: T) {
 }
 
 /**
- * # 节点过滤
+ * ### 节点过滤
  * @param value 输入的内容
  * @param node 节点
  */

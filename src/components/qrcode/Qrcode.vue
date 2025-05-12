@@ -4,7 +4,7 @@ import { ref, watch } from 'vue'
 
 const props = defineProps({
   /**
-   * # 二维码内容
+   * ### 二维码内容
    */
   content: {
     type: String,
@@ -12,7 +12,7 @@ const props = defineProps({
   },
 
   /**
-   * # 二维码尺寸
+   * ### 二维码尺寸
    */
   size: {
     type: Number,
@@ -21,12 +21,12 @@ const props = defineProps({
 })
 
 /**
- * # 二维码内容
+ * ### 二维码内容
  */
 const qr = ref('')
 
 /**
- * # 监听二维码内容变化
+ * ### 监听二维码内容变化
  */
 watch(
   () => props.content,

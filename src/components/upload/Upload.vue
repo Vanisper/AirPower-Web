@@ -14,7 +14,7 @@ import { ADialog } from '../dialog'
 
 const props = defineProps({
   /**
-   * # 标准确认返回
+   * ### 标准确认返回
    */
   onConfirm: {
     type: Function as PropType<(file: F | null) => void>,
@@ -22,7 +22,7 @@ const props = defineProps({
   },
 
   /**
-   * # 自定义确认按钮事件
+   * ### 自定义确认按钮事件
    */
   onCustomConfirm: {
     type: Function,
@@ -30,7 +30,7 @@ const props = defineProps({
   },
 
   /**
-   * # 自定义上传成功回调
+   * ### 自定义上传成功回调
    */
   onCustomSuccess: {
     type: Function,
@@ -38,7 +38,7 @@ const props = defineProps({
   },
 
   /**
-   * # 标准取消返回
+   * ### 标准取消返回
    */
   onCancel: {
     type: Function,
@@ -46,7 +46,7 @@ const props = defineProps({
   },
 
   /**
-   * # 上传弹窗中的标题
+   * ### 上传弹窗中的标题
    */
   title: {
     type: String,
@@ -54,7 +54,7 @@ const props = defineProps({
   },
 
   /**
-   * # 确认按钮的文字
+   * ### 确认按钮的文字
    */
   confirmText: {
     type: String,
@@ -62,7 +62,7 @@ const props = defineProps({
   },
 
   /**
-   * # 上传允许的最大文件大小
+   * ### 上传允许的最大文件大小
    * 默认 `10m`
    */
   maxSize: {
@@ -71,7 +71,7 @@ const props = defineProps({
   },
 
   /**
-   * # 上传文件使用的`name`属性
+   * ### 上传文件使用的`name`属性
    */
   uploadName: {
     type: String,
@@ -79,7 +79,7 @@ const props = defineProps({
   },
 
   /**
-   * # 上传成功的文案提示
+   * ### 上传成功的文案提示
    */
   uploadSuccess: {
     type: String,
@@ -87,7 +87,7 @@ const props = defineProps({
   },
 
   /**
-   * # 手动指定的上传路径
+   * ### 手动指定的上传路径
    */
   uploadUrl: {
     type: String,
@@ -95,7 +95,7 @@ const props = defineProps({
   },
 
   /**
-   * # 允许上传的后缀
+   * ### 允许上传的后缀
    */
   extensions: {
     type: Array<string>,
@@ -103,7 +103,7 @@ const props = defineProps({
   },
 
   /**
-   * # 接收文件的实体类
+   * ### 接收文件的实体类
    */
   entity: {
     type: Function as unknown as PropType<ITransformerConstructor<F>>,
@@ -111,7 +111,7 @@ const props = defineProps({
   },
 
   /**
-   * # 上传文件同时发送的数据
+   * ### 上传文件同时发送的数据
    */
   data: {
     type: Object as PropType<IJson>,
@@ -119,7 +119,7 @@ const props = defineProps({
   },
 
   /**
-   * # 上传文件同时发送的 `header`
+   * ### 上传文件同时发送的 `header`
    */
   header: {
     type: Object as PropType<IJson>,
@@ -136,12 +136,12 @@ const props = defineProps({
 })
 
 /**
- * # Loading状态
+ * ### Loading状态
  */
 const loading = ref(false)
 
 /**
- * # 上传的header
+ * ### 上传的header
  */
 const uploadHeader = ref({
   Authorization: WebConfig.getAccessToken(),
@@ -152,7 +152,7 @@ if (props.header) {
 }
 
 /**
- * # 上传验证
+ * ### 上传验证
  */
 function uploadReady(file: { name: string, size: number }): boolean {
   // 文件类型验证
@@ -177,7 +177,7 @@ function uploadReady(file: { name: string, size: number }): boolean {
 }
 
 /**
- * # 上传失败
+ * ### 上传失败
  */
 function onUploadError() {
   loading.value = false
@@ -186,7 +186,7 @@ function onUploadError() {
 }
 
 /**
- * # 上传成功
+ * ### 上传成功
  */
 function onUploadSuccess(result: IJson) {
   loading.value = false

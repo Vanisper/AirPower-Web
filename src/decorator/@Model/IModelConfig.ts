@@ -1,5 +1,5 @@
 /**
- * # 模型配置
+ * ### 模型配置
  * @author Hamm.cn
  */
 export interface IModelConfig {

@@ -1,7 +1,7 @@
 import type { RootEntity } from '../../model/RootEntity'
 
 /**
- * # `Detail` 的 `Hook` 可选配置
+ * ### `Detail` 的 `Hook` 可选配置
  * @author Hamm.cn
  */
 export interface IDetailOption<E extends RootEntity> {

@@ -5,7 +5,7 @@ import { WebConfig } from '../config/WebConfig'
 import { FeedbackUtil } from '../feedback/FeedbackUtil'
 
 /**
- * # `Vue` 路由助手
+ * ### `Vue` 路由助手
  * @author Hamm.cn
  */
 export class RouterUtil {

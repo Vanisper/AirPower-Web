@@ -3,7 +3,7 @@ import type { RootEntity } from '../../model/RootEntity'
 import type { AbstractCurdService } from '../../service/AbstractCurdService'
 
 /**
- * # 详情的 `Hook` 标准返回
+ * ### 详情的 `Hook` 标准返回
  * @author Hamm.cn
  */
 export interface IDetailResult<E extends RootEntity, S extends AbstractCurdService<E>> {

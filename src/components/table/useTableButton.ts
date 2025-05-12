@@ -5,7 +5,7 @@ import { PermissionAction } from '../../permission/PermissionAction'
 import { PermissionUtil } from '../../permission/PermissionUtil'
 
 /**
- * # 表格按钮权限控制
+ * ### 表格按钮权限控制
  *
  * @author Hamm.cn
  */

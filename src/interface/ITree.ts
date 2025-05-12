@@ -1,7 +1,7 @@
 import type { IEntity } from './IEntity'
 
 /**
- * # 树形结构
+ * ### 树形结构
  *
  * @author Hamm.cn
  */

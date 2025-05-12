@@ -38,7 +38,7 @@ import { useTableColumn } from './useTableColumn'
 
 const props = defineProps({
   /**
-   * # 直接使用表格Hook
+   * ### 直接使用表格Hook
    * 请注意，将不会再触发一些事件，请使用 Hook 的前后置等拦截方法处理
    */
   useHook: {
@@ -47,7 +47,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否禁用分页
+   * ### 是否禁用分页
    */
   disablePage: {
     type: Boolean,
@@ -55,7 +55,7 @@ const props = defineProps({
   },
 
   /**
-   * # 表格加载中
+   * ### 表格加载中
    */
   loading: {
     type: Boolean,
@@ -63,7 +63,7 @@ const props = defineProps({
   },
 
   /**
-   * # 隐藏添加按钮
+   * ### 隐藏添加按钮
    */
   hideAdd: {
     type: Boolean,
@@ -71,7 +71,7 @@ const props = defineProps({
   },
 
   /**
-   * # 行尾编辑按钮的权限标识
+   * ### 行尾编辑按钮的权限标识
    */
   editPermission: {
     type: String,
@@ -79,7 +79,7 @@ const props = defineProps({
   },
 
   /**
-   * # 行尾禁用按钮的权限标识
+   * ### 行尾禁用按钮的权限标识
    */
   disablePermission: {
     type: String,
@@ -87,7 +87,7 @@ const props = defineProps({
   },
 
   /**
-   * # 行尾启用按钮的权限标识
+   * ### 行尾启用按钮的权限标识
    */
   enablePermission: {
     type: String,
@@ -95,7 +95,7 @@ const props = defineProps({
   },
 
   /**
-   * # 行尾详情按钮的权限标识
+   * ### 行尾详情按钮的权限标识
    */
   detailPermission: {
     type: String,
@@ -103,7 +103,7 @@ const props = defineProps({
   },
 
   /**
-   * # 行尾删除按钮的权限标识
+   * ### 行尾删除按钮的权限标识
    */
   deletePermission: {
     type: String,
@@ -111,7 +111,7 @@ const props = defineProps({
   },
 
   /**
-   * # 行尾添加按钮的权限标识
+   * ### 行尾添加按钮的权限标识
    */
   addRowPermission: {
     type: String,
@@ -119,7 +119,7 @@ const props = defineProps({
   },
 
   /**
-   * # 左侧添加按钮的权限标识
+   * ### 左侧添加按钮的权限标识
    */
   addPermission: {
     type: String,
@@ -127,7 +127,7 @@ const props = defineProps({
   },
 
   /**
-   * # 右侧导出按钮的权限标识
+   * ### 右侧导出按钮的权限标识
    */
   exportPermission: {
     type: String,
@@ -135,7 +135,7 @@ const props = defineProps({
   },
 
   /**
-   * # 左侧导入按钮的权限标识
+   * ### 左侧导入按钮的权限标识
    */
   importPermission: {
     type: String,
@@ -143,7 +143,7 @@ const props = defineProps({
   },
 
   /**
-   * # 表格显示的数据数组
+   * ### 表格显示的数据数组
    */
   dataList: {
     type: Array<E>,
@@ -151,7 +151,7 @@ const props = defineProps({
   },
 
   /**
-   * # 默认选中的数据数组
+   * ### 默认选中的数据数组
    */
   selectList: {
     type: Array<E>,
@@ -159,7 +159,7 @@ const props = defineProps({
   },
 
   /**
-   * # 显示字段列表
+   * ### 显示字段列表
    * 如传入 则优先使用
    */
   columnList: {
@@ -168,7 +168,7 @@ const props = defineProps({
   },
 
   /**
-   * # 默认表格空文案
+   * ### 默认表格空文案
    */
   emptyText: {
     type: String,
@@ -176,7 +176,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否隐藏编辑按钮
+   * ### 是否隐藏编辑按钮
    */
   hideEdit: {
     type: Boolean,
@@ -184,7 +184,7 @@ const props = defineProps({
   },
 
   /**
-   * # 控制是否禁用行内编辑按钮的回调方法
+   * ### 控制是否禁用行内编辑按钮的回调方法
    */
   disableEdit: {
     type: Function as PropType<(row: E) => boolean>,
@@ -192,7 +192,7 @@ const props = defineProps({
   },
 
   /**
-   * # 控制是否禁用行内添加按钮的回调方法
+   * ### 控制是否禁用行内添加按钮的回调方法
    */
   disableAddRow: {
     type: Function as PropType<(row: E) => boolean>,
@@ -200,7 +200,7 @@ const props = defineProps({
   },
 
   /**
-   * # 控制是否允许操作禁用启用
+   * ### 控制是否允许操作禁用启用
    */
   disableChangeStatus: {
     type: Function as PropType<(row: E) => boolean>,
@@ -208,7 +208,7 @@ const props = defineProps({
   },
 
   /**
-   * # 控制是否禁用行内详情按钮的回调方法
+   * ### 控制是否禁用行内详情按钮的回调方法
    */
   disableDetail: {
     type: Function as PropType<(row: E) => boolean>,
@@ -216,7 +216,7 @@ const props = defineProps({
   },
 
   /**
-   * # 控制是否禁用行内删除按钮的回调方法
+   * ### 控制是否禁用行内删除按钮的回调方法
    */
   disableDelete: {
     type: Function as PropType<(row: E) => boolean>,
@@ -224,7 +224,7 @@ const props = defineProps({
   },
 
   /**
-   * # 控制是否整行显示禁用状态
+   * ### 控制是否整行显示禁用状态
    * 如禁用了行，则行将被模糊并显示灰色背景色
    */
   disableRow: {
@@ -233,7 +233,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否隐藏删除按钮
+   * ### 是否隐藏删除按钮
    */
   hideDelete: {
     type: Boolean,
@@ -241,7 +241,7 @@ const props = defineProps({
   },
 
   /**
-   * # 控制是否禁用多选按钮的回调方法
+   * ### 控制是否禁用多选按钮的回调方法
    */
   selectable: {
     type: Function as PropType<(row: E) => boolean>,
@@ -249,7 +249,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示多选框
+   * ### 是否显示多选框
    * 可触发 `@on-select(selectList)` 事件, 可配置 `:select-list` 默认选中
    */
   showSelect: {
@@ -258,7 +258,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示禁用启用
+   * ### 是否显示禁用启用
    */
   showEnableAndDisable: {
     type: Boolean,
@@ -266,7 +266,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否隐藏序号
+   * ### 是否隐藏序号
    */
   hideIndex: {
     type: Boolean,
@@ -274,7 +274,7 @@ const props = defineProps({
   },
 
   /**
-   * # 表格字段缓存Key
+   * ### 表格字段缓存Key
    */
   fieldCacheKey: {
     type: String,
@@ -282,7 +282,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否隐藏字段选择
+   * ### 是否隐藏字段选择
    */
   hideColumnSelector: {
     type: Boolean,
@@ -290,7 +290,7 @@ const props = defineProps({
   },
 
   /**
-   * # 操作区宽度
+   * ### 操作区宽度
    */
   ctrlWidth: {
     type: String,
@@ -298,7 +298,7 @@ const props = defineProps({
   },
 
   /**
-   * # 自动撑起高度
+   * ### 自动撑起高度
    * 默认fix滚动
    */
   autoHeight: {
@@ -307,7 +307,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否隐藏操作按钮
+   * ### 是否隐藏操作按钮
    */
   hideCtrl: {
     type: Boolean,
@@ -315,7 +315,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示详情按钮
+   * ### 是否显示详情按钮
    */
   showDetail: {
     type: Boolean,
@@ -323,7 +323,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示行添加按钮
+   * ### 是否显示行添加按钮
    */
   showAddRow: {
     type: Boolean,
@@ -331,7 +331,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否自定义删除事件
+   * ### 是否自定义删除事件
    */
   customDelete: {
     type: Boolean,
@@ -339,7 +339,7 @@ const props = defineProps({
   },
 
   /**
-   * # 删除确认框提示标题
+   * ### 删除确认框提示标题
    */
   deleteTitle: {
     type: String,
@@ -347,7 +347,7 @@ const props = defineProps({
   },
 
   /**
-   * # 删除确认框提示内容
+   * ### 删除确认框提示内容
    */
   deleteContent: {
     type: String,
@@ -355,7 +355,7 @@ const props = defineProps({
   },
 
   /**
-   * # 表格绑定的数据实体
+   * ### 表格绑定的数据实体
    */
   entity: {
     type: Function as unknown as PropType<ITransformerConstructor<E>>,
@@ -363,7 +363,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示导入按钮
+   * ### 是否显示导入按钮
    * - `import-url` `可选` 导入的API接口地址
    * - `import-title` `可选` 指定上传框的标题
    */
@@ -373,7 +373,7 @@ const props = defineProps({
   },
 
   /**
-   * # 导入上传的标题
+   * ### 导入上传的标题
    * 默认按传入的 `service` 自动生成
    */
   importTitle: {
@@ -382,7 +382,7 @@ const props = defineProps({
   },
 
   /**
-   * # 导出的请求参数
+   * ### 导出的请求参数
    */
   exportParam: {
     type: Object as PropType<QueryRequest>,
@@ -390,7 +390,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示导出按钮
+   * ### 是否显示导出按钮
    * 如传入 则需要再传入 `:service`
    */
   showExport: {
@@ -399,7 +399,7 @@ const props = defineProps({
   },
 
   /**
-   * # 接口服务类
+   * ### 接口服务类
    */
   service: {
     type: Function as unknown as PropType<CurdServiceConstructor<E, S>>,
@@ -407,7 +407,7 @@ const props = defineProps({
   },
 
   /**
-   * # 默认的筛选器
+   * ### 默认的筛选器
    */
   defaultFilter: {
     type: Object as PropType<E>,
@@ -415,7 +415,7 @@ const props = defineProps({
   },
 
   /**
-   * # 搜索的对象
+   * ### 搜索的对象
    * 则覆盖自动生成的条件
    */
   searchParams: {
@@ -424,7 +424,7 @@ const props = defineProps({
   },
 
   /**
-   * # 导入接口地址
+   * ### 导入接口地址
    * 默认按传入的 `service` 自动生成
    */
   importUrl: {
@@ -433,7 +433,7 @@ const props = defineProps({
   },
 
   /**
-   * # 导入模板下载地址
+   * ### 导入模板下载地址
    * 默认按传入的 `service` 自动生成
    */
   importTemplateUrl: {
@@ -442,7 +442,7 @@ const props = defineProps({
   },
 
   /**
-   * # 导入的文件实体类
+   * ### 导入的文件实体类
    */
   fileEntity: {
     type: Function as unknown as PropType<ITransformerConstructor<IFile & RootEntity>>,
@@ -450,7 +450,7 @@ const props = defineProps({
   },
 
   /**
-   * # 自定义添加事件
+   * ### 自定义添加事件
    */
   onAdd: {
     type: Function as PropType<() => void>,
@@ -458,7 +458,7 @@ const props = defineProps({
   },
 
   /**
-   * # 自定义详情事件
+   * ### 自定义详情事件
    */
   onDetail: {
     type: Function as PropType<(row: E) => void>,
@@ -466,7 +466,7 @@ const props = defineProps({
   },
 
   /**
-   * # 自定义删除事件
+   * ### 自定义删除事件
    */
   onDelete: {
     type: Function as PropType<(row: E) => void>,
@@ -474,7 +474,7 @@ const props = defineProps({
   },
 
   /**
-   * # 自定义编辑事件
+   * ### 自定义编辑事件
    */
   onEdit: {
     type: Function as PropType<(row: E) => void>,
@@ -482,7 +482,7 @@ const props = defineProps({
   },
 
   /**
-   * # 选择变更事件
+   * ### 选择变更事件
    */
   onSelected: {
     type: Function as PropType<(list: E[]) => void>,
@@ -490,7 +490,7 @@ const props = defineProps({
   },
 
   /**
-   * # 行添加事件
+   * ### 行添加事件
    */
   onAddRow: {
     type: Function as PropType<(row: E) => void>,
@@ -498,7 +498,7 @@ const props = defineProps({
   },
 
   /**
-   * # 排序变更事件
+   * ### 排序变更事件
    */
   onSortChange: {
     type: Function as PropType<(sort?: QuerySort) => void>,
@@ -506,7 +506,7 @@ const props = defineProps({
   },
 
   /**
-   * # 禁用事件
+   * ### 禁用事件
    */
   onDisable: {
     type: Function as PropType<(row: E) => void>,
@@ -514,7 +514,7 @@ const props = defineProps({
   },
 
   /**
-   * # 启用事件
+   * ### 启用事件
    */
   onEnable: {
     type: Function as PropType<(row: E) => void>,
@@ -522,7 +522,7 @@ const props = defineProps({
   },
 
   /**
-   * # 搜索事件
+   * ### 搜索事件
    */
   onSearch: {
     type: Function as PropType<(request: QueryRequestPage<E>) => void>,
@@ -530,7 +530,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否树形
+   * ### 是否树形
    */
   isTree: {
     type: Boolean,
@@ -539,7 +539,7 @@ const props = defineProps({
 })
 
 /**
- * # 暴露一个重置搜索的方法
+ * ### 暴露一个重置搜索的方法
  */
 defineExpose({
   resetSearch: onReset,
@@ -574,12 +574,12 @@ if (!EntityClass) {
 }
 
 /**
- * # Entity的实例
+ * ### Entity的实例
  */
 const entityInstance = Transformer.newInstance(EntityClass)
 
 /**
- * # 内部使用的配置
+ * ### 内部使用的配置
  */
 const modelConfig: IModelConfig = getModelConfig(EntityClass)
 
@@ -666,12 +666,12 @@ const {
 })
 
 /**
- * # 高级搜索字段列表
+ * ### 高级搜索字段列表
  */
 const searchFieldList: ComputedRef<ISearchField[]> = computed(() => props.searchParams || getSearchConfigList(EntityClass))
 
 /**
- * # 获取字符串值
+ * ### 获取字符串值
  * @param data 数据
  */
 function getStringValue(data: string | number | object | undefined | null): string {
@@ -682,12 +682,12 @@ function getStringValue(data: string | number | object | undefined | null): stri
 }
 
 /**
- * # 查询对象
+ * ### 查询对象
  */
 const request = ref(new QueryRequestPage(EntityClass)) as Ref<QueryRequestPage<E>>
 
 /**
- * # 导出方法
+ * ### 导出方法
  */
 function onExport() {
   if (!props.service) {
@@ -703,7 +703,7 @@ function onExport() {
 }
 
 /**
- * # 单个删除
+ * ### 单个删除
  * @param item
  */
 async function handleDelete(item: E) {
@@ -751,7 +751,7 @@ async function handleDelete(item: E) {
 }
 
 /**
- * # 是否在当前页数据中
+ * ### 是否在当前页数据中
  */
 function inCurrentPage(list: E[], find: E): boolean {
   const isIn = false
@@ -768,7 +768,7 @@ function inCurrentPage(list: E[], find: E): boolean {
 }
 
 /**
- * # 选中事件
+ * ### 选中事件
  * @param list 选中的列表
  */
 function handleSelectChanged(list: E[]) {
@@ -792,7 +792,7 @@ function handleSelectChanged(list: E[]) {
 }
 
 /**
- * # 排序事件
+ * ### 排序事件
  * @param data 数据
  * @param data.prop 排序字段
  * @param data.order 排序方向
@@ -814,7 +814,7 @@ function handleSortChanged(data: { prop: string, order: string }) {
 }
 
 /**
- * # 获取行的实体数据
+ * ### 获取行的实体数据
  * @param scope
  */
 function getRowEntity(scope: IJson): E {
@@ -822,7 +822,7 @@ function getRowEntity(scope: IJson): E {
 }
 
 /**
- * # 获取行的数据列
+ * ### 获取行的数据列
  * @param scope Scope
  * @param key 字段
  */
@@ -831,7 +831,7 @@ function getValue(scope: IJson, key: unknown): any {
 }
 
 /**
- * # 获取数组列
+ * ### 获取数组列
  * @param scope Scope
  * @param key 字段
  */
@@ -848,7 +848,7 @@ function tableRowClassName({ row }: { row: E, rowIndex: number }) {
 }
 
 /**
- * # 监听传入数据变化
+ * ### 监听传入数据变化
  */
 watch(
   () => dataListRef,
@@ -865,7 +865,7 @@ watch(
 )
 
 /**
- * # 监听选择的数组列表
+ * ### 监听选择的数组列表
  */
 watch(
   () => selectListRef,
@@ -880,7 +880,7 @@ watch(
 )
 
 /**
- * # 获取API地址
+ * ### 获取API地址
  * @param url
  */
 function getApiUrl(url: string): string {
@@ -891,7 +891,7 @@ function getApiUrl(url: string): string {
 }
 
 /**
- * # 添加事件
+ * ### 添加事件
  */
 function handleAdd() {
   if (props.onAdd) {
@@ -903,7 +903,7 @@ function handleAdd() {
 }
 
 /**
- * # 添加行
+ * ### 添加行
  * @param row 行
  */
 function handleAddRow(row: E) {
@@ -916,7 +916,7 @@ function handleAddRow(row: E) {
 }
 
 /**
- * # 编辑事件
+ * ### 编辑事件
  */
 function handleEdit(row: E) {
   if (props.onEdit) {
@@ -928,7 +928,7 @@ function handleEdit(row: E) {
 }
 
 /**
- * # 详情事件
+ * ### 详情事件
  */
 function handleDetail(row: E) {
   if (props.onDetail) {
@@ -940,7 +940,7 @@ function handleDetail(row: E) {
 }
 
 /**
- * # 禁用事件
+ * ### 禁用事件
  */
 function handleDisable(row: E) {
   if (props.onDisable) {
@@ -952,7 +952,7 @@ function handleDisable(row: E) {
 }
 
 /**
- * # 启用事件
+ * ### 启用事件
  */
 function handleEnable(row: E) {
   if (props.onEnable) {
@@ -964,7 +964,7 @@ function handleEnable(row: E) {
 }
 
 /**
- * # 导入
+ * ### 导入
  */
 async function onImport() {
   let url = props.importUrl
@@ -998,7 +998,7 @@ async function onImport() {
 }
 
 /**
- * # 为URL拼接AccessToken
+ * ### 为URL拼接AccessToken
  * @param url
  */
 function getUrlWithAccessToken(url: string): string {
@@ -1014,7 +1014,7 @@ function getUrlWithAccessToken(url: string): string {
 }
 
 /**
- * # 下载导入的模板
+ * ### 下载导入的模板
  */
 function onDownloadTemplate() {
   let url = props.importTemplateUrl
@@ -1046,7 +1046,7 @@ function onReset() {
 }
 
 /**
- * # 查询事件
+ * ### 查询事件
  */
 function onSearch() {
   request.value = new QueryRequestPage(EntityClass)

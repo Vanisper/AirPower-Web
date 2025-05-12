@@ -1,5 +1,5 @@
 /**
- * # 文件接口
+ * ### 文件接口
  * @author Hamm.cn
  */
 export interface IFile {

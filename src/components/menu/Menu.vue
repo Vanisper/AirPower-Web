@@ -7,7 +7,7 @@ import ChildMenu from './ChildMenu.vue'
 
 defineProps({
   /**
-   * # 菜单列表
+   * ### 菜单列表
    * 请确保传入的数组类型为 `IMenu` 的实现类
    */
   menuList: {
@@ -16,7 +16,7 @@ defineProps({
   },
 
   /**
-   * # 是否只保持展开一个菜单
+   * ### 是否只保持展开一个菜单
    */
   uniqueOpened: {
     type: Boolean,
@@ -25,17 +25,17 @@ defineProps({
 })
 
 /**
- * # 菜单状态激活
+ * ### 菜单状态激活
  */
 const defaultMenu = ref(window.location.pathname)
 
 /**
- * # 路由
+ * ### 路由
  */
 const route = useRoute()
 
 /**
- * # 监听路由
+ * ### 监听路由
  */
 watch(
   () => route,

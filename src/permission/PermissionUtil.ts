@@ -5,7 +5,7 @@ import { getModelConfig } from '../decorator/@Model/Model'
 import { PermissionAction } from './PermissionAction'
 
 /**
- * # 权限标识处理类
+ * ### 权限标识处理类
  * @author Hamm.cn
  */
 export class PermissionUtil {

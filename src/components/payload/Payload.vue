@@ -8,7 +8,7 @@ import { DialogUtil } from '../../dialog/DialogUtil'
 
 const props = defineProps({
   /**
-   * # 负载对象
+   * ### 负载对象
    */
   payload: {
     type: Object as PropType<IPayload & RootEntity>,
@@ -16,7 +16,7 @@ const props = defineProps({
   },
 
   /**
-   * # 视图文件
+   * ### 视图文件
    */
   view: {
     type: Object as PropType<Component>,

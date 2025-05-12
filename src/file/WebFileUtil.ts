@@ -2,7 +2,7 @@ import { WebConfig } from '../config/WebConfig'
 import { WebConstant } from '../config/WebConstant'
 
 /**
- * # 文件助手类
+ * ### 文件助手类
  * @author Hamm.cn
  */
 export class WebFileUtil {

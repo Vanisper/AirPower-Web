@@ -5,7 +5,7 @@ import { AMenu } from '../menu'
 
 defineProps({
   /**
-   * # 左侧宽度
+   * ### 左侧宽度
    */
   menuWidth: {
     type: Number,
@@ -13,7 +13,7 @@ defineProps({
   },
 
   /**
-   * # 菜单列表
+   * ### 菜单列表
    * 请确保传入的数组类型为 `IMenu` 的实现类
    */
   menuList: {
@@ -22,7 +22,7 @@ defineProps({
   },
 
   /**
-   * # 是否只保持展开一个菜单
+   * ### 是否只保持展开一个菜单
    */
   uniqueOpened: {
     type: Boolean,
@@ -30,7 +30,7 @@ defineProps({
   },
 
   /**
-   * # 是否隐藏菜单
+   * ### 是否隐藏菜单
    */
   hideMenu: {
     type: Boolean,

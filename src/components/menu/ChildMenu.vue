@@ -5,7 +5,7 @@ import { ElMenuItem, ElSubMenu } from 'element-plus'
 
 defineProps({
   /**
-   * # 菜单列表
+   * ### 菜单列表
    * 请确保传入的数组类型为 `IMenu` 的实现类
    */
   menuList: {

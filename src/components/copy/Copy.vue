@@ -5,7 +5,7 @@ import { WebI18n } from '../../i18n/WebI18n'
 
 const props = defineProps({
   /**
-   * # 复制的内容
+   * ### 复制的内容
    */
   content: {
     type: String,
@@ -13,7 +13,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否隐藏图标
+   * ### 是否隐藏图标
    */
   hideIcon: {
     type: Boolean,

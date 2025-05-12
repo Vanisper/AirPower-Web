@@ -3,7 +3,7 @@ import type { AbstractCurdService } from '../../../service/AbstractCurdService'
 import type { ITableResult } from '../list/ITableResult'
 
 /**
- * # 树表格的 `Hook` 标准返回
+ * ### 树表格的 `Hook` 标准返回
  * @author Hamm.cn
  */
 export interface ITableTreeResult<E extends RootEntity, S extends AbstractCurdService<E>>

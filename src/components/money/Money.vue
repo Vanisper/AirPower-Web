@@ -7,7 +7,7 @@ import { ACopy } from '../copy'
 
 const props = defineProps({
   /**
-   * # 💰金额
+   * ### 💰金额
    */
   money: {
     type: Number,
@@ -15,7 +15,7 @@ const props = defineProps({
   },
 
   /**
-   * # 💰金额的小数精度
+   * ### 💰金额的小数精度
    * 默认为 `WebConfig.moneyPrecision`
    */
   precision: {
@@ -24,7 +24,7 @@ const props = defineProps({
   },
 
   /**
-   * # 💰金额的前缀
+   * ### 💰金额的前缀
    */
   prefix: {
     type: String,
@@ -32,7 +32,7 @@ const props = defineProps({
   },
 
   /**
-   * # 💰金额的小数舍弃方式
+   * ### 💰金额的小数舍弃方式
    * 默认为 `WebConfig.moneyDirection`
    */
   direction: {
@@ -42,7 +42,7 @@ const props = defineProps({
 })
 
 /**
- * # 💰显示金额
+ * ### 💰显示金额
  */
 const showMoney = computed(() => {
   const precision = 10 ** props.precision

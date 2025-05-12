@@ -1,7 +1,7 @@
 import type { IFieldConfig } from './IFieldConfig'
 
 /**
- * # 字段配置 `Key` 变为可选
+ * ### 字段配置 `Key` 变为可选
  */
 export type FieldConfigOptionalKey<T extends IFieldConfig> = Omit<T, 'key'> & {
   /**

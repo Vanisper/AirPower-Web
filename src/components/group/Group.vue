@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 const props = defineProps({
   /**
-   * # 最低高度
+   * ### 最低高度
    */
   minHeight: {
     type: String,
@@ -12,14 +12,14 @@ const props = defineProps({
   },
 
   /**
-   * # 隐藏标题
+   * ### 隐藏标题
    */
   hideTitle: {
     type: Boolean,
     default: false,
   },
   /**
-   * # 分组标题
+   * ### 分组标题
    */
   title: {
     type: String,
@@ -27,7 +27,7 @@ const props = defineProps({
   },
 
   /**
-   * # 分组列数
+   * ### 分组列数
    * 配置范围 `1~3`, 默认为 `1`
    */
   column: {
@@ -36,7 +36,7 @@ const props = defineProps({
   },
 
   /**
-   * # 自适应高度
+   * ### 自适应高度
    */
   autoHeight: {
     type: Boolean,
@@ -44,7 +44,7 @@ const props = defineProps({
   },
 
   /**
-   * # 列数自适应
+   * ### 列数自适应
    */
   autoCol: {
     type: Boolean,
@@ -52,7 +52,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否禁用展开收起
+   * ### 是否禁用展开收起
    */
   disableCollapse: {
     type: Boolean,
@@ -60,7 +60,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否默认收起
+   * ### 是否默认收起
    */
   collapse: {
     type: Boolean,
@@ -69,7 +69,7 @@ const props = defineProps({
 })
 
 /**
- * # 获取合理列数
+ * ### 获取合理列数
  */
 function getColumn() {
   if (!props.column || props.column < 1) {
@@ -79,12 +79,12 @@ function getColumn() {
 }
 
 /**
- * # 当前展开收起的状态
+ * ### 当前展开收起的状态
  */
 const isCollapse = ref(props.collapse)
 
 /**
- * # 获取body的样式类
+ * ### 获取body的样式类
  */
 function getBodyClass() {
   return props.autoCol ? 'column-auto ' : `column-${getColumn()} `

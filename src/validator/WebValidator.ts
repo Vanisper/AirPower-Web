@@ -13,7 +13,7 @@ import { getFormConfigList } from '../decorator/@Form/Form'
 import { WebI18n } from '../i18n/WebI18n'
 
 /**
- * # 表单验证
+ * ### 表单验证
  * @author Hamm.cn
  */
 export class WebValidator {
@@ -22,16 +22,19 @@ export class WebValidator {
    * 请通过 `.show()` 传入
    */
   message!: string
+
   /**
    * ### 触发方式
    * 不建议直接设置哦~ (默认blur)
    */
   trigger: WebValidatorTrigger = 'change'
+  
   /**
    * ### 类型
    * 可通过 `toString` `toNumber` `toArray` 设置 (默认`string`)
    */
   type!: WebValidatorType
+  
   /**
    * ### 是否必填
    * 可以调用 `.ifEmpty()`

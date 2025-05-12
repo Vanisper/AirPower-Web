@@ -11,7 +11,7 @@ import { AButton } from '../button'
 
 const props = defineProps({
   /**
-   * # 弹窗标题
+   * ### 弹窗标题
    */
   title: {
     type: String,
@@ -19,7 +19,7 @@ const props = defineProps({
   },
 
   /**
-   * # 确定按钮文字
+   * ### 确定按钮文字
    */
   confirmText: {
     type: String,
@@ -27,7 +27,7 @@ const props = defineProps({
   },
 
   /**
-   * # 取消按钮文字
+   * ### 取消按钮文字
    */
   cancelText: {
     type: String,
@@ -35,7 +35,7 @@ const props = defineProps({
   },
 
   /**
-   * # 宽度
+   * ### 宽度
    * 支持像素和百分比
    */
   width: {
@@ -44,7 +44,7 @@ const props = defineProps({
   },
 
   /**
-   * # 高度
+   * ### 高度
    * 支持像素和百分比
    */
   height: {
@@ -53,7 +53,7 @@ const props = defineProps({
   },
 
   /**
-   * # 最小宽度
+   * ### 最小宽度
    * 支持像素和百分比
    */
   minWidth: {
@@ -62,7 +62,7 @@ const props = defineProps({
   },
 
   /**
-   * # 最小高度
+   * ### 最小高度
    * 支持像素和百分比
    */
   minHeight: {
@@ -71,7 +71,7 @@ const props = defineProps({
   },
 
   /**
-   * # 隐藏底部按钮
+   * ### 隐藏底部按钮
    */
   hideButtons: {
     type: Boolean,
@@ -79,7 +79,7 @@ const props = defineProps({
   },
 
   /**
-   * # 隐藏 `Footer`
+   * ### 隐藏 `Footer`
    */
   hideFooter: {
     type: Boolean,
@@ -87,7 +87,7 @@ const props = defineProps({
   },
 
   /**
-   * # 隐藏确认按钮
+   * ### 隐藏确认按钮
    */
   hideConfirm: {
     type: Boolean,
@@ -95,7 +95,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否禁用确认按钮
+   * ### 是否禁用确认按钮
    */
   disableConfirm: {
     type: Boolean,
@@ -103,7 +103,7 @@ const props = defineProps({
   },
 
   /**
-   * # 显示取消按钮
+   * ### 显示取消按钮
    */
   showCancel: {
     type: Boolean,
@@ -111,7 +111,7 @@ const props = defineProps({
   },
 
   /**
-   * # 隐藏右上角关闭
+   * ### 隐藏右上角关闭
    */
   hideClose: {
     type: Boolean,
@@ -119,7 +119,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否正在 `Loading`
+   * ### 是否正在 `Loading`
    */
   loading: {
     type: Boolean,
@@ -127,7 +127,7 @@ const props = defineProps({
   },
 
   /**
-   * # 隐藏全屏按钮
+   * ### 隐藏全屏按钮
    */
   hideFullscreen: {
     type: Boolean,
@@ -135,7 +135,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否全屏
+   * ### 是否全屏
    */
   fullScreen: {
     type: Boolean,
@@ -143,7 +143,7 @@ const props = defineProps({
   },
 
   /**
-   * # 允许移动
+   * ### 允许移动
    */
   movable: {
     type: Boolean,
@@ -151,7 +151,7 @@ const props = defineProps({
   },
 
   /**
-   * # Form的Ref实例
+   * ### Form的Ref实例
    * 如传入此参数,则自动校验,否则请自行校验
    */
   formRef: {
@@ -160,7 +160,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否是选择器
+   * ### 是否是选择器
    */
   isSelector: {
     type: Boolean,
@@ -168,7 +168,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否支持点击遮罩层关闭
+   * ### 是否支持点击遮罩层关闭
    */
   hoverClose: {
     type: Boolean,
@@ -183,91 +183,91 @@ const emits = defineEmits<{
 }>()
 
 /**
- * # 对话框ID前缀
+ * ### 对话框ID前缀
  */
 const dialogIdPrefix = 'dialog_'
 
 /**
- * # 移动时的鼠标样式
+ * ### 移动时的鼠标样式
  */
 const CURSOR_MOVING = 'grabbing'
 
 /**
- * # 可移动的鼠标样式
+ * ### 可移动的鼠标样式
  */
 const CURSOR_CAN_MOVE = 'grab'
 
 /**
- * # 普通鼠标样式
+ * ### 普通鼠标样式
  */
 const CURSOR_NORMAL = 'pointer'
 
 /**
- * # 标题的鼠标样式
+ * ### 标题的鼠标样式
  */
 const cursorRef = ref(CURSOR_CAN_MOVE)
 
 /**
- * # 随机ID
+ * ### 随机ID
  */
 const domId = ref(`dialog_${Math.random()}`)
 
 /**
- * # 窗体偏移的x
+ * ### 窗体偏移的x
  */
 const x = ref(0)
 
 /**
- * # 窗体偏移的y
+ * ### 窗体偏移的y
  */
 const y = ref(0)
 
 /**
- * # 是否正在移动
+ * ### 是否正在移动
  */
 const isMoving = ref(false)
 
 /**
- * # 开始移动的鼠标x
+ * ### 开始移动的鼠标x
  */
 let startX = 0
 
 /**
- * # 开始移动的鼠标Y
+ * ### 开始移动的鼠标Y
  */
 let startY = 0
 
 /**
- * # 窗口的真实宽度
+ * ### 窗口的真实宽度
  */
 let trueWidth = 0
 
 /**
- * # 窗口的真实高度
+ * ### 窗口的真实高度
  */
 let trueHeight = 0
 
 /**
- * # 是否全屏
+ * ### 是否全屏
  */
 const isFullScreen = ref(!props.hideFullscreen && props.fullScreen)
 
 /**
- * # 强制焦点丢失
+ * ### 强制焦点丢失
  */
 onMounted(() => {
   document.getElementById(`hidden-button-${domId.value}`)?.focus()
 })
 
 /**
- * # 抛出全屏切换的事件
+ * ### 抛出全屏切换的事件
  */
 watch(isFullScreen, () => {
   emits('fullscreenChange', isFullScreen.value)
 })
 
 /**
- * # 鼠标按下的事件
+ * ### 鼠标按下的事件
  * @param event
  */
 function dialogMouseDownEvent(event: MouseEvent) {
@@ -284,7 +284,7 @@ function dialogMouseDownEvent(event: MouseEvent) {
 }
 
 /**
- * # 双击标题事件
+ * ### 双击标题事件
  */
 function headerDoubleClicked() {
   if (props.hideFullscreen) {
@@ -297,7 +297,7 @@ function headerDoubleClicked() {
 }
 
 /**
- * # 鼠标放开事件
+ * ### 鼠标放开事件
  */
 function dialogMouseUpEvent() {
   if (isMoving.value) {
@@ -307,7 +307,7 @@ function dialogMouseUpEvent() {
 }
 
 /**
- * # 鼠标移动事件
+ * ### 鼠标移动事件
  * @param event event
  */
 function dialogMouseMoveEvent(event: MouseEvent) {
@@ -332,12 +332,12 @@ function dialogMouseMoveEvent(event: MouseEvent) {
 }
 
 /**
- * # 当前抖动状态
+ * ### 当前抖动状态
  */
 const isShaking = ref(false)
 
 /**
- * # 获取样式
+ * ### 获取样式
  */
 const getDialogClass = computed(() => {
   const arr: string[] = []
@@ -351,7 +351,7 @@ const getDialogClass = computed(() => {
 })
 
 /**
- * # 点击背景后的抖动
+ * ### 点击背景后的抖动
  */
 function dialogBgClicked() {
   if (props.hoverClose) {
@@ -368,7 +368,7 @@ function dialogBgClicked() {
 }
 
 /**
- * # 表单提交
+ * ### 表单提交
  */
 async function confirmEvent() {
   if (!props.formRef) {

@@ -3,7 +3,7 @@ import type { QueryRequestPage } from '../../../model/query/QueryRequestPage'
 import type { RootEntity } from '../../../model/RootEntity'
 
 /**
- * # 表格相关的根级配置项
+ * ### 表格相关的根级配置项
  * @author Hamm.cn
  */
 export interface IBaseTableOption<E extends RootEntity> {

@@ -8,7 +8,7 @@ import { getModelConfig } from '../../decorator/@Model/Model'
 import { getTableConfigList } from '../../decorator/@Table/Table'
 
 /**
- * # 表格字段
+ * ### 表格字段
  *
  * @author Hamm.cn
  */

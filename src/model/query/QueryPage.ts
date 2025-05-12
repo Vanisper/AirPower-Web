@@ -1,7 +1,7 @@
 import { Transformer } from '@airpower/transformer'
 
 /**
- * # 分页类
+ * ### 分页类
  * @author Hamm.cn
  */
 export class QueryPage extends Transformer {

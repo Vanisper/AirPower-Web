@@ -11,7 +11,7 @@ import { AInput } from '../index'
 
 const props = defineProps({
   /**
-   * # 实体类
+   * ### 实体类
    * 传入表单内容的类型，如传入则覆盖自动注入的类
    */
   entity: {
@@ -20,7 +20,7 @@ const props = defineProps({
   },
 
   /**
-   * # 字段的名称
+   * ### 字段的名称
    */
   field: {
     type: String,
@@ -28,7 +28,7 @@ const props = defineProps({
   },
 
   /**
-   * # 手动绑定的表单对象
+   * ### 手动绑定的表单对象
    */
   modelValue: {
     type: Object as PropType<E>,
@@ -36,7 +36,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否禁用输入
+   * ### 是否禁用输入
    */
   disabled: {
     type: Boolean,
@@ -44,7 +44,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否只读
+   * ### 是否只读
    */
   readonly: {
     type: Boolean,
@@ -52,7 +52,7 @@ const props = defineProps({
   },
 
   /**
-   * # 禁用时显示的值
+   * ### 禁用时显示的值
    * 如果被禁用时传入了这个值, 则会显示这个值.
    */
   disabledValue: {
@@ -61,7 +61,7 @@ const props = defineProps({
   },
 
   /**
-   * # 可选数组
+   * ### 可选数组
    * 优先级: `AInput`传入 > `@Form`
    */
   list: {
@@ -70,7 +70,7 @@ const props = defineProps({
   },
 
   /**
-   * # 可选树结构
+   * ### 可选树结构
    * 优先级: `AInput` 传入 > `@Form`
    */
   tree: {
@@ -92,12 +92,12 @@ if (!props.field) {
 }
 
 /**
- * # 注入的表单数据
+ * ### 注入的表单数据
  */
 const injectFormData = inject<IJson>('formData')
 
 /**
- * # 手动绑定的 v-model 覆盖 自动注入的表单对象
+ * ### 手动绑定的 v-model 覆盖 自动注入的表单对象
  */
 const formData = props.modelValue ? ref<IJson>(props.modelValue) : injectFormData
 
@@ -106,7 +106,7 @@ if (!formData) {
 }
 
 /**
- * # 手动传入的实体类 覆盖 自动注入的实体类
+ * ### 手动传入的实体类 覆盖 自动注入的实体类
  */
 const EntityClass = (inject('entityClass') as ITransformerConstructor<E>) || props.entity
 
@@ -115,7 +115,7 @@ if (!EntityClass) {
 }
 
 /**
- * # 监听值变化
+ * ### 监听值变化
  */
 function onChange() {
   const val = formData!.value[props.field]

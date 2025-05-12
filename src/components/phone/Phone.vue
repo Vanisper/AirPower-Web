@@ -7,7 +7,7 @@ import { ACall } from './index'
 
 const props = defineProps({
   /**
-   * # 电话号码
+   * ### 电话号码
    */
   phone: {
     type: String,
@@ -15,7 +15,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否脱敏
+   * ### 是否脱敏
    */
   desensitize: {
     type: DesensitizeType,
@@ -23,7 +23,7 @@ const props = defineProps({
   },
 
   /**
-   * # 脱敏开始保留
+   * ### 脱敏开始保留
    * 默认使用传入的参数
    */
   desensitizeHead: {
@@ -32,7 +32,7 @@ const props = defineProps({
   },
 
   /**
-   * # 脱敏末尾保留
+   * ### 脱敏末尾保留
    * 默认使用传入的参数
    */
   desensitizeTail: {
@@ -42,14 +42,14 @@ const props = defineProps({
 })
 
 /**
- * # 显示拨打电话弹窗
+ * ### 显示拨打电话弹窗
  */
 async function callPhone() {
   await DialogUtil.show(ACall, props.phone)
 }
 
 /**
- * # 脱敏电话号
+ * ### 脱敏电话号
  */
 const desensitizePhone = computed(() => {
   if (!props.desensitize) {

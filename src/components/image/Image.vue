@@ -14,7 +14,7 @@ import { WebI18n } from '../../i18n/WebI18n'
 
 const props = defineProps({
   /**
-   * # 显示的URL
+   * ### 显示的URL
    */
   src: {
     type: String,
@@ -22,7 +22,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示删除图标
+   * ### 是否显示删除图标
    * 仅 `upload` 时有效, 如传入 `false`, 则上传后不允许删除
    */
   clearable: {
@@ -31,7 +31,7 @@ const props = defineProps({
   },
 
   /**
-   * # 提示文本
+   * ### 提示文本
    */
   placeholder: {
     type: String,
@@ -39,7 +39,7 @@ const props = defineProps({
   },
 
   /**
-   * # 允许上传
+   * ### 允许上传
    */
   upload: {
     type: Boolean,
@@ -65,7 +65,7 @@ const props = defineProps({
   },
 
   /**
-   * # 显示上传 `tips`
+   * ### 显示上传 `tips`
    */
   showTips: {
     type: Boolean,
@@ -73,7 +73,7 @@ const props = defineProps({
   },
 
   /**
-   * # 图片宽度
+   * ### 图片宽度
    */
   width: {
     type: Number,
@@ -81,7 +81,7 @@ const props = defineProps({
   },
 
   /**
-   * # 图片高度
+   * ### 图片高度
    */
   height: {
     type: Number,
@@ -89,7 +89,7 @@ const props = defineProps({
   },
 
   /**
-   * # 限制上传的大小
+   * ### 限制上传的大小
    */
   limit: {
     type: Number,
@@ -97,7 +97,7 @@ const props = defineProps({
   },
 
   /**
-   * # 允许上传的格式
+   * ### 允许上传的格式
    */
   extensions: {
     type: Array,
@@ -105,7 +105,7 @@ const props = defineProps({
   },
 
   /**
-   * # 上传地址
+   * ### 上传地址
    */
   uploadUrl: {
     type: String,
@@ -113,7 +113,7 @@ const props = defineProps({
   },
 
   /**
-   * # 上传文件的字段名
+   * ### 上传文件的字段名
    * 默认为 `file`
    */
   uploadFileName: {
@@ -122,7 +122,7 @@ const props = defineProps({
   },
 
   /**
-   * # 接收的文件实体类
+   * ### 接收的文件实体类
    */
   entity: {
     type: Function as unknown as PropType<ITransformerConstructor<F>>,
@@ -136,17 +136,17 @@ const emits = defineEmits<{
 }>()
 
 /**
- * # 真实上传地址
+ * ### 真实上传地址
  */
 const uploadUrl = computed(() => props.uploadUrl || WebConfig.uploadUrl)
 
 /**
- * # 显示的文件地址
+ * ### 显示的文件地址
  */
 const imageUrl = ref('')
 
 /**
- * # 是否正在上传
+ * ### 是否正在上传
  */
 const isUploading = ref(false)
 
@@ -165,14 +165,14 @@ watch(props, () => {
 })
 
 /**
- * # 上传文件的头
+ * ### 上传文件的头
  */
 const uploadHeader = ref<IJson>({})
 uploadHeader.value = { ...uploadHeader.value, ...props.headers }
 uploadHeader.value[WebConfig.authorizationHeaderKey] = WebConfig.getAccessToken()
 
 /**
- * # 移除图像事件
+ * ### 移除图像事件
  */
 function imageRemoved() {
   imageUrl.value = ''
@@ -180,7 +180,7 @@ function imageRemoved() {
 }
 
 /**
- * # 显示本地选择的图片
+ * ### 显示本地选择的图片
  */
 function showLocalFile(file: File) {
   const reader = new FileReader()
@@ -193,7 +193,7 @@ function showLocalFile(file: File) {
 }
 
 /**
- * # 文件格式校验
+ * ### 文件格式校验
  * @param file 文件
  * @return 是否成功
  */
@@ -215,7 +215,7 @@ function beforeUpload(file: File): boolean {
 }
 
 /**
- * # 上传失败事件
+ * ### 上传失败事件
  */
 function onUploadError() {
   isUploading.value = false
@@ -225,7 +225,7 @@ function onUploadError() {
 }
 
 /**
- * # 上传成功事件
+ * ### 上传成功事件
  * @param response 成功响应
  * @param response.code 响应码
  * @param response.data 响应数据

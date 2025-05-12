@@ -3,7 +3,7 @@ import type { WebValidateRule } from '../../validator/type'
 import type { IDetailOption } from '../detail/IDetailOption'
 
 /**
- * # `Editor` 的 `Hook` 可选配置
+ * ### `Editor` 的 `Hook` 可选配置
  * @author Hamm.cn
  */
 export interface IEditorOption<E extends RootEntity> extends IDetailOption<E> {

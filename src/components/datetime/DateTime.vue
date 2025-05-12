@@ -4,7 +4,7 @@ import { computed, ref } from 'vue'
 
 const props = defineProps({
   /**
-   * # 毫秒时间戳
+   * ### 毫秒时间戳
    */
   milliSecond: {
     type: Number,
@@ -12,7 +12,7 @@ const props = defineProps({
   },
 
   /**
-   * # 时间日期对象
+   * ### 时间日期对象
    */
   date: {
     type: Date,
@@ -20,7 +20,7 @@ const props = defineProps({
   },
 
   /**
-   * # 时间格式化模板
+   * ### 时间格式化模板
    * 建议使用 `DateTimeFormatter`
    */
   formatter: {
@@ -29,7 +29,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否显示友好时间
+   * ### 是否显示友好时间
    */
   isFriendly: {
     type: Boolean,
@@ -40,7 +40,7 @@ const props = defineProps({
 const friendly = ref(props.isFriendly)
 
 /**
- * # 读取友好时间
+ * ### 读取友好时间
  */
 const getDateTimeString = computed(() => {
   if (!props.milliSecond && !props.date) {

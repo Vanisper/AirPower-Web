@@ -9,7 +9,7 @@ import { QueryResponsePage } from '../../model/query/QueryResponsePage'
 
 const props = defineProps({
   /**
-   * # 响应对象
+   * ### 响应对象
    */
   response: {
     type: QueryResponsePage<E>,
@@ -22,17 +22,17 @@ const emits = defineEmits<{
 }>()
 
 /**
- * # 页码对象
+ * ### 页码对象
  */
 const page = ref(new QueryPage())
 
 /**
- * # 当前页码
+ * ### 当前页码
  */
 const currentPage = ref(page.value.pageNum)
 
 /**
- * # 抛出数据
+ * ### 抛出数据
  */
 function emitChange() {
   currentPage.value = page.value.pageNum
@@ -40,7 +40,7 @@ function emitChange() {
 }
 
 /**
- * # 页码变更
+ * ### 页码变更
  */
 function pageChanged(num: string | number): void {
   page.value.pageNum = Number.parseInt(num.toString(), 10)
@@ -49,7 +49,7 @@ function pageChanged(num: string | number): void {
 }
 
 /**
- * # 每页数量变更
+ * ### 每页数量变更
  */
 function sizeChanged(size: number): void {
   page.value.pageNum = 1
@@ -58,12 +58,12 @@ function sizeChanged(size: number): void {
 }
 
 /**
- * # 禁用页码标签
+ * ### 禁用页码标签
  */
 const disablePageLabel = '...'
 
 /**
- * # 快捷页码列表
+ * ### 快捷页码列表
  */
 const pageCountList = computed(() => {
   const showPageCount = 15
@@ -120,7 +120,7 @@ const pageCountList = computed(() => {
 })
 
 /**
- * # 输入页码变更
+ * ### 输入页码变更
  */
 function currentPageChanged() {
   if (currentPage.value) {
@@ -131,12 +131,12 @@ function currentPageChanged() {
 }
 
 /**
- * # 页码宽度
+ * ### 页码宽度
  */
 const pageItemWidth = [30, 30, 30, 30, 40, 52, 58, 64, 70]
 
 /**
- * # 页码容器宽度
+ * ### 页码容器宽度
  */
 const pageBoxWidth = [230, 230, 230, 230, 280, 340, 370, 400, 430]
 </script>

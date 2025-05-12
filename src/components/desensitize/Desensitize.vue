@@ -6,7 +6,7 @@ import { computed, ref } from 'vue'
 
 const props = defineProps({
   /**
-   * # 复制的内容
+   * ### 复制的内容
    */
   content: {
     type: String,
@@ -14,7 +14,7 @@ const props = defineProps({
   },
 
   /**
-   * # 是否脱敏
+   * ### 是否脱敏
    */
   type: {
     type: DesensitizeType,
@@ -22,7 +22,7 @@ const props = defineProps({
   },
 
   /**
-   * # 脱敏开始保留
+   * ### 脱敏开始保留
    * 默认使用传入的参数
    */
   head: {
@@ -31,7 +31,7 @@ const props = defineProps({
   },
 
   /**
-   * # 脱敏末尾保留
+   * ### 脱敏末尾保留
    * 默认使用传入的参数
    */
   tail: {
@@ -40,7 +40,7 @@ const props = defineProps({
   },
 
   /**
-   * # 脱敏符号
+   * ### 脱敏符号
    */
   symbol: {
     type: String,
@@ -51,7 +51,7 @@ const props = defineProps({
 const isDesensitize = ref(true)
 
 /**
- * # 脱敏
+ * ### 脱敏
  */
 const desensitized = computed(() => {
   if (!isDesensitize.value || !props.type) {

@@ -23,7 +23,7 @@ const isShow = ref(false)
 const list: Ref<string[]> = ref([])
 
 /**
- * # 字段选择变更事件
+ * ### 字段选择变更事件
  * @param status 是否即将选择
  * @param config 配置
  */
