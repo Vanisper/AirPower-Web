@@ -1,7 +1,7 @@
 {
   "name": "@airpower/web",
   "type": "module",
-  "version": "0.4.3",
+  "version": "1.2.0",
   "description": "AirPower-Web",
   "author": {
     "name": "Hamm",
@@ -39,27 +39,27 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "@airpower/enum": "^0.1.0",
-    "@airpower/i18n": "^0.1.1",
-    "@airpower/transformer": "^0.2.1",
-    "@airpower/util": "^0.2.2",
+    "@airpower/enum": "^1.2.0",
+    "@airpower/i18n": "^1.2.0",
+    "@airpower/transformer": "^1.2.0",
+    "@airpower/util": "^1.2.0",
     "@element-plus/icons-vue": "^2.3.1",
-    "axios": "^1.8.4",
-    "element-plus": "^2.9.9",
+    "axios": "^1.10.0",
+    "element-plus": "^2.10.3",
     "qrcode.vue": "^3.6.0",
-    "vue": "^3.5.13",
+    "vue": "^3.5.17",
     "vue-clipboard3": "^2.0.0",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.11.0",
-    "@types/node": "^22.13.14",
-    "@vitejs/plugin-vue": "^5.2.3",
-    "eslint": "^9.23.0",
-    "sass-embedded": "^1.86.3",
-    "typescript": "^5.8.2",
-    "vite": "^6.2.0",
-    "vite-plugin-dts": "^4.5.3"
+    "@antfu/eslint-config": "^4.16.2",
+    "@types/node": "^24.0.10",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "eslint": "^9.30.1",
+    "sass-embedded": "^1.89.2",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.2",
+    "vite-plugin-dts": "^4.5.4"
   },
   "publishConfig": {
     "access": "public"

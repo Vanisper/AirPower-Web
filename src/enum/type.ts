@@ -10,5 +10,5 @@ export type WebColorString = WebColor | string
 /**
  * ### 网页枚举构造类型
  */
-export type WebEnumConstructor<K extends EnumKey = EnumKey> =
-  typeof WebEnum<K>
+export type WebEnumConstructor<K extends EnumKey = EnumKey>
+    = typeof WebEnum<K>
