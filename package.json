@@ -39,10 +39,10 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "@airpower/enum": "^1.2.0",
+    "@airpower/enum": "^1.2.1",
     "@airpower/i18n": "^1.2.0",
     "@airpower/transformer": "^1.2.0",
-    "@airpower/util": "^1.2.0",
+    "@airpower/util": "^1.2.1",
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.10.0",
     "element-plus": "^2.10.3",
