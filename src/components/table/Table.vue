@@ -690,11 +690,7 @@ const request = ref(new QueryRequestPage(EntityClass)) as Ref<QueryRequestPage<E
  * ### 导出方法
  */
 function onExport() {
-  if (!props.service) {
-    FeedbackUtil.toastError('请先传入 service 参数')
-    return
-  }
-  const service = Transformer.newInstance(props.service)
+  const service = getService()
   const exportModel = new ExportModel()
   exportModel.param = request.value
   exportModel.createExportTaskUrl = `${service.baseUrl}${WebConfig.exportUrl}`
@@ -964,16 +960,28 @@ function handleEnable(row: E) {
 }
 
 /**
+ * ### 获取服务
+ */
+function getService(): S {
+  let service: S | undefined
+  if (props.service) {
+    service = Transformer.newInstance(props.service)
+  } else if (props.useHook) {
+    service = props.useHook.service
+  } else {
+    FeedbackUtil.toastError('请先传入 service 参数')
+    throw new Error('请先传入 service 参数')
+  }
+  return service;
+}
+
+/**
  * ### 导入
  */
 async function onImport() {
   let url = props.importUrl
   if (!url) {
-    if (!props.service) {
-      FeedbackUtil.toastError('请先传入 service 参数')
-      return
-    }
-    const service = Transformer.newInstance(props.service)
+    const service = getService()
     url = `${service.baseUrl}/${WebConfig.importUrl}`
     url = getApiUrl(url)
   }
@@ -1022,11 +1030,7 @@ function onDownloadTemplate() {
     window.open(WebConfig.apiUrl + getUrlWithAccessToken(url))
     return
   }
-  if (!props.service) {
-    FeedbackUtil.toastError('请先传入 service 参数')
-    return
-  }
-  const service = Transformer.newInstance(props.service)
+  const service = getService()
   url = `${service.baseUrl}/${WebConfig.importTemplateUrl}`
   url = getApiUrl(url)
   window.open(getUrlWithAccessToken(url))
@@ -1070,31 +1074,21 @@ function onSearch() {
 </script>
 
 <template>
-  <div
-    :style="{ height: autoHeight ? 'auto' : '0px' }"
-    class="a-table-container"
-  >
+  <div :style="{ height: autoHeight ? 'auto' : '0px' }" class="a-table-container">
     <div class="a-table-toolbar">
       <div class="a-table-toolbar-left">
         <slot name="left">
           <slot name="beforeButton" />
           <slot name="addButton">
-            <AButton
-              v-if="!hideAdd"
-              :permission="addPermission || PermissionUtil.get(EntityClass, PermissionAction.ADD)"
-              icon="ADD"
-              primary
-              @click="handleAdd()"
-            >
+            <AButton v-if="!hideAdd"
+              :permission="addPermission || PermissionUtil.get(EntityClass, PermissionAction.ADD)" icon="ADD" primary
+              @click="handleAdd()">
               {{ modelConfig.addTitle || WebI18n.get().Add }}
             </AButton>
           </slot>
-          <AButton
-            v-if="showImport"
-            :permission="importPermission || PermissionUtil.get(EntityClass, PermissionAction.IMPORT)"
-            icon="IMPORT"
-            @click="onImport()"
-          >
+          <AButton v-if="showImport"
+            :permission="importPermission || PermissionUtil.get(EntityClass, PermissionAction.IMPORT)" icon="IMPORT"
+            @click="onImport()">
             {{ WebI18n.get().Import }}
           </AButton>
           <slot name="afterButton" />
@@ -1103,271 +1097,127 @@ function onSearch() {
       <div class="a-table-toolbar-right">
         <slot name="beforeSearch" />
         <div class="a-table-toolbar-search">
-          <template
-            v-for="item in searchFieldList"
-            :key="item.key"
-          >
-            <div
-              v-if="!item.hide"
-              :style="{ width: `${item.width || 150}px` }"
-              class="a-table-toolbar-search-item"
-            >
-              <slot
-                :data="searchFilter"
-                :name="item.key"
-              >
-                <ElSelect
-                  v-if="getDictionary(EntityClass, item.key)"
-                  v-model="searchFilter[item.key]"
-                  :clearable="item.clearable !== false"
-                  :filterable="item.filterable"
-                  :placeholder="`${getFieldLabel(EntityClass, item.key)}...`"
-                  @change="onSearch()"
-                  @clear="searchFilter[item.key] = undefined"
-                >
+          <template v-for="item in searchFieldList" :key="item.key">
+            <div v-if="!item.hide" :style="{ width: `${item.width || 150}px` }" class="a-table-toolbar-search-item">
+              <slot :data="searchFilter" :name="item.key">
+                <ElSelect v-if="getDictionary(EntityClass, item.key)" v-model="searchFilter[item.key]"
+                  :clearable="item.clearable !== false" :filterable="item.filterable"
+                  :placeholder="`${getFieldLabel(EntityClass, item.key)}...`" @change="onSearch()"
+                  @clear="searchFilter[item.key] = undefined">
                   <template v-for="enumItem of getDictionary(EntityClass, item.key)?.toArray()">
-                    <ElOption
-                      v-if="!enumItem.disabled"
-                      :key="enumItem.key.toString()"
-                      :label="enumItem.label"
-                      :value="enumItem.key"
-                    />
+                    <ElOption v-if="!enumItem.disabled" :key="enumItem.key.toString()" :label="enumItem.label"
+                      :value="enumItem.key" />
                   </template>
                 </ElSelect>
-                <ElInput
-                  v-else
-                  v-model="searchFilter[item.key]"
-                  :clearable="item.clearable !== false"
-                  :placeholder="`${getFieldLabel(EntityClass, item.key)}...`"
-                  @blur="onSearch()"
-                  @clear="onSearch"
-                  @keydown.enter="onSearch"
-                />
+                <ElInput v-else v-model="searchFilter[item.key]" :clearable="item.clearable !== false"
+                  :placeholder="`${getFieldLabel(EntityClass, item.key)}...`" @blur="onSearch()" @clear="onSearch"
+                  @keydown.enter="onSearch" />
               </slot>
             </div>
           </template>
         </div>
-        <AButton
-          v-if="showExport"
-          :permission="exportPermission || PermissionUtil.get(EntityClass, PermissionAction.EXPORT)"
-          icon="EXPORT"
-          @click="onExport()"
-        >
+        <AButton v-if="showExport"
+          :permission="exportPermission || PermissionUtil.get(EntityClass, PermissionAction.EXPORT)" icon="EXPORT"
+          @click="onExport()">
           {{ WebI18n.get().Export }}:
         </AButton>
         <slot name="afterSearch" />
-        <ColumnSelector
-          v-if="isColumnSelectorEnabled"
-          :column-list="allColumnList"
-          :entity-class="EntityClass"
-          @changed="updateSelectKeys($event)"
-        />
+        <ColumnSelector v-if="isColumnSelectorEnabled" :column-list="allColumnList" :entity-class="EntityClass"
+          @changed="updateSelectKeys($event)" />
       </div>
     </div>
-    <ElTable
-      v-if="allColumnList"
-      :id="tableId"
-      ref="airTableRef"
-      v-loading="isLoadingRef"
-      :data="dataListRef"
-      :row-class-name="tableRowClassName"
-      :row-key="(row: E) => `${row.id}`"
-      :tree-props="WebConfig.treeProps"
-      class="a-table"
-      flexible
-      height="100%"
-      @select="handleSelectChanged"
-      @select-all="handleSelectChanged"
-      @sort-change="handleSortChanged"
-    >
-      <ElTableColumn
-        v-if="showSelect"
-        :reserve-selection="true"
-        :selectable="isSelectable"
-        fixed="left"
-        type="selection"
-        width="40"
-      />
-      <ElTableColumn
-        v-if="!hideIndex"
-        :label="WebI18n.get().ID || '序号'"
-        fixed="left"
-        type="index"
-        width="60"
-      />
+    <ElTable v-if="allColumnList" :id="tableId" ref="airTableRef" v-loading="isLoadingRef" :data="dataListRef"
+      :row-class-name="tableRowClassName" :row-key="(row: E) => `${row.id}`" :tree-props="WebConfig.treeProps"
+      class="a-table" flexible height="100%" @select="handleSelectChanged" @select-all="handleSelectChanged"
+      @sort-change="handleSortChanged">
+      <ElTableColumn v-if="showSelect" :reserve-selection="true" :selectable="isSelectable" fixed="left"
+        type="selection" width="40" />
+      <ElTableColumn v-if="!hideIndex" :label="WebI18n.get().ID || '序号'" fixed="left" type="index" width="60" />
       <!-- 文本数据渲染 -->
-      <template
-        v-for="item in showColumnList"
-        :key="item.key"
-      >
-        <ElTableColumn
-          :align="item.align"
-          :fixed="item.fixed"
-          :label="getFieldLabel(EntityClass, item.key)"
-          :min-width="item.minWidth || 'auto'"
-          :prop="item.key as string"
-          :sortable="item.sortable"
-          :width="item.width || 'auto'"
-        >
+      <template v-for="item in showColumnList" :key="item.key">
+        <ElTableColumn :align="item.align" :fixed="item.fixed" :label="getFieldLabel(EntityClass, item.key)"
+          :min-width="item.minWidth || 'auto'" :prop="item.key as string" :sortable="item.sortable"
+          :width="item.width || 'auto'">
           <template #default="scope">
-            <slot
-              v-if="scope.$index >= 0"
-              :data="getRowEntity(scope)"
-              :index="scope.$index as number"
-              :name="item.key"
-            >
-              <span
-                v-if="item.prefixText"
-                style="color: #aaa; margin-right: 3px"
-              >{{ item.prefixText }}</span>
-              <EnumColumn
-                v-if="getDictionary(EntityClass, item.key)" :column="item" :data="scope.row"
-                :dictionary="getDictionary(EntityClass, item.key)!"
-              />
-              <APhone
-                v-else-if="item.phone"
-                :desensitize="item.desensitize"
-                :phone="getValue(scope, item.key)"
-              />
-              <ADateTime
-                v-else-if="item.datetime"
+            <slot v-if="scope.$index >= 0" :data="getRowEntity(scope)" :index="scope.$index as number" :name="item.key">
+              <span v-if="item.prefixText" style="color: #aaa; margin-right: 3px">{{ item.prefixText }}</span>
+              <EnumColumn v-if="getDictionary(EntityClass, item.key)" :column="item" :data="scope.row"
+                :dictionary="getDictionary(EntityClass, item.key)!" />
+              <APhone v-else-if="item.phone" :desensitize="item.desensitize" :phone="getValue(scope, item.key)" />
+              <ADateTime v-else-if="item.datetime"
                 :formatter="item.datetime === true ? DateTimeFormatter.FULL_DATE_TIME : item.datetime"
-                :milli-second="getValue(scope, item.key)"
-              />
-              <AMoney
-                v-else-if="item.money"
-                :money="getValue(scope, item.key)"
-              />
+                :milli-second="getValue(scope, item.key)" />
+              <AMoney v-else-if="item.money" :money="getValue(scope, item.key)" />
               <template v-else-if="item.payload">
                 <template v-if="item.array">
-                  {{ getPayloadArray(scope, item.key).map(payload => payload.getPayloadLabel()).join(",") }}
+                  {{getPayloadArray(scope, item.key).map(payload => payload.getPayloadLabel()).join(",")}}
                 </template>
-                <APayload
-                  v-else
-                  :payload="getValue(scope, item.key)"
-                />
+                <APayload v-else :payload="getValue(scope, item.key)" />
               </template>
-              <ADesensitize
-                v-else-if="item.desensitize"
-                :content="getValue(scope, item.key)"
-                :type="item.desensitize"
-              />
+              <ADesensitize v-else-if="item.desensitize" :content="getValue(scope, item.key)"
+                :type="item.desensitize" />
               <CopyColumn v-else-if="item.copy" :column="item" :data="scope.row" />
               <template v-else>
-                <div
-                  :class="item.wrap ? '' : 'nowrap'"
-                  class="a-table-column"
-                >
+                <div :class="item.wrap ? '' : 'nowrap'" class="a-table-column">
                   {{ getStringValue(getValue(scope, item.key)) ?? item.emptyValue }}
                 </div>
               </template>
-              <span
-                v-if="item.suffixText"
-                style="color: #aaa"
-              >{{ item.suffixText }}</span>
+              <span v-if="item.suffixText" style="color: #aaa">{{ item.suffixText }}</span>
             </slot>
           </template>
         </ElTableColumn>
       </template>
       <!-- 如果没有隐藏操作列 或者字段选择器启用 -->
-      <ElTableColumn
-        v-if="!hideCtrl"
-        :width="ctrlWidth || '90px'"
-        align="right"
-        fixed="right"
-      >
+      <ElTableColumn v-if="!hideCtrl" :width="ctrlWidth || '90px'" align="right" fixed="right">
         <template #header>
           {{ WebI18n.get().Operation }}
         </template>
         <template #default="scope">
           <div class="ctrlRow">
             <!-- 自定义操作列前置插槽 -->
-            <slot
-              v-if="scope.$index >= 0"
-              :data="getRowEntity(scope)"
-              :index="scope.$index as number"
-              name="customRow"
-            />
-            <ElLink
-              v-if="showAddRow"
-              :disabled="isAddRowDisabled(getRowEntity(scope))"
-              underline="never"
-              @click="handleAddRow(getRowEntity(scope))"
-            >
+            <slot v-if="scope.$index >= 0" :data="getRowEntity(scope)" :index="scope.$index as number"
+              name="customRow" />
+            <ElLink v-if="showAddRow" :disabled="isAddRowDisabled(getRowEntity(scope))" underline="never"
+              @click="handleAddRow(getRowEntity(scope))">
               {{ WebI18n.get().Add }}
             </ElLink>
-            <ElLink
-              v-if="!props.hideEdit"
-              :disabled="isEditDisabled(getRowEntity(scope))"
-              underline="never"
-              @click="handleEdit(getRowEntity(scope))"
-            >
+            <ElLink v-if="!props.hideEdit" :disabled="isEditDisabled(getRowEntity(scope))" underline="never"
+              @click="handleEdit(getRowEntity(scope))">
               {{ WebI18n.get().Update }}
             </ElLink>
-            <ElLink
-              v-if="showDetail"
-              :disabled="isDetailDisabled(getRowEntity(scope))"
-              underline="never"
-              @click="handleDetail(getRowEntity(scope))"
-            >
+            <ElLink v-if="showDetail" :disabled="isDetailDisabled(getRowEntity(scope))" underline="never"
+              @click="handleDetail(getRowEntity(scope))">
               {{ WebI18n.get().Detail }}
             </ElLink>
-            <template
-              v-if="showEnableAndDisable "
-            >
-              <ElLink
-                v-if="getRowEntity(scope).isDisabled"
-                :disabled="isDisableChangeStatus(getRowEntity(scope))"
-                underline="never"
-                @click="handleEnable(getRowEntity(scope))"
-              >
+            <template v-if="showEnableAndDisable">
+              <ElLink v-if="getRowEntity(scope).isDisabled" :disabled="isDisableChangeStatus(getRowEntity(scope))"
+                underline="never" @click="handleEnable(getRowEntity(scope))">
                 {{ WebI18n.get().Enable }}
               </ElLink>
-              <ElLink
-                v-else
-                :disabled="isDisableChangeStatus(getRowEntity(scope))"
-                type="warning"
-                underline="never"
-                @click="handleDisable(getRowEntity(scope))"
-              >
+              <ElLink v-else :disabled="isDisableChangeStatus(getRowEntity(scope))" type="warning" underline="never"
+                @click="handleDisable(getRowEntity(scope))">
                 {{ WebI18n.get().Disable }}
               </ElLink>
             </template>
-            <ElLink
-              v-if="!hideDelete"
-              :disabled="isDeleteDisabled(getRowEntity(scope))"
-              type="danger"
-              underline="never"
-              @click="handleDelete(getRowEntity(scope))"
-            >
+            <ElLink v-if="!hideDelete" :disabled="isDeleteDisabled(getRowEntity(scope))" type="danger" underline="never"
+              @click="handleDelete(getRowEntity(scope))">
               {{ WebI18n.get().Delete }}
             </ElLink>
             <!-- 自定义操作列后置插槽 -->
-            <slot
-              v-if="scope.$index >= 0"
-              :data="getRowEntity(scope)"
-              :index="scope.$index as number"
-              name="endRow"
-            />
+            <slot v-if="scope.$index >= 0" :data="getRowEntity(scope)" :index="scope.$index as number" name="endRow" />
           </div>
         </template>
       </ElTableColumn>
       <template #empty>
-        <img
-          alt=""
-          src="../../assets/img/empty.svg"
-          style="width: 80px"
-        >
+        <img alt="" src="../../assets/img/empty.svg" style="width: 80px">
         <div>{{ emptyText || modelConfig.tableEmptyText || WebI18n.get().NoData }}</div>
       </template>
     </ElTable>
     <div class="a-table-footer">
       <div class="left">
         <slot name="beforePage" />
-        <APage
-          v-if="!disablePage && hook" :response="hook.response.value" class="a-table-page"
-          @changed="hook.onPageChanged($event)"
-        />
+        <APage v-if="!disablePage && hook" :response="hook.response.value" class="a-table-page"
+          @changed="hook.onPageChanged($event)" />
         <slot name="afterPage" />
       </div>
       <div class="right">
@@ -1392,7 +1242,7 @@ function onSearch() {
 
     .a-table-toolbar-left {
 
-      .el-button + .el-button {
+      .el-button+.el-button {
         margin-left: 5px;
       }
     }
@@ -1412,7 +1262,7 @@ function onSearch() {
         justify-content: flex-end;
       }
 
-      .el-button + .el-button {
+      .el-button+.el-button {
         margin-left: 5px;
       }
 
@@ -1435,7 +1285,7 @@ function onSearch() {
       cursor: not-allowed;
       position: relative;
 
-      > * {
+      >* {
         user-select: none;
         filter: blur(1px);
       }
