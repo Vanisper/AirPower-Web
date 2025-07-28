@@ -120,8 +120,9 @@ export class FeedbackUtil {
    * @param message 消息
    * @param title 标题
    * @param type 类型
+   * @param dangerHtml 危险HTML
    */
-  static async showAlert(message: string, title = WebI18n.get().Alert, type: FeedbackType = undefined): Promise<void> {
+  static async showAlert(message: string, title = WebI18n.get().Alert, type: FeedbackType = undefined, dangerHtml = false): Promise<void> {
     await ElMessageBox.alert(
       message,
       title,
@@ -132,6 +133,7 @@ export class FeedbackUtil {
         closeOnPressEscape: true,
         draggable: true,
         overflow: false,
+        dangerouslyUseHTMLString: dangerHtml
       },
     )
   }
