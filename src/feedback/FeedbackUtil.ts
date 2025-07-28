@@ -133,7 +133,7 @@ export class FeedbackUtil {
         closeOnPressEscape: true,
         draggable: true,
         overflow: false,
-        dangerouslyUseHTMLString: dangerHtml
+        dangerouslyUseHTMLString: dangerHtml,
       },
     )
   }
