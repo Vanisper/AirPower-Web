@@ -266,14 +266,6 @@ const props = defineProps({
   },
 
   /**
-   * ### 是否隐藏序号
-   */
-  hideIndex: {
-    type: Boolean,
-    default: false,
-  },
-
-  /**
    * ### 表格字段缓存Key
    */
   fieldCacheKey: {
@@ -1152,7 +1144,6 @@ function onSearch() {
         v-if="showSelect" :reserve-selection="true" :selectable="isSelectable" fixed="left"
         type="selection" width="40"
       />
-      <ElTableColumn v-if="!hideIndex" :label="WebI18n.get().ID || '序号'" fixed="left" type="index" width="60" />
       <!-- 文本数据渲染 -->
       <template v-for="item in showColumnList" :key="item.key">
         <ElTableColumn

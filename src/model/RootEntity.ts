@@ -13,6 +13,12 @@ export class RootEntity extends RootModel implements IEntity {
   @Field({
     label: 'ID',
   })
+  @Table({
+    width: 80,
+    order: 9999,
+    force: true,
+    copy: true,
+  })
   id!: number
 
   /**
