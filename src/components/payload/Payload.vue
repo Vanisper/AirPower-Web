@@ -45,7 +45,8 @@ const payloadLabel = computed(() => {
 <template>
   <ElLink
     class="a-payload"
-    underline="never" @click="show()"
+    underline="never"
+    @click="show()"
   >
     {{ payloadLabel }}
   </ElLink>

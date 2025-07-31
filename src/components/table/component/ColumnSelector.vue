@@ -51,7 +51,10 @@ emits('changed', list.value)
 </script>
 
 <template>
-  <AButton icon="SETTING" @click="isShow = true">
+  <AButton
+    icon="SETTING"
+    @click="isShow = true"
+  >
     {{ WebI18n.get().Column }}
   </AButton>
   <div

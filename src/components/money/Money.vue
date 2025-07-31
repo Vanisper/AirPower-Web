@@ -65,7 +65,10 @@ const showMoney = computed(() => {
     <div class="prefix">
       {{ props.prefix }}
     </div>
-    <ACopy :content="showMoney" hide-icon>
+    <ACopy
+      :content="showMoney"
+      hide-icon
+    >
       {{ showMoney }}
     </ACopy>
   </div>
