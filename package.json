@@ -1,7 +1,7 @@
 {
   "name": "@airpower/web",
   "type": "module",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "AirPower-Web",
   "author": {
     "name": "Hamm",
@@ -39,10 +39,10 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "@airpower/enum": "^1.3.0",
-    "@airpower/i18n": "^1.3.0",
-    "@airpower/transformer": "^1.3.0",
-    "@airpower/util": "^1.3.0",
+    "@airpower/enum": "^1.3.3",
+    "@airpower/i18n": "^1.3.3",
+    "@airpower/transformer": "^1.3.3",
+    "@airpower/util": "^1.3.3",
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "1.11.0",
     "element-plus": "^2.10.4",
