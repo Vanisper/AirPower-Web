@@ -76,6 +76,21 @@ export interface ITableColumn extends IBaseField, IElementTableColumn {
   prefixText?: string
 
   /**
+   * ### 是否是图片列
+   */
+  image?: boolean
+
+  /**
+   * ### 图片宽度
+   */
+  imageWidth?: number
+
+  /**
+   * ### 图片高度
+   */
+  imageHeight?: number
+
+  /**
    * ### 是否显示颜色状态灯
    */
   color?: boolean

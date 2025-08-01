@@ -131,7 +131,14 @@ const props = defineProps({
 })
 
 const emits = defineEmits<{
+  /**
+   * ### 上传成功事件
+   */
   uploaded: [file: F]
+
+  /**
+   * ### 删除成功事件
+   */
   removed: []
 }>()
 

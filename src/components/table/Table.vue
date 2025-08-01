@@ -31,7 +31,7 @@ import { QueryRequestPage } from '../../model/query/QueryRequestPage'
 import { QuerySort } from '../../model/query/QuerySort'
 import { PermissionAction } from '../../permission/PermissionAction'
 import { PermissionUtil } from '../../permission/PermissionUtil'
-import { AButton, ADateTime, ADesensitize, AMoney, APage, APayload, APhone } from '../index'
+import { AButton, ADateTime, ADesensitize, AImage, AMoney, APage, APayload, APhone } from '../index'
 import { ColumnSelector, CopyColumn, EnumColumn } from './component'
 import { useTableButton } from './useTableButton'
 import { useTableColumn } from './useTableColumn'
@@ -1216,6 +1216,12 @@ function onSearch() {
                 :column="item"
                 :data="scope.row"
                 :dictionary="getDictionary(EntityClass, item.key)!"
+              />
+              <AImage
+                v-else-if="item.image"
+                :src="getValue(scope, item.key)"
+                :width="item.imageWidth"
+                :height="item.imageHeight"
               />
               <APhone
                 v-else-if="item.phone"
