@@ -76,6 +76,11 @@ const props = defineProps<{
   treeList?: boolean
 
   /**
+   * ### 是否隐藏添加按钮
+   */
+  hideAdd?: boolean
+
+  /**
    * ### 搜索前的拦截方法
    * 参数为发起请求的数据,请处理后返回
    *
@@ -223,6 +228,7 @@ async function onAdd() {
       ctrl-width="60px"
       hide-delete
       hide-edit
+      :hide-add="hideAdd"
       hide-field-selector
     >
       <template
