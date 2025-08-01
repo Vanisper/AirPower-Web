@@ -1220,8 +1220,8 @@ function onSearch() {
               <AImage
                 v-else-if="item.image"
                 :src="getValue(scope, item.key)"
-                :width="item.imageWidth"
-                :height="item.imageHeight"
+                :width="item.imageWidth || 40"
+                :height="item.imageHeight || 40"
               />
               <APhone
                 v-else-if="item.phone"

@@ -338,7 +338,10 @@ init()
       align-items: center;
       display: flex;
       color: #aaa;
-      font-size: 14px;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
