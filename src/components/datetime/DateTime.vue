@@ -16,7 +16,7 @@ const props = defineProps({
    */
   date: {
     type: Date,
-    default: () => new Date(),
+    default: undefined,
   },
 
   /**
