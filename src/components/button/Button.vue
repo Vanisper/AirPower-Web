@@ -14,7 +14,7 @@ import {
   TopRight,
   Upload,
 } from '@element-plus/icons-vue'
-import { ElButton } from 'element-plus'
+import { ElButton, ElLink } from 'element-plus'
 import { computed } from 'vue'
 import { WebConfig } from '../../config/WebConfig'
 import { PermissionUtil } from '../../permission/PermissionUtil'
