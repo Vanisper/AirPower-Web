@@ -103,6 +103,9 @@ const isDisabled: Ref<boolean> = computed(() => {
   return false
 })
 
+/**
+ * ### 图标
+ */
 const icon: Ref<Component | string> = computed(() => {
   switch (props.icon) {
     case 'ADD':
