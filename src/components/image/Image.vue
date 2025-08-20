@@ -6,6 +6,7 @@ import type { RootEntity } from '../../model/RootEntity'
 import { Transformer } from '@airpower/transformer'
 import { FileUtil } from '@airpower/util'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
+import { ElIcon, ElImage, ElUpload } from 'element-plus'
 import { computed, ref, watch } from 'vue'
 import { WebConfig } from '../../config/WebConfig'
 import { FeedbackUtil } from '../../feedback/FeedbackUtil'
@@ -253,7 +254,6 @@ function onUploadSuccess(response: { code: number, data: { url: string } }) {
   }
   onUploadError()
 }
-
 init()
 </script>
 
@@ -262,7 +262,7 @@ init()
     :style="{ width: `${width}px`, height: `${height}px` }"
     class="a-image"
   >
-    <el-image
+    <ElImage
       :preview-src-list="[imageUrl]"
       :src="imageUrl"
       :z-index="99"
@@ -278,14 +278,14 @@ init()
           }}
         </div>
       </template>
-    </el-image>
+    </ElImage>
     <div
       v-if="uploadHeader && upload"
       v-loading="isUploading"
       :class="imageUrl ? 'image-preview-color' : ''"
       class="image-upload"
     >
-      <el-upload
+      <ElUpload
         v-if="!imageUrl"
         :action="uploadUrl"
         :before-upload="beforeUpload"
@@ -302,12 +302,12 @@ init()
       v-if="imageUrl && upload && entity"
       class="action"
     >
-      <el-icon
+      <ElIcon
         v-if="clearable"
         @click="imageRemoved"
       >
         <CircleCloseFilled />
-      </el-icon>
+      </ElIcon>
     </div>
   </div>
 </template>

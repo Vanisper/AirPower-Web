@@ -37,6 +37,9 @@ defineProps({
     default: false,
   },
 
+  /**
+   * ### 头部高度
+   */
   headerHeight: {
     type: Number,
     default: 40,

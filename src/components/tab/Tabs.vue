@@ -1,12 +1,14 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ElTabs } from 'element-plus'
+</script>
 
 <template>
-  <el-tabs
+  <ElTabs
     class="a-tabs"
     type="border-card"
   >
     <slot />
-  </el-tabs>
+  </ElTabs>
 </template>
 
 <style lang="scss" scoped>

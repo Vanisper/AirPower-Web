@@ -75,7 +75,7 @@ function getColumn() {
   if (!props.column || props.column < 1) {
     return 1
   }
-  return Math.min(props.column, 4)
+  return Math.min(props.column, 3)
 }
 
 /**

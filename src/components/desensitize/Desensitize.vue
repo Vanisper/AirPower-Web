@@ -23,7 +23,7 @@ const props = defineProps({
 
   /**
    * ### 脱敏开始保留
-   * 默认使用传入的参数
+   * 默认使用传入 `type` 默认的参数
    */
   head: {
     type: Number,
@@ -32,7 +32,7 @@ const props = defineProps({
 
   /**
    * ### 脱敏末尾保留
-   * 默认使用传入的参数
+   * 默认使用传入 `type` 默认的参数
    */
   tail: {
     type: Number,
@@ -48,6 +48,9 @@ const props = defineProps({
   },
 })
 
+/**
+ * ### 当前是否脱敏
+ */
 const isDesensitize = ref(true)
 
 /**

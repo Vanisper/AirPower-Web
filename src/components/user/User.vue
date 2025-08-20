@@ -2,7 +2,7 @@
 import type { PropType } from 'vue'
 import type { IUser } from '../../interface/IUser'
 import { SwitchButton } from '@element-plus/icons-vue'
-import { ElMessageBox } from 'element-plus'
+import { ElButton, ElIcon, ElImage, ElMessageBox } from 'element-plus'
 import { computed, ref } from 'vue'
 import defaultAvatar from '../../assets/img/avatar.svg'
 import { WebConfig } from '../../config/WebConfig'
@@ -67,7 +67,7 @@ async function logout() {
       class="a-user-head"
       @click="isDialogShow = true"
     >
-      <el-image :src="userAvatar" />
+      <ElImage :src="userAvatar" />
     </div>
     <div
       v-if="isDialogShow"
@@ -87,16 +87,16 @@ async function logout() {
             </slot>
           </div>
           <div class="a-user-logout">
-            <el-button
+            <ElButton
               text
               type="danger"
               @click="logout"
             >
-              <el-icon>
+              <ElIcon>
                 <SwitchButton />
-              </el-icon>
+              </ElIcon>
               {{ WebI18n.get().Logout }}
-            </el-button>
+            </ElButton>
           </div>
         </div>
         <div class="a-user-body">

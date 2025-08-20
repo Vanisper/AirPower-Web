@@ -20,6 +20,10 @@ const props = defineProps({
     default: false,
   },
 })
+
+/**
+ * 引入复制方法
+ */
 const { toClipboard } = useClipboard()
 
 /**

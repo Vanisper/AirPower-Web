@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { IJson } from '@airpower/transformer'
+import { ElProgress } from 'element-plus'
 import { ref } from 'vue'
 import { DialogProps } from '../../../dialog/DialogProps'
 import { WebFileUtil } from '../../../file/WebFileUtil'
@@ -103,9 +104,8 @@ createExportTask()
   >
     <div class="tips">
       <template v-if="isLoading">
-        <el-progress
+        <ElProgress
           :duration="1"
-          :format="() => { }"
           :indeterminate="true"
           :percentage="100"
           :stroke-width="10"

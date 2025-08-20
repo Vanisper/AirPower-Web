@@ -3,6 +3,7 @@ import type { TreeInstance } from 'element-plus'
 import type { Ref } from 'vue'
 import type { ITree } from '../../interface/ITree'
 import type { RootEntity } from '../../model/RootEntity'
+import { ElInput, ElTree } from 'element-plus'
 import { computed, ref, watch } from 'vue'
 import { WebConfig } from '../../config/WebConfig'
 import { APanel } from '../index'
@@ -153,10 +154,10 @@ function treeSelectChanged(row: T) {
  * @param value 输入的内容
  * @param node 节点
  */
-function filterNode(value: string, node: T): boolean {
+function filterNode(value: any, node: any): boolean {
   if (!value)
     return true
-  return node.name?.indexOf(value) !== -1
+  return (node as T).name?.indexOf(value as string) !== -1
 }
 </script>
 
@@ -182,13 +183,13 @@ function filterNode(value: string, node: T): boolean {
           v-if="searchable"
           class="search-box"
         >
-          <el-input
+          <ElInput
             v-model="searchKeyword"
             :placeholder="placeholder"
             clearable
           />
         </div>
-        <el-tree
+        <ElTree
           ref="treeRef"
           v-loading="isTreeLoading"
           :current-node-key="currentData ? currentData.id : 0"

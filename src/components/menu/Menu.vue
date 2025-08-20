@@ -1,6 +1,7 @@
 <script generic="T extends IMenu & RootEntity" lang="ts" setup>
 import type { IMenu } from '../../interface/IMenu'
 import type { RootEntity } from '../../model/RootEntity'
+import { ElMenu } from 'element-plus'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import ChildMenu from './ChildMenu.vue'
@@ -50,14 +51,14 @@ watch(
 </script>
 
 <template>
-  <el-menu
+  <ElMenu
     :default-active="defaultMenu"
     :router="true"
     :unique-opened="uniqueOpened"
     class="a-menu-tree"
   >
     <ChildMenu :menu-list="menuList" />
-  </el-menu>
+  </ElMenu>
 </template>
 
 <style lang="scss">

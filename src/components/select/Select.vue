@@ -1,6 +1,7 @@
 <script generic="T extends IPayload" lang="ts" setup>
 import type { Component, ModelRef, PropType } from 'vue'
 import type { IPayload } from '../payload'
+import { ElButton } from 'element-plus'
 import { computed } from 'vue'
 import { DialogUtil } from '../../dialog/DialogUtil'
 
@@ -100,20 +101,20 @@ async function onClear() {
       v-if="!disabled"
       #append
     >
-      <el-button
+      <ElButton
         v-if="!result"
         :disabled="disabled"
         @click="onSelect()"
       >
         {{ selectLabel }}
-      </el-button>
-      <el-button
+      </ElButton>
+      <ElButton
         v-else
         :disabled="disabled"
         @click=" onClear() "
       >
         {{ clearLabel }}
-      </el-button>
+      </ElButton>
     </template>
   </el-input>
 </template>
