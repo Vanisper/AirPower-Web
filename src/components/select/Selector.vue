@@ -8,6 +8,7 @@ import type { QueryRequestPage } from '../../model/query/QueryRequestPage'
 import type { RootEntity } from '../../model/RootEntity'
 import type { AbstractCurdService } from '../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../service/type'
+import { ElLink } from 'element-plus'
 import { computed, useSlots } from 'vue'
 import { getSearchConfigList } from '../../decorator/@Search/Search'
 import { getTableConfigList } from '../../decorator/@Table/Table'
@@ -124,6 +125,7 @@ const props = defineProps<{
     onCancel: () => void
   }
 }>()
+
 const slots: IJson = useSlots()
 const { entity, service } = props
 
@@ -218,6 +220,7 @@ async function onAdd() {
       :column-list="fields"
       :data-list="unPaginate || treeList ? list : response.list"
       :entity="entity"
+      :hide-add="hideAdd"
       :hide-ctrl="props.props.isMultiple"
       :on-add="onAdd"
       :on-search="onSearch"
@@ -228,7 +231,6 @@ async function onAdd() {
       ctrl-width="60px"
       hide-delete
       hide-edit
-      :hide-add="hideAdd"
       hide-field-selector
     >
       <template
