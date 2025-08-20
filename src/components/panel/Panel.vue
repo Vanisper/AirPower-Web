@@ -7,7 +7,6 @@ import { useRouter } from 'vue-router'
 const props = defineProps({
   /**
    * ### 卡片的标题
-   * 默认读取当前路由元数据里的 `name` 属性
    */
   title: {
     type: String,
