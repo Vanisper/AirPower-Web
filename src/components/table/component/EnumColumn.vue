@@ -7,7 +7,7 @@ import { computed } from 'vue'
 import { WebColor } from '../../../enum/WebColor'
 
 const props = defineProps<{
-  column: ITableColumn
+  column: ITableColumn<E>
   data: E
   dictionary: WebEnumConstructor
 }>()

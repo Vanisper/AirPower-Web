@@ -5,7 +5,7 @@ import { computed } from 'vue'
 import { ACopy } from '../../copy'
 
 const props = defineProps<{
-  column: ITableColumn
+  column: ITableColumn<E>
   data: E
 }>()
 

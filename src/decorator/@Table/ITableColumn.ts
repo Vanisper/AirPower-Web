@@ -1,4 +1,5 @@
 import type { DateTimeFormatter, DesensitizeType } from '@airpower/util'
+import type { RootEntity } from '../../model/RootEntity'
 import type { IBaseField } from '../common/IBaseField'
 import type { IElementTableColumn } from './IElementTableColumn'
 
@@ -7,7 +8,7 @@ import type { IElementTableColumn } from './IElementTableColumn'
  *
  * @author Hamm.cn
  */
-export interface ITableColumn extends IBaseField, IElementTableColumn {
+export interface ITableColumn<E extends RootEntity> extends IBaseField, IElementTableColumn {
   /**
    * ### 是否是金额
    */
@@ -104,4 +105,10 @@ export interface ITableColumn extends IBaseField, IElementTableColumn {
    * ### 是否是日期时间
    */
   datetime?: boolean | DateTimeFormatter
+
+  /**
+   * ### 格式化
+   * @param row 行数据
+   */
+  formatter?: (row: E) => string
 }

@@ -37,7 +37,7 @@ const props = defineProps<{
   /**
    * ### 选择器使用的字段列表
    */
-  columnList?: Array<ITableColumn>
+  columnList?: Array<ITableColumn<E>>
 
   /**
    * ### `Editor`

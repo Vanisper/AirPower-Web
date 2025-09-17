@@ -1,5 +1,5 @@
 import type { ITransformerConstructor, TransformerField } from '@airpower/transformer'
-import type { RootModel } from '../../model/RootModel'
+import type { RootEntity } from '../../model/RootEntity'
 import type { FieldConfigOptionalKey } from '../@Field/type'
 import type { ITableColumn } from './ITableColumn'
 import { DecoratorUtil } from '@airpower/transformer'
@@ -14,13 +14,13 @@ const KEY = '[Table]'
  * @param config 表格列的配置
  */
 export function Table<
-  M extends RootModel,
+  E extends RootEntity,
 >(
-  config: FieldConfigOptionalKey<ITableColumn> = {},
+  config: FieldConfigOptionalKey<ITableColumn<E>> = {},
 ) {
   return (
-    instance: M,
-    field: keyof M,
+    instance: E,
+    field: keyof E,
   ) => {
     config.key = field.toString()
     DecoratorUtil.setFieldConfig(instance, field, KEY, config)
@@ -33,11 +33,11 @@ export function Table<
  * @param field 属性名
  */
 export function getTableConfig<
-  M extends RootModel,
+  E extends RootEntity,
 >(
-  Class: ITransformerConstructor<M>,
-  field: TransformerField<M>,
-): ITableColumn {
+  Class: ITransformerConstructor<E>,
+  field: TransformerField<E>,
+): ITableColumn<E> {
   return DecoratorUtil.getFieldConfig(Class, field, KEY, true) || {}
 }
 
@@ -46,10 +46,10 @@ export function getTableConfig<
  * @param Class 目标类
  */
 export function getTableConfigList<
-  M extends RootModel,
+  E extends RootEntity,
 >(
-  Class: ITransformerConstructor<M>,
-): Array<ITableColumn> {
+  Class: ITransformerConstructor<E>,
+): Array<ITableColumn<E>> {
   const fieldList = Object.keys(new Class())
   const list = fieldList.map(field => getTableConfig(Class, field)).filter(item => !!item.key)
   return list.sort((a, b) => (b.order || 0) - (a.order || 0))

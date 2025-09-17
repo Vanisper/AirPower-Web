@@ -21,7 +21,7 @@ export function useTableColumn<E extends RootEntity>(params: {
   /**
    * ### 自定义字段
    */
-  customColumns: Array<ITableColumn>
+  customColumns: Array<ITableColumn<E>>
 
   /**
    * ### 字段缓存key
@@ -53,7 +53,7 @@ export function useTableColumn<E extends RootEntity>(params: {
   /**
    * ### 所有的字段
    */
-  const allColumnList: Ref<Array<ITableColumn>> = ref([])
+  const allColumnList: Ref<Array<ITableColumn<E>>> = ref([])
 
   let list = customColumns
   if (list.length === 0) {
@@ -72,7 +72,7 @@ export function useTableColumn<E extends RootEntity>(params: {
   /**
    * ### 显示的字段
    */
-  const showColumnList: Ref<ITableColumn[]> = ref([])
+  const showColumnList: Ref<ITableColumn<E>[]> = ref([])
 
   /**
    * ### 字段选择器是否启用

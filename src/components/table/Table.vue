@@ -163,7 +163,7 @@ const props = defineProps({
    * 如传入 则优先使用
    */
   columnList: {
-    type: Array<ITableColumn>,
+    type: Array<ITableColumn<E>>,
     default: () => [],
   },
 
@@ -1211,17 +1211,20 @@ function onSearch() {
                 v-if="item.prefixText"
                 style="color: #aaa; margin-right: 3px"
               >{{ item.prefixText }}</span>
+              <template v-if="item.formatter">
+                {{ item.formatter(getValue(scope, item.key)) }}
+              </template>
               <EnumColumn
-                v-if="getDictionary(EntityClass, item.key)"
+                v-else-if="getDictionary(EntityClass, item.key)"
                 :column="item"
                 :data="scope.row"
                 :dictionary="getDictionary(EntityClass, item.key)!"
               />
               <AImage
                 v-else-if="item.image"
+                :height="item.imageHeight || 40"
                 :src="getValue(scope, item.key)"
                 :width="item.imageWidth || 40"
-                :height="item.imageHeight || 40"
               />
               <APhone
                 v-else-if="item.phone"
@@ -1395,7 +1398,7 @@ function onSearch() {
 
     .a-table-toolbar-left {
 
-      .el-button+.el-button {
+      .el-button + .el-button {
         margin-left: 5px;
       }
     }
@@ -1415,7 +1418,7 @@ function onSearch() {
         justify-content: flex-end;
       }
 
-      .el-button+.el-button {
+      .el-button + .el-button {
         margin-left: 5px;
       }
 
@@ -1438,7 +1441,7 @@ function onSearch() {
       cursor: not-allowed;
       position: relative;
 
-      >* {
+      > * {
         user-select: none;
         filter: blur(1px);
       }

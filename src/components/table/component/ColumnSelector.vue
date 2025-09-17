@@ -10,7 +10,7 @@ import { WebI18n } from '../../../i18n/WebI18n'
 import { AButton } from '../../button'
 
 const props = defineProps<{
-  columnList: Array<ITableColumn>
+  columnList: Array<ITableColumn<E>>
   entityClass: ITransformerConstructor<E>
 }>()
 
@@ -27,7 +27,7 @@ const list: Ref<string[]> = ref([])
  * @param status 是否即将选择
  * @param config 配置
  */
-function changed(status: boolean, config: ITableColumn) {
+function changed(status: boolean, config: ITableColumn<E>) {
   if (config.force) {
     return
   }
