@@ -1221,7 +1221,7 @@ function onSearch() {
                 style="color: #aaa; margin-right: 3px"
               >{{ item.prefixText }}</span>
               <template v-if="item.formatter">
-                {{ item.formatter(getValue(scope, item.key)) }}
+                {{ item.formatter(getRowEntity(scope)) }}
               </template>
               <EnumColumn
                 v-else-if="getDictionary(EntityClass, item.key)"
@@ -1309,7 +1309,7 @@ function onSearch() {
               :disabled="button.disabled ? button.disabled(getRowEntity(scope)) : false"
               :type="button.dangerButton ? 'danger' : button.warningButton ? 'warning' : 'default'"
               underline="never"
-              @click="handleDelete(getRowEntity(scope))"
+              @click="button.click(getRowEntity(scope))"
             >
               {{ button.label }}
             </ElLink>
