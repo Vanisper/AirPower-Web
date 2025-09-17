@@ -14,6 +14,7 @@ import type { RootEntity } from '../../model/RootEntity'
 import type { AbstractCurdService } from '../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../service/type'
 import type { IPayload } from '../index'
+import type { ITableButton } from './TableButton'
 import { Transformer } from '@airpower/transformer'
 import { DateTimeFormatter } from '@airpower/util'
 import { ElInput, ElLink, ElMessageBox, ElOption, ElSelect, ElTable, ElTableColumn } from 'element-plus'
@@ -37,6 +38,14 @@ import { useTableButton } from './useTableButton'
 import { useTableColumn } from './useTableColumn'
 
 const props = defineProps({
+  /**
+   * ### 按钮
+   */
+  buttons: {
+    type: Array as PropType<Array<ITableButton<E>>>,
+    default: () => [],
+  },
+
   /**
    * ### 直接使用表格Hook
    * 请注意，将不会再触发一些事件，请使用 Hook 的前后置等拦截方法处理
@@ -1294,6 +1303,16 @@ function onSearch() {
               :index="scope.$index as number"
               name="customRow"
             />
+            <ElLink
+              v-for="(button, index) in buttons"
+              :key="index"
+              :disabled="button.disabled ? button.disabled(getRowEntity(scope)) : false"
+              :type="button.dangerButton ? 'danger' : button.warningButton ? 'warning' : 'default'"
+              underline="never"
+              @click="handleDelete(getRowEntity(scope))"
+            >
+              {{ button.label }}
+            </ElLink>
             <ElLink
               v-if="showAddRow"
               :disabled="isAddRowDisabled(getRowEntity(scope))"
