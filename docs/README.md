@@ -21,3 +21,6 @@ cnpm install @airpower/web
 - [国际化](./i18n.md)
 - [Hooks](./hooks.md)
 
+## ⏰ 欢迎反馈
+
+上述文档几乎使用 `AI` 生成，可能存在很多不准确的地方，欢迎你来修改和贡献，和我们一起完善～
