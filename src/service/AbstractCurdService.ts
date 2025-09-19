@@ -88,7 +88,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    * @param apiUrl `可选` 自定义请求URL
    */
   async getPage(request: QueryRequest<E>, apiUrl = this.urlGetPage): Promise<QueryResponsePage<E>> {
-    const responsePage: QueryResponsePage<E> = await this.api(apiUrl).post(request, QueryResponsePage<E>)
+    const responsePage: QueryResponsePage<E> = await this.api(apiUrl).requestModel(request, QueryResponsePage<E>)
     responsePage.list = responsePage.list.map(json => Transformer.parse(json, this.entityClass))
     return responsePage
   }
@@ -99,7 +99,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    * @param apiUrl `可选` 自定义请求URL
    */
   async getList(request: QueryRequest<E>, apiUrl = this.urlGetList): Promise<E[]> {
-    return this.api(apiUrl).postArray(request, this.entityClass)
+    return this.api(apiUrl).requestModelList(request, this.entityClass)
   }
 
   /**
@@ -108,7 +108,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    * @param apiUrl `可选` 自定义请求URL
    */
   async getTreeList(request: QueryRequest<E>, apiUrl = this.urlGetTreeList): Promise<E[]> {
-    return this.api(apiUrl).postArray(request, this.entityClass)
+    return this.api(apiUrl).requestModelList(request, this.entityClass)
   }
 
   /**
@@ -117,7 +117,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    * @param apiUrl `可选` 自定义请求URL
    */
   async getDetail(id: number, apiUrl = this.urlGetDetail): Promise<E> {
-    return this.api(apiUrl).post(this.newEntityInstance(id), this.entityClass)
+    return this.api(apiUrl).requestModel(this.newEntityInstance(id), this.entityClass)
   }
 
   /**
@@ -127,7 +127,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    * @param apiUrl `可选` 自定义请求URL
    */
   async add(data: E, message?: string, apiUrl = this.urlAdd): Promise<number> {
-    const saved = await this.api(apiUrl).post(data, this.entityClass)
+    const saved = await this.api(apiUrl).requestModel(data, this.entityClass)
     FeedbackUtil.toastSuccess(message || WebI18n.get().AddSuccess)
     return saved.id
   }

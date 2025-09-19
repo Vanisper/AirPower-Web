@@ -136,32 +136,6 @@ export class Http {
   }
 
   /**
-   * ### 发送请求并获取转换后的模型
-   * @param postData 请求的数据
-   * @param parseClass 返回的模型
-   */
-  async post<REQ extends Transformer, RES extends Transformer>(
-    postData: REQ | REQ[] | undefined,
-    parseClass: ITransformerConstructor<RES>,
-  ): Promise<RES> {
-    const result = await this.request(postData)
-    return Transformer.parse(result, parseClass)
-  }
-
-  /**
-   * ### 发送请求并获取转换后的模型数组
-   * @param postData 请求的数据
-   * @param parseClass 返回的模型数组
-   */
-  async postArray<REQ extends Transformer, RES extends Transformer>(
-    postData: REQ | REQ[] | undefined,
-    parseClass: ITransformerConstructor<RES>,
-  ): Promise<RES[]> {
-    const result = await this.request(postData)
-    return (result as IJson[]).map(item => Transformer.parse(item, parseClass))
-  }
-
-  /**
    * ### 是否直接抛出错误
    * @param isThrowError 是否回调错误
    */
@@ -171,10 +145,47 @@ export class Http {
   }
 
   /**
-   * ### POST 发送模型/模型数组并
+   * ### 无返回发送请求
    * @param postData 发送的数据模型(数组)
    */
-  async request<T extends Transformer>(postData?: T | T[]): Promise<IJson | IJson[]> {
+  async request<REQ extends Transformer>(
+    postData: REQ | REQ[] | undefined,
+  ): Promise<void> {
+    await this.requestRaw(postData)
+  }
+
+  /**
+   * ### 发送请求并获取转换后的模型
+   * @param postData 发送的数据模型(数组)
+   * @param parseClass 返回的模型
+   */
+  async requestModel<REQ extends Transformer, RES extends Transformer>(
+    postData: REQ | REQ[] | undefined,
+    parseClass: ITransformerConstructor<RES>,
+  ): Promise<RES> {
+    const result = await this.requestRaw(postData)
+    return Transformer.parse(result, parseClass)
+  }
+
+  /**
+   * ### 发送请求并获取转换后的模型数组
+   * @param postData 发送的数据模型(数组)
+   * @param parseClass 返回的模型数组
+   */
+  async requestModelList<REQ extends Transformer, RES extends Transformer>(
+    postData: REQ | REQ[] | undefined,
+    parseClass: ITransformerConstructor<RES>,
+  ): Promise<RES[]> {
+    const result = await this.requestRaw(postData)
+    return (result as IJson[]).map(item => Transformer.parse(item, parseClass))
+  }
+
+  /**
+   * ### POST 发送请求并获取原始 `data`
+   * @param postData 发送的数据模型(数组)
+   * @returns 响应的原始 `data`
+   */
+  async requestRaw<REQ extends Transformer>(postData: REQ | REQ[] | undefined): Promise<IJson | IJson[]> {
     let body = {}
     if (postData) {
       if (Array.isArray(postData)) {
@@ -184,12 +195,27 @@ export class Http {
         body = postData.toJson()
       }
     }
-    this.setMethod(HttpMethod.POST)
+    return this.send({
+      body,
+    })
+  }
+
+  /**
+   * 发送请求
+   * @param request 请求
+   * @param request.body 请求体
+   * @param request.params 请求参数
+   * @returns 响应的JSON
+   */
+  async send(request: {
+    body?: unknown
+    params?: unknown
+  }): Promise<IJson | IJson[]> {
     return new Promise((resolve, reject) => {
       if (this.loadingHandler) {
         this.loadingHandler(true)
       }
-      this.send(body).then((response) => {
+      this.axiosRequest(request).then((response) => {
         if (response.code === WebConfig.unAuthorizeCode) {
           // 需要登录
           if (this.isThrowError || !this.errorHandler) {
@@ -228,17 +254,22 @@ export class Http {
   /**
    * ### 发送请求
    *
-   * @param body `可选` 请求体
-   * @see request() 直接发送 `POST`
-   * @see get() 直接发送 `GET`
+   * @param request 请求
+   * @param request.body 请求体
+   * @param request.params 请求参数
    */
-  private async send(body?: unknown): Promise<HttpResponse> {
+  private async axiosRequest(request: {
+    body?: unknown
+    params?: unknown
+  }): Promise<HttpResponse> {
+    const { body, params } = request
     const axiosConfig: AxiosRequestConfig = {}
     axiosConfig.url = this.url
     axiosConfig.headers = this.headers as IJson
     axiosConfig.timeout = this.timeout
     axiosConfig.method = this.method
     axiosConfig.data = body
+    axiosConfig.params = params
     axiosConfig.withCredentials = this.widthCookie
     const response = new HttpResponse()
     try {

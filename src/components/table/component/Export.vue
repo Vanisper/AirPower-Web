@@ -45,7 +45,7 @@ async function startLoop(fileCode: string) {
     exportModel.fileCode = fileCode
     const downloadPath = (await Http.create(props.param.queryExportUrl)
       .throwError()
-      .request(exportModel)) as unknown as string
+      .requestRaw(exportModel)) as unknown as string
     isLoading.value = false
     exportFilePath.value = WebFileUtil.getStaticFileUrl(downloadPath)
   }
@@ -77,9 +77,7 @@ async function createExportTask() {
 
     // 导出数据无需分页
     (exportRequest as IJson).page = undefined
-    const fileCode: string = (await Http.create(props.param.createExportTaskUrl).request(
-      exportRequest,
-    )) as unknown as string
+    const fileCode: string = (await Http.create(props.param.createExportTaskUrl).requestRaw(exportRequest)) as unknown as string
     // 轮询任务结果
     await startLoop(fileCode)
   }
