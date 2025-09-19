@@ -149,7 +149,7 @@ export class Http {
    * @param postData 发送的数据模型(数组)
    */
   async request<REQ extends Transformer>(
-    postData: REQ | REQ[] | undefined,
+    postData?: REQ | REQ[],
   ): Promise<void> {
     await this.requestRaw(postData)
   }
@@ -185,7 +185,7 @@ export class Http {
    * @param postData 发送的数据模型(数组)
    * @returns 响应的原始 `data`
    */
-  async requestRaw<REQ extends Transformer>(postData: REQ | REQ[] | undefined): Promise<IJson | IJson[]> {
+  async requestRaw<REQ extends Transformer>(postData?: REQ | REQ[]): Promise<IJson | IJson[]> {
     let body = {}
     if (postData) {
       if (Array.isArray(postData)) {
