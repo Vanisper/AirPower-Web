@@ -207,7 +207,7 @@ export class Http {
    * @param request.params 请求参数
    * @returns 响应的JSON
    */
-  async send(request: {
+  async send(request?: {
     body?: unknown
     params?: unknown
   }): Promise<IJson | IJson[]> {
@@ -258,11 +258,14 @@ export class Http {
    * @param request.body 请求体
    * @param request.params 请求参数
    */
-  private async axiosRequest(request: {
+  private async axiosRequest(request?: {
     body?: unknown
     params?: unknown
   }): Promise<HttpResponse> {
-    const { body, params } = request
+    if (!request) {
+      request = {}
+    }
+    const { body = undefined, params = undefined } = request
     const axiosConfig: AxiosRequestConfig = {}
     axiosConfig.url = this.url
     axiosConfig.headers = this.headers as IJson
