@@ -44,7 +44,7 @@ cnpm install @airpower/web
 
 ## 📖 参考文档
 
-计划中，请稍后。
+使用前建议阅读我们的 [开发文档](./docs/README.md) 或 [源代码](./src)。
 
 ## ⏰ 欢迎反馈
 

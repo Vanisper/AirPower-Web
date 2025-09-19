@@ -1,4 +1,3 @@
-import type { IEntity } from '../interface/IEntity'
 import { Field } from '../decorator/@Field/Field'
 import { Table } from '../decorator/@Table/Table'
 import { DisableEnum } from '../enum/DisableEnum'
@@ -9,7 +8,7 @@ import { RootModel } from './RootModel'
  *
  * @author Hamm.cn
  */
-export class RootEntity extends RootModel implements IEntity {
+export class RootEntity extends RootModel {
   @Field({
     label: 'ID',
   })

@@ -1,5 +1,6 @@
 import type { Router, RouteRecordRaw } from 'vue-router'
 import type { IMenu } from '../interface/IMenu'
+import type { RootEntity } from '../model/RootEntity'
 import { createRouter, createWebHistory } from 'vue-router'
 import { WebConfig } from '../config/WebConfig'
 import { FeedbackUtil } from '../feedback/FeedbackUtil'
@@ -32,7 +33,7 @@ export class RouterUtil {
    * @param parentRouter `可选` 父级路由 默认 `admin`
    * @param menuCacheKey `可选` 缓存Key 默认 `AirPowerMenuList`
    */
-  static initVueRouter(menuList: IMenu[], components: Record<string, () => Promise<unknown>> = {}, componentsDirectory = '/src/view', parentRouter = 'admin', menuCacheKey = 'AirPowerMenuList'): void {
+  static initVueRouter(menuList: Array<IMenu & RootEntity>, components: Record<string, () => Promise<unknown>> = {}, componentsDirectory = '/src/view', parentRouter = 'admin', menuCacheKey = 'AirPowerMenuList'): void {
     this.components = components
     this.componentsDirectory = componentsDirectory
     localStorage.setItem(menuCacheKey, JSON.stringify(menuList))
@@ -73,7 +74,7 @@ export class RouterUtil {
    * @param menuList 菜单列表
    * @param parentRouter 父级路由名称
    */
-  private static addRouterAsync(menuList: IMenu[], parentRouter: string): void {
+  private static addRouterAsync(menuList: Array<IMenu & RootEntity>, parentRouter: string): void {
     menuList.forEach((item) => {
       if (item.children && item.children.length > 0) {
         this.addRouterAsync(item.children, parentRouter)
@@ -106,7 +107,7 @@ export class RouterUtil {
    * @param menuCacheKey 提供缓存的Key
    * @param menuList `可选 子菜单,好兄弟,你不用传`
    */
-  private static reloadCacheMenuList(menuCacheKey: string, menuList?: IMenu[]): void {
+  private static reloadCacheMenuList(menuCacheKey: string, menuList?: Array<IMenu & RootEntity>): void {
     if (!this.router) {
       return
     }

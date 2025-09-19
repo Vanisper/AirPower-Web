@@ -1,4 +1,4 @@
-<script generic="E extends RootEntity, T extends ITree, EM extends IEnum" lang="ts" setup>
+<script generic="E extends RootEntity, T extends ITree & E, EM extends IEnum" lang="ts" setup>
 import type { IEnum } from '@airpower/enum'
 import type { EnumKey } from '@airpower/enum/dist/enum/type'
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'

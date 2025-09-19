@@ -74,7 +74,7 @@ const props = defineProps({
    * 优先级: `AInput` 传入 > `@Form`
    */
   tree: {
-    type: Array<ITree>,
+    type: Array<ITree & E>,
     default: undefined,
   },
 })
