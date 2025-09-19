@@ -6,7 +6,7 @@ export default config({
     semi: false,
   },
   gitignore: false,
-  ignores: ['dist', '.idea', '.vscode'],
+  ignores: ['dist', '.idea', '.vscode', 'docs'],
   vue: {
     overrides: {
       'vue/block-order': ['error', {
