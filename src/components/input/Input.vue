@@ -172,11 +172,6 @@ function emitClear() {
 const isClearButtonShow = ref(props.showClear)
 
 /**
- * ### 占位内容
- */
-const placeholderRef = ref(props.placeholder)
-
-/**
  * ### 字段的表单配置信息
  */
 const formConfig: Ref<IFormField | undefined> = ref(undefined)
@@ -190,11 +185,6 @@ const fieldConfig: Ref<IFieldConfig | undefined> = ref(undefined)
  * ### 字段名称
  */
 const fieldName = ref('')
-
-/**
- * ### 枚举数据
- */
-const dictionary: Ref<IWebEnum<EnumKey>[] | undefined> = ref(undefined)
 
 /**
  * ### Props的value变化
@@ -236,6 +226,34 @@ const getShowFormatter = computed(() => {
 })
 
 /**
+ * ### 字典优先级
+ * 字典优先级: `AInput`传入 > `@Form` > `@Field` > 默认字典
+ */
+const dictionary: Ref<IWebEnum<EnumKey>[] | undefined> = computed(() => props.list ? props.list : (formConfig.value && fieldConfig.value?.dictionary) ? fieldConfig.value.dictionary.toArray() : undefined)
+
+const placeholderRef = computed(() => {
+  if (props.placeholder) {
+    return props.placeholder
+  }
+  if (formConfig.value && formConfig.value.placeholder) {
+    return formConfig.value.placeholder
+  }
+
+  const fieldLabel = fieldConfig.value?.label || ''
+  if (
+    dictionary.value
+    || fieldConfig.value?.dictionary
+    || props.list
+    || props.tree
+    || formConfig.value?.dateType !== undefined
+  ) {
+    // 传入了枚举值
+    return `${WebI18n.get().SelectPlease + fieldLabel}...`
+  }
+  return `${WebI18n.get().InputPlease + fieldLabel}...`
+})
+
+/**
  * ### 获取switch的颜色
  * @param status
  */
@@ -273,6 +291,9 @@ const getInputType = computed(() => {
 watch(props, (newProps) => {
   isClearButtonShow.value = props.showClear
   onPropsValueUpdated(newProps)
+}, {
+  immediate: true,
+  deep: true,
 })
 
 /**
@@ -387,36 +408,10 @@ function initFieldName() {
  */
 function init() {
   initFieldName()
-  // 初始化配置信息
   if (props.entity && fieldName.value) {
     formConfig.value = getFormConfig(props.entity, fieldName.value)
     fieldConfig.value = getFieldConfig(props.entity, fieldName.value)
-
-    if (!placeholderRef.value) {
-      const field = fieldConfig.value.label || getFieldConfig(props.entity, fieldName.value).label || fieldName
-      // 默认生成输入的placeholder
-      placeholderRef.value = `请输入${field}...`
-
-      if (formConfig.value) {
-        // 装饰了FormField
-        if (
-          dictionary.value
-          || fieldConfig.value.dictionary
-          || props.list
-          || props.tree
-          || formConfig.value.dateType !== undefined
-        ) {
-          // 传入了枚举值
-          placeholderRef.value = WebI18n.get().SelectPlease
-        }
-        if (formConfig.value.placeholder) {
-          // 传入了自定义placeholder
-          placeholderRef.value = formConfig.value.placeholder
-        }
-      }
-    }
   }
-  dictionary.value = props.list ? props.list : (formConfig.value && fieldConfig.value?.dictionary) ? fieldConfig.value.dictionary.toArray() : undefined
   if (props.modelValue === undefined && formConfig.value?.defaultValue !== undefined) {
     // 没有初始化的值 但装饰器设置了默认值
     value.value = formConfig.value.defaultValue
