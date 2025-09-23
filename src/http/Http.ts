@@ -35,7 +35,7 @@ export class Http {
   /**
    * ### 是否携带 `Cookies`
    */
-  private widthCookie = false
+  private withCookie = false
 
   /**
    * ### 请求头
@@ -104,7 +104,7 @@ export class Http {
    * ### 允许携带 `Cookies`
    */
   withCredentials(): this {
-    this.widthCookie = true
+    this.withCookie = true
     return this
   }
 
@@ -273,7 +273,7 @@ export class Http {
     axiosConfig.method = this.method
     axiosConfig.data = body
     axiosConfig.params = params
-    axiosConfig.withCredentials = this.widthCookie
+    axiosConfig.withCredentials = this.withCookie
     const response = new HttpResponse()
     try {
       const res = await axios.request(axiosConfig)
