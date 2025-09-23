@@ -259,7 +259,7 @@ async function onAdd() {
     <template #status>
       <APage
         :response="response"
-        @changed="onPageChanged"
+        @change="onPageChanged"
       />
     </template>
   </ADialog>

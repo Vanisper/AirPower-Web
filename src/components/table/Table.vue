@@ -1167,7 +1167,7 @@ function onSearch() {
           v-if="isColumnSelectorEnabled"
           :column-list="allColumnList"
           :entity-class="EntityClass"
-          @changed="updateSelectKeys($event)"
+          @change="updateSelectKeys($event)"
         />
       </div>
     </div>
@@ -1391,7 +1391,7 @@ function onSearch() {
           v-if="!disablePage && hook"
           :response="hook.response.value"
           class="a-table-page"
-          @changed="hook.onPageChanged($event)"
+          @change="hook.onPageChanged($event)"
         />
         <slot name="afterPage" />
       </div>

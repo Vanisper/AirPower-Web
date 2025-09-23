@@ -80,7 +80,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits<{
-  'changed': [value: E]
+  'change': [value: E]
   'update:modelValue': [value: E]
   'blur': []
   'focus': []
@@ -123,7 +123,7 @@ function onChange() {
     ;(injectFormData.value as IJson)[props.field] = val
   }
   emits('update:modelValue', formData!.value)
-  emits('changed', val)
+  emits('change', val)
 }
 </script>
 
@@ -144,7 +144,7 @@ function onChange() {
         :readonly="readonly"
         :tree="tree"
         @blur=" emits('blur') "
-        @changed="onChange"
+        @change="onChange"
         @clear=" emits('clear') "
         @focus=" emits('focus') "
       />

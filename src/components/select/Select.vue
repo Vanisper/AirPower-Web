@@ -64,7 +64,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits<{
-  changed: [data: T | undefined]
+  change: [data: T | undefined]
   clear: []
 }>()
 
@@ -80,12 +80,12 @@ const label = computed(() => result.value?.getPayloadLabel() || props.default)
  */
 async function onSelect() {
   result.value = await DialogUtil.show<T>(props.selector, props.param)
-  emits('changed', result.value)
+  emits('change', result.value)
 }
 
 async function onClear() {
   result.value = undefined
-  emits('changed', result.value)
+  emits('change', result.value)
   emits('clear')
 }
 </script>

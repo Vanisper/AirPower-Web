@@ -135,12 +135,12 @@ const emits = defineEmits<{
   /**
    * ### 上传成功事件
    */
-  uploaded: [file: F]
+  upload: [file: F]
 
   /**
    * ### 删除成功事件
    */
-  removed: []
+  remove: []
 }>()
 
 /**
@@ -184,7 +184,7 @@ uploadHeader.value[WebConfig.authorizationHeaderKey] = WebConfig.getAccessToken(
  */
 function imageRemoved() {
   imageUrl.value = ''
-  emits('removed')
+  emits('remove')
 }
 
 /**
@@ -247,13 +247,14 @@ function onUploadSuccess(response: { code: number, data: { url: string } }) {
     }
     const entityData = Transformer.parse(response.data, props.entity)
     if (entityData && entityData.url) {
-      emits('uploaded', entityData)
+      emits('upload', entityData)
       isUploading.value = false
       return
     }
   }
   onUploadError()
 }
+
 init()
 </script>
 

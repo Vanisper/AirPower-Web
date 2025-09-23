@@ -98,7 +98,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits<{
-  changed: [data: T | undefined]
+  change: [data: T | undefined]
 }>()
 
 /**
@@ -146,7 +146,7 @@ function treeSelectChanged(row: T) {
   else {
     currentData.value = row
   }
-  emits('changed', currentData.value)
+  emits('change', currentData.value)
 }
 
 /**

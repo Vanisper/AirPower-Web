@@ -15,7 +15,7 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  changed: [Array<string>]
+  change: [Array<string>]
 }>()
 
 const isShow = ref(false)
@@ -41,13 +41,13 @@ function changed(status: boolean, config: ITableColumn<E>) {
     config.hide = false
     list.value.push(config.key)
   }
-  emits('changed', list.value)
+  emits('change', list.value)
 }
 
 if (list.value.length === 0) {
   list.value = props.columnList.filter(i => !i.hide).map(i => i.key as string)
 }
-emits('changed', list.value)
+emits('change', list.value)
 </script>
 
 <template>
