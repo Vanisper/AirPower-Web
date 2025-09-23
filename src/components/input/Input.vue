@@ -238,7 +238,6 @@ const placeholderRef = computed(() => {
   if (formConfig.value && formConfig.value.placeholder) {
     return formConfig.value.placeholder
   }
-
   const fieldLabel = fieldConfig.value?.label || ''
   if (
     dictionary.value
@@ -463,7 +462,7 @@ init()
         @keydown="onKeyDown"
       />
     </template>
-    <template v-else-if="list || dictionary">
+    <template v-else-if="dictionary">
       <el-switch
         v-if="formConfig?.switch"
         v-model="value"

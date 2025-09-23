@@ -144,7 +144,7 @@ function onChange() {
         :readonly="readonly"
         :tree="tree"
         @blur=" emits('blur') "
-        @change="onChange"
+        @changed="onChange"
         @clear=" emits('clear') "
         @focus=" emits('focus') "
       />

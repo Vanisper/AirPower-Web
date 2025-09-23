@@ -1,7 +1,7 @@
 {
   "name": "@airpower/web",
   "type": "module",
-  "version": "1.5.9",
+  "version": "1.6.1",
   "description": "AirPower-Web",
   "author": {
     "name": "Hamm",

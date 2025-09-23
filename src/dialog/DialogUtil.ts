@@ -113,8 +113,8 @@ export class DialogUtil {
    */
   static async selectList<E extends RootEntity>(
     view: Component,
-        selectList: E[] = [],
-        param: E | undefined = undefined,
+    selectList: E[] = [],
+    param: E | undefined = undefined,
   ): Promise<E[]> {
     return this.build(view, {
       selectList,
