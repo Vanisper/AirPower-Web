@@ -19,7 +19,10 @@ const value = computed(() => {
 </script>
 
 <template>
-  <ACopy :content="value">
+  <ACopy
+    :content="value"
+    :wrap="column.wrap"
+  >
     {{ value }}
   </ACopy>
 </template>

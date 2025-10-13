@@ -1484,7 +1484,7 @@ function onSearch() {
       justify-content: flex-end;
     }
 
-    .a-table-column.nowrap {
+    .el-table__cell .nowrap {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -1493,7 +1493,7 @@ function onSearch() {
       user-select: none;
     }
 
-    .a-table-column.nowrap * {
+    .el-table__cell .nowrap * {
       width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -1502,6 +1502,10 @@ function onSearch() {
       cursor: pointer;
       user-select: none;
       display: inherit;
+    }
+
+    .el-table__cell .nowrap .el-link__inner {
+      display: inline-block !important;
     }
 
     .el-table__empty-text {

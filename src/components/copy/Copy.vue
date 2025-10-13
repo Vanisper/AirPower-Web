@@ -19,6 +19,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+
+  /**
+   * ### 是否换行
+   */
+  wrap: {
+    type: Boolean,
+    default: undefined,
+  },
 })
 
 /**
@@ -39,7 +47,10 @@ async function copy() {
 </script>
 
 <template>
-  <div class="a-copy">
+  <div
+    :class="wrap ? '' : 'nowrap'"
+    class="a-copy"
+  >
     <ElLink
       underline="never"
       v-bind="$attrs"
