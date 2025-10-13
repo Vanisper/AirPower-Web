@@ -1227,7 +1227,7 @@ function onSearch() {
               <EnumColumn
                 v-else-if="getDictionary(EntityClass, item.key)"
                 :column="item"
-                :data="scope.row"
+                :data="getRowEntity(scope)"
                 :dictionary="getDictionary(EntityClass, item.key)!"
               />
               <AImage
@@ -1267,7 +1267,7 @@ function onSearch() {
               <CopyColumn
                 v-else-if="item.copy"
                 :column="item"
-                :data="scope.row"
+                :data="getRowEntity(scope)"
               />
               <template v-else>
                 <div
