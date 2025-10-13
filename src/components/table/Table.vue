@@ -821,19 +821,23 @@ function getRowEntity(scope: IJson): E {
 /**
  * ### 获取行的数据列
  * @param scope Scope
- * @param key 字段
+ * @param config 列的配置
  */
-function getValue(scope: IJson, key: unknown): any {
+function getValue(scope: IJson, config: ITableColumn<E>): any {
+  const key = config.key
+  if (config.formatter) {
+    return config.formatter(getRowEntity(scope))
+  }
   return getRowEntity(scope)[key as keyof E]
 }
 
 /**
  * ### 获取数组列
  * @param scope Scope
- * @param key 字段
+ * @param config 列的配置
  */
-function getPayloadArray(scope: IJson, key: unknown): Array<RootEntity & IPayload> {
-  const value = getValue(scope, key)
+function getPayloadArray(scope: IJson, config: ITableColumn<E>): Array<RootEntity & IPayload> {
+  const value = getValue(scope, config)
   return value as Array<RootEntity & IPayload>
 }
 
@@ -1220,9 +1224,6 @@ function onSearch() {
                 v-if="item.prefixText"
                 style="color: #aaa; margin-right: 3px"
               >{{ item.prefixText }}</span>
-              <template v-if="item.formatter">
-                {{ item.formatter(getRowEntity(scope)) }}
-              </template>
               <EnumColumn
                 v-else-if="getDictionary(EntityClass, item.key)"
                 :column="item"
@@ -1232,35 +1233,35 @@ function onSearch() {
               <AImage
                 v-else-if="item.image"
                 :height="item.imageHeight || 40"
-                :src="getValue(scope, item.key)"
+                :src="getValue(scope, item)"
                 :width="item.imageWidth || 40"
               />
               <APhone
                 v-else-if="item.phone"
                 :desensitize="item.desensitize"
-                :phone="getValue(scope, item.key)"
+                :phone="getValue(scope, item)"
               />
               <ADateTime
                 v-else-if="item.datetime"
                 :formatter="item.datetime === true ? DateTimeFormatter.FULL_DATE_TIME : item.datetime"
-                :milli-second="getValue(scope, item.key)"
+                :milli-second="getValue(scope, item)"
               />
               <AMoney
                 v-else-if="item.money"
-                :money="getValue(scope, item.key)"
+                :money="getValue(scope, item)"
               />
               <template v-else-if="item.payload">
                 <template v-if="item.array">
-                  {{ getPayloadArray(scope, item.key).map(payload => payload.getPayloadLabel()).join(",") }}
+                  {{ getPayloadArray(scope, item).map(payload => payload.getPayloadLabel()).join(",") }}
                 </template>
                 <APayload
                   v-else
-                  :payload="getValue(scope, item.key)"
+                  :payload="getValue(scope, item)"
                 />
               </template>
               <ADesensitize
                 v-else-if="item.desensitize"
-                :content="getValue(scope, item.key)"
+                :content="getValue(scope, item)"
                 :type="item.desensitize"
               />
               <CopyColumn
@@ -1273,7 +1274,7 @@ function onSearch() {
                   :class="item.wrap ? '' : 'nowrap'"
                   class="a-table-column"
                 >
-                  {{ getStringValue(getValue(scope, item.key)) ?? item.emptyValue }}
+                  {{ getStringValue(getValue(scope, item)) ?? item.emptyValue }}
                 </div>
               </template>
               <span
