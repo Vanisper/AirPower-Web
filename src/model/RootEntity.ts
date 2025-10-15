@@ -54,4 +54,11 @@ export class RootEntity extends RootModel {
     this.isDisabled = isDisabled
     return this
   }
+
+  /**
+   * ### 只暴露ID
+   */
+  exposeOnlyId(): this {
+    return super.expose('id')
+  }
 }
