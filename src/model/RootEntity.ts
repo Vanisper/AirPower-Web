@@ -59,6 +59,13 @@ export class RootEntity extends RootModel {
    * ### 只暴露ID
    */
   exposeOnlyId(): this {
-    return super.expose('id')
+    return this.expose('id')
+  }
+
+  /**
+   * ### 只复制ID
+   */
+  copyOnlyId(): this {
+    return this.copy().exposeOnlyId()
   }
 }
