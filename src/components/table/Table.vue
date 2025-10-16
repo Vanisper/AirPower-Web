@@ -1085,6 +1085,9 @@ function onSearch() {
 if (props.defaultFilter) {
   searchFilter.value = props.defaultFilter
 }
+else if (props.useHook) {
+  searchFilter.value = props.useHook.request.value?.filter
+}
 onSearch()
 </script>
 
