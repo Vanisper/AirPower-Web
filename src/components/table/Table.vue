@@ -1049,6 +1049,9 @@ function onReset() {
   if (props.defaultFilter) {
     searchFilter.value = props.defaultFilter
   }
+  else if (props.useHook) {
+    searchFilter.value = props.useHook.request.value?.filter
+  }
   else {
     searchFilter.value = entityInstance.copy()
   }
