@@ -168,8 +168,6 @@ export function useBaseTable<E extends RootEntity, S extends AbstractCurdService
     onGetList()
   }
 
-  onGetList()
-
   return {
     entity,
     service,

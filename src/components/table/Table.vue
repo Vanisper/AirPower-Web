@@ -1078,6 +1078,11 @@ function onSearch() {
     hook.onSearch(request.value)
   }
 }
+
+if (props.defaultFilter) {
+  searchFilter.value = props.defaultFilter
+}
+onSearch()
 </script>
 
 <template>
