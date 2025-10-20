@@ -2,6 +2,7 @@ import type { IJson } from '@airpower/transformer'
 import type { RootEntity } from '../../../model/RootEntity'
 import type { AbstractCurdService } from '../../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../../service/type'
+import type { IBaseTableResult } from '../base/IBaseTableResult'
 import type { ISelectorOption } from './ISelectorOption'
 import type { ISelectorResult } from './ISelectorResult'
 import { computed, ref } from 'vue'
@@ -23,7 +24,7 @@ export function useSelector<E extends RootEntity, S extends AbstractCurdService<
   /**
    * ### 表格`Hook`返回对象
    */
-  const result = useBaseTable(serviceClass, option)
+  const result: IBaseTableResult<E, S> = useBaseTable(serviceClass, option)
 
   /**
    * ### 选择器对话框的标题
@@ -37,5 +38,5 @@ export function useSelector<E extends RootEntity, S extends AbstractCurdService<
   return Object.assign(result, {
     title,
     disableConfirm,
-  })
+  }) as ISelectorResult<E, S>
 }

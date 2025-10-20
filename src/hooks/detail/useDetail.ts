@@ -40,7 +40,7 @@ export function useDetail<E extends RootEntity, S extends AbstractCurdService<E>
   /**
    * ### 显示的对话框标题
    */
-  const title = ref(WebI18n.get().Detail)
+  const title: Ref<string> = ref(WebI18n.get().Detail)
 
   /**
    * ### 查询详情方法

@@ -127,7 +127,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    * @param apiUrl `可选` 自定义请求URL
    */
   async add(data: E, message?: string, apiUrl = this.urlAdd): Promise<number> {
-    const saved = await this.api(apiUrl).requestModel(data, this.entityClass)
+    const saved: E = await this.api(apiUrl).requestModel(data, this.entityClass)
     FeedbackUtil.toastSuccess(message || WebI18n.get().AddSuccess)
     return saved.id
   }
@@ -165,7 +165,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    * @param apiUrl `可选` 自定义请求URL
    */
   async delete(id: number, message?: string, apiUrl = this.urlDelete): Promise<void> {
-    const instance = this.newEntityInstance(id)
+    const instance: E = this.newEntityInstance(id)
     try {
       await this.api(apiUrl).throwError().request(instance)
       FeedbackUtil.toastSuccess(message || WebI18n.get().DeleteSuccess)
@@ -182,7 +182,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    * @param apiUrl `可选` 自定义请求URL
    */
   async disable(id: number, message?: string, apiUrl = this.urlDisable): Promise<void> {
-    const instance = this.newEntityInstance(id)
+    const instance: E = this.newEntityInstance(id)
     try {
       await this.api(apiUrl).throwError().request(instance)
       FeedbackUtil.toastSuccess(message || WebI18n.get().DisableSuccess)
@@ -214,7 +214,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    */
   protected newEntityInstance(id?: number): E {
     // eslint-disable-next-line new-cap
-    const entity = new this.entityClass()
+    const entity: E = new this.entityClass()
     if (id) {
       entity.id = id
     }

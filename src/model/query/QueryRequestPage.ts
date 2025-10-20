@@ -12,5 +12,5 @@ export class QueryRequestPage<E extends RootEntity> extends QueryRequest<E> {
    * ### 分页信息
    */
   @Type(QueryPage)
-  page = new QueryPage()
+  page: QueryPage = new QueryPage()
 }

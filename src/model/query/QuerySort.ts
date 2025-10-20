@@ -1,15 +1,15 @@
 import type { SortType } from './type'
-import { Transformer } from '@airpower/transformer'
+import { RootModel } from '../RootModel'
 
 /**
  * ### 排序类
  * @author Hamm.cn
  */
-export class QuerySort extends Transformer {
+export class QuerySort extends RootModel {
   /**
    * ### 排序字段 默认 `id`
    */
-  field = 'id'
+  field: string = 'id'
 
   /**
    * ### 排序方式 默认 `desc`

@@ -1,4 +1,5 @@
 import type { IJson } from '@airpower/transformer'
+import type { IFormField } from '../decorator/@Form/IFormField'
 import type { RootEntity } from '../model/RootEntity'
 import type { AbstractCurdService } from '../service/AbstractCurdService'
 import type {
@@ -59,7 +60,7 @@ export class WebValidator {
    * ### 创建一个验证器
    * @param rule 验证规则
    */
-  static create(rule: WebValidateRule): WebValidateRule {
+  static create<E extends RootEntity = RootEntity>(rule: WebValidateRule<E>): WebValidateRule<E> {
     return rule
   }
 
@@ -71,9 +72,9 @@ export class WebValidator {
   static createRules<E extends RootEntity, S extends AbstractCurdService<E>>(
     service: S,
     rules: WebValidateRule<E> = {},
-  ) {
+  ): WebValidateRule<E> {
     const formRules: IJson = rules
-    const formFieldList = getFormConfigList(service.entityClass)
+    const formFieldList: IFormField[] = getFormConfigList(service.entityClass)
     for (let i = 0; i < formFieldList.length; i += 1) {
       const config = formFieldList[i]
       const fieldKey = config.key

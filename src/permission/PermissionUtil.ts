@@ -1,4 +1,5 @@
 import type { ITransformerConstructor } from '@airpower/transformer'
+import type { IModelConfig } from '../decorator/@Model/IModelConfig'
 import type { RootEntity } from '../model/RootEntity'
 import { WebConfig } from '../config/WebConfig'
 import { getModelConfig } from '../decorator/@Model/Model'
@@ -34,7 +35,7 @@ export class PermissionUtil {
    */
   static get<E extends RootEntity>(EntityClass: ITransformerConstructor<E>, action: PermissionAction | string): string {
     let permission: string | undefined
-    const modelConfig = getModelConfig(EntityClass)
+    const modelConfig: IModelConfig = getModelConfig(EntityClass)
     const actionRecord: Record<PermissionAction, string | undefined> = {
       [PermissionAction.ADD]: modelConfig?.addPermission,
       [PermissionAction.DELETE]: modelConfig?.deletePermission,
@@ -47,7 +48,7 @@ export class PermissionUtil {
       [PermissionAction.ENABLE]: modelConfig?.enablePermission,
     }
 
-    const keys = Object.keys(actionRecord)
+    const keys: string[] = Object.keys(actionRecord)
     if (keys.includes(action)) {
       permission = actionRecord[action as PermissionAction]
     }
@@ -68,7 +69,7 @@ export class PermissionUtil {
       if (!WebConfig.autoPermissionPrefix) {
         return permission
       }
-      const entityName = EntityClass.name.replace('Entity', '')
+      const entityName: string = EntityClass.name.replace('Entity', '')
       prefix = entityName.slice(0, 1) + entityName.slice(1)
     }
     return `${prefix}_${permission}`
@@ -87,7 +88,7 @@ export class PermissionUtil {
    * ### 获取缓存的权限列表
    */
   static getList(): string[] {
-    const str = localStorage.getItem(WebConfig.permissionCacheKey) || '[]'
+    const str: string = localStorage.getItem(WebConfig.permissionCacheKey) || '[]'
     try {
       return JSON.parse(str)
     }

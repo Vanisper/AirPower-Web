@@ -4,6 +4,12 @@ import type { AbstractCurdService } from './AbstractCurdService'
 /**
  * ### 服务构造器类型
  */
-export type CurdServiceConstructor<E extends RootEntity, S extends AbstractCurdService<E>> = new () => S & {
+export type CurdServiceConstructor<
+  E extends RootEntity,
+  S extends AbstractCurdService<E>,
+> = new () => S & {
+  /**
+   * ### 实体类
+   */
   entityClass: (new () => E)
 }

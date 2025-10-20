@@ -5,6 +5,7 @@ import type { RootEntity } from '../../model/RootEntity'
 import type { AbstractCurdService } from '../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../service/type'
 import type { WebValidateRule } from '../../validator/type'
+import type { IDetailResult } from '../detail/IDetailResult'
 import type { IEditorOption } from './IEditorOption'
 import type { IEditorResult } from './IEditorResult'
 import { computed, ref, watch } from 'vue'
@@ -27,7 +28,7 @@ export function useEditor<E extends RootEntity, S extends AbstractCurdService<E>
   /**
    * ### 详情`Hook`返回对象
    */
-  const result = useDetail(props, ServiceClass, option)
+  const result: IDetailResult<E, S> = useDetail(props, ServiceClass, option)
 
   /**
    * ### 对话框显示的标题
@@ -75,7 +76,7 @@ export function useEditor<E extends RootEntity, S extends AbstractCurdService<E>
 
   watch(
     result.formData,
-    () => {
+    (): void => {
       formRef.value?.validate()
     },
     {
@@ -89,5 +90,5 @@ export function useEditor<E extends RootEntity, S extends AbstractCurdService<E>
     formRef,
     rules,
     onSubmit,
-  })
+  }) as IEditorResult<E, S>
 }

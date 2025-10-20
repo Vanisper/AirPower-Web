@@ -10,8 +10,8 @@ export class ClipboardUtil {
    * ### 剪切板复制指定的内容
    * @param content 复制的内容
    */
-  static async copy(content: string): Promise<unknown> {
+  static async copy(content: string): Promise<void> {
     const { toClipboard } = useClipboard()
-    return toClipboard(content)
+    await toClipboard(content)
   }
 }

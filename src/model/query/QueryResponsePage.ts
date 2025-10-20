@@ -1,5 +1,6 @@
 import type { RootEntity } from '../RootEntity'
-import { Transformer, Type } from '@airpower/transformer'
+import { Type } from '@airpower/transformer'
+import { RootModel } from '../RootModel'
 import { QueryPage } from './QueryPage'
 import { QuerySort } from './QuerySort'
 
@@ -7,7 +8,7 @@ import { QuerySort } from './QuerySort'
  * ### 响应分页类
  * @author Hamm.cn
  */
-export class QueryResponsePage<E extends RootEntity> extends Transformer {
+export class QueryResponsePage<E extends RootEntity> extends RootModel {
   /**
    * ### 返回的当前页数据列表
    */
@@ -17,21 +18,21 @@ export class QueryResponsePage<E extends RootEntity> extends Transformer {
    * ### 返回的页码信息
    */
   @Type(QueryPage)
-  page = new QueryPage()
+  page: QueryPage = new QueryPage()
 
   /**
    * ### 返回的排序信息
    */
   @Type(QuerySort)
-  sort = new QuerySort()
+  sort: QuerySort = new QuerySort()
 
   /**
    * ### 返回总条数
    */
-  total = 0
+  total: number = 0
 
   /**
    * ### 返回总页数
    */
-  pageCount = 0
+  pageCount: number = 0
 }

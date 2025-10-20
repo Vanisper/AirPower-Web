@@ -1,13 +1,14 @@
 import type { ITransformerConstructor } from '@airpower/transformer'
 import type { RootEntity } from '../RootEntity'
-import { Transformer, Type } from '@airpower/transformer'
+import { Type } from '@airpower/transformer'
+import { RootModel } from '../RootModel'
 import { QuerySort } from './QuerySort'
 
 /**
  * ### 请求类
  * @author Hamm.cn
  */
-export class QueryRequest<E extends RootEntity = RootEntity> extends Transformer {
+export class QueryRequest<E extends RootEntity = RootEntity> extends RootModel {
   /**
    * ### 查询信息
    */

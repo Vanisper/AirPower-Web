@@ -2,6 +2,7 @@ import type { ITree } from '../../../interface/ITree'
 import type { RootEntity } from '../../../model/RootEntity'
 import type { AbstractCurdService } from '../../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../../service/type'
+import type { ITableResult } from '../list/ITableResult'
 import type { ITableTreeOption } from './ITableTreeOption'
 import type { ITableTreeResult } from './ITableTreeResult'
 import { Transformer } from '@airpower/transformer'
@@ -27,7 +28,7 @@ export function useTableTree<E extends ITree & RootEntity, S extends AbstractCur
   /**
    * ### 表格`Hook`返回对象
    */
-  const result = useTable(serviceClass, option)
+  const result: ITableResult<E, S> = useTable(serviceClass, option)
 
   /**
    * ### 树表格添加子项事件
@@ -56,5 +57,5 @@ export function useTableTree<E extends ITree & RootEntity, S extends AbstractCur
 
   return Object.assign(result, {
     onAddRow,
-  })
+  }) as ITableTreeResult<E, S>
 }

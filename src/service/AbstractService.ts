@@ -28,7 +28,7 @@ export abstract class AbstractService extends Transformer {
    * @param loading `可选` Loading
    */
   static create<S extends AbstractService>(this: ITransformerConstructor<S>, loading?: Ref<boolean>): S {
-    const service = Object.assign(new this()) as S
+    const service: S = Object.assign(new this()) as S
     if (loading) {
       service.loading = loading
     }
@@ -42,12 +42,12 @@ export abstract class AbstractService extends Transformer {
    */
   protected api(url: string, baseUrl?: string): Http {
     return Http.create(`${baseUrl || this.baseUrl}/${url}`, {
-      loading: (isLoading: boolean) => {
+      loading: (isLoading: boolean): void => {
         if (this.loading) {
           this.loading.value = isLoading
         }
       },
-      error: (response: HttpResponse) => {
+      error: (response: HttpResponse): void => {
         if (response.code === WebConfig.unAuthorizeCode) {
           window.location.replace(WebConfig.loginUrl)
           return

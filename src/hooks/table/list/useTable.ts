@@ -1,6 +1,7 @@
 import type { RootEntity } from '../../../model/RootEntity'
 import type { AbstractCurdService } from '../../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../../service/type'
+import type { IBaseTableResult } from '../base/IBaseTableResult'
 import type { ITableOption } from './ITableOption'
 import type { ITableResult } from './ITableResult'
 import { DialogUtil } from '../../../dialog/DialogUtil'
@@ -21,7 +22,7 @@ export function useTable<E extends RootEntity, S extends AbstractCurdService<E>>
   /**
    * ### 表格`Hook`返回对象
    */
-  const result = useBaseTable(serviceClass, option)
+  const result: IBaseTableResult<E, S> = useBaseTable(serviceClass, option)
 
   /**
    * ### 表格行编辑事件
@@ -29,7 +30,7 @@ export function useTable<E extends RootEntity, S extends AbstractCurdService<E>>
    */
   async function onEdit(row: E) {
     if (!option.editView) {
-      await FeedbackUtil.toastError('请为 useTable 的 option 传入 editor')
+      FeedbackUtil.toastError('请为 useTable 的 option 传入 editor')
       return
     }
     try {
@@ -74,5 +75,5 @@ export function useTable<E extends RootEntity, S extends AbstractCurdService<E>>
     onDelete,
     onDisable,
     onEnable,
-  })
+  }) as ITableResult<E, S>
 }

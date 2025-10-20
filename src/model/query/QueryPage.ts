@@ -1,17 +1,17 @@
-import { Transformer } from '@airpower/transformer'
+import { RootModel } from '../RootModel'
 
 /**
  * ### 分页类
  * @author Hamm.cn
  */
-export class QueryPage extends Transformer {
+export class QueryPage extends RootModel {
   /**
    * ### 分页页数
    */
-  pageNum = 1
+  pageNum: number = 1
 
   /**
    * ### 每页数量
    */
-  pageSize = 20
+  pageSize: number = 20
 }

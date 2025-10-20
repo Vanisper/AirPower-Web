@@ -1,10 +1,10 @@
 import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { AxiosRequestConfig } from 'axios'
 import type { HttpHeaderRecord } from './type'
-import { Transformer } from '@airpower/transformer'
 import axios from 'axios'
 import { WebConfig } from '../config/WebConfig'
 import { WebConstant } from '../config/WebConstant'
+import { RootModel } from '../model/RootModel'
 import { HttpContentType } from './enum/HttpContentType'
 import { HttpHeader } from './enum/HttpHeader'
 import { HttpMethod } from './enum/HttpMethod'
@@ -65,7 +65,15 @@ export class Http {
    * @param handlers.loading 加载
    */
   static create(url: string, handlers: {
+    /**
+     * ### 错误回调
+     * @param error 错误信息
+     */
     error?: (error: HttpResponse) => void
+    /**
+     * ### 加载状态
+     * @param loading 加载状态
+     */
     loading?: (loading: boolean) => void
   } = {}): Http {
     const http = new Http()
@@ -148,7 +156,7 @@ export class Http {
    * ### 无返回发送请求
    * @param postData 发送的数据模型(数组)
    */
-  async request<REQ extends Transformer>(
+  async request<REQ extends RootModel>(
     postData?: REQ | REQ[],
   ): Promise<void> {
     await this.requestRaw(postData)
@@ -159,12 +167,12 @@ export class Http {
    * @param postData 发送的数据模型(数组)
    * @param parseClass 返回的模型
    */
-  async requestModel<REQ extends Transformer, RES extends Transformer>(
+  async requestModel<REQ extends RootModel, RES extends RootModel>(
     postData: REQ | REQ[] | undefined,
     parseClass: ITransformerConstructor<RES>,
   ): Promise<RES> {
     const result = await this.requestRaw(postData)
-    return Transformer.parse(result, parseClass)
+    return RootModel.parse(result, parseClass)
   }
 
   /**
@@ -172,12 +180,12 @@ export class Http {
    * @param postData 发送的数据模型(数组)
    * @param parseClass 返回的模型数组
    */
-  async requestModelList<REQ extends Transformer, RES extends Transformer>(
+  async requestModelList<REQ extends RootModel, RES extends RootModel>(
     postData: REQ | REQ[] | undefined,
     parseClass: ITransformerConstructor<RES>,
   ): Promise<RES[]> {
     const result = await this.requestRaw(postData)
-    return (result as IJson[]).map(item => Transformer.parse(item, parseClass))
+    return (result as IJson[]).map(item => RootModel.parse(item, parseClass))
   }
 
   /**
@@ -185,7 +193,7 @@ export class Http {
    * @param postData 发送的数据模型(数组)
    * @returns 响应的原始 `data`
    */
-  async requestRaw<REQ extends Transformer>(postData?: REQ | REQ[]): Promise<IJson | IJson[]> {
+  async requestRaw<REQ extends RootModel>(postData?: REQ | REQ[]): Promise<IJson | IJson[]> {
     let body = {}
     if (postData) {
       if (Array.isArray(postData)) {

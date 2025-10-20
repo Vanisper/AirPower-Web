@@ -50,7 +50,7 @@ export class RouterUtil {
    */
   static createRouter(routes: RouteRecordRaw[], ignoreGuard = false): Router {
     // 创建路由
-    const router = createRouter({
+    const router: Router = createRouter({
       history: createWebHistory(),
       routes,
     })
@@ -123,7 +123,7 @@ export class RouterUtil {
 
         continue
       }
-      const locationPathName = window.location.pathname
+      const locationPathName: string = window.location.pathname
       if (item.path === locationPathName) {
         localStorage.removeItem(menuCacheKey)
         this.router.replace(locationPathName + window.location.search)

@@ -1,11 +1,11 @@
 import type { QueryRequest } from '../query/QueryRequest'
-import { Transformer } from '@airpower/transformer'
+import { RootModel } from '../RootModel'
 
 /**
  * ### 导出的数据模型
  * @author Hamm.cn
  */
-export class ExportModel<R extends QueryRequest = QueryRequest> extends Transformer {
+export class ExportModel<R extends QueryRequest = QueryRequest> extends RootModel {
   /**
    * ### 创建导出任务的API地址
    */
