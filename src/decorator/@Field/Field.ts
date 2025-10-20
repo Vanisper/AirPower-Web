@@ -9,7 +9,7 @@ import { DecoratorUtil } from '@airpower/transformer'
 /**
  * ### KEY
  */
-const KEY = '[Field]'
+const KEY: string = '[Field]'
 
 /**
  * ### 为属性标记配置
@@ -24,7 +24,7 @@ export function Field<
   return (
     instance: M,
     field: keyof M,
-  ) => {
+  ): void => {
     config.key = field.toString()
     DecoratorUtil.setFieldConfig(instance, field, KEY, config)
   }

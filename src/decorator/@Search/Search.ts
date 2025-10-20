@@ -7,7 +7,7 @@ import { DecoratorUtil } from '@airpower/transformer'
 /**
  * ### KEY
  */
-const KEY = '[Search]'
+const KEY: string = '[Search]'
 
 /**
  * ### 标记该字段可用于表单配置
@@ -21,7 +21,7 @@ export function Search<
   return (
     instance: M,
     field: keyof M,
-  ) => {
+  ): void => {
     config.key = field.toString()
     DecoratorUtil.setFieldConfig(instance, field, KEY, config)
   }
@@ -50,8 +50,8 @@ export function getSearchConfigList<
 >(
   Class: ITransformerConstructor<M>,
 ): ISearchField[] {
-  const fieldList = Object.keys(new Class())
-  const list = fieldList.map(field => getSearchConfig(Class, field)).filter(item => !!item.key)
-  return list.filter(item => !item.hide)
-    .sort((a, b) => (b.order || 0) - (a.order || 0))
+  const fieldList: string[] = Object.keys(new Class())
+  return fieldList.map(field => getSearchConfig(Class, field))
+    .filter((item: ISearchField) => !!item.key && !item.hide)
+    .sort((a: ISearchField, b: ISearchField) => (b.order || 0) - (a.order || 0))
 }

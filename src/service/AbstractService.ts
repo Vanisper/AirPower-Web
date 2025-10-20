@@ -1,16 +1,16 @@
 import type { ITransformerConstructor } from '@airpower/transformer'
 import type { Ref } from 'vue'
 import type { HttpResponse } from '../http/HttpResponse'
-import { Transformer } from '@airpower/transformer'
 import { WebConfig } from '../config/WebConfig'
 import { FeedbackUtil } from '../feedback/FeedbackUtil'
 import { Http } from '../http/Http'
+import { RootModel } from '../model/RootModel'
 
 /**
  * ### `API` 服务超类
  * @author Hamm.cn
  */
-export abstract class AbstractService extends Transformer {
+export abstract class AbstractService extends RootModel {
   /**
    * ### `API` 目录地址
    * 一般对应后端的 `分组/控制器/目录` 等

@@ -20,22 +20,22 @@ export class Http {
   /**
    * ### 请求方法
    */
-  private method = HttpMethod.POST
+  private method: HttpMethod = HttpMethod.POST
 
   /**
    * ### URL
    */
-  private url = ''
+  private url: string = ''
 
   /**
    * ### 请求超时时间
    */
-  private timeout = WebConfig.timeout
+  private timeout: number = WebConfig.timeout
 
   /**
    * ### 是否携带 `Cookies`
    */
-  private withCookie = false
+  private withCookie: boolean = false
 
   /**
    * ### 请求头
@@ -55,7 +55,7 @@ export class Http {
   /**
    * ### 是否直接抛出错误
    */
-  private isThrowError = false
+  private isThrowError: boolean = false
 
   /**
    * ### 创建一个客户端
@@ -76,7 +76,7 @@ export class Http {
      */
     loading?: (loading: boolean) => void
   } = {}): Http {
-    const http = new Http()
+    const http: Http = new Http()
     if (url.includes(WebConstant.PREFIX_HTTP) || url.includes(WebConstant.PREFIX_HTTPS)) {
       http.url = url
     }
@@ -194,7 +194,7 @@ export class Http {
    * @returns 响应的原始 `data`
    */
   async requestRaw<REQ extends RootModel>(postData?: REQ | REQ[]): Promise<IJson | IJson[]> {
-    let body = {}
+    let body: IJson = {}
     if (postData) {
       if (Array.isArray(postData)) {
         body = postData.map(item => item.toJson())

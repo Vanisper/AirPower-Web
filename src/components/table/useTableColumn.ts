@@ -60,14 +60,12 @@ export function useTableColumn<E extends RootEntity>(params: {
     list = getTableConfigList(entityClass)
   }
 
-  allColumnList.value = list
-    .filter(item => !item.removed)
-    .map((item) => {
-      if (item.money && !item.align) {
-        item.align = 'right'
-      }
-      return item
-    })
+  allColumnList.value = list.map((item) => {
+    if (item.money && !item.align) {
+      item.align = 'right'
+    }
+    return item
+  })
 
   /**
    * ### 显示的字段

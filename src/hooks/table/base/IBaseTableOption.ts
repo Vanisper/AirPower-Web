@@ -46,6 +46,5 @@ export interface IBaseTableOption<E extends RootEntity> {
    *
    * @param requestData 请求对象
    */
-
   beforeSearch?: (requestData: QueryRequestPage<E>) => QueryRequestPage<E> | void
 }

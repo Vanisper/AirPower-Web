@@ -3,7 +3,7 @@ import type { RootModel } from '../../model/RootModel'
 import type { IModelConfig } from './IModelConfig'
 import { DecoratorUtil } from '@airpower/transformer'
 
-const KEY = '[MODEL]'
+const KEY: string = '[MODEL]'
 
 /**
  * ### 为模型类标记配置项

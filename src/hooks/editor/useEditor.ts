@@ -49,9 +49,9 @@ export function useEditor<E extends RootEntity, S extends AbstractCurdService<E>
    * ### 表单提交事件
    */
   async function onSubmit() {
-    let postData = result.formData.value.copy()
+    let postData: E = result.formData.value.copy()
     if (option.beforeSubmit) {
-      const result = option.beforeSubmit(postData)
+      const result: E | null = option.beforeSubmit(postData)
       if (result === null) {
         return
       }
@@ -66,7 +66,7 @@ export function useEditor<E extends RootEntity, S extends AbstractCurdService<E>
       props.onConfirm(id)
       return
     }
-    const id = await result.service.add(
+    const id: number = await result.service.add(
       postData,
       option.successMessage || WebI18n.get().AddSuccess,
       option.apiUrlAdd,

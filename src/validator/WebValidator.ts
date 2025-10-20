@@ -40,7 +40,7 @@ export class WebValidator {
    * ### 是否必填
    * 可以调用 `.ifEmpty()`
    */
-  required = false
+  required: boolean = false
 
   /**
    * ### 自定义验证器

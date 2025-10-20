@@ -230,22 +230,22 @@ const isMoving = ref(false)
 /**
  * ### 开始移动的鼠标x
  */
-let startX = 0
+let startX: number = 0
 
 /**
  * ### 开始移动的鼠标Y
  */
-let startY = 0
+let startY: number = 0
 
 /**
  * ### 窗口的真实宽度
  */
-let trueWidth = 0
+let trueWidth: number = 0
 
 /**
  * ### 窗口的真实高度
  */
-let trueHeight = 0
+let trueHeight: number = 0
 
 /**
  * ### 是否全屏

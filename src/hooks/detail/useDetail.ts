@@ -5,9 +5,9 @@ import type { AbstractCurdService } from '../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../service/type'
 import type { IDetailOption } from './IDetailOption'
 import type { IDetailResult } from './IDetailResult'
-import { Transformer } from '@airpower/transformer'
 import { provide, ref } from 'vue'
 import { WebI18n } from '../../i18n/WebI18n'
+import { RootModel } from '../../model/RootModel'
 
 /**
  * ### 引入详情的`Hook`
@@ -29,13 +29,13 @@ export function useDetail<E extends RootEntity, S extends AbstractCurdService<E>
   /**
    * ### 传入的 `Service` 对象
    */
-  const service: S = Transformer.newInstance(ServiceClass)
+  const service: S = RootModel.newInstance(ServiceClass)
   service.loading = isLoading
 
   /**
    * ### 表单对象
    */
-  const formData: Ref<E> = ref(props.param ? props.param.copy() : Transformer.newInstance(service.entityClass))
+  const formData: Ref<E> = ref(props.param ? props.param.copy() : RootModel.newInstance(service.entityClass))
 
   /**
    * ### 显示的对话框标题

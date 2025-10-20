@@ -3,13 +3,13 @@ import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType } from 'vue'
 import type { IFile } from '../../interface/IFile'
 import type { RootEntity } from '../../model/RootEntity'
-import { Transformer } from '@airpower/transformer'
 import { FileUtil } from '@airpower/util'
 import { ElUpload } from 'element-plus'
 import { ref } from 'vue'
 import { WebConfig } from '../../config/WebConfig'
 import { FeedbackUtil } from '../../feedback/FeedbackUtil'
 import { WebI18n } from '../../i18n/WebI18n'
+import { RootModel } from '../../model/RootModel'
 import { ADialog } from '../dialog'
 
 const props = defineProps({
@@ -202,7 +202,7 @@ function onUploadSuccess(result: IJson) {
   if (result.code === WebConfig.successCode) {
     FeedbackUtil.toastSuccess(props.uploadSuccess)
 
-    const entity = Transformer.parse(result.data as IJson, props.entity)
+    const entity = RootModel.parse(result.data as IJson, props.entity)
     props.onConfirm(entity)
   }
   else {

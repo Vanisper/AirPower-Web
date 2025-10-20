@@ -5,13 +5,13 @@ import type { AbstractCurdService } from '../../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../../service/type'
 import type { IBaseTableOption } from './IBaseTableOption'
 import type { IBaseTableResult } from './IBaseTableResult'
-import { Transformer } from '@airpower/transformer'
 import { ref } from 'vue'
 import { DialogUtil } from '../../../dialog/DialogUtil'
 import { FeedbackUtil } from '../../../feedback/FeedbackUtil'
 import { QueryPage } from '../../../model/query/QueryPage'
 import { QueryRequestPage } from '../../../model/query/QueryRequestPage'
 import { QueryResponsePage } from '../../../model/query/QueryResponsePage'
+import { RootModel } from '../../../model/RootModel'
 
 /**
  * ### 表格基础`Hook`
@@ -31,7 +31,7 @@ export function useBaseTable<E extends RootEntity, S extends AbstractCurdService
   /**
    * ### 传入的 `Service` 对象
    */
-  const service = Transformer.newInstance(serviceClass)
+  const service = RootModel.newInstance(serviceClass)
   service.loading = isLoading
 
   /**
@@ -57,7 +57,7 @@ export function useBaseTable<E extends RootEntity, S extends AbstractCurdService
   /**
    * ### 传入的实体对象
    */
-  const entity = Transformer.newInstance(service.entityClass)
+  const entity = RootModel.newInstance(service.entityClass)
 
   /**
    * ### 选择的列表

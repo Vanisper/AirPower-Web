@@ -7,7 +7,10 @@ import { WebI18n } from '../i18n/WebI18n'
  * @author Hamm.cn
  */
 export class FeedbackUtil {
-  static defaultToastDuration = 3000
+  /**
+   * ### 默认吐司时间
+   */
+  static defaultToastDuration: number = 3000
 
   /**
    * ### 警告吐司

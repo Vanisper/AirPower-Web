@@ -7,7 +7,7 @@ import { DecoratorUtil } from '@airpower/transformer'
 /**
  * ### KEY
  */
-const KEY = '[Form]'
+const KEY: string = '[Form]'
 
 /**
  * ### 标记该字段可用于表单配置
@@ -21,7 +21,7 @@ export function Form<
   return (
     instance: M,
     key: keyof M,
-  ) => {
+  ): void => {
     config.key = key.toString()
     DecoratorUtil.setFieldConfig(instance, key, KEY, config)
   }
@@ -50,8 +50,8 @@ export function getFormConfigList<
 >(
   Class: ITransformerConstructor<M>,
 ): IFormField[] {
-  const fieldList = Object.keys(new Class())
-  const list = fieldList.map(field => getFormConfig(Class, field)).filter(item => !!item.key)
-  return list.filter(item => !item.hide)
-    .sort((a, b) => (b.order || 0) - (a.order || 0))
+  const fieldList: string[] = Object.keys(new Class())
+  return fieldList.map((field: string) => getFormConfig(Class, field))
+    .filter((item: IFormField) => !!item.key && !item.hide)
+    .sort((a: IFormField, b: IFormField) => (b.order || 0) - (a.order || 0))
 }

@@ -3,10 +3,10 @@ import type { QueryRequest } from '../model/query/QueryRequest'
 import type { RootEntity } from '../model/RootEntity'
 import type { WebValidateRule } from '../validator/type'
 import type { CurdServiceConstructor } from './type'
-import { Transformer } from '@airpower/transformer'
 import { FeedbackUtil } from '../feedback/FeedbackUtil'
 import { WebI18n } from '../i18n/WebI18n'
 import { QueryResponsePage } from '../model/query/QueryResponsePage'
+import { RootModel } from '../model/RootModel'
 import { WebValidator } from '../validator/WebValidator'
 import { AbstractService } from './AbstractService'
 
@@ -27,47 +27,47 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
   /**
    * ### 分页查询默认 `URL`
    */
-  protected urlGetPage = 'getPage'
+  protected urlGetPage: string = 'getPage'
 
   /**
    * ### 不分页查询默认 `URL`
    */
-  protected urlGetList = 'getList'
+  protected urlGetList: string = 'getList'
 
   /**
    * ### 不分页树查询默认 `URL`
    */
-  protected urlGetTreeList = 'getTreeList'
+  protected urlGetTreeList: string = 'getTreeList'
 
   /**
    * ### 查询详情默认 `URL`
    */
-  protected urlGetDetail = 'getDetail'
+  protected urlGetDetail: string = 'getDetail'
 
   /**
    * ### 添加默认 `URL`
    */
-  protected urlAdd = 'add'
+  protected urlAdd: string = 'add'
 
   /**
    * ### 启用默认 `URL`
    */
-  protected urlEnable = 'enable'
+  protected urlEnable: string = 'enable'
 
   /**
    * ### 禁用默认 `URL`
    */
-  protected urlDisable = 'disable'
+  protected urlDisable: string = 'disable'
 
   /**
    * ### 修改默认 `URL`
    */
-  protected urlUpdate = 'update'
+  protected urlUpdate: string = 'update'
 
   /**
    * ### 删除默认 `URL`
    */
-  protected urlDelete = 'delete'
+  protected urlDelete: string = 'delete'
 
   /**
    * ### 创建验证器
@@ -89,7 +89,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
    */
   async getPage(request: QueryRequest<E>, apiUrl = this.urlGetPage): Promise<QueryResponsePage<E>> {
     const responsePage: QueryResponsePage<E> = await this.api(apiUrl).requestModel(request, QueryResponsePage<E>)
-    responsePage.list = responsePage.list.map(json => Transformer.parse(json, this.entityClass))
+    responsePage.list = responsePage.list.map(json => RootModel.parse(json, this.entityClass))
     return responsePage
   }
 

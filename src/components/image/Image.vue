@@ -3,7 +3,6 @@ import type { IJson, ITransformerConstructor } from '@airpower/transformer'
 import type { PropType } from 'vue'
 import type { IFile } from '../../interface/IFile'
 import type { RootEntity } from '../../model/RootEntity'
-import { Transformer } from '@airpower/transformer'
 import { FileUtil } from '@airpower/util'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
 import { ElIcon, ElImage, ElUpload } from 'element-plus'
@@ -12,6 +11,7 @@ import { WebConfig } from '../../config/WebConfig'
 import { FeedbackUtil } from '../../feedback/FeedbackUtil'
 import { WebFileUtil } from '../../file/WebFileUtil'
 import { WebI18n } from '../../i18n/WebI18n'
+import { RootModel } from '../../model/RootModel'
 
 const props = defineProps({
   /**
@@ -245,7 +245,7 @@ function onUploadSuccess(response: { code: number, data: { url: string } }) {
       FeedbackUtil.toastError('请先传入 entity 参数')
       return
     }
-    const entityData = Transformer.parse(response.data, props.entity)
+    const entityData = RootModel.parse(response.data, props.entity)
     if (entityData && entityData.url) {
       emits('upload', entityData)
       isUploading.value = false

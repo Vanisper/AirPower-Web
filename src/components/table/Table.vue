@@ -15,7 +15,6 @@ import type { AbstractCurdService } from '../../service/AbstractCurdService'
 import type { CurdServiceConstructor } from '../../service/type'
 import type { IPayload } from '../index'
 import type { ITableButton } from './TableButton'
-import { Transformer } from '@airpower/transformer'
 import { DateTimeFormatter } from '@airpower/util'
 import { ElInput, ElLink, ElMessageBox, ElOption, ElSelect, ElTable, ElTableColumn } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
@@ -30,6 +29,7 @@ import { WebI18n } from '../../i18n/WebI18n'
 import { ExportModel } from '../../model/export/ExportModel'
 import { QueryRequestPage } from '../../model/query/QueryRequestPage'
 import { QuerySort } from '../../model/query/QuerySort'
+import { RootModel } from '../../model/RootModel'
 import { PermissionAction } from '../../permission/PermissionAction'
 import { PermissionUtil } from '../../permission/PermissionUtil'
 import { AButton, ADateTime, ADesensitize, AImage, AMoney, APage, APayload, APhone } from '../index'
@@ -564,7 +564,7 @@ const ServiceClass: CurdServiceConstructor<E, S> | undefined = props.service || 
 let EntityClass: ITransformerConstructor<E>
 
 if (ServiceClass) {
-  EntityClass = Transformer.newInstance(ServiceClass).entityClass
+  EntityClass = RootModel.newInstance(ServiceClass).entityClass
 }
 else {
   EntityClass = props.entity as ITransformerConstructor<E>
@@ -577,7 +577,7 @@ if (!EntityClass) {
 /**
  * ### Entity的实例
  */
-const entityInstance = Transformer.newInstance(EntityClass)
+const entityInstance = RootModel.newInstance(EntityClass)
 
 /**
  * ### 内部使用的配置
@@ -970,7 +970,7 @@ function handleEnable(row: E) {
 function getService(): S {
   let service: S | undefined
   if (props.service) {
-    service = Transformer.newInstance(props.service)
+    service = RootModel.newInstance(props.service)
   }
   else if (props.useHook) {
     service = props.useHook.service

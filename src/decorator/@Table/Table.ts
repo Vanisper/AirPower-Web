@@ -7,7 +7,7 @@ import { DecoratorUtil } from '@airpower/transformer'
 /**
  * ### KEY
  */
-const KEY = '[Table]'
+const KEY: string = '[Table]'
 
 /**
  * ### 为属性标记是表格字段
@@ -21,7 +21,7 @@ export function Table<
   return (
     instance: E,
     field: keyof E,
-  ) => {
+  ): void => {
     config.key = field.toString()
     DecoratorUtil.setFieldConfig(instance, field, KEY, config)
   }
@@ -50,7 +50,8 @@ export function getTableConfigList<
 >(
   Class: ITransformerConstructor<E>,
 ): Array<ITableColumn<E>> {
-  const fieldList = Object.keys(new Class())
-  const list = fieldList.map(field => getTableConfig(Class, field)).filter(item => !!item.key)
-  return list.sort((a, b) => (b.order || 0) - (a.order || 0))
+  const fieldList: string[] = Object.keys(new Class())
+  return fieldList.map((field: string) => getTableConfig(Class, field))
+    .filter((item: ITableColumn<E>) => !!item.key && !item.removed)
+    .sort((a: ITableColumn<E>, b: ITableColumn<E>) => (b.order || 0) - (a.order || 0))
 }

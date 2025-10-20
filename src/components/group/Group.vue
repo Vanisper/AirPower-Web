@@ -1,4 +1,5 @@
 <script lang="ts" setup="props">
+import type { PropType } from 'vue'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
@@ -31,7 +32,7 @@ const props = defineProps({
    * 配置范围 `1~3`, 默认为 `1`
    */
   column: {
-    type: Number,
+    type: Number as PropType<1 | 2 | 3>,
     default: 1,
   },
 

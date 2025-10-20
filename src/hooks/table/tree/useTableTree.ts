@@ -5,9 +5,9 @@ import type { CurdServiceConstructor } from '../../../service/type'
 import type { ITableResult } from '../list/ITableResult'
 import type { ITableTreeOption } from './ITableTreeOption'
 import type { ITableTreeResult } from './ITableTreeResult'
-import { Transformer } from '@airpower/transformer'
 import { DialogUtil } from '../../../dialog/DialogUtil'
 import { FeedbackUtil } from '../../../feedback/FeedbackUtil'
+import { RootModel } from '../../../model/RootModel'
 import { useTable } from '../list/useTable'
 
 /**
@@ -40,7 +40,7 @@ export function useTableTree<E extends ITree & RootEntity, S extends AbstractCur
       return
     }
     try {
-      let param = Transformer.newInstance(result.service.entityClass)
+      let param = RootModel.newInstance(result.service.entityClass)
       param.parentId = row.id
       if (option.beforeAddRow) {
         const result = option.beforeAddRow(param, row)

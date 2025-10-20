@@ -75,7 +75,7 @@ export class RouterUtil {
    * @param parentRouter 父级路由名称
    */
   private static addRouterAsync(menuList: Array<IMenu & RootEntity>, parentRouter: string): void {
-    menuList.forEach((item) => {
+    menuList.forEach((item): void => {
       if (item.children && item.children.length > 0) {
         this.addRouterAsync(item.children, parentRouter)
         return
@@ -120,7 +120,6 @@ export class RouterUtil {
     for (const item of menuList) {
       if (item.children && item.children.length > 0) {
         this.reloadCacheMenuList(menuCacheKey, item.children)
-
         continue
       }
       const locationPathName: string = window.location.pathname
