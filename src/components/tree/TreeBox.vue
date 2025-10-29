@@ -282,5 +282,9 @@ function filterNode(value: any, node: any): boolean {
     text-overflow: ellipsis;
     user-select: none;
   }
+
+  .el-tree-node.is-current .el-tree-node__label {
+    color: white;
+  }
 }
 </style>
