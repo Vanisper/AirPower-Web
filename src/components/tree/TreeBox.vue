@@ -283,8 +283,9 @@ function filterNode(value: any, node: any): boolean {
     user-select: none;
   }
 
-  .el-tree-node.is-current .el-tree-node__label {
+  .el-tree-node.is-current > .el-tree-node__content > .el-tree-node__label {
     color: white;
   }
+
 }
 </style>
