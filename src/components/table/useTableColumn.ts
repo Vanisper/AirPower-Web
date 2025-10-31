@@ -95,7 +95,7 @@ export function useTableColumn<E extends RootEntity>(params: {
     else {
       selectKeys.value = list
     }
-    showColumnList.value = allColumnList.value.filter(item => selectKeys.value.includes(item.key as string))
+    showColumnList.value = allColumnList.value.filter(item => selectKeys.value.includes(item.key as string) && !item.hide)
   }
 
   updateSelectKeys()
