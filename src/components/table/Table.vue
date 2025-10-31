@@ -598,7 +598,13 @@ const dataListRef = computed(() => {
 })
 
 const selectListRef = computed(() => {
-  return hook ? hook.selectList.value : props.selectList
+  if (props.selectList.length > 0) {
+    return props.selectList
+  }
+  if (hook && hook.selectList.value.length > 0) {
+    return hook.selectList.value
+  }
+  return []
 })
 
 const isLoadingRef = computed(() => {
@@ -863,20 +869,29 @@ watch(
       bodyWrap.scrollTop = 0
     })
   },
+  {
+    deep: true,
+    immediate: true,
+  },
 )
 
 /**
  * ### 监听选择的数组列表
  */
 watch(
-  () => selectListRef,
+  () => selectListRef.value,
   () => {
+    console.warn('selectListRef.value', selectListRef.value)
     nextTick(() => {
       if (airTableRef.value) {
         airTableRef.value.clearSelection()
       }
       toggleSelection()
     })
+  },
+  {
+    deep: true,
+    immediate: true,
   },
 )
 
@@ -1263,7 +1278,7 @@ onSearch()
               />
               <template v-else-if="item.payload">
                 <template v-if="item.array">
-                  {{ getPayloadArray(scope, item).map(payload => payload.getPayloadLabel()).join(",") }}
+                  {{ getPayloadArray(scope, item).map(payload => payload.getPayloadLabel()).join(',') }}
                 </template>
                 <APayload
                   v-else
