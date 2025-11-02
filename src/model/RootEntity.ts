@@ -13,16 +13,13 @@ export class RootEntity extends RootModel {
     label: 'ID',
   })
   @Table({
-    width: 80,
+    width: 100,
     order: 9999,
     force: true,
     copy: true,
   })
   id!: number
 
-  /**
-   * ### 是否禁用
-   */
   @Table({
     width: 80,
     order: -100,
