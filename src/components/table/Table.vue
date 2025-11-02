@@ -881,7 +881,6 @@ watch(
 watch(
   () => selectListRef.value,
   () => {
-    console.warn('selectListRef.value', selectListRef.value)
     nextTick(() => {
       if (airTableRef.value) {
         airTableRef.value.clearSelection()
