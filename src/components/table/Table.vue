@@ -1189,7 +1189,7 @@ onSearch()
           icon="EXPORT"
           @click="onExport()"
         >
-          {{ WebI18n.get().Export }}:
+          {{ WebI18n.get().Export }}
         </AButton>
         <slot name="afterSearch" />
         <ColumnSelector

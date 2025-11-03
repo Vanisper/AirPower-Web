@@ -141,7 +141,7 @@ export class WebConfig {
   /**
    * ### 静态资源地址
    */
-  static staticUrl: string = '/static'
+  static staticUrl: string = '/static/'
 
   /**
    * ### 登录地址
