@@ -3,10 +3,12 @@
 </p>
 
 <p align="center">
-  <img src="https://svg.hamm.cn?key=Lang&value=TypeScript&bg=green"/>
-  <img src="https://svg.hamm.cn?key=Build&value=Vite"/>
-  <img src="https://svg.hamm.cn?key=Base&value=Vue3"/>
-  <img src="https://svg.hamm.cn?key=UI&value=ElementPlus"/>
+<a href="https://www.npmjs.com/@airpower/web">
+<img src="https://img.shields.io/npm/v/@airpower/web"/>
+</a>
+<a href="https://www.npmjs.com/@airpower/web">
+<img src="https://img.shields.io/npm/dm/@airpower/web"/>
+</a>
 </p>
 
 <p align="center">
