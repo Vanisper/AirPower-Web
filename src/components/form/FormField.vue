@@ -108,7 +108,7 @@ if (!formData) {
 /**
  * ### 手动传入的实体类 覆盖 自动注入的实体类
  */
-const EntityClass = (inject('entityClass') as ITransformerConstructor<E>) || props.entity
+const EntityClass = props.entity || (inject('entityClass') as ITransformerConstructor<E>)
 
 if (!EntityClass) {
   throw new Error('请手动传入到AFormField的entity属性或使用 useEditor 创建表单对象(推荐)！！！')
