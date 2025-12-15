@@ -119,9 +119,6 @@ if (!EntityClass) {
  */
 function onChange() {
   const val = formData!.value[props.field]
-  if (injectFormData) {
-    ;(injectFormData.value as IJson)[props.field] = val
-  }
   emits('update:modelValue', formData!.value)
   emits('change', val)
 }
