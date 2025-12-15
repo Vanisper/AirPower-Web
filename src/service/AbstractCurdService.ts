@@ -79,7 +79,7 @@ export abstract class AbstractCurdService<E extends RootEntity> extends Abstract
   >(this: CurdServiceConstructor<E, S>,
     moreRule: WebValidateRule<E> = {},
   ): WebValidateRule<E> {
-    return WebValidator.createRules(new this(), moreRule)
+    return WebValidator.createRules(new this().entityClass, moreRule)
   }
 
   /**

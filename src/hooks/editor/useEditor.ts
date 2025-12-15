@@ -38,7 +38,7 @@ export function useEditor<E extends RootEntity, S extends AbstractCurdService<E>
   /**
    * ### 自动生成的验证规则
    */
-  const rules: WebValidateRule<E> = WebValidator.createRules(new ServiceClass(), option.customRules || {})
+  const rules: WebValidateRule<E> = WebValidator.createRules(new ServiceClass().entityClass, option.customRules || {})
 
   /**
    * ### 表单实例
