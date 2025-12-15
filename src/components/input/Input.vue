@@ -156,6 +156,7 @@ function emitFocus() {
  * ### 触发 clear 事件
  */
 function emitClear() {
+  emitValue()
   emits('clear')
 }
 
@@ -319,6 +320,7 @@ function checkNumberValue() {
  * ### 将数据丢出去
  */
 function emitValue() {
+  checkNumberValue()
   if (formConfig.value && value.value) {
     switch (formConfig.value.trim) {
       case FormTrim.ALL:
@@ -342,7 +344,6 @@ function emitValue() {
  * @param event
  */
 function onKeyDown(event: KeyboardEvent) {
-  checkNumberValue()
   switch (event.code) {
     case 'KeyE':
       if (formConfig.value?.number) {
