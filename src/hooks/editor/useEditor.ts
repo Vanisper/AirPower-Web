@@ -75,7 +75,7 @@ export function useEditor<E extends RootEntity, S extends AbstractCurdService<E>
   }
 
   watch(
-    result.formData,
+    () => result.formData.value,
     (): void => {
       formRef.value?.validate()
     },
