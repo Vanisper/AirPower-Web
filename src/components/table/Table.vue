@@ -847,7 +847,7 @@ function getPayloadArray(scope: IJson, config: ITableColumn<E>): Array<RootEntit
   return value as Array<RootEntity & IPayload>
 }
 
-function tableRowClassName({ row }: { row: E, rowIndex: number }) {
+function tableRowClassName({ row}: { row: E, rowIndex: number }) {
   if (props.disableRow && props.disableRow(row)) {
     return 'disable-row'
   }
@@ -1592,5 +1592,12 @@ onSearch()
   .left {
     flex: 1;
   }
+}
+
+.a-table .cell .el-table__expand-icon {
+  //很无语的更新 https://github.com/element-plus/element-plus/commit/cba30d8cd2a160b4b8c31e90a103a5b1d26ad569
+  height: 14px !important;
+  line-height: 14px !important;
+  font-weight: bolder;
 }
 </style>
