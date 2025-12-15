@@ -139,13 +139,6 @@ const emits = defineEmits([
 const value: Ref<string | number | boolean | Array<unknown> | IJson | undefined> = ref(props.modelValue)
 
 /**
- * ### 触发 change 事件
- */
-function emitChange() {
-  emits('change', value.value)
-}
-
-/**
  * ### 触发 blur 事件
  */
 function emitBlur() {
@@ -323,14 +316,6 @@ function checkNumberValue() {
 }
 
 /**
- * ### 清空事件
- */
-function onClear() {
-  emitClear()
-  emitChange()
-}
-
-/**
  * ### 将数据丢出去
  */
 function emitValue() {
@@ -357,6 +342,7 @@ function emitValue() {
  * @param event
  */
 function onKeyDown(event: KeyboardEvent) {
+  checkNumberValue()
   switch (event.code) {
     case 'KeyE':
       if (formConfig.value?.number) {
@@ -375,12 +361,10 @@ function onKeyDown(event: KeyboardEvent) {
 }
 
 /**
- * ### 输入框失去焦点
+ * ### 输入框改变事件
  */
-function onBlur() {
-  checkNumberValue()
-  emitValue()
-  emitBlur()
+function emitChange() {
+  emits('change', value.value)
 }
 
 /**
@@ -441,7 +425,7 @@ init()
         :type="formConfig.dateType"
         :value-format="formConfig.dateFormatter ? formConfig.dateFormatter.key : DateTimeFormatter.TIMESTAMP.key"
         style="width: 100%"
-        @clear="onClear"
+        @clear="emitClear"
         @focus="emitFocus"
         @keydown="onKeyDown"
       />
@@ -457,7 +441,7 @@ init()
         :suffix-icon="formConfig?.suffixIcon"
         :value-format="formConfig.dateFormatter ? formConfig.dateFormatter.key : DateTimeFormatter.TIMESTAMP.key"
         style="width: 100%"
-        @clear="onClear"
+        @clear="emitClear"
         @focus="emitFocus"
         @keydown="onKeyDown"
       />
@@ -517,7 +501,8 @@ init()
         :suffix-icon="formConfig?.suffixIcon"
         collapse-tags-tooltip
         fit-input-width
-        @clear="onClear"
+        @change="emitChange"
+        @clear="emitClear"
         @focus="emitFocus"
         @keydown="onKeyDown"
       >
@@ -562,7 +547,7 @@ init()
       class="a-input-cascader"
       collapse-tags-tooltip
       popper-class="a-input-cascader-popper"
-      @clear="onClear"
+      @clear="emitClear"
       @focus="emitFocus"
       @keydown="onKeyDown"
     />
@@ -584,9 +569,9 @@ init()
       :show-word-limit="formConfig?.showLimit !== false"
       :suffix-icon="formConfig?.suffixIcon"
       :type="getInputType"
-      @blur="onBlur"
-      @change="checkNumberValue"
-      @clear="onClear"
+      @blur="emitBlur"
+      @change="emitChange"
+      @clear="emitClear"
       @focus="emitFocus"
       @keydown="onKeyDown"
     >
@@ -601,7 +586,7 @@ init()
           <template v-if="name === 'suffix'">
             <el-icon
               v-if="isClearButtonShow"
-              @click="onClear()"
+              @click="emitClear()"
             >
               <CircleClose />
             </el-icon>
