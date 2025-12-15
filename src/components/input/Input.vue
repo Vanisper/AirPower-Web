@@ -336,7 +336,6 @@ function emitValue() {
     }
   }
   emits('update:modelValue', value.value)
-  emitChange()
 }
 
 /**
@@ -365,6 +364,7 @@ function onKeyDown(event: KeyboardEvent) {
  * ### 输入框改变事件
  */
 function emitChange() {
+  emitValue()
   emits('change', value.value)
 }
 
@@ -426,6 +426,7 @@ init()
         :type="formConfig.dateType"
         :value-format="formConfig.dateFormatter ? formConfig.dateFormatter.key : DateTimeFormatter.TIMESTAMP.key"
         style="width: 100%"
+        @change="emitChange"
         @clear="emitClear"
         @focus="emitFocus"
         @keydown="onKeyDown"
@@ -442,6 +443,7 @@ init()
         :suffix-icon="formConfig?.suffixIcon"
         :value-format="formConfig.dateFormatter ? formConfig.dateFormatter.key : DateTimeFormatter.TIMESTAMP.key"
         style="width: 100%"
+        @change="emitChange"
         @clear="emitClear"
         @focus="emitFocus"
         @keydown="onKeyDown"
@@ -458,11 +460,13 @@ init()
           '--el-switch-on-color': getSwitchColor(true),
           '--el-switch-off-color': getSwitchColor(false),
         }"
+        @change="emitChange"
       />
       <el-radio-group
         v-else-if="formConfig?.radioButton"
         v-model="value"
         :readonly="readonly"
+        @change="emitChange"
       >
         <el-radio-button
           v-for="item in dictionary"
@@ -476,6 +480,7 @@ init()
         v-else-if="formConfig?.radio"
         v-model="value"
         :readonly="readonly"
+        @change="emitChange"
       >
         <el-radio
           v-for="item in dictionary"
@@ -548,6 +553,7 @@ init()
       class="a-input-cascader"
       collapse-tags-tooltip
       popper-class="a-input-cascader-popper"
+      @change="emitChange"
       @clear="emitClear"
       @focus="emitFocus"
       @keydown="onKeyDown"
