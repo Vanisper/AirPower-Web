@@ -75,31 +75,76 @@ export class RouterUtil {
    * @param parentRouter 父级路由名称
    */
   private static addRouterAsync(menuList: Array<IMenu & RootEntity>, parentRouter: string): void {
+    if (!this.router) {
+      FeedbackUtil.toastError('请先调用 createRouter 创建路由')
+      return
+    }
+
     menuList.forEach((item): void => {
+      const routeName = item.id.toString()
+
+      if (this.router.hasRoute(routeName)) {
+        return
+      }
+
+      if (item.name && item.path) {
+        const routeConfig = {
+          path: item.path,
+          name: routeName,
+          meta: {
+            name: item.name,
+            ...(item.meta || {}),
+          },
+        }
+
+        const addComponentRoute = () => {
+          this.router.addRoute(parentRouter, { ...routeConfig, component: this.components[`${this.componentsDirectory}${item.component || item.path}.vue`] })
+        }
+
+        if (item.redirect) {
+          this.router.addRoute(parentRouter, { ...routeConfig, redirect: item.redirect })
+        }
+        else if (!item.component) {
+          const firstValidPath = this.findFirstValidPath(item.children)
+          if (firstValidPath) {
+            this.router.addRoute(parentRouter, { ...routeConfig, redirect: firstValidPath })
+          }
+          else {
+            addComponentRoute()
+          }
+        }
+        else {
+          addComponentRoute()
+        }
+      }
+
       if (item.children && item.children.length > 0) {
         this.addRouterAsync(item.children, parentRouter)
-        return
       }
-      if (!this.router) {
-        FeedbackUtil.toastError('请先调用 createRouter 创建路由')
-        return
-      }
-      if (!item.name || (!item.path && !item.component)) {
-        FeedbackUtil.toastError('路由初始化失败，缺少参数')
-        return
-      }
-      if (this.router.hasRoute(item.id.toString())) {
-        return
-      }
-      this.router.addRoute(parentRouter, {
-        path: item.path,
-        name: item.id.toString(),
-        meta: {
-          name: item.name,
-        },
-        component: this.components[`${this.componentsDirectory}${item.component || item.path}.vue`],
-      })
     })
+  }
+
+  /**
+   * 递归查找第一个有效的叶子节点路径
+   * @param children 子菜单列表
+   * @returns 有效的 path 或 undefined
+   */
+  private static findFirstValidPath(children?: Array<IMenu & RootEntity>): string | undefined {
+    if (!children || children.length === 0)
+      return
+
+    for (const child of children) {
+      if (child.path) {
+        return child.path
+      }
+
+      if (child.children && child.children.length > 0) {
+        const deepPath = this.findFirstValidPath(child.children)
+        if (deepPath) {
+          return deepPath
+        }
+      }
+    }
   }
 
   /**
