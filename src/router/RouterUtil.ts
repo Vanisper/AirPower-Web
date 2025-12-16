@@ -30,15 +30,13 @@ export class RouterUtil {
    * @param components 组件列表
    * @param componentsDirectory `可选` 组件目录 默认 `/src/view`
    * @param parentRouter `可选` 父级路由 默认 `admin`
-   * @param menuCacheKey `可选` 缓存Key 默认 `AirPowerMenuList`
    */
-  static initVueRouter(menuList: Array<IMenu & RootEntity>, components: Record<string, () => Promise<unknown>> = {}, componentsDirectory = '/src/view', parentRouter = 'admin', menuCacheKey = 'AirPowerMenuList'): void {
+  static async initVueRouter(menuList: Array<IMenu & RootEntity>, components: Record<string, () => Promise<unknown>> = {}, componentsDirectory = '/src/view', parentRouter = 'admin'): Promise<void> {
     this.components = components
     this.componentsDirectory = componentsDirectory
-    localStorage.setItem(menuCacheKey, JSON.stringify(menuList))
     if (!WebConfig.isTimeout) {
       this.registerRoute(menuList, parentRouter)
-      this.reloadCacheMenuList(menuCacheKey)
+      await this.router.replace(this.router.currentRoute.value.fullPath)
     }
   }
 
@@ -136,35 +134,6 @@ export class RouterUtil {
         ...{ redirect: menu.redirect },
       }
       this.router.addRoute(parentRouter, route)
-    }
-  }
-
-  /**
-   * ### 重载缓存中的路由
-   * @param menuCacheKey 提供缓存的Key
-   * @param menuList `可选 子菜单,好兄弟,你不用传`
-   */
-  private static reloadCacheMenuList(menuCacheKey: string, menuList?: Array<IMenu & RootEntity>): void {
-    if (!this.router) {
-      return
-    }
-    if (!menuList && localStorage.getItem(menuCacheKey)) {
-      menuList = JSON.parse(localStorage.getItem(menuCacheKey) || '[]')
-    }
-    if (menuList === undefined) {
-      return
-    }
-    for (const item of menuList) {
-      if (item.children && item.children.length > 0) {
-        this.reloadCacheMenuList(menuCacheKey, item.children)
-        continue
-      }
-      const locationPathName: string = window.location.pathname
-      if (item.path === locationPathName) {
-        localStorage.removeItem(menuCacheKey)
-        this.router.replace(locationPathName + window.location.search)
-        break
-      }
     }
   }
 }
