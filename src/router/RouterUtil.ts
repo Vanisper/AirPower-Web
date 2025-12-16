@@ -1,9 +1,8 @@
-import type { Router, RouteRecordRaw } from 'vue-router'
+import type { Router, RouteRecordRaw, RouteRecordRedirect } from 'vue-router'
 import type { IMenu } from '../interface/IMenu'
 import type { RootEntity } from '../model/RootEntity'
 import { createRouter, createWebHistory } from 'vue-router'
 import { WebConfig } from '../config/WebConfig'
-import { FeedbackUtil } from '../feedback/FeedbackUtil'
 
 /**
  * ### `Vue` 路由助手
@@ -38,7 +37,7 @@ export class RouterUtil {
     this.componentsDirectory = componentsDirectory
     localStorage.setItem(menuCacheKey, JSON.stringify(menuList))
     if (!WebConfig.isTimeout) {
-      this.addRouterAsync(menuList, parentRouter)
+      this.registerRoute(menuList, parentRouter)
       this.reloadCacheMenuList(menuCacheKey)
     }
   }
@@ -70,36 +69,71 @@ export class RouterUtil {
   }
 
   /**
-   * ### 将菜单添加到 `Vue` 路由中
+   * ### 注册 `Vue` 路由
    * @param menuList 菜单列表
    * @param parentRouter 父级路由名称
    */
-  private static addRouterAsync(menuList: Array<IMenu & RootEntity>, parentRouter: string): void {
+  private static registerRoute(menuList: Array<IMenu & RootEntity>, parentRouter: string): void {
     menuList.forEach((item): void => {
-      if (item.children && item.children.length > 0) {
-        this.addRouterAsync(item.children, parentRouter)
-        return
-      }
       if (!this.router) {
-        FeedbackUtil.toastError('请先调用 createRouter 创建路由')
-        return
+        throw new Error('请先调用 createRouter 创建路由')
       }
-      if (!item.name || (!item.path && !item.component)) {
-        FeedbackUtil.toastError('路由初始化失败，缺少参数')
-        return
+      if (!item.name) {
+        throw new Error('路由初始化失败，缺少参数')
       }
       if (this.router.hasRoute(item.id.toString())) {
         return
       }
-      this.router.addRoute(parentRouter, {
-        path: item.path,
-        name: item.id.toString(),
-        meta: {
-          name: item.name,
-        },
-        component: this.components[`${this.componentsDirectory}${item.component || item.path}.vue`],
-      })
+      if (item.redirect) {
+        // 重定向路由
+        this.addRoute(parentRouter, item)
+        return
+      }
+      const componentPath: string = item.component || item.path
+      if (componentPath) {
+        // 普通平级路由
+        this.addRoute(parentRouter, item, componentPath)
+        return
+      }
+
+      // 处理所有子路由
+      if (item.children && item.children.length > 0) {
+        this.registerRoute(item.children, parentRouter)
+        this.addRoute(parentRouter, item.children[0])
+      }
     })
+  }
+
+  /**
+   * ### 添加路由
+   * @param parentRouter 父级路由名称
+   * @param menu 菜单
+   * @param componentPath 组件路径
+   */
+  private static addRoute(parentRouter: string, menu: IMenu & RootEntity, componentPath?: string): void {
+    const routeRawData = {
+      path: menu.path,
+      name: menu.id.toString(),
+      meta: {
+        ...menu.meta,
+        ...{ name: menu.name },
+      },
+    }
+    if (componentPath) {
+      const route: RouteRecordRaw = {
+        ...routeRawData,
+        ...{ component: this.components[`${this.componentsDirectory}${componentPath}.vue`] },
+      }
+      this.router.addRoute(parentRouter, route)
+      return
+    }
+    if (menu.redirect) {
+      const route: RouteRecordRedirect = {
+        ...routeRawData,
+        ...{ redirect: menu.redirect },
+      }
+      this.router.addRoute(parentRouter, route)
+    }
   }
 
   /**
