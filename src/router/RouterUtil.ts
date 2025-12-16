@@ -84,6 +84,16 @@ export class RouterUtil {
       if (this.router.hasRoute(item.id.toString())) {
         return
       }
+      if (item.children && item.children.length > 0) {
+        // 处理所有子路由
+        this.registerRoute(item.children, parentRouter)
+      }
+
+      if (!item.path) {
+        // 是菜单的集合，不存在真实路由
+        return
+      }
+
       if (item.redirect) {
         // 重定向路由
         this.addRoute(parentRouter, item)
@@ -91,15 +101,8 @@ export class RouterUtil {
       }
       const componentPath: string = item.component || item.path
       if (componentPath) {
-        // 普通平级路由
+        // 普通物理路由
         this.addRoute(parentRouter, item, componentPath)
-        return
-      }
-
-      // 处理所有子路由
-      if (item.children && item.children.length > 0) {
-        this.registerRoute(item.children, parentRouter)
-        this.addRoute(parentRouter, item.children[0])
       }
     })
   }
@@ -134,6 +137,7 @@ export class RouterUtil {
       }
       this.router.addRoute(parentRouter, route)
     }
+    throw new Error('路由添加失败，不太能走到这里')
   }
 
   /**
