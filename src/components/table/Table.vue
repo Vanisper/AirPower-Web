@@ -1599,5 +1599,10 @@ onSearch()
   height: 14px !important;
   line-height: 14px !important;
   font-weight: bolder;
+  outline: none;
+  border: none;
+  background: transparent;
+  width: 20px !important;
+  margin-right: 0px !important;
 }
 </style>

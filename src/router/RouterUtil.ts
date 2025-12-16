@@ -137,7 +137,6 @@ export class RouterUtil {
       }
       this.router.addRoute(parentRouter, route)
     }
-    throw new Error('路由添加失败，不太能走到这里')
   }
 
   /**
