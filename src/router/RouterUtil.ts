@@ -31,13 +31,19 @@ export class RouterUtil {
    * @param componentsDirectory `可选` 组件目录 默认 `/src/view`
    * @param parentRouter `可选` 父级路由 默认 `admin`
    */
-  static async initVueRouter(menuList: Array<IMenu & RootEntity>, components: Record<string, () => Promise<unknown>> = {}, componentsDirectory = '/src/view', parentRouter = 'admin'): Promise<void> {
+  static initVueRouter(menuList: Array<IMenu & RootEntity>, components: Record<string, () => Promise<unknown>> = {}, componentsDirectory = '/src/view', parentRouter = 'admin'): void {
     this.components = components
     this.componentsDirectory = componentsDirectory
     if (!WebConfig.isTimeout) {
       this.registerRoute(menuList, parentRouter)
-      await this.router.replace(this.router.currentRoute.value.fullPath)
     }
+  }
+
+  /**
+   * ### 刷新当前路由
+   */
+  static async reloadCurrentRoute() {
+    await this.router.replace(this.router.currentRoute.value.fullPath)
   }
 
   /**
