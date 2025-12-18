@@ -1269,7 +1269,7 @@ onSearch()
               <ADateTime
                 v-else-if="item.datetime"
                 :formatter="item.datetime === true ? DateTimeFormatter.FULL_DATE_TIME : item.datetime"
-                :milli-second="getValue(scope, item)"
+                :time="getValue(scope, item)"
               />
               <AMoney
                 v-else-if="item.money"
