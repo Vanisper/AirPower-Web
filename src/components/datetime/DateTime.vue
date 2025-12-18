@@ -1,21 +1,14 @@
 <script lang="ts" setup>
+import type { PropType } from 'vue'
 import { DateTimeFormatter, DateTimeUtil } from '@airpower/util'
 import { computed, ref } from 'vue'
 
 const props = defineProps({
   /**
-   * ### 毫秒时间戳
+   * ### 时间日期对象或毫秒时间戳
    */
-  milliSecond: {
-    type: Number,
-    default: undefined,
-  },
-
-  /**
-   * ### 时间日期对象
-   */
-  date: {
-    type: Date,
+  time: {
+    type: Object as PropType<Date | number>,
     default: undefined,
   },
 
@@ -42,25 +35,19 @@ const friendly = ref(props.isFriendly)
  * ### 读取友好时间
  */
 const getDateTimeString = computed(() => {
-  if (!props.milliSecond && !props.date) {
+  if (!props.time) {
     return '-'
   }
   if (friendly.value) {
-    if (props.milliSecond) {
-      return DateTimeUtil.getFriendlyDateTime(props.milliSecond)
+    if (props.time instanceof Date) {
+      return DateTimeUtil.getFriendlyDateTime(props.time)
     }
-    if (props.date) {
-      return DateTimeUtil.getFriendlyDateTime(props.date)
-    }
-    return '未知时间'
+    return DateTimeUtil.getFriendlyDateTime(props.time)
   }
-  if (props.milliSecond) {
-    return props.formatter.formatMilliSecond(props.milliSecond)
+  if (props.time instanceof Date) {
+    return props.formatter.formatDate(props.time)
   }
-  if (props.date) {
-    return props.formatter.formatDate(props.date)
-  }
-  return '-'
+  return props.formatter.formatMilliSecond(props.time)
 })
 </script>
 
