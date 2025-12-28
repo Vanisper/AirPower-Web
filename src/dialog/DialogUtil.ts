@@ -16,12 +16,19 @@ import { WebConfig } from '../config/WebConfig'
  */
 export class DialogUtil {
   /**
+   * ### vue plugins
+   * 构建弹窗实例时，会默认注入 `ElementPlus` 相关插件
+   * @description 此配置用于弹窗实例构建时额外需要注册的 vue 插件
+   */
+  static plugins: Plugin[] = []
+
+  /**
    * ### 弹出对话框的内部方法
    * @param view 使用的视图组件 传入一个 `import` 的 `vue`
    * @param param 弹窗参数 将传入到合并到 `props` 上
    * @param plugins Vue Plugins
    */
-  static async build<T>(view: Component, param: IJson, plugins?: Plugin[]): Promise<T> {
+  static async build<T>(view: Component, param: IJson, plugins = this.plugins): Promise<T> {
     const parentNode = document.createElement('div')
     const domId = `dialog_${Math.random()}`
     parentNode.setAttribute('id', domId)
@@ -61,7 +68,7 @@ export class DialogUtil {
       app = createApp(view, dialogParam)
 
       app.use(ElementPlus, { locale: WebConfig.elementPlusLocale })
-      plugins?.forEach((plugin) => {
+      plugins.forEach((plugin) => {
         app?.use(plugin)
       })
 
