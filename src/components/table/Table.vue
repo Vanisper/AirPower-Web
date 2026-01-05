@@ -1137,8 +1137,9 @@ onSearch()
         </slot>
       </div>
       <div class="a-table-toolbar-right">
-        <slot name="beforeSearch" />
         <div class="a-table-toolbar-search">
+          <slot name="beforeSearch" />
+          <slot name="search" />
           <template
             v-for="item in searchFieldList"
             :key="item.key"
@@ -1150,7 +1151,7 @@ onSearch()
             >
               <slot
                 :data="searchFilter"
-                :name="item.key"
+                :name="`search-${item.key}`"
               >
                 <ElSelect
                   v-if="getDictionary(EntityClass, item.key)"
