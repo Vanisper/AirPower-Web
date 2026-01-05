@@ -1,5 +1,5 @@
 import type { IJson } from '@airpower/transformer'
-import type { App, Component } from 'vue'
+import type { App, Component, Plugin } from 'vue'
 import type { IFile } from '../interface/IFile'
 import type { IUploadProps } from '../interface/IUploadProps'
 import type { ExportModel } from '../model/export/ExportModel'
@@ -16,11 +16,19 @@ import { WebConfig } from '../config/WebConfig'
  */
 export class DialogUtil {
   /**
+   * ### vue plugins
+   * 构建弹窗实例时，会默认注入 `ElementPlus` 相关插件
+   * @description 此配置用于弹窗实例构建时额外需要注册的 vue 插件
+   */
+  static plugins: Plugin[] = []
+
+  /**
    * ### 弹出对话框的内部方法
    * @param view 使用的视图组件 传入一个 `import` 的 `vue`
    * @param param 弹窗参数 将传入到合并到 `props` 上
+   * @param plugins Vue Plugins
    */
-  static async build<T>(view: Component, param: IJson): Promise<T> {
+  static async build<T>(view: Component, param: IJson, plugins = this.plugins): Promise<T> {
     const parentNode = document.createElement('div')
     const domId = `dialog_${Math.random()}`
     parentNode.setAttribute('id', domId)
@@ -60,6 +68,9 @@ export class DialogUtil {
       app = createApp(view, dialogParam)
 
       app.use(ElementPlus, { locale: WebConfig.elementPlusLocale })
+      plugins.forEach((plugin) => {
+        app?.use(plugin)
+      })
 
       document.body.appendChild(parentNode)
       // 挂载组件
@@ -72,10 +83,10 @@ export class DialogUtil {
    * @param view 使用的视图组件 传入一个 `import` 的 `vue`
    * @param param `可选` 参数 将传入到目标对象的 `props.param` 参数上
    */
-  static async show<T>(view: Component, param?: unknown): Promise<T> {
+  static async show<T>(view: Component, param?: unknown, plugins?: Plugin[]): Promise<T> {
     return this.build<T>(view, {
       param,
-    })
+    }, plugins)
   }
 
   /**
@@ -83,7 +94,7 @@ export class DialogUtil {
    * @param config `可选` 上传自定义配置
    * @param customConfirm `可选` 自定义确认按钮回调方法
    */
-  static async showUpload<F extends IFile & RootEntity>(config?: IUploadProps<F>, customConfirm?: () => void): Promise<F> {
+  static async showUpload<F extends IFile & RootEntity>(config?: IUploadProps<F>, customConfirm?: () => void, plugins?: Plugin[]): Promise<F> {
     return this.build<F>(AUpload, {
       onCustomConfirm: () => {
         if (customConfirm) {
@@ -91,7 +102,7 @@ export class DialogUtil {
         }
       },
       ...config,
-    })
+    }, plugins)
   }
 
   /**
@@ -99,10 +110,10 @@ export class DialogUtil {
    * @param view 使用的视图组件 传入一个 `import` 的 `vue`
    * @param param `可选` 普通参数 将传入到目标对象的 `props.param` 参数上
    */
-  static async select<E extends RootEntity>(view: Component, param: E | undefined = undefined): Promise<E> {
+  static async select<E extends RootEntity>(view: Component, param: E | undefined = undefined, plugins?: Plugin[]): Promise<E> {
     return this.build(view, {
       param,
-    })
+    }, plugins)
   }
 
   /**
@@ -115,12 +126,13 @@ export class DialogUtil {
     view: Component,
     selectList: E[] = [],
     param: E | undefined = undefined,
+    plugins?: Plugin[],
   ): Promise<E[]> {
     return this.build(view, {
       selectList,
       isMultiple: true,
       param,
-    })
+    }, plugins)
   }
 
   /**
