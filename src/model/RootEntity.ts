@@ -55,14 +55,16 @@ export class RootEntity extends RootModel {
   /**
    * ### 只暴露ID
    */
-  exposeOnlyId(): this {
-    return this.expose('id')
+  exposeOnlyId(): void {
+    this.expose('id')
   }
 
   /**
    * ### 只复制ID
    */
   copyOnlyId(): this {
-    return this.copy().exposeOnlyId()
+    const copy = this.copy()
+    copy.exposeOnlyId()
+    return copy
   }
 }
